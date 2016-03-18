@@ -35,7 +35,7 @@
 <h1>A quick and easy way to print a float in base-10.</h1>
 
 <p>The implementation of <em>printf</em> for the "<em>%f</em>" format specifier is quite involved. 
-  I invite you to take a look <a href="https://gcc.gnu.org/bugzilla/attachment.cgi?id=24137"><em>printf_fp.c</em></a>. That's hard.</p>
+  I invite you to take a look: <a href="https://gcc.gnu.org/bugzilla/attachment.cgi?id=24137"><em>printf_fp.c</em></a>. That's hard.</p>
 
 <p>But there is a hack, that you could use in cases where you don't need an exact number.</p>
 
@@ -99,6 +99,8 @@ Output:
 -0.0059400001
 -5.9400000609e-3
 </code></pre>
+
+<p><a href="https://github.com/alexpolt/poetry/blob/master/print-fp.cpp">Github</a></p>
 
 <p>It's just a sketch, you can improve the code. Also I haven't done error analysis. 
   All calculations are done in double, so I expect this to work at least for floats.</p>

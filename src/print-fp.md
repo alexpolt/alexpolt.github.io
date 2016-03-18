@@ -2,7 +2,7 @@
 # A quick and easy way to print a float in base-10.
 
   The implementation of *printf* for the "*%f*" format specifier is quite involved. 
-  I invite you to take a look [*printf_fp.c*](https://gcc.gnu.org/bugzilla/attachment.cgi?id=24137). That's hard.
+  I invite you to take a look: [*printf_fp.c*](https://gcc.gnu.org/bugzilla/attachment.cgi?id=24137). That's hard.
 
   But there is a hack, that you could use in cases where you don't need an exact number.
 
@@ -65,6 +65,8 @@
 
     -0.0059400001
     -5.9400000609e-3
+
+  [Github](https://github.com/alexpolt/poetry/blob/master/print-fp.cpp)
 
   It's just a sketch, you can improve the code. Also I haven't done error analysis. 
   All calculations are done in double, so I expect this to work at least for floats.
