@@ -1,8 +1,18 @@
 
-html, body {
+html {
   background-color: #006699;
   height: 100%;
+}
+
+body {
+  padding: 0px;
   margin: 0px;
+  height: 100%; 
+}
+
+a {
+  text-decoration: none;
+  color: darkblue;
 }
 
 #wrap {
@@ -13,14 +23,26 @@ html, body {
 }
 
 #header {
+  padding-top: 10px;
 }
 
 #header img {
-  margin-right: 10px;
+  margin-top: -10px;
+  margin-right: 20px;
 }
 
 #content {
   border-top: 1px solid silver;
-  padding: 0px 50px;
+  padding: 10px 50px;
+}
+
+#menu {
+  padding: 0px;
+  margin: 10px 0px;
+}
+
+#menu li {
+  display: inline;
+  margin-right: 10px;
 }
 
