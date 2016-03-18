@@ -1,18 +1,31 @@
-#On motivation
 
-In the first blog post I decided to go a little on the subject of motivation.
+# On motivation
 
-There are two primary reasons, in my humble opinion, for people to excel (not just do work):
-emotions and conscious reasoning. To the class of emotional motivation I include all of ambition, 
-passion, any sort of satisfaction, and also greed and vanity. On the other hand a conscious decision
-to achieve something is much more difficult.
+  In the first blog post I decided to go a little on the subject of motivation.
 
-When a person is passionate you don't need any specific incentive to act. This person just blindly
-follows her heart and could achieve great results. Especially this zeal is present in young men.
-A young man in his 20-s is in a "build my house" mode, so he's also driven by emotions. 
+  There are two primary reasons, in my humble opinion, for people to excel (not just do work):
+  emotions and conscious reasoning. To the class of emotional motivation I refer all of ambition, 
+  passion, any sort of satisfaction, and also greed and vanity. On the other hand a conscious decision
+  to achieve something is much more difficult.
 
-But emotions don't last. Almost never. Programmers know really well this condition. 
+  When a person is passionate you don't need any specific incentive to act. This person just blindly
+  follows her heart and could achieve great results. Especially this zeal is present in young men.
+  A young man in his 20-s is in a "build my house" mode, so he's also driven by emotions. 
 
-**Alexandr Poltavsky**  
-*2016-03-18T14:04+0300*
+  But emotions don't last. Almost never. Programmers know really well this situation: we often come to
+  computer programming being ecstatic for the endless possibilities programming opens for us. But 
+  as the time goes, we get less enthusiastic and more experienced. It becomes clear, that creating
+  something valuable requires the work of a large number of people, takes a lot of time, hard and 
+  unexciting work.
+
+  So what does one do, when all that is left - just sober understanding of the goals in life.
+  What should be the reasoning to get that magic kick in the butt.
+
+  So here's what works for me: there's a risk, that the cool ideas, that I bear in my head, 
+  won't be delivered to the world, and just die with me. That's the first. 
+
+  The second is a little more aggressive and emotional: the World screws with you, so screw the World.
+
+  **Alexandr Poltavsky**  
+  *2016-03-18T14:04+0300*
 
