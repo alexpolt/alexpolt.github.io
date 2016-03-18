@@ -1,10 +1,7 @@
-#Index content management system
+#Personal blog
 
-This is a single file (index.html) blogging system, based on the Markdown formatting.
-There is a content.md file containing the main menu. Links from that menu are loaded
-by index.html and should lead to .md files.
+&copy;Alexandr Poltavsky
 
-Alexandr Poltavsky
-
-[Contents](index.html)
+[Blog](http://alexpolt.github.io)
+[Blog-Markdown](http://alexpolt.github.io/index-md.html)
 
