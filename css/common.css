@@ -1,0 +1,26 @@
+
+html, body {
+  background-color: #006699;
+  height: 100%;
+  margin: 0px;
+}
+
+#wrap {
+  width: 80%;
+  min-height: 100%;
+  margin: 0px auto;
+  background-color: #F2F2F2;
+}
+
+#header {
+}
+
+#header img {
+  margin-right: 10px;
+}
+
+#content {
+  border-top: 1px solid silver;
+  padding: 0px 50px;
+}
+
