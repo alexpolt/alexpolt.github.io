@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<HTML>
+
+<HEAD>
+  <title>Alexandr Poltavsky</title>
+  <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+  <meta http-equiv="Cache-Control" content="no-store" />
+
+  <script type="text/javascript" src="markdown/markdown.js"></script>
+  <link rel="stylesheet" type="text/css" href="css/common.css" />
+
+  <script type="text/javascript">
+
+ 
+    function loadFile( href ) {
+      var req1 = new XMLHttpRequest();
+      req1.overrideMimeType("text/plain");
+      req1.open( "GET", href );
+      req1.onreadystatechange = function( state ) {
+        if( req1.readyState === 4 ) {
+          if( req1.status != 200 ) {
+            alert( req1.statusText );
+            return;
+          }
+          var text = req1.responseText;
+          document.getElementById("content").innerHTML = markdown.toHTML( text );
+          processLinks();
+        }
+      };
+      req1.send();
+    }
+
+    function processLinks() {
+      var as = document.getElementById("content").getElementsByTagName("a");
+      for( var el of as ) {
+        if( el.href.endsWith( ".md" ) ) {
+          el.addEventListener("click", function(e) {
+            e.preventDefault();
+            var hash = this.getAttribute( "href" );
+            if( hash.length ) {
+              if( ! location.hash.length ) hash = "#" + hash;
+              else hash = "," + hash;
+              location.assign( location.href + hash );
+            }
+          });
+        }
+      }
+    }
+
+    function getLink() {
+      var dir = "src/";
+      var link = "contents.md";
+      var hash = location.hash;
+
+      if( hash.length ) {
+        var idx = hash.lastIndexOf( "," );
+        if( idx > 0 ) link = hash.substr( idx + 1 );
+        else link = hash.substr( 1 );
+      }
+      link = dir + link;
+      var el = document.createElement("a");
+      el.setAttribute( "href", link );
+      return el.href;
+    }
+
+    document.addEventListener( "DOMContentLoaded", function() {
+      loadFile( getLink() );
+    } );
+
+    window.addEventListener( "hashchange", function() {
+      loadFile( getLink() );
+    } );
+
+  </script>
+
+</HEAD>
+
+<BODY> 
+
+<div id="content"></div>
+
+</BODY>
+
