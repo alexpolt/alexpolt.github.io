@@ -8,5 +8,5 @@ $(targets) : ../%.html : %.md
 	cat tmpl-header.html > $@
 	$(md) $< >> $@
 	cat tmpl-footer.html >> $@
-#	git add $< $@
+	git add $< $@
 
