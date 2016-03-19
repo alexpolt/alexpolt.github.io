@@ -49,17 +49,20 @@
 <h1>Contents</h1>
 
 <ul>
-<li><p>The right interface for <em>std::vector</em>:</p>
+<li><p>Lo and behold: </p>
 
-<pre><code>std::vector&lt;int&gt; v{};
-v &lt;&lt; 1 &lt;&lt; 2;
+<blockquote>
+  <p><code>#define that (*this)</code></p>
+</blockquote></li>
+<li><p>The way <em>operator&lt;&lt;</em> and <em>operator>></em> should've been overloaded:</p>
 
+<blockquote>
+  <p>std::vector<int> v{}; int i{}; <br />
+v &lt;&lt; 1 &lt;&lt; 2; <br />
+v >> i;</p>
 
-int i{};
-v &gt;&gt; i;
-</code></pre>
-
-<p><a href="https://github.com/alexpolt/poetry/blob/master/vector-push.cpp">Github</a> <a href="http://ideone.com/glqESs">Ideone</a></p></li>
+<p><a href="https://github.com/alexpolt/poetry/blob/master/vector-push.cpp">Github</a> <a href="http://ideone.com/glqESs">Ideone</a></p>
+</blockquote></li>
 <li><p><a href="print-fp.html">Print-format a float in base-10</a>  </p>
 
 <p>A hack for quick and easy printing of a floating point number in base-10.</p></li>
