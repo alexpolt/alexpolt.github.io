@@ -3,15 +3,14 @@
 
   * Lo and behold: 
 
-    >`#define that (*this)`
+    >*#define that (*this)*
 
 
   * The way *operator<<* and *operator>>* should've been overloaded:
 
-    >std::vector<int> v{}; int i{};  
-    >v << 1 << 2;  
-    >v >> i;
-
+    >*std::vector<int> v{}; int i{};*  
+    >*v << 1 << 2;*  
+    >*v >> i;*
     >[Github](https://github.com/alexpolt/poetry/blob/master/vector-push.cpp) [Ideone](http://ideone.com/glqESs)
 
 
