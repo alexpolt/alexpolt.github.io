@@ -3,7 +3,7 @@
 
   * Lo and behold: 
 
-    >_#define that (*this)_
+    >_#define thou (*this)_
 
 
   * The way *operator<<* and *operator>>* should've been overloaded:
