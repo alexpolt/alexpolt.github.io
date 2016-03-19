@@ -16,21 +16,28 @@
 
 <div id="wrap">
 
+  <!-- header part -->
+
   <div id="header">
+
     <a href="/" title="Back home">
-    <img width="160" src="images/alexandr-poltavsky-avatar.jpeg" title="Energia-Buran Military Space System" align="left"/>
+      <img width="160" src="images/alexandr-poltavsky-avatar.jpeg" title="Energia-Buran Military Space System" align="left"/>
     </a>
     <strong>
-            Personal blog of Alexandr Poltavsky. <br/> 
-            Software developer. <em>alexpolt&#64;yandex.ru</em><br/>
-            <ul id="menu">
-              <li><a href="/">Contents</a></li>
-              <li><a href="https://github.com/alexpolt/">Github</a></li>
-            </ul>
+      Personal blog of Alexandr Poltavsky. <br/> 
+      Software developer. <em>alexpolt&#64;yandex.ru</em><br/>
     </strong>
+    <ul id="menu">
+      <li><a href="/">Contents</a></li>
+      <li><a href="https://github.com/alexpolt/">Github</a></li>
+    </ul>
+
   </div>
 
+
   <div id="content" style="clear: left">
+
+  <!-- here goes the main content -->
 
 <h1>A quick and easy way to print a float in base-10.</h1>
 
@@ -49,23 +56,23 @@
 <pre><code>#include &lt;cstdio&gt;
 #include &lt;cmath&gt;
 
-int main() {
-
+void print_fp( float number, int digits ) {
     union {
         float d;
         int u;
     };
 
-    d = -0.00594;
+    d = number;
 
-    printf("%.10f\n", d); //original numer
+    //deal with sign
+    bool minus = u &gt;&gt; 31; 
+    u = u &amp; ~(1 &lt;&lt; 31); 
 
-    bool minus = u &gt;&gt; 31; //store sign
-    u = u &amp; ~(1 &lt;&lt; 31); //clear sign
-    double exp = (u &gt;&gt; 23) - 127; //extract exponent
-    double exp10 = exp / log2( 10.0 ); //compute base-10
+    //calculate base-10 exponent
+    double exp = (u &gt;&gt; 23) - 127;
+    double exp10 = exp / log2( 10.0 );
 
-    //adjust the number
+    //adjust the number 
     u = (u &amp; ~(0xFF &lt;&lt; 23)) | (127 &lt;&lt; 23);
     double d2 = double(d) * pow( 10.0, exp10 - int(exp10) ); 
     if( d2 &gt;= 10.0 ) { d2 = d2 / 10.0; exp10+=1.0; }
@@ -79,9 +86,6 @@ int main() {
     printf("%.1d.", i);
     d2 = d2 - i;
 
-    //print the rest
-    int digits = 10; 
-
     while( digits-- ) { 
         d2 = d2 * 10.0;
         int i = int( d2 );
@@ -90,20 +94,36 @@ int main() {
     }
 
     //print exponent part
-    printf("e%d", int(exp10));
+    printf("e%d\n", int(exp10));
+}
+
+int main() {
+
+    double d;
+
+    d = 8.589973e9;
+    printf("%.10f\n", d);
+    print_fp( d , 10 );
+
+    d = 8.589974e9;
+    printf("%.10f\n", d);
+    print_fp( d , 10 );
 
 }
 
 Output:
 
--0.0059400001
--5.9400000609e-3
+8589973000.0000000000
+8.5899735040e9
+
+8589974000.0000000000
+8.5899735040e9
 </code></pre>
 
-<p><a href="https://github.com/alexpolt/poetry/blob/master/print-fp.cpp">Github</a></p>
+<p><a href="https://github.com/alexpolt/poetry/blob/master/print-fp.cpp">Github</a> <a href="http://ideone.com/QO1fU5">Ideone</a></p>
 
-<p>It's just a sketch, you can improve the code. Also I haven't done error analysis. 
-  All calculations are done in double, so I expect this to work at least for floats.</p>
+<p>Be warned that I haven't done error analysis. All calculations are done in double, 
+  so I expect this to work flawlessly for floats.</p>
 
 <p>I'd like to thank <strong>Bruce Dawson</strong> for his outstanding series on 
   <a href="https://randomascii.wordpress.com/category/floating-point/">floating points</a>.</p>
