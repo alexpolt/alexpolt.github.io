@@ -1,15 +1,18 @@
 
 #   Contents
 
-  * The right interface for *std::vector*:
+  * Lo and behold: 
 
-        std::vector<int> v{};
-        v << 1 << 2;
+    >`#define that (*this)`
 
-        int i{};
-        v >> i;
 
-    [Github](https://github.com/alexpolt/poetry/blob/master/vector-push.cpp) [Ideone](http://ideone.com/glqESs)
+  * The way *operator<<* and *operator>>* should've been overloaded:
+
+    >std::vector<int> v{}; int i{};  
+    >v << 1 << 2;  
+    >v >> i;
+
+    >[Github](https://github.com/alexpolt/poetry/blob/master/vector-push.cpp) [Ideone](http://ideone.com/glqESs)
 
 
   * [Print-format a float in base-10](print-fp.html)  
