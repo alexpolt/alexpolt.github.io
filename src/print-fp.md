@@ -13,9 +13,13 @@
   fractional part. This way you essentially get a base-10 number. I provide a draft implementation that you could use
   and improve.
 
+    
     #include <cstdio>
     #include <cmath>
-
+    
+    // Print-format a 32-bit float by exploiting exponent
+    // Blog post: http://alexpolt.github.io/print-fp.html
+    
     void print_fp( float number, int digits ) {
         union {
             float d;
