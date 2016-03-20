@@ -1,6 +1,12 @@
 
 #   Contents
 
+  * [Exceptions](exceptions.html)
+
+    Neverending struggle to work out the rules for using exceptions, my thoughts on that.  
+    TLDR. Use them almost always.
+
+
   * Lo and behold: 
 
     >_#define das (*this)_  
