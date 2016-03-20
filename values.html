@@ -46,47 +46,22 @@
 
   <!-- here goes the main content -->
 
-<p><div id="contents"></p>
+<h1>Value semantics</h1>
 
-<h1>Contents</h1>
+<p>One can find a lot of information on the Internet about it. In my view value semantics has 
+  just one requirement - a copy operation (copy-assingment, copy-construction) on an object 
+  produces an independent copy. </p>
 
-<ul>
-<li><p><a href="values.md">Value semantics</a></p>
+<p>Also, don't confuse a pointer (that's an object in itself) and  an object it points to. Using 
+  pointers doesn't mean it's not value semantics. But if you use pointers (or references) as a 
+  <em>moniker</em> for an object (happens almost all the time), than copying  them breaks value semantics. </p>
 
-<p>Some thoughts on using values vs pointers/references.</p></li>
-<li><p>Polymorphism</p>
+<p>Notice that C++ allows one to design a wrapper, that will contain a pointer, and produce real 
+  copies of referred-to object on assignments, thus providing value-like behaviour. There is 
+  probably little to no reason to do so. And usually value semantics means using objects directly.</p>
 
-<p>There is a descriptin of <a href="https://en.wikipedia.org/wiki/Polymorphism_%28computer_science%29">polymorphism</a>
-on <em>Wikipedia</em>, but I don't agree with it. In my view polymorphism is any change in the execution path.
-If you rig a class with a parameter that changes the behaviour of an object: it's polymorphism.</p></li>
-<li><p><a href="exceptions.html">C++ Exceptions</a></p>
-
-<p>Neverending struggle to work out the rules of using C++ exceptions, my thoughts on that. <br />
-TLDR. Use them almost always.</p></li>
-<li><p>Lo and behold: </p>
-
-<blockquote>
-  <p><em>#define das (*this)</em> <br />
-<em>das.value = ...</em></p>
-</blockquote></li>
-<li><p>The way <em>operator&lt;&lt;</em> and <em>operator>></em> should have been overloaded:</p>
-
-<blockquote>
-  <p><em>std::vector<int> v{}; int i{};</em> <br />
-<em>v &lt;&lt; 1 &lt;&lt; 2;</em> <br />
-<em>v >> i;</em></p>
-
-<p><a href="https://github.com/alexpolt/poetry/blob/master/vector-push.cpp">Github</a> <a href="http://ideone.com/glqESs">Ideone</a></p>
-</blockquote></li>
-<li><p><a href="print-fp.html">Print-format a float in base-10</a>  </p>
-
-<p>A hack for quick and easy printing of a floating point number in base-10.</p></li>
-<li><p><a href="motivation.html">On motivation</a>  </p>
-
-<p>First blog post is about an important topic of motivation.</p></li>
-</ul>
-
-<p></div><!-- contents --></p>
+<p>So one <em>very important advantage</em> of using objects as values is <em>avoiding dynamic memory allocation</em>.
+  For some objects it could mean <em>thousands</em> of dynamic memory allocations and deallocations.</p>
 
   </div> <!-- end content -->
 </div> <!-- end wrap -->

@@ -3,15 +3,10 @@
 
 #   Contents
 
-  * Value semantics. 
 
-    One can find a lot of information on the Internet about it. In my view value semantics has 
-    just one requirement - a copy operation (copy-assigment, copy-construction) on an object 
-    produces an independent copy. Also, don't confuse a pointer (that's an object in itself) and 
-    an object it points to. Using pointers doesn't mean it's not value semantics. But if you use
-    pointers (or references) as a moniker for an object (happens almost all the time), than copying 
-    them breaks value semantics. Notice that C++ allows one to design a wrapper, that will contain 
-    a pointer, and produce real copies on assigments.
+  * [Value semantics](values.md)
+
+    Some thoughts on using values vs pointers/references.
 
 
   * Polymorphism
