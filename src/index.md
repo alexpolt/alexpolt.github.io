@@ -5,7 +5,7 @@
     - a more ancient mechanism of attention to the condition of one's skin and body in general (people, that
       often look in the mirror, or often look at skin, overall attentive to themselves)
     - being autistic to some degree (neo-cortex) - strong lateral connections between neurons, 
-      creating a possibility of excitaion loops in neo-cortex, highly associative type of thinking.
+      creating a possibility of excitation loops in neo-cortex, highly associative type of thinking.
 
   * Lo and behold: 
 
