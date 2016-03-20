@@ -4,7 +4,7 @@
 #   Contents
 
 
-  * [Value semantics](values.md)
+  * [Value semantics](values.html)
 
     Some thoughts on using values vs pointers/references.
 
