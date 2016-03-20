@@ -1,5 +1,5 @@
 
-# Exceptions
+# C++ Exceptions
 
   I guess every c++ programmer out there have struggled with the question of
   where or not to use exceptions. Some say they complicate the code, others that
@@ -10,12 +10,11 @@
   error handling, I always landed with something similar to exceptions.
 
   You need some registration mechanism on entering a scope to get the best out of RAII.
-  And exiting the scope *should call destructors*, period.
-
-  So my conclusion is: always use exceptions, just but use them right. There is only one case 
+  And exiting the scope *should call destructors*, period.  
+  So my conclusion is: *always use exceptions*, just use them right. There is only one case 
   for not using them, that is in real-time critical code.
 
-  So my personal guide when using exceptions is this:
+  My personal checlist when using exceptions is this:
   
   * any problem related to resources (network connection, files, memory etc.) should end with and exception
   * any sort of bad input from outside world: wrong numbers, corrupted files, invalid input
@@ -23,6 +22,7 @@
   * don't use exceptions for business logic
   * combine exceptions with RAII for full throttle
 
+<!--first character is non-space to avoid markdown bug of not closing list-->
   Exceptions are indispensable. There is just and odd anxiety among developers about them.
   Yes, they make think harder, but error handling is hard. In fact I think the Holy Grail of 
   the software development discipline is the ability to at least reason about program correctness.

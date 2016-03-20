@@ -46,16 +46,16 @@ a {
   margin-right: 10px;
 }
 
-#content > ul {
+#contents > ul {
   list-style: none;
   padding: 0px 5%;
 }
 
-#content > ul > li {
+#contents > ul > li {
   margin-bottom: 25px;
 }
 
-#content > ul > li > p:first-child {
+#contents > ul > li > p:first-child {
   font-weight: bold;
   border-bottom: 1px solid silver;
   font-size: 110%;

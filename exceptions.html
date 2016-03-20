@@ -46,7 +46,7 @@
 
   <!-- here goes the main content -->
 
-<h1>Exceptions</h1>
+<h1>C++ Exceptions</h1>
 
 <p>I guess every c++ programmer out there have struggled with the question of
   where or not to use exceptions. Some say they complicate the code, others that
@@ -57,25 +57,25 @@
   error handling, I always landed with something similar to exceptions.</p>
 
 <p>You need some registration mechanism on entering a scope to get the best out of RAII.
-  And exiting the scope <em>should call destructors</em>, period.</p>
-
-<p>So my conclusion is: always use exceptions, just but use them right. There is only one case 
+  And exiting the scope <em>should call destructors</em>, period. <br />
+  So my conclusion is: <em>always use exceptions</em>, just use them right. There is only one case 
   for not using them, that is in real-time critical code.</p>
 
-<p>So my personal guide when using exceptions is this:</p>
+<p>My personal checlist when using exceptions is this:</p>
 
 <ul>
 <li>any problem related to resources (network connection, files, memory etc.) should end with and exception</li>
 <li>any sort of bad input from outside world: wrong numbers, corrupted files, invalid input</li>
 <li>don't use exceptions for checking preconditions (use types and asserts for that)</li>
 <li>don't use exceptions for business logic</li>
-<li><p>combine exceptions with RAII for full throttle</p>
-
-<p>Exceptions are indispensable. There is just and odd anxiety among developers about them.
-Yes, they make think harder, but error handling is hard. In fact I think the Holy Grail of 
-the software development discipline is the ability to at least reason about program correctness.
-How do you know if that pacemaker software doesn't contain a bug? By waiting for a death case?</p></li>
+<li>combine exceptions with RAII for full throttle</li>
 </ul>
+
+<p><!--first character is non-space to avoid markdown bug of not closing list-->
+  Exceptions are indispensable. There is just and odd anxiety among developers about them.
+  Yes, they make think harder, but error handling is hard. In fact I think the Holy Grail of 
+  the software development discipline is the ability to at least reason about program correctness.
+  How do you know if that pacemaker software doesn't contain a bug? By waiting for a death case?</p>
 
   </div> <!-- end content -->
 </div> <!-- end wrap -->

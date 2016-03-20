@@ -1,9 +1,11 @@
 
+<div id="contents">
+
 #   Contents
 
-  * [Exceptions](exceptions.html)
+  * [C++ Exceptions](exceptions.html)
 
-    Neverending struggle to work out the rules for using exceptions, my thoughts on that.  
+    Neverending struggle to work out the rules for using C++ exceptions, my thoughts on that.  
     TLDR. Use them almost always.
 
 
@@ -31,4 +33,5 @@
   
     First blog post is about an important topic of motivation.
 
+</div><!-- contents -->
 
