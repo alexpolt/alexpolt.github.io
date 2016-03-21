@@ -4,11 +4,9 @@
     Some thoughts on using values vs pointers/references.
 
 
-  * Polymorphism
+  * [Polymorphism](polymorphism.html)
     
-    There is a descriptin of [polymorphism](https://en.wikipedia.org/wiki/Polymorphism_%28computer_science%29)
-    on _Wikipedia_, but I don't agree with it. In my view polymorphism is any change in the execution path.
-    If you rig a class with a parameter that changes the behaviour of an object: it's polymorphism.
+    A couple notes on polymorphic behaviour.
 
 
   * [C++ Exceptions](exceptions.html)

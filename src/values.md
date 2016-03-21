@@ -1,5 +1,5 @@
   
-# Value semantics
+##Value semantics
 
   One can find a lot of information on the Internet about it. In my view value semantics has 
   just one requirement - a copy operation (copy-assingment, copy-construction) on an object 

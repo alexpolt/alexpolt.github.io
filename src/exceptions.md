@@ -1,5 +1,5 @@
 
-# C++ Exceptions
+##C++ Exceptions
 
   I guess every C++ programmer out there have struggled with the question of
   whether or not to use exceptions. Some say they complicate the code, others that

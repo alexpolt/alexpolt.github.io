@@ -1,5 +1,5 @@
 
-# A quick and easy way to print a float in base-10.
+##A quick and easy way to print a float in base-10.
 
   The implementation of *printf* for the "*%f*" format specifier is quite involved. 
   I invite you to take a look: [*printf_fp.c*](https://gcc.gnu.org/bugzilla/attachment.cgi?id=24137). That's hard.
