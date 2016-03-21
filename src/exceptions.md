@@ -1,7 +1,7 @@
 
 # C++ Exceptions
 
-  I guess every c++ programmer out there have struggled with the question of
+  I guess every C++ programmer out there have struggled with the question of
   whether or not to use exceptions. Some say they complicate the code, others that
   they are a serious performance hit.
 
@@ -19,7 +19,7 @@
   * any sort of bad input from outside world: wrong numbers, corrupted files, invalid input
   * don't use exceptions for checking preconditions (use types and asserts for that)
   * don't use exceptions for business logic
-  * combine exceptions with RAII for full throttle
+  * combine exceptions with RAII for full throttle (take a look at Alexandrescu's *scope_guard*)
 
 <!--first character is non-space to avoid markdown bug of not closing list-->
 

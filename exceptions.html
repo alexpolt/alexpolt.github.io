@@ -48,7 +48,7 @@
 
 <h1>C++ Exceptions</h1>
 
-<p>I guess every c++ programmer out there have struggled with the question of
+<p>I guess every C++ programmer out there have struggled with the question of
   whether or not to use exceptions. Some say they complicate the code, others that
   they are a serious performance hit.</p>
 
@@ -67,7 +67,7 @@
 <li>any sort of bad input from outside world: wrong numbers, corrupted files, invalid input</li>
 <li>don't use exceptions for checking preconditions (use types and asserts for that)</li>
 <li>don't use exceptions for business logic</li>
-<li>combine exceptions with RAII for full throttle</li>
+<li>combine exceptions with RAII for full throttle (take a look at Alexandrescu's <em>scope_guard</em>)</li>
 </ul>
 
 <!--first character is non-space to avoid markdown bug of not closing list-->
