@@ -1,8 +1,6 @@
 
 <div id="contents">
 
-#   Contents
-
 
   * [Value semantics](values.html)
 
