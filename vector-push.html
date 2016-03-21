@@ -45,12 +45,12 @@
 <pre><code>#include &lt;vector&gt;
 #include &lt;iostream&gt;
 
-template&lt;class T0, class T1&gt; std::vector&lt;T0&gt;&amp; operator&lt;&lt;( std::vector&lt;T0&gt;&amp; vec, T1&amp;&amp; value ) {
+template&lt;class T0, class T1&gt; auto&amp; operator&lt;&lt;( std::vector&lt;T0&gt;&amp; vec, T1&amp;&amp; value ) {
   vec.push_back( std::forward&lt;T1&gt;( value ) );
   return vec;
 }
 
-template&lt;class T0, class T1&gt; std::vector&lt;T0&gt;&amp; operator&gt;&gt;( std::vector&lt;T0&gt;&amp; vec, T1&amp; value ) {
+template&lt;class T0, class T1&gt; auto&amp; operator&gt;&gt;( std::vector&lt;T0&gt;&amp; vec, T1&amp; value ) {
   value = vec.back();
   vec.pop_back();
   return vec;

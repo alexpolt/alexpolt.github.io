@@ -6,12 +6,12 @@
     #include <vector>
     #include <iostream>
 
-    template<class T0, class T1> std::vector<T0>& operator<<( std::vector<T0>& vec, T1&& value ) {
+    template<class T0, class T1> auto& operator<<( std::vector<T0>& vec, T1&& value ) {
       vec.push_back( std::forward<T1>( value ) );
       return vec;
     }
 
-    template<class T0, class T1> std::vector<T0>& operator>>( std::vector<T0>& vec, T1& value ) {
+    template<class T0, class T1> auto& operator>>( std::vector<T0>& vec, T1& value ) {
       value = vec.back();
       vec.pop_back();
       return vec;
