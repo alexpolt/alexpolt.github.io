@@ -26,13 +26,11 @@
     >_das.value = ..._
 
 
-  * The way *operator<<* and *operator>>* should have been overloaded:
+  * [The way *operator<<* and *operator>>* should have been overloaded](vector-push.html)
 
-    >*std::vector<int> v{}; int i{};*  
+    >*std::vector&lt;int&gt; v{}; int i{};*  
     >*v << 1 << 2;*  
     >*v >> i;*
-    
-    >[Github](https://github.com/alexpolt/poetry/blob/master/vector-push.cpp) [Ideone](http://ideone.com/glqESs)
 
 
   * [Print-format a float in base-10](print-fp.html)  
