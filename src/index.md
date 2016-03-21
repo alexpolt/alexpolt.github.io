@@ -1,7 +1,4 @@
 
-<div id="contents">
-
-
   * [Value semantics](values.html)
 
     Some thoughts on using values vs pointers/references.
@@ -41,6 +38,4 @@
   * [On motivation](motivation.html)  
   
     First blog post is about an important topic of motivation.
-
-</div><!-- contents -->
 
