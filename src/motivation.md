@@ -21,10 +21,8 @@
   So what does one do, when all that is left - just sober understanding of the goals in life.
   What should be the reasoning to get that magic kick in the butt.
 
-  So here's what works for me: there's a risk, that the cool ideas, that I bear in my head, 
-  won't be delivered to the world, and just die with me. That's the first. 
-
-  The second is a little more aggressive and emotional: the World screws with you, so screw the World.
+  Here's what works for me: there's a risk, that the __cool ideas__, that I bear in my head,  won't be 
+  delivered to the world, and just die with me. These ideas (or thoughts) could __change the reality__.
 
   **Alexandr Poltavsky**  
   *2016-03-18T14:04+0300*
