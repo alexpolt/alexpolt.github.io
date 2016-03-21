@@ -33,10 +33,11 @@
     function processLinks() {
       var as = document.getElementById("content").getElementsByTagName("a");
       for( var el of as ) {
-        if( el.href.endsWith( ".md" ) ) {
+        if( el.href.endsWith( ".html" ) ) {
           el.addEventListener("click", function(e) {
             e.preventDefault();
             var hash = this.getAttribute( "href" );
+            hash = hash.replace(".html", ".md");
             if( hash.length ) {
               if( ! location.hash.length ) hash = "#" + hash;
               else hash = "," + hash;
@@ -77,7 +78,30 @@
 
 <BODY> 
 
-<div id="content"></div>
+<div id="wrap">
+
+  <!-- header part -->
+
+  <div id="header">
+
+    <a href="/" title="Back home">
+      <img width="160" src="images/alexandr-poltavsky-avatar.jpeg" title="Energia-Buran Military Space System" align="left"/>
+    </a>
+    <strong>
+      Personal blog of Alexandr Poltavsky. <br/> 
+      Software developer. <em>alexpolt&#64;yandex.ru</em><br/>
+    </strong>
+    <ul id="menu">
+      <li><a href="/">Contents</a></li>
+      <li><a href="https://github.com/alexpolt/">Github</a></li>
+    </ul>
+
+  </div>
+
+
+  <div id="content" style="clear: left"></div>
+
+</div> <!-- end wrap -->
 
 </BODY>
 

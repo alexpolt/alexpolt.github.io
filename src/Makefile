@@ -8,7 +8,7 @@ all: $(targets)
 #special treatment for index
 ../index.html : index.md
 	cat tmpl-header.html > $@
-	echo -e '<div id="contents>"\n' >> $@
+	echo -e '<div id="contents">\n' >> $@
 	$(md) $< >> $@
 	echo -e '\n</div>\n' >> $@
 	cat tmpl-footer.html >> $@
