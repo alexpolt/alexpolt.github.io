@@ -21,7 +21,7 @@
 
         value_wrapper() : data{ new T0{} } {}
 
-        value_wrapper( const value_Wrapper& other ) : value_wrapper{} {
+        value_wrapper( const value_wrapper& other ) : value_wrapper{} {
             *data = *other.data;
         }
 
