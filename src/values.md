@@ -7,7 +7,7 @@
   depending on the usage.
 
   *Value semantics*: manipulating with the value of an object directly without any sort of a proxy.
-  Proxies are usually pointers. Although you could some up with other sort of addressing the object.
+  Proxies are usually pointers. Although you could come up with other sorts of addressing the object.
   Whether references are such proxies too is questionable. To me references seem more like a way 
   to change the scope of an object.
   
