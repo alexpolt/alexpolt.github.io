@@ -6,7 +6,7 @@ targets := $(patsubst %.md,../%.html,$(wildcard *.md))
 all: $(targets)
 
 #special treatment for index
-../index.html : index.md
+../index.html : index.md $(tmpl)
 	cat tmpl-header.html > $@
 	echo -e '<div id="contents">\n' >> $@
 	$(md) $< >> $@
