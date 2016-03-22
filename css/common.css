@@ -66,4 +66,12 @@ a {
   margin-top: 70px;
 }
 
+#contents > blockquote {
+  padding: 1px 20px;
+  width: 80%;
+  margin: 5px auto;
+  color: #4D3300;
+  background-color: #F9F2EC;
+  border: 1px dashed silver;
+}
 
