@@ -15,7 +15,7 @@
   a value.
 
     
-    template<class T0> class value_wrapper {
+    template<class T0> struct value_wrapper {
 
         value_wrapper( T0* data_ ) : data{ data_ } {}
 
@@ -25,12 +25,12 @@
             *data = *other.data;
         }
 
-        value_Wrapper& operator=( const value_wrapper& other ) { 
+        value_wrapper& operator=( const value_wrapper& other ) { 
             //could've used copy-and-swap
             *data = *other.data;
         }
 
-        ~value_Wrapper() {
+        ~value_wrapper() {
             delete data;
         }
 
@@ -39,7 +39,9 @@
         T0* data;
     };
 
+
   [Ideone](http://ideone.com/FBaLtw)
+
 
   **Alexadnr Poltavsky**  
   2016-03-22T16:34+0300

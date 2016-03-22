@@ -55,7 +55,7 @@
 <p>C++ allows one to create a wrapper class containing a pointer to an object, that will behave as
   a value.</p>
 
-<pre><code>template&lt;class T0&gt; class value_wrapper {
+<pre><code>template&lt;class T0&gt; struct value_wrapper {
 
     value_wrapper( T0* data_ ) : data{ data_ } {}
 
@@ -65,12 +65,12 @@
         *data = *other.data;
     }
 
-    value_Wrapper&amp; operator=( const value_wrapper&amp; other ) { 
+    value_wrapper&amp; operator=( const value_wrapper&amp; other ) { 
         //could've used copy-and-swap
         *data = *other.data;
     }
 
-    ~value_Wrapper() {
+    ~value_wrapper() {
         delete data;
     }
 
