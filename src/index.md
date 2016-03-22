@@ -1,4 +1,9 @@
 
+
+>   When serializing data into a file, developers often make a dry run to calculate
+>   the size for the header. One possible workaround: add a size data member as the
+>   last field in the header struct, then just write the header at the end of the file.
+
   * [Value semantics](values.html)
 
     Some thoughts on using values vs pointers/references.
@@ -14,11 +19,10 @@
     Neverending struggle to work out the rules of using C++ exceptions, my thoughts on that.  
     TLDR. Use them almost always.
 
-
-  * Lo and behold: 
-
-    >_#define das (*this)_  
-    >_das.value = ..._
+>   Lo and behold:  
+>
+>   _#define das (*this)_  
+>   _das.value = ..._
 
 
   * [The way *operator<<* and *operator>>* should have been overloaded](vector-push.html)
@@ -36,4 +40,5 @@
   * [On motivation](motivation.html)  
   
     First blog post is about an important topic of motivation.
+
 
