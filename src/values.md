@@ -1,20 +1,46 @@
   
 ##Value semantics
 
-  One can find a lot of information on the Internet about it. In my view value semantics has 
-  just one requirement - a copy operation (copy-assingment, copy-construction) on an object 
-  produces an independent copy. 
-  
-  Also, don't confuse a pointer (that's an object in itself) and  an object it points to. Using 
-  pointers doesn't mean it's not value semantics. But if you use pointers as a *moniker* for 
-  an object (happens almost all the time), than copying  them breaks value semantics. On the other
-  hand references in C++ support value semantics (that is a weighty statement here).
-  
-  Notice that C++ allows one to design a wrapper, that will contain a pointer, and produce real 
-  copies of referred-to object on assignments, thus providing value-like behaviour. There is 
-  probably little to no reason to do so. And usually value semantics means using objects directly.
+  Lengthy articles are written about value semantics. Now it's my turn and I will try to be short.
 
-  So one *very important advantage* of using objects as values is **avoiding dynamic memory allocation**.
-  For some objects it could mean *thousands* of dynamic memory allocations and deallocations.
+  First, what is a value? A value is the content of an object. There are different types of values,
+  depending on the usage.
 
+  *Value semantics*: manipulating with the value of an object directly without any sort of a proxy.
+  Proxies are usually pointers. Although you could some up with other sort of addressing the object.
+  Whether references are such proxies too is questionable. To me references seem more like a way 
+  to change the scope of an object.
+  
+  C++ allows one to create a wrapper class containing a pointer to an object, that will behave as
+  a value.
+
+    
+    template<class T0> class value_wrapper {
+
+        value_wrapper( T0* data_ ) : data{ data_ } {}
+
+        value_wrapper() : data{ new T0{} } {}
+
+        value_wrapper( const value_Wrapper& other ) : value_wrapper{} {
+            *data = *other.data;
+        }
+
+        value_Wrapper& operator=( const value_wrapper& other ) { 
+            //could've used copy-and-swap
+            *data = *other.data;
+        }
+
+        ~value_Wrapper() {
+            delete data;
+        }
+
+        //move construction and assigment
+
+        T0* data;
+    };
+
+  [Ideone](http://ideone.com/FBaLtw)
+
+  **Alexadnr Poltavsky**  
+  2016-03-22T16:34+0300
 
