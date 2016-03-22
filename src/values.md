@@ -35,6 +35,7 @@
         }
 
         //move construction and assigment
+        //other operators, member functions
 
         T0* data;
     };
