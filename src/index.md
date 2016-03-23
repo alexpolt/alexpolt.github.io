@@ -38,6 +38,9 @@
   
     A hack for quick and easy printing of a floating point number in base-10.
 
+  * [Human Memory](memory.html)
+
+    Some observations regarding human memory.
 
   * [On motivation](motivation.html)  
   
