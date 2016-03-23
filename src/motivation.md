@@ -22,7 +22,8 @@
   What should be the reasoning to get that magic kick in the butt.
 
   Here's what works for me: there's a risk, that the __cool ideas__, that I bear in my head,  won't be 
-  delivered to the world, and just die with me. These ideas (or thoughts) could __change the reality__.
+  delivered to the world, and just die with me. Also, while thinking on problems, I feel as if I'm
+  talking with the Universe.
 
   **Alexandr Poltavsky**  
   *2016-03-18T14:04+0300*
