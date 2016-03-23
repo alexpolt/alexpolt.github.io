@@ -1,5 +1,7 @@
 
 
+>   __Quick tip__   
+>
 >   When serializing data into a file, developers often make a dry run to calculate
 >   the size for the header. One possible workaround: add a size data member as the
 >   last field in the header struct, then just write the header at the end of the file.
@@ -19,10 +21,10 @@
     Neverending struggle to work out the rules of using C++ exceptions, my thoughts on that.  
     TLDR. Use them almost always.
 
->   Lo and behold:  
+>   __Quick tip__  
 >
->   _#define das (*this)_  
->   _das.value = ..._
+>   #define $this (\*this)  
+>   $this.value = ... //I advocate the use of '$' prefix for macros in C++
 
 
   * [The way *operator<<* and *operator>>* should have been overloaded](vector-push.html)
