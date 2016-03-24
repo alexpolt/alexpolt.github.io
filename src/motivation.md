@@ -22,6 +22,7 @@
   What should be the reasoning to get that magic kick in the butt.
 
   Here's what works for me: there's a risk, that the __cool ideas__, that I bear in my head,  won't be 
-  delivered to the world, and just die with me. Also, while thinking on problems, I feel as if I'm
-  talking with the Universe.
+  delivered to the world, and just die with me. Another perspective: we are blessed with living (whether 
+  we want or not), so it's up to a person to choose what makes up that *"living*. It might very well be
+  that resting on a sofa isn't what you think is *living*. 
 
