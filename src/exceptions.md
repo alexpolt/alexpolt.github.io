@@ -28,4 +28,3 @@
   the software development discipline is the ability to at least reason about program correctness.
   How do you know if that pacemaker software doesn't contain a bug? By waiting for a death case?
 
-

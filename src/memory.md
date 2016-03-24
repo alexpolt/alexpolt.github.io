@@ -8,7 +8,7 @@
   ["Mental arithmetic"](http://www-groups.dcs.st-and.ac.uk/history/PrintHT/Mental_arithmetic.html).
 
   What caught my eye is the description of the education effect on these abilities: with learning
-  those they diminished. And in fact for me, visually remembering numbers is harder than remembering 
+  they diminished. And in fact for me, visually remembering numbers is harder than remembering 
   associated shapes. So, in order to faster memorize the PI constant for example to a certain number 
   of digits, I do something like this:
 
@@ -19,5 +19,4 @@
   [Solomon Shereshevsky](https://en.wikipedia.org/wiki/Solomon_Shereshevsky).
 
   It seems that our brain functions like an associative state machine, jumping from state to state.
-
 

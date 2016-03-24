@@ -48,6 +48,3 @@
 
   [Github](https://github.com/alexpolt/poetry/blob/master/vector-push.cpp) [Ideone](http://ideone.com/glqESs)
 
-  **Alexandr Poltavsky**  
-  *2016-03-21T15:33+0300*
-

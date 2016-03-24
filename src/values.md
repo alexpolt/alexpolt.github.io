@@ -43,7 +43,3 @@
 
   [Ideone](http://ideone.com/FBaLtw)
 
-
-  **Alexadnr Poltavsky**  
-  2016-03-22T16:34+0300
-

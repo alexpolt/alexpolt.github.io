@@ -25,6 +25,3 @@
   delivered to the world, and just die with me. Also, while thinking on problems, I feel as if I'm
   talking with the Universe.
 
-  **Alexandr Poltavsky**  
-  *2016-03-18T14:04+0300*
-

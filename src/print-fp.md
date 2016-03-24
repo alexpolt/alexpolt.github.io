@@ -92,6 +92,3 @@
   I'd like to thank **Bruce Dawson** for his outstanding series on 
   [floating points](https://randomascii.wordpress.com/category/floating-point/).
 
-  **Alexandr Poltavsky**  
-  *2016-03-18T21:19+0300*
-

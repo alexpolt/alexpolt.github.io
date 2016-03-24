@@ -25,4 +25,3 @@
   I guess we need to introduce some measure of the amount of polymorphism. Like the number of 
   conditional jumps after compilation, so that we could compare different languages.
 
-
