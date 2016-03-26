@@ -1,10 +1,16 @@
 
 
+* [C++ properties](cpp-property.html)
+
+    One more nugget from C++.
+
+
 >   __Quick tip__   
 >
 >   When serializing data into a file, developers often make a dry run to calculate
 >   the size for the header. One possible workaround: add a size data member as the
 >   last field in the header struct, then just write the header at the end of the file.
+
 
   * [Value semantics](values.html)
 
@@ -20,6 +26,7 @@
 
     Neverending struggle to work out the rules of using C++ exceptions, my thoughts on that.  
     TLDR. Use them almost always.
+
 
 >   __Quick tip__  
 >

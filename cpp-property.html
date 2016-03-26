@@ -40,63 +40,37 @@
 
   <!-- here goes the main content -->
 
-<div id="contents">
+<h2>C++ properties</h2>
 
-<ul>
-<li><p><a href="cpp-property.html">C++ properties</a></p>
+<p>C++ allows one to have syntatic sugar for properties. Here's how.</p>
 
-<p>One more nugget from C++.</p></li>
-</ul>
+<pre><code>template&lt;class T0&gt; struct prop {
 
-<blockquote>
-  <p><strong>Quick tip</strong>   </p>
+    void operator()() {
+      return data;
+    }
 
-<p>When serializing data into a file, developers often make a dry run to calculate
-  the size for the header. One possible workaround: add a size data member as the
-  last field in the header struct, then just write the header at the end of the file.</p>
-</blockquote>
+    void operator()( T0 data_ ) {
+      data = static_cast&lt;T&amp;&amp;&gt;( data_ ); //data_ is always a copy, so move it
+    }
 
-<ul>
-<li><p><a href="values.html">Value semantics</a></p>
+    T0 data;
+};
 
-<p>Some thoughts on using values vs pointers/references.</p></li>
-<li><p><a href="polymorphism.html">Polymorphism</a></p>
 
-<p>A couple notes on polymorphic behaviour.</p></li>
-<li><p><a href="exceptions.html">C++ Exceptions</a></p>
+struct test {
+    prop&lt;int&gt; data;
+};
 
-<p>Neverending struggle to work out the rules of using C++ exceptions, my thoughts on that. <br />
-TLDR. Use them almost always.</p></li>
-</ul>
+int main() {
 
-<blockquote>
-  <p><strong>Quick tip</strong>  </p>
+  test t0{};
 
-<p>#define $this (*this) <br />
-  $this.value = ... //I advocate the use of '$' prefix for macros in C++</p>
-</blockquote>
+  t0.data( 1 );
+}
+</code></pre>
 
-<ul>
-<li><p><a href="vector-push.html">The way <em>operator&lt;&lt;</em> and <em>operator>></em> should have been overloaded</a></p>
-
-<blockquote>
-  <p><em>std::vector&lt;int&gt; v{}; int i{};</em> <br />
-<em>v &lt;&lt; 1 &lt;&lt; 2;</em> <br />
-<em>v >> i;</em></p>
-</blockquote></li>
-<li><p><a href="print-fp.html">Print-format a float in base-10</a>  </p>
-
-<p>A hack for quick and easy printing of a floating point number in base-10.</p></li>
-<li><p><a href="memory.html">Human Memory</a></p>
-
-<p>Some observations regarding human memory.</p></li>
-<li><p><a href="motivation.html">On motivation</a>  </p>
-
-<p>First blog post is about an important topic of motivation.</p></li>
-</ul>
-
-</div>
-
+<p><a href="https://github.com/alexpolt/poetry/blob/master/cpp-property.cpp">Githib</a> <a href="http://ideone.com/oAUNuO">Ideone</a></p>
 
 
 <script src="highlight/highlight.pack.js"></script>
