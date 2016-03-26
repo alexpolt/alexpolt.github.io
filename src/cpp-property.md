@@ -29,5 +29,5 @@
       t0.data( 1 );
     }
 
-  [Githib](https://github.com/alexpolt/poetry/blob/master/cpp-property.cpp) [Ideone](http://ideone.com/oAUNuO)
+  [Github](https://github.com/alexpolt/poetry/blob/master/cpp-property.cpp) [Ideone](http://ideone.com/oAUNuO)
 
