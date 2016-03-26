@@ -44,14 +44,16 @@
 
 <p>C++ allows one to have syntatic sugar for properties. Here's how.</p>
 
-<pre><code>template&lt;class T0&gt; struct prop {
+<pre><code>#include &lt;cstdio&gt;
 
-    void operator()() {
+template&lt;class T0&gt; struct prop {
+
+    T0 operator()() {
       return data;
     }
 
     void operator()( T0 data_ ) {
-      data = static_cast&lt;T&amp;&amp;&gt;( data_ ); //data_ is always a copy, so move it
+      data = static_cast&lt;T0&amp;&amp;&gt;( data_ ); //data_ is always a copy, so move it
     }
 
     T0 data;
@@ -62,15 +64,19 @@ struct test {
     prop&lt;int&gt; data;
 };
 
+
 int main() {
 
   test t0{};
 
-  t0.data( 1 );
+  t0.data( 10 );
+
+  printf( "data = %d\n", t0.data() );
+
 }
 </code></pre>
 
-<p><a href="https://github.com/alexpolt/poetry/blob/master/cpp-property.cpp">Github</a> <a href="http://ideone.com/oAUNuO">Ideone</a></p>
+<p><a href="https://github.com/alexpolt/poetry/blob/master/cpp-properties.cpp">Github</a> <a href="http://ideone.com/oAUNuO">Ideone</a></p>
 
 
 <script src="highlight/highlight.pack.js"></script>
