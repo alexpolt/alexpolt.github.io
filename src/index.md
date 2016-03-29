@@ -2,7 +2,7 @@
 
   * [Tasking and object sharing](tasking.html)
     
-    Task programming model gives a chance to solve the object ownership problem.
+    Task programming model gives a chance to solve the object sharing problem.
 
 
   * [C++ properties](cpp-property.html)
