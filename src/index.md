@@ -1,6 +1,11 @@
 
 
-* [C++ properties](cpp-property.html)
+  * [Tasking and object sharing](tasking.html)
+    
+    Task programming model gives a chance to solve the object ownership problem.
+
+
+  * [C++ properties](cpp-property.html)
 
     One more nugget from C++.
 
