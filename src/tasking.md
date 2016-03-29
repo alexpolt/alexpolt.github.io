@@ -12,9 +12,9 @@
   programming model.
 
   Also it allows one to elegantly solve the sharing problem. Since execution is under
-  control, you have an option of introducing a *synchronization barrier*: signal
+  control, you have an option of introducing a *synchronization barrier:* signal
   the scheduler that no more tasks should be dispatched and wait for all in-flight tasks
-  to complete. This way we introduce a *safity window* during which we could do all
+  to complete. This way we introduce a *safety window* during which we could do all
   the dirty laundry. 
   
   Looks like a GC with it's stop the world approach. But it's not. When a task needs
