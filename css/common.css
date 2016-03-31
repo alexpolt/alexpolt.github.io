@@ -12,7 +12,10 @@ body {
 
 a {
   text-decoration: none;
-  color: darkblue;
+  color: #00008B;
+}
+a:hover {
+  color: darkred;
 }
 
 #wrap {
@@ -53,6 +56,10 @@ a {
 
 #contents > ul > li {
   margin-bottom: 25px;
+}
+
+#contents > ul > li > p > a > strong {
+  font-size: 120%;
 }
 
 #contents > ul > li > p:first-child {
