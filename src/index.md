@@ -39,14 +39,14 @@
 >   $this.value = ... //I advocate the use of '$' prefix for macros in C++
 
 
-  * [The way *operator<<* and *operator>>* should have been overloaded](vector-push.html)
+  * [The way *operator&lt;&lt;* and *operator&gt;&gt;* should have been overloaded](vector-push.html)
 
     >*std::vector&lt;int&gt; v{}; int i{};*  
     >*v << 1 << 2;*  
     >*v >> i;*
 
 
-  * [*Print-format a float in base-10*](print-fp.html)
+  * [**Print-format a float in base-10**](print-fp.html)
   
     A hack for quick and easy printing of a floating point number in base-10.
 
@@ -54,7 +54,7 @@
 
     Some observations regarding human memory.
 
-  * [*On motivation*](motivation.html)
+  * [**On motivation**](motivation.html)
   
     First blog post is about an important topic of motivation.
 
