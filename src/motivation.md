@@ -18,12 +18,8 @@
   something valuable requires the work of a large number of people, takes a lot of time, hard and 
   unexciting work.
 
-  So what does one do, when all that is left - just sober understanding of the goals in life.
-  What should be the reasoning to get that magic kick in the butt.
-
-  Here's what works for me: there's a risk, that the __cool ideas__, that I bear in my head,  won't be 
-  delivered to the world, and just die with me. Another perspective: we are blessed with living (whether 
-  we want or not), so it's up to a person to choose what makes up that *living*. It may very well be that 
-  *creating new* isn't so valuable to you personally, but what you create might turn out to be useful and 
-  even critical to millions of other people.
+  So what does one do to get back on track, if no emotional motivation is present. What should be the 
+  reasoning to get that magic kick in the butt. For myself I figured that deepening my insight into
+  the world, increasing my understanding of Life and Universe, evolving my mind: are true values.
+  And if along the way I happen to create something useful for others: double win.
 
