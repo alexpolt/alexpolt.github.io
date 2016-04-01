@@ -1,5 +1,9 @@
 
 
+>   An idea is a just random jump in the knowledge space. After that a lot of stepping is 
+>   necessary to get to a positive result.
+
+
   * [Tasking and object sharing](tasking.html)
     
     Task programming model gives a chance to solve the object sharing problem.
