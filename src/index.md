@@ -1,6 +1,6 @@
 
 
->   __Ideas__
+>   __Ideas__  
 >   An idea is just a random jump in the knowledge space. After that a lot of stepping is 
 >   necessary to get to a positive result.
 
