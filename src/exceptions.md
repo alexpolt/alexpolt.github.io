@@ -8,10 +8,15 @@
   I also gave it some time. After long hours of musing on the subject, coming up
   with examples - no matter how hard I tried to come up with a better solution for
   error handling, I always landed with something similar to exceptions.
+
   You need some registration mechanism on entering a scope to get the best out of RAII.
+  Also exceptions remove that really disturbing *check and return* pattern.
+  Exceptions make you aware of the cost of a function call, so you are mildly pushed to
+  rearrange your data and algorithms.
 
   So my conclusion is: *always use exceptions*, just use them right. 
-  There is only one case for not using them, that is in real-time critical code.
+  There is only one case for not using them, that is in real-time critical code (but you 
+  always have the option of redesigning algorithms to offset the cost of exceptions).
 
   My personal checklist when using exceptions is this:
   
