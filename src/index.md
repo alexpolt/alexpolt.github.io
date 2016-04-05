@@ -1,6 +1,6 @@
 
 
-  * [Free Variables Perfect Hashing Algorithm](perfect-hashing.html)
+  * [**Free Variables Perfect Hashing Algorithm**](perfect-hashing.html)
 
     A generalization and simplification of the CHM Perfect Hashing Algorithm.
 

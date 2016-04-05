@@ -12,7 +12,8 @@ If you think about it then it becomes clear that, what this algorithm actually d
 is introduce a walking order for the buckets. Essentially it is an open addressing 
 method with random probing. So what you do is something along the lines:
 
-    srand( hash( object ) );
+
+    srand( hash( object ) ); //introduce random probing order
 
     size_t location = -1;
 
