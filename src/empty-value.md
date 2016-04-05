@@ -19,6 +19,7 @@
       test& operator==( test&& other ) { //may be unnecessary if using copy-and-swap idiom
         data = other.data;
         other.data = nullptr; //<------
+        return *this;
       }
 
       ~test() {

@@ -60,6 +60,7 @@
   test&amp; operator==( test&amp;&amp; other ) { //may be unnecessary if using copy-and-swap idiom
     data = other.data;
     other.data = nullptr; //&lt;------
+    return *this;
   }
 
   ~test() {
