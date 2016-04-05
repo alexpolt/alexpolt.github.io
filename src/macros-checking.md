@@ -19,7 +19,7 @@
         return hr;
 
 
-  You can do better using some macros magic. First require macro is this:
+  You can do better using some macro magic. First required macro is this:
 
 
     #define $numargs_( _1, _2, _3, N, ... ) N

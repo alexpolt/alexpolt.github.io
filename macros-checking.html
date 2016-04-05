@@ -60,7 +60,7 @@ if( FAILED( hr ) )
     return hr;
 </code></pre>
 
-<p>You can do better using some macros magic. First require macro is this:</p>
+<p>You can do better using some macro magic. First required macro is this:</p>
 
 <pre><code>#define $numargs_( _1, _2, _3, N, ... ) N
 #define $numargs( ... ) $numargs_( __VA_ARGS__, 3, 2, 1 )
