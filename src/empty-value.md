@@ -12,12 +12,14 @@
 
     struct test {
 
+      ...constructors...
+
       test( test&& other ) : data{ other.data } { //better to always std::move 
         other.data = nullptr; //<------
       }
     
       test& operator==( test&& other ) { //may be unnecessary if using copy-and-swap idiom
-        data = other.data;
+        data = other.data; //for simplicity
         other.data = nullptr; //<------
         return *this;
       }

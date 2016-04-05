@@ -53,12 +53,14 @@
 
 <pre><code>struct test {
 
+  ...constructors...
+
   test( test&amp;&amp; other ) : data{ other.data } { //better to always std::move 
     other.data = nullptr; //&lt;------
   }
 
   test&amp; operator==( test&amp;&amp; other ) { //may be unnecessary if using copy-and-swap idiom
-    data = other.data;
+    data = other.data; //for simplicity
     other.data = nullptr; //&lt;------
     return *this;
   }
