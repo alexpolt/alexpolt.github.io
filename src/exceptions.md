@@ -10,7 +10,7 @@
   error handling, I always landed with something similar to exceptions.
 
   You need some registration mechanism on entering a scope to get the best out of RAII.
-  Also exceptions remove that really disturbing *check and return* pattern.
+  Also exceptions remove that obnoxious *check and return* pattern.
   Exceptions make you aware of the cost of a function call, so you are mildly pushed to
   rearrange your data and algorithms.
 

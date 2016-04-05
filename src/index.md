@@ -1,4 +1,7 @@
 
+  * [Consistent hashing revisited](random-probing.html)
+
+    Consistent hashing is used to balance load in case a bucket (server) goes bad.
 
 >   __Ideas__  
 >   An idea is just a random jump in the knowledge space. After that a lot of stepping is 

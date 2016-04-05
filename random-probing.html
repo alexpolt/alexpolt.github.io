@@ -40,78 +40,36 @@
 
   <!-- here goes the main content -->
 
-<div id="contents">
+<h2>On consistent hashing</h2>
 
-<ul>
-<li><p><a href="random-probing.html">Consistent hashing revisited</a></p>
+<p>Consistent hashing is an algorithm that allows to amortize the cost of keys movement
+in case a bucket becomes unavailable (offline). It's frequently used to distribute
+load on servers in case of a one server going down.</p>
 
-<p>Consistent hashing is used to balance load in case a bucket (server) goes bad.</p></li>
-</ul>
+<p>The common description and implementation of <a href="https://en.wikipedia.org/wiki/Consistent_hashing">consistent hashing</a>
+uses a circle (array) filled with bucket locations in random order.</p>
 
-<blockquote>
-  <p><strong>Ideas</strong> <br />
-  An idea is just a random jump in the knowledge space. After that a lot of stepping is 
-  necessary to get to a positive result.</p>
-</blockquote>
+<p>If you think about it then it becomes clear that, what this algorithm actually does
+is introduces a walking order for the buckets. Essentially it is an open addressing 
+method with random probing. So what you do is something along the lines:</p>
 
-<ul>
-<li><p><a href="tasking.html">Tasking and object sharing</a></p>
+<pre><code>srand( hash( object ) );
 
-<p>Task programming model gives a chance to solve the object sharing problem.</p></li>
-<li><p><a href="cpp-property.html">C++ properties</a></p>
+int location = -1;
 
-<p>One more nugget from C++.</p></li>
-</ul>
+while(true) {
 
-<blockquote>
-  <p><strong>Quick tip</strong>   </p>
+  int location = rand() % table_size;
 
-<p>When serializing data into a file, developers often make a dry run to calculate
-  the size for the header. One possible workaround: add a size data member as the
-  last field in the header struct, then just write the header at the end of the file.</p>
-</blockquote>
+  if( check_location( location ) ) break; //or server_is_online( location )
 
-<ul>
-<li><p><a href="values.html">Value semantics</a></p>
+};
 
-<p>Some thoughts on using values vs pointers/references.</p></li>
-<li><p><a href="polymorphism.html">Polymorphism</a></p>
-
-<p>A couple notes on polymorphic behaviour.</p></li>
-<li><p><a href="exceptions.html">C++ Exceptions</a></p>
-
-<p>Neverending struggle to work out the rules of using C++ exceptions, my thoughts on that. <br />
-TLDR. Use them almost always.</p></li>
-</ul>
-
-<blockquote>
-  <p><strong>Quick tip</strong>  </p>
-
-<p>#define $this (*this) <br />
-  $this.value = ... //I advocate the use of '$' prefix for macros in C++</p>
-</blockquote>
-
-<ul>
-<li><p><a href="vector-push.html">The way <em>operator&lt;&lt;</em> and <em>operator&gt;&gt;</em> should have been overloaded</a></p>
-
-<blockquote>
-  <p><em>std::vector&lt;int&gt; v{}; int i{};</em> <br />
-<em>v &lt;&lt; 1 &lt;&lt; 2;</em> <br />
-<em>v >> i;</em></p>
-</blockquote></li>
-<li><p><a href="print-fp.html"><strong>Print-format a float in base-10</strong></a></p>
-
-<p>A hack for quick and easy printing of a floating point number in base-10.</p></li>
-<li><p><a href="memory.html">Human Memory</a></p>
-
-<p>Some observations regarding human memory.</p></li>
-<li><p><a href="motivation.html"><strong>On motivation</strong></a></p>
-
-<p>First blog post is about an important topic of motivation.</p></li>
-</ul>
-
-</div>
-
+if( location != -1 ) {
+  ...
+} else 
+    throw( ... )
+</code></pre>
 
 
 <script src="highlight/highlight.pack.js"></script>
