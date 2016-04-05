@@ -40,48 +40,32 @@
 
   <!-- here goes the main content -->
 
-<h2>Value semantics</h2>
+<h2>Energia-Buran Space Transportation System</h2>
 
-<p>Lengthy articles are written about value semantics. Now it's my turn and I will try to be short.</p>
+<p>Energia-Buran Space System was the apex of the russian engineering genius.
+  Conceived to be an answer to the American slap on the face with it's Space Shuttle, it returned
+  a hard blow. Because Buran-Energia programmed surpassed all expectations.</p>
 
-<p>First, what is a value? A value is the content of an object. There are different types of values,
-  depending on the usage.</p>
+<p>It was an ambitious space military project of unprecedented scale. The Buran was a reusable
+  space plane capable of unmanned landing, digital control system with three computers running
+  in parallel, <strong>emergency crew escape system</strong>. It was designed to dock to the famous MIR
+  Space Station (somewhat ironically called MIR - peace), keep it there in case of serious
+  political instability in the world.</p>
 
-<p><em>Value semantics</em>: manipulating with the value of an object directly without any sort of a proxy.
-  Proxies are usually pointers. Although you could come up with other sorts of addressing the object.
-  Whether references are such proxies too is questionable. To me references seem more like a way 
-  to change the scope of an object.</p>
+<p><a href="https://en.wikipedia.org/wiki/Energia">Energia</a> rocket was a marvel in it's own. Heavy lifter 
+  that was designed with an outlook of being enhanced to a super heavy lifter. It was supposed to 
+  not only carry Buran Shuttle, but also other payloads, like the 
+  <a href="https://en.wikipedia.org/wiki/Polyus_%28spacecraft%29">Polyus Space Weapons Platform</a>.</p>
 
-<p>C++ allows one to create a wrapper class containing a pointer to an object, that will behave as
-  a value.</p>
+<h3>That's engineering!</h3>
 
-<pre><code>template&lt;class T0&gt; struct value_wrapper {
+<hr />
 
-    value_wrapper( T0* data_ ) : data{ data_ } {}
+<p><img src="images/energia-buran-1.jpg" alt="" title="Energia-Buran on launchpad" /></p>
 
-    value_wrapper() : data{ new T0{} } {}
+<p><img src="images/energia-polyus.jpg" alt="" title="Polyus Space Weapons Platform" /></p>
 
-    value_wrapper( const value_wrapper&amp; other ) : value_wrapper{} {
-        *data = *other.data;
-    }
-
-    value_wrapper&amp; operator=( const value_wrapper&amp; other ) { 
-        //could've used copy-and-swap
-        *data = *other.data;
-    }
-
-    ~value_wrapper() {
-        delete data;
-    }
-
-    //move construction and assigment
-    //other operators, member functions
-
-    T0* data;
-};
-</code></pre>
-
-<p><a href="http://ideone.com/FBaLtw">Ideone</a></p>
+<p>PS. Nice <a href="https://www.youtube.com/watch?v=Q6WHjQ3Y3Uo">Youtube video</a> with a soundtrack.</p>
 
 
 <script src="highlight/highlight.pack.js"></script>
