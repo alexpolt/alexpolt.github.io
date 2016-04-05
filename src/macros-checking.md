@@ -30,12 +30,12 @@
   more specific macro functions like this:
 
 
-    #define $paste_( v0, v1 ) v0 ## v1
-    #define $paste( v0, v1 ) $paste_( v0, v1 )
+    #define $paste_( $0, $1 ) $0 ## $1
+    #define $paste( $0, $1 ) $paste_( $0, $1 )
     
-    #define $check1( $macro, _1 ) $macro( VAR );
-    #define $check2( $macro, _1, _2 ) $check1( $macro, _1 ) $check1( $macro, _2 )
-    #define $check3( $macro, _1, _2, _3 ) $check2( $macro, _1, _2 ) $check1( $macro, _3 )
+    #define $check1( $macro, $1 ) $macro( $1 );
+    #define $check2( $macro, $1, $2 ) $check1( $macro, $1 ) $check1( $macro, $2 )
+    #define $check3( $macro, $1, $2, $3 ) $check2( $macro, $1, $2 ) $check1( $macro, $3 )
 
     #define $checkall_( $macro, $check, ... ) $check( $macro, __VA_ARGS__ )
     #define $checkall( $macro, ... ) $checkall_( $macro, $paste( $check, $numargs(__VA_ARGS__) ), __VA_ARGS__ )
