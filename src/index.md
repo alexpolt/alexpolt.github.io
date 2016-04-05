@@ -1,6 +1,11 @@
 
 
-  * [**Free Variables Perfect Hashing Algorithm**](perfect-hashing.html)
+  * [**Why we should abandon move constructors and move assignment operators**](empty-value.html)
+
+    The title is a bit radical. The things are not that bad, but certainly there are problematic places.
+
+
+  * [Free Variables Perfect Hashing Algorithm](perfect-hashing.html)
 
     A generalization and simplification of the CHM Perfect Hashing Algorithm.
 

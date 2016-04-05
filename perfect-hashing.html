@@ -80,11 +80,13 @@ hash_table[ b2 ] = perfect_hash_location ^ hash_table[b1] ^ ... ^ hash_Table[bN]
 </code></pre>
 
 <p>The free bucket can be marked as -1 for example (it is implementation detail). Now what remains is - how do
-  we handle collision. Well, there two options: increase the number of hash functions or do search in the graph.
-  The graph is formed by aliasing buckets. So for N=3 you could have the all 3 locations occupied by different
-  values. So you need to keep backreferences to what objects are linked to what buckets, so that you could
-  then search the graph for a free variable. If you happen to have all 3 locations occupied with some other 
-  single object then you need to redesign you hash functions or increase their number.</p>
+  we handle the case of no free variables. There two options: either increase the number of hash functions or table 
+  size to avoid having to deal with such problem, or do search in the graph.  The graph is formed by aliasing buckets.</p>
+
+<p>For N=3 you could have all 3 locations occupied by different values. You need to keep backreferences to 
+  what objects are linked to what buckets, so that you could then search the graph for a free variable. If you happen 
+  to have all 3 locations occupied with some other single object then you need to redesign you hash functions or 
+  increase their number or increase the hash table size.</p>
 
 <p>Here is a rough illustration of what the graph looks like for N = 3.</p>
 

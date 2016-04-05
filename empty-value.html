@@ -40,84 +40,59 @@
 
   <!-- here goes the main content -->
 
-<div id="contents">
+<h2>Why we should abandon move constructors and move assignment operators</h2>
 
-<ul>
-<li><p><a href="empty-value.html"><strong>Why we should abandon move constructors and move assignment operators</strong></a></p>
+<p>The title is a bit radical. The things are not that bad, but certainly there are <em>serious perils</em>.</p>
 
-<p>The title is a bit radical. The things are not that bad, but certainly there are problematic places.</p></li>
-<li><p><a href="perfect-hashing.html">Free Variables Perfect Hashing Algorithm</a></p>
+<p>Doing some programing with extensive use of move semantics I had several major bugs due to
+  being sloppy in my handling of object state in move constructors/assignment operators.
+  But it wasn't because of my lack of heed or skill. It was the direct result of having
+  to keep synchronized to places in the code: move constructor/assignment and destructor.</p>
 
-<p>A generalization and simplification of the CHM Perfect Hashing Algorithm.</p></li>
-<li><p><a href="random-probing.html">Consistent hashing revisited</a></p>
+<p>"Show me some code", I here. So consider this:</p>
 
-<p>Consistent hashing is used to balance load in case a bucket (server) goes bad.</p></li>
-</ul>
+<pre><code>struct test {
+
+  test( test&amp;&amp; other ) : data{ other.data } { //better to always std::move 
+    other.data = nullptr; //&lt;------
+  }
+
+  test&amp; operator==( test&amp;&amp; other ) { //may be unnecessary if using copy-and-swap idiom
+    data = other.data;
+    other.data = nullptr; //&lt;------
+  }
+
+  ~test() {
+    if( data ) { //&lt;------
+      ...
+    }
+  }
+
+  void *data;
+
+};
+</code></pre>
+
+<p>Three places! Well, okay, minimum two places that you have to keep track of and keep in sync.
+  Now, all that pain would be justified if only there were no choice. But we have a choice! So here is my idea. </p>
 
 <blockquote>
-  <p><strong>Ideas</strong> <br />
-  An idea is just a random jump in the knowledge space. After that a lot of stepping is 
-  necessary to get to a positive result.</p>
+  <p>If we make the firm statement that a bind to an r-value parameter is always followed by a move (sensible requirement),
+then we can assume that r-value has become an <em>empty value</em>. So don't call a destructor on such a value.</p>
 </blockquote>
 
-<ul>
-<li><p><a href="tasking.html">Tasking and object sharing</a></p>
-
-<p>Task programming model gives a chance to solve the object sharing problem.</p></li>
-<li><p><a href="cpp-property.html">C++ properties</a></p>
-
-<p>One more nugget from C++.</p></li>
-</ul>
+<p>Do you see? If we have that rule, then suddenly you don't need any of that mess with checking <code>if( data ) blah blah</code>.
+  Just do normal destructor. Okay. We don't have to abandon our beloved move constructors and move assignment operators. 
+  Let's just introduce the rule (sorry for my lame language):</p>
 
 <blockquote>
-  <p><strong>Quick tip</strong>   </p>
-
-<p>When serializing data into a file, developers often make a dry run to calculate
-  the size for the header. One possible workaround: add a size data member as the
-  last field in the header struct, then just write the header at the end of the file.</p>
+  <p>And empty value is an r-value after being bound to a function parameter in a function call and the end of the function call.
+If the class of the empty value object doesn't have a <em>user-defined move constructor</em> then skip destructing that object.</p>
 </blockquote>
 
-<ul>
-<li><p><a href="values.html">Value semantics</a></p>
+<p>This way the user has a choice and avoid extra bugs in their code.</p>
 
-<p>Some thoughts on using values vs pointers/references.</p></li>
-<li><p><a href="polymorphism.html">Polymorphism</a></p>
-
-<p>A couple notes on polymorphic behaviour.</p></li>
-<li><p><a href="exceptions.html">C++ Exceptions</a></p>
-
-<p>Neverending struggle to work out the rules of using C++ exceptions, my thoughts on that. <br />
-TLDR. Use them almost always.</p></li>
-</ul>
-
-<blockquote>
-  <p><strong>Quick tip</strong>  </p>
-
-<p>#define $this (*this) <br />
-  $this.value = ... //I advocate the use of '$' prefix for macros in C++</p>
-</blockquote>
-
-<ul>
-<li><p><a href="vector-push.html">The way <em>operator&lt;&lt;</em> and <em>operator&gt;&gt;</em> should have been overloaded</a></p>
-
-<blockquote>
-  <p><em>std::vector&lt;int&gt; v{}; int i{};</em> <br />
-<em>v &lt;&lt; 1 &lt;&lt; 2;</em> <br />
-<em>v >> i;</em></p>
-</blockquote></li>
-<li><p><a href="print-fp.html"><strong>Print-format a float in base-10</strong></a></p>
-
-<p>A hack for quick and easy printing of a floating point number in base-10.</p></li>
-<li><p><a href="memory.html">Human Memory</a></p>
-
-<p>Some observations regarding human memory.</p></li>
-<li><p><a href="motivation.html"><strong>On motivation</strong></a></p>
-
-<p>First blog post is about an important topic of motivation.</p></li>
-</ul>
-
-</div>
-
+<p>PS. I am really not sure if I haven't missed something important. Would be grateful for any critique.</p>
 
 
 <script src="highlight/highlight.pack.js"></script>
