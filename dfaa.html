@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<HTML>
+
+<HEAD>
+
+  <title>Alexandr Poltavsky, software developer</title>
+
+  <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+  <meta http-equiv="Cache-Control" content="no-store" />
+
+  <link rel="stylesheet" type="text/css" href="css/common.css" />
+  <link rel="stylesheet" href="highlight/styles/hybrid.css">
+
+</HEAD>
+
+<BODY> 
+
+<div id="wrap">
+
+  <!-- header part -->
+
+  <div id="header">
+
+    <a href="/energia-buran.html">
+      <img width="160" src="images/alexandr-poltavsky-avatar.jpeg" title="Energia-Buran Military Space System" align="left"/>
+    </a>
+    <strong>
+      Personal blog of Alexandr Poltavsky. <br/> 
+      Software developer. <em>alexpolt&#64;yandex.ru</em><br/>
+    </strong>
+    <ul id="menu">
+      <li><a href="/">Contents</a></li>
+      <li><a href="https://github.com/alexpolt/">Github</a></li>
+    </ul>
+
+  </div>
+
+
+  <div id="content" style="clear: left">
+
+  <!-- here goes the main content -->
+
+<h2>Introducing DFAA antialiasing algorithm</h2>
+
+<p>Aliasing is a longstanding problem in computer graphics. To date a lot of different 
+  algorithms have been developed. These are just some of them: SSAA, MSAA, CSAA, MLAA, FXAA etc.</p>
+
+<p>In graphics we have to deal with spatial aliasing. Here is a depiction (sorry for quality):</p>
+
+<p><center><img src="images/spatial-aliasing.png" alt="" title="" /></center></p>
+
+<p>You can see from the second and third examples in the figure that having proper pixel color 
+  can provide important information to our brain. This becomes even more crucial in VR.
+  As I was thinking about aliasing from this perspective has resulted in an interesting 
+  question: what if we somehow store the geometry information of the polygon and reuse it pixel
+  shader?</p>
+
+<p>After iterating through a number of options (store edge equations in some form) I
+  realized that all we need is already in our hands. I have already been toying with
+  the [0,0], [1,0], [0,1] coordinate system (Barycentric coordinate system) in the past.
+  So, the first step in the DFAA algorithm is to assign the Barycentric coordinate system
+  to the polygon. This is easily done with vertex id (but you can always provide uv's for that).
+  So for SM3.0 the code looks like this (no integers):</p>
+
+<pre><code>//Barycentrics
+static float2 uv01[] = { {0,0}, {1,0}, {0,1} };
+...
+//No SV_VertexID, get vertex id it from buffer
+out.uv01 = uv01[ vertex_id - 3 * floor(vertex_id/3) ];
+</code></pre>
+
+<p>That's all for the vertex shader. The pixel shader part is done in two steps. In the first step
+  we use the provided Barycentrics and compute three values: direction of sampling and coverage.
+  Picture here will make it easy for you to understand the code of the shader.</p>
+
+<p><center><img src="images/dfaa-algorithm.png" alt="" title="" /></center></p>
+
+<p>Here is the shader function:</p>
+
+<pre><code>static const float pi2 = 2 * 3.1415926;
+
+float2 dfaa( float2 uv01 ) {
+
+  float2 uvdx = ddx( uv01 );
+  float2 uvdy = ddy( uv01 );
+
+  //area - coverage, (steps+1)^2 - total number of samples, rad - radius of sampling
+
+  float area=0, steps=4, rad=0.5;
+
+  for(float y=0; y&lt;=steps; y++) {
+    for(float x=0; x&lt;=steps; x++) {
+      float2 dxdy = float2( 2*rad*x/steps - rad, 2*rad*y/steps - rad );
+      float2 edge = uv01 + uvdx * dxdy.x  + uvdy * dxdy.y;
+      // if we are out of the triangle - increase by one the non-coverage
+      if( edge.x &lt; 0 || edge.y &lt; 0 || ( edge.x + edge.y ) &gt; 1 ) area++;
+    }   
+  }
+
+  //get coverage
+  area = 1 - area / pow(steps+1, 2);
+
+  //the next big step is to compute the direction of sampling
+  //we get the inverse matrix and compute the edge vectors of the polygon
+  //then we break the polygon into three independent parts by medians
+  //and get the right edge, then rotate it by 90 degrees
+
+  float2 dir;
+  float2 uvdx2 = normalize( uvdx ), uvdy2 = normalize( uvdy );
+
+  float det = 1 / ( uvdx2.x * uvdy2.y - uvdx2.y * uvdy2.x );
+  float2 xydu = det * float2( uvdy2.y, -uvdx2.y );
+  float2 xydv = det * float2( -uvdy2.x, uvdx2.x );
+
+  float2 z = float2( xydv - xydu );
+  if( uv01.y &gt; uv01.x &amp;&amp; (uv01.y+2*uv01.x) &lt; 1 ) dir = float2( -xydv.y, xydv.x );
+  else if( uv01.x &gt; uv01.y &amp;&amp; (uv01.x+2*uv01.y) &lt; 1 ) dir = float2( xydu.y, -xydu.x );
+  else dir = float2( z.y, -z.x );
+
+  dir = cross( float3(xydu, 0), float3(xydv, 0) ).z &gt; 0 ? dir : -dir;
+
+  //encode direction as an angle
+  float dir_atan = atan2( dir.y, dir.x );
+  float dir_angle = ( dir_atan &lt; 0 ? dir_atan + pi2 : dir_atan ) / pi2;
+
+  return float2( dir_angle, area );
+}
+</code></pre>
+
+<p>As you see, we need 16 bytes of additional information. That's the cost of this method.
+ After getting that information in a framebuffer we need to make a fullscreen pass to perform
+ antialiasing. We do that by lerping between two colors: current and the one sampled along 
+ the computed direction.</p>
+
+<pre><code>sampler tex0 : register(s0);
+sampler tex1 : register(s1);
+
+static const float pi2 = 2 * 3.1415926;
+
+float4 main( float2 screenxy : TEXCOORD0 ) : COLOR0 {
+
+  float4 color0 = tex2D( tex0, screenxy );
+  float2 dfaa = tex2D( tex1, screenxy ).xy;
+  float area = dfaa.y;
+  //decode direction, angle of 0 is valid, so we need this area &gt; 0 check
+  float2 dir = area &gt; 0 ? float2( cos( dfaa.x * pi2 ), sin( dfaa.x * pi2 ) ) : 0;
+  float2 sdx = ddx( screenxy );
+  float2 sdy = ddy( screenxy );
+
+  float4 color1 = tex2D(tex0, screenxy + sdx*dir.x + sdy*dir.y );
+
+  float4 color = lerp( color1, color0, area );
+
+  return float4( color.rgb, 1 );
+}
+</code></pre>
+
+<p>So that's it. I provide a <a href="https://github.com/alexpolt/DFAA">GitHub repository</a> with the two pixel 
+ shaders. I also put there a 32-bit small windows demo. </p>
+
+<p><em>Would be nice to see DFAA being used in real games.</em></p>
+
+
+<script src="highlight/highlight.pack.js"></script>
+<script>
+  hljs.configure({languages: ["C++"]});
+  hljs.initHighlightingOnLoad();
+</script>
+
+
+<div id="disqus_thread"></div>
+<script>
+    /**
+     *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+     *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables
+     */
+    /*
+    var disqus_config = function () {
+        this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+        this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+    };
+    */
+    if( ! document.getElementById("contents") ) // alexpolt: exclude main page with contents
+    (function() {  // DON'T EDIT BELOW THIS LINE
+        var d = document, s = d.createElement('script');
+        
+        s.src = '//alexpolt-github-io.disqus.com/embed.js';
+        
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
+
+
+  </div> <!-- end content -->
+
+</div> <!-- end wrap -->
+
+
+
+<!-- Google Analytics -->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-75341409-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+</BODY>
+

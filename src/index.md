@@ -1,5 +1,10 @@
 
 
+  * [Introducing DFAA antialiasing algorithm](dfaa.html)
+
+    I've come up with a an intresting method for doing antialiasing.
+
+
   * [Using macro kung fu to easier check function return values](macros-checking.html)
 
     Checking multiple function calls with one macro.
