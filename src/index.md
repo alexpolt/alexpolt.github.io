@@ -1,4 +1,10 @@
 
+
+  * [Free Variables Perfect Hashing Algorithm](perfect-hashing.html)
+
+    A generalization and simplification of the CHM Perfect Hashing Algorithm.
+
+
   * [Consistent hashing revisited](random-probing.html)
 
     Consistent hashing is used to balance load in case a bucket (server) goes bad.
