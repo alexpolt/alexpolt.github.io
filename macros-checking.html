@@ -76,8 +76,8 @@ if( FAILED( hr ) )
 #define $check2( $macro, _1, _2 ) $check1( $macro, _1 ) $check1( $macro, _2 )
 #define $check3( $macro, _1, _2, _3 ) $check2( $macro, _1, _2 ) $check1( $macro, _3 )
 
-#define $checkall_( $macro, ... ) $macro( __VA_ARGS__ )
-#define $checkall( ... ) $checkall_( $paste( $check, $numargs(__VA_ARGS__) ), __VA_ARGS__ )
+#define $checkall_( $macro, $check, ... ) $check( $macro, __VA_ARGS__ )
+#define $checkall( $macro, ... ) $checkall_( $macro, $paste( $check, $numargs(__VA_ARGS__) ), __VA_ARGS__ )
 </code></pre>
 
 <p><a href="https://github.com/alexpolt/poetry/blob/master/macros.h">Github</a> <a href="http://ideone.com/Q9uoPV">Ideone</a></p>

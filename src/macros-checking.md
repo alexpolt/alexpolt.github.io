@@ -36,9 +36,9 @@
     #define $check1( $macro, _1 ) $macro( VAR );
     #define $check2( $macro, _1, _2 ) $check1( $macro, _1 ) $check1( $macro, _2 )
     #define $check3( $macro, _1, _2, _3 ) $check2( $macro, _1, _2 ) $check1( $macro, _3 )
-    
-    #define $checkall_( $macro, ... ) $macro( __VA_ARGS__ )
-    #define $checkall( ... ) $checkall_( $paste( $check, $numargs(__VA_ARGS__) ), __VA_ARGS__ )
+
+    #define $checkall_( $macro, $check, ... ) $check( $macro, __VA_ARGS__ )
+    #define $checkall( $macro, ... ) $checkall_( $macro, $paste( $check, $numargs(__VA_ARGS__) ), __VA_ARGS__ )
 
   [Github](https://github.com/alexpolt/poetry/blob/master/macros.h) [Ideone](http://ideone.com/Q9uoPV)
 
