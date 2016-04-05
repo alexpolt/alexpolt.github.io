@@ -21,18 +21,18 @@
     bN = hN( object ) % ts;
 
   We call this N bucket location the free variables. They are so called because we can use a still unoccupied
-  bucket to have. The perfect hash location during hash table lookup is computed as follows:
+  bucket to adjust the resulting value. The perfect hash location during hash table lookup is computed as follows:
 
     perfect_hash_location = hash_table[b1] ^ hash_table[b2] ^ ... ^ hash_table[bN];
 
-  Using *XOR* works really well. And here's how we compute the values in the hash table:
+  Using *XOR* works really well. And here's how we compute the values in the hash table during table construction:
 
     b2 = find_first_free_bucket( b1, b2, ..., bN ); 
     
     //let's assume it is b2 that is unoccupied
     //now we use that b2 to adjust the perfect hash location, computed as shown above
 
-    hash_table[ bfree ] = perfect_hash_location ^ hash_table[b1] ^ ... ^ hash_Table[bN]
+    hash_table[ b2 ] = perfect_hash_location ^ hash_table[b1] ^ ... ^ hash_Table[bN]
     
   The free bucket can be marked as -1 for example (it is implementation detail). Now what remains is - how do
   we handle collision. Well, there two options: increase the number of hash functions or do search in the graph.
@@ -43,7 +43,7 @@
 
   Here is a rough illustration of what the graph looks like for N = 3.
   
-  ![](images\free-variables-N3.png "Free Variables Algorithm for N=3")
+  ![](images/free-variables-N3.png "Free Variables Algorithm for N=3")
 
   Each triangle is on object that is hashed. One object (dark red) has all 3 locations occupied, so we have
   to search for a free variable and, after finding it, propagate the change across the path (the change bubbles).
