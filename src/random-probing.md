@@ -14,13 +14,13 @@ method with random probing. So what you do is something along the lines:
 
     srand( hash( object ) );
 
-    int location = -1;
+    size_t location = -1;
 
     for(size_t i=0; i < number_of_tries; i++) {
 
-      int location = rand() % table_size;
+      location = rand() % table_size;
 
-      if( check_location( location ) ) break; //or if( server_is_online( location ) )
+      if( check_location( location ) ) break; //or if( server_is_online( location ) ) break;
 
     };
 
