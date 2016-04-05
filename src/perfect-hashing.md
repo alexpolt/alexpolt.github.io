@@ -41,7 +41,7 @@
 
 
   The free bucket can be marked as -1 for example (it is implementation detail). Now what remains is - how do
-  we handle the case of no free variables. There two options: either increase the number of hash functions or table 
+  we handle the case of no free variables. There are two options: either increase the number of hash functions or table 
   size to avoid having to deal with such problem, or do search in the graph.  The graph is formed by aliasing buckets.
 
   For N=3 you could have all 3 locations occupied by different values. You need to keep backreferences to 
