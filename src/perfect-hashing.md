@@ -20,7 +20,7 @@
     ... 
     bN = hN( object ) % ts;
 
-  We call this N bucket location the free variables. They are so called because we can use a still unoccupied
+  We call these N bucket locations the free variables. They are so called because we can use a still unoccupied
   bucket to adjust the resulting value. The perfect hash location during hash table lookup is computed as follows:
 
     perfect_hash_location = hash_table[b1] ^ hash_table[b2] ^ ... ^ hash_table[bN];
