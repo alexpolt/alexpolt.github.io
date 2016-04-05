@@ -52,20 +52,20 @@
 <p>You can see from the second and third examples in the figure that having proper pixel color 
   can provide important information to our brain. This becomes even more crucial in VR.
   As I was thinking about aliasing from this perspective has resulted in an interesting 
-  question: what if we somehow store the geometry information of the polygon and reuse it pixel
-  shader?</p>
+  question: what if we somehow store the geometry information of the polygon and reuse it 
+  in a pixel shader?</p>
 
 <p>After iterating through a number of options (store edge equations in some form) I
   realized that all we need is already in our hands. I have already been toying with
   the [0,0], [1,0], [0,1] coordinate system (Barycentric coordinate system) in the past.
   So, the first step in the DFAA algorithm is to assign the Barycentric coordinate system
   to the polygon. This is easily done with vertex id (but you can always provide uv's for that).
-  So for SM3.0 the code looks like this (no integers):</p>
+  So for SM3.0 the code looks like this:</p>
 
 <pre><code>//Barycentrics
 static float2 uv01[] = { {0,0}, {1,0}, {0,1} };
 ...
-//No SV_VertexID, get vertex id it from buffer
+//No SV_VertexID, so get vertex id from buffer
 out.uv01 = uv01[ vertex_id - 3 * floor(vertex_id/3) ];
 </code></pre>
 
