@@ -1,3 +1,4 @@
+
 ##Why we should abandon move constructors and move assignment operators
 
   The title is a bit radical. The things are not that bad, but certainly there are *serious perils*.
@@ -7,13 +8,13 @@
   But it wasn't because of my lack of heed or skill. It was the direct result of having to keep 
   synchronized three places in the code: move constructor/assignment operator and destructor.
 
-  "Show me some code", I hear. So consider this:
+  So consider this:
 
 
     struct test {
-
+    
       ...constructors...
-
+    
       test( test&& other ) : data{ other.data } { //better to always std::move 
         other.data = nullptr; //<------
       }
@@ -23,16 +24,17 @@
         other.data = nullptr; //<------
         return *this;
       }
-
+    
       ~test() {
         if( data ) { //<------
           ...
         }
       }
-
+    
       void *data;
-
+    
     };
+
 
   Three places! Well, okay, minimum two places that you have to keep track of and keep in sync.
   Now, all that pain would be justified if only there were no choice. But we have a choice! 

@@ -5,29 +5,29 @@
     
     #include <vector>
     #include <iostream>
-
+    
     template<class T0, class T1> auto& operator<<( std::vector<T0>& vec, T1&& value ) {
       vec.push_back( std::forward<T1>( value ) );
       return vec;
     }
-
+    
     template<class T0, class T1> auto& operator>>( std::vector<T0>& vec, T1& value ) {
       value = vec.back();
       vec.pop_back();
       return vec;
     }
-
-
+    
+    
     int main() {
-
+    
       std::vector<int> v{1,2,3};
       int i{};
       
       for(auto i : v) std::cout << i <<" ";
       std::cout << std::endl;
-
+      
       v << 4 << 5;
-
+      
       for(auto i : v) std::cout << i <<" ";
       std::cout << std::endl;
       
@@ -38,9 +38,9 @@
       std::cout << std::endl;
       
     } 
-
+    
     Output:
-
+    
     1 2 3 
     1 2 3 4 5 
     i = 5

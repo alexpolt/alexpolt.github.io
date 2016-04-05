@@ -15,7 +15,7 @@
         void operator()( T0 data_ ) {
           data = static_cast<T0&&>( data_ ); //data_ is always a copy, so move it
         }
-
+    
         T0 data;
     };
     
@@ -34,8 +34,6 @@
       printf( "data = %d\n", t0.data() );
       
     }
-    
-
 
   [Github](https://github.com/alexpolt/poetry/blob/master/cpp-properties.cpp) [Ideone](http://ideone.com/oAUNuO)
 

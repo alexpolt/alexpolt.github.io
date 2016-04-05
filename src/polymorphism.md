@@ -11,12 +11,12 @@
         if(a > 5) {
           if(a < 100 ) {
              ...
-
+    
         //now what if we turned our 'a' into a set of polymorphic types
         //then we could write such code
-
+    
         a.do_things();
-  
+
   You see the pattern? Polymorphism makes our code more functional. Functional code is, in fact, 
   highly polymorphic. It's just wraps the polymorphism in a different style (pattern matching is 
   one such technique).
