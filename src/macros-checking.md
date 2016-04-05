@@ -46,7 +46,8 @@
   Now we use it for the above DirectX calls like this:
 
 
-    $checkall(  g_pd3dDevice->CreateTexture( ... )
+    $checkall( FAILED
+               ,g_pd3dDevice->CreateTexture( ... )
                ,g_pd3dDevice->CreateTexture( ... )
                ,g_pd3dDevice->CreateTexture( ... ) 
              );

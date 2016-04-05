@@ -84,7 +84,8 @@ if( FAILED( hr ) )
 
 <p>Now we use it for the above DirectX calls like this:</p>
 
-<pre><code>$checkall(  g_pd3dDevice-&gt;CreateTexture( ... )
+<pre><code>$checkall( FAILED
+           ,g_pd3dDevice-&gt;CreateTexture( ... )
            ,g_pd3dDevice-&gt;CreateTexture( ... )
            ,g_pd3dDevice-&gt;CreateTexture( ... ) 
          );
