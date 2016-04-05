@@ -1,5 +1,10 @@
 
 
+  * [Using macro kung fu to easier check function return values](macros-checking.html)
+
+    Checking multiple function calls with one macro.
+
+
   * [**Why we should abandon move constructors and move assignment operators**](empty-value.html)
 
     The title is a bit radical. The things are not that bad, but certainly there are problematic places.
