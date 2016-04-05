@@ -2,7 +2,7 @@
 
   The title is a bit radical. The things are not that bad, but certainly there are *serious perils*.
 
-  Doing some programing with extensive use of move semantics I had several major bugs due to being 
+  Doing some programming with extensive use of move semantics I had several major bugs due to being 
   sloppy in my handling of object state in move constructors/assignment operators and destructors.
   But it wasn't because of my lack of heed or skill. It was the direct result of having to keep 
   synchronized three places in the code: move constructor/assignment operator and destructor.
@@ -47,7 +47,7 @@
   move constructors and move assignment operators. Let's just introduce the rule (sorry for the 
   lame language):
 
-> *And empty value is an r-value after being bound to a function parameter in a function call and 
+> *Any empty value is an r-value after being bound to a function parameter in a function call and 
 > the end of the function call. If the class of the empty value object doesn't have a user-defined 
 > move constructor then skip destructing that object.*
 
