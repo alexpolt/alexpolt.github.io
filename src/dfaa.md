@@ -58,7 +58,7 @@
     
     //Implementation of the DFAA algorithm
     //should be fed with a [0,0],[1,0],[0,1] UV
-    //return one byte with packed direction and coverage
+    //returns one byte with packed direction and coverage
     
     float DFAA( float2 uv01 ) {
       
