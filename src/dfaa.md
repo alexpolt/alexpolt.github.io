@@ -100,7 +100,7 @@
     }
 
 
-  As you see, we need 16 bytes of additional information. That's the cost of this method.
+  As you see, we need 2 bytes of additional information. That's the cost of this method.
   After getting that information in a framebuffer we need to make a fullscreen pass to perform
   antialiasing. We do that by lerping between two colors: current and the one sampled along 
   the computed direction and using computed coverage info.
