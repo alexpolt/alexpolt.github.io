@@ -43,22 +43,31 @@
   <center>![](images/dfaa-algorithm.png)</center>
 
 
-  Here is the shader function:
+  Here is the first pass shader function:
 
-    static const float pi2 = 2 * 3.1415926;
+
+    static const float pi2 = 2*3.1415926;
     
-    float2 dfaa( float2 uv01 ) {
+    //rad - radius of sampling, 0.5 half-pixel
+    static float rad = 0.5;
+    
+    //steps is hardcoded to 3 to pack DFAA into one byte
+    //(steps+1)^2 - total number of steps
+    static float steps = 3;
+    
+    
+    //Implementation of the DFAA algorithm
+    //should be fed with a [0,0],[1,0],[0,1] UV
+    //return one byte with packed direction and coverage
+    
+    float DFAA( float2 uv01 ) {
       
       float2 uvdx = ddx( uv01 );
       float2 uvdy = ddy( uv01 );
       
-      //area - coverage, (steps+1)^2 - total number of samples, rad - radius of sampling
-      //steps=3 is a good starting point
+      float area=0;
       
-      float area=0, steps=3, rad=0.5;
-      
-      //sampling and calculating coverage
-      //tried direct distance computation, but that didn't work out
+      //compute non-coverage
       
       for(float y=0; y<=steps; y++) {
         for(float x=0; x<=steps; x++) {
@@ -66,10 +75,10 @@
           float2 edge = uv01 + uvdx * dxdy.x  + uvdy * dxdy.y;
           // if we are out of the triangle - increase by one the non-coverage
           if( edge.x < 0 || edge.y < 0 || ( edge.x + edge.y ) > 1 ) area++;
-        }	
+        } 
       }
       
-      //get coverage
+      //get actual coverage
       area = 1 - area / pow(steps+1, 2);
       
       //the next big step is to compute the direction of sampling
@@ -96,28 +105,35 @@
       float dir_atan = atan2( dir.y, dir.x );
       float dir_angle = ( dir_atan < 0 ? dir_atan + pi2 : dir_atan ) / pi2;
       
-      return float2( dir_angle, area );
+      //pack into one byte
+      float dfaa =  ( floor(15*dir_angle)*16 + 15*area ) / 255;
+      
+      return dfaa;
+    
     }
 
 
-  As you see, we need 2 bytes of additional information. That's the cost of this method.
+  As you see, all we need is **1 byte** of information per pixel. That's the cost of this method.
   After getting that information in a framebuffer we need to make a fullscreen pass to perform
   antialiasing. We do that by lerping between two colors: current and the one sampled along 
   the computed direction and using computed coverage info.
 
 
-    sampler tex0 : register(s0); //pixel to display
-    sampler tex1 : register(s1); //direction and coverage
+    //pixel to display and packed DFAA in alpha
+    sampler tex0 : register(s0); 
     
-    static const float pi2 = 2 * 3.1415926;
+    static const float pi2 = 2*3.1415926;
     
     float4 main( float2 screenxy : TEXCOORD0 ) : COLOR0 {
-    
+      
       float4 color0 = tex2D( tex0, screenxy );
-      float2 dfaa = tex2D( tex1, screenxy ).xy;
-      float area = dfaa.y;
-      //decode direction
-      float2 dir = float2( cos( dfaa.x * pi2 ), sin( dfaa.x * pi2 ) );
+      float dfaa = color0.w;
+      
+      //unpack
+      float dir_angle = floor(255*dfaa/16)/15;
+      float2 dir = float2( cos( dir_angle * pi2 ), sin( dir_angle * pi2 ) );
+      float area = frac(255*dfaa/16)*16/15;
+      
       float2 sdx = ddx( screenxy );
       float2 sdy = ddy( screenxy );
       
@@ -127,9 +143,9 @@
       if( area > 0 && area < 1 ) 
         color1 = tex2D(tex0, screenxy + sdx*dir.x + sdy*dir.y );
       
-      float4 color = lerp( color1, color0, area );
+      float3 color = lerp( color1, color0, area ).rgb;
       
-      return float4( color.rgb, 1 );
+      return float4( color, 1 );
     }
 
 
