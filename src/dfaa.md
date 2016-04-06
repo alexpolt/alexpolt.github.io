@@ -93,8 +93,8 @@
  the computed direction.
 
 
-    sampler tex0 : register(s0);
-    sampler tex1 : register(s1);
+    sampler tex0 : register(s0); //diffuse
+    sampler tex1 : register(s1); //direction and coverage
 
     static const float pi2 = 2 * 3.1415926;
     

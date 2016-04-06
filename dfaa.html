@@ -135,8 +135,8 @@ float2 dfaa( float2 uv01 ) {
  antialiasing. We do that by lerping between two colors: current and the one sampled along 
  the computed direction.</p>
 
-<pre><code>sampler tex0 : register(s0);
-sampler tex1 : register(s1);
+<pre><code>sampler tex0 : register(s0); //diffuse
+sampler tex1 : register(s1); //direction and coverage
 
 static const float pi2 = 2 * 3.1415926;
 
