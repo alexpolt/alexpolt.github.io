@@ -31,7 +31,11 @@
     out.uv01 = uv01[ vertex_id - 3 * floor(vertex_id/3) ];
 
 
-  That's all for the vertex shader. The pixel shader part is done in two steps. In the first step
+  It may not be always possible to easy provide each polygon with such coordinates. In that
+  case some preprocessing may be necessary. Having such polygons is not critical, it will
+  only affect DFAA action on that polygon.
+  
+  The pixel shader part is done in two steps. In the first step
   we use the provided Barycentrics and compute three values: direction of sampling and coverage.
   Picture here will make it easy for you to understand the code of the shader.
 
