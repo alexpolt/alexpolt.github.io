@@ -55,11 +55,13 @@
   if we somehow store the geometry information of the polygon and reuse it in a pixel shader?</p>
 
 <p>After iterating through a number of options (store edge equations in some form) I
-  realized that all we need is already in our hands. I have already been toying with
-  the [0,0], [1,0], [0,1] coordinate system (Barycentric coordinate system) in the past.
-  So, the first step in the DFAA algorithm is to assign the Barycentric coordinate system
-  to the polygon. This is easily done with vertex id (but you can always provide uv's for that).
-  So for SM3.0 the code looks like this:</p>
+  realized that all we need is already available to us: derivatives coupled with Barycentric
+  coordinates. I have already been toying with the [0,0], [1,0], [0,1] coordinate system 
+  in the past, and I know other people also used it for things like wireframe rendering.</p>
+
+<p>So, the first step in the DFAA algorithm is to assign the Barycentric coordinate system
+  to the polygon. This is easily done with the vertex id (but you can always provide uv's for 
+  that). For HLSL SM3.0 the code looks like this:</p>
 
 <pre><code>//Barycentrics
 static float2 uv01[] = { {0,0}, {1,0}, {0,1} };
