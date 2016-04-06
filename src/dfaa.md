@@ -130,7 +130,7 @@
 
 
   So that's it. I provide a [GitHub repository](https://github.com/alexpolt/DFAA) with the two pixel 
-  shaders. I also put there a 32-bit small windows demo and a RenderMoney project. In the RenderMonkey
+  shaders. I also put there a small windows demo and a RenderMonkey project. In the RenderMonkey
   project you have convenient knobs on the right to turn on/off DFAA and see the difference.
 
   Here is a zoomed in screenshot of the DFAA at work.
