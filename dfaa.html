@@ -132,9 +132,9 @@ float2 dfaa( float2 uv01 ) {
 </code></pre>
 
 <p>As you see, we need 16 bytes of additional information. That's the cost of this method.
- After getting that information in a framebuffer we need to make a fullscreen pass to perform
- antialiasing. We do that by lerping between two colors: current and the one sampled along 
- the computed direction and using computed coverage info.</p>
+  After getting that information in a framebuffer we need to make a fullscreen pass to perform
+  antialiasing. We do that by lerping between two colors: current and the one sampled along 
+  the computed direction and using computed coverage info.</p>
 
 <pre><code>sampler tex0 : register(s0); //pixel to display
 sampler tex1 : register(s1); //direction and coverage
@@ -160,12 +160,13 @@ float4 main( float2 screenxy : TEXCOORD0 ) : COLOR0 {
 </code></pre>
 
 <p>So that's it. I provide a <a href="https://github.com/alexpolt/DFAA">GitHub repository</a> with the two pixel 
- shaders. I also put there a 32-bit small windows demo. In the demo you can press 'Z' to have a 
- zoomed image. Here is not the best screenshot of the DFAA at work.</p>
+  shaders. I also put there a 32-bit small windows demo. In the demo you can press 'Z' to have a 
+  zoomed image. Here is not the best screenshot of the DFAA at work.</p>
 
 <p><center><img src="images/dfaa-demo.png" alt="" title="DFAA at work" /></center> </p>
 
-<p><em>Would be nice to see DFAA being used in real games.</em></p>
+<p>It seems like that approach could also help improve shadow quality. Would be nice to see DFAA 
+  being used in real games.</p>
 
 
 <script src="highlight/highlight.pack.js"></script>

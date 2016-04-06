@@ -5,7 +5,9 @@
   
   In graphics we have to deal with spatial aliasing. Here is a depiction (sorry for quality):
 
+
   <center>![](images/spatial-aliasing.png)</center>
+
 
   You can see from the second and third examples in the figure that having proper pixel color 
   can provide important information to our brain. This becomes even more crucial in VR.
@@ -21,18 +23,22 @@
   to the polygon. This is easily done with the vertex id (but you can always provide uv's for 
   that). For HLSL SM3.0 the code looks like this:
 
+
     //Barycentrics
     static float2 uv01[] = { {0,0}, {1,0}, {0,1} };
     ...
     //No SV_VertexID, so get vertex id from buffer
     out.uv01 = uv01[ vertex_id - 3 * floor(vertex_id/3) ];
 
+
   That's all for the vertex shader. The pixel shader part is done in two steps. In the first step
   we use the provided Barycentrics and compute three values: direction of sampling and coverage.
   Picture here will make it easy for you to understand the code of the shader.
-  
+
+
   <center>![](images/dfaa-algorithm.png)</center>
-  
+
+
   Here is the shader function:
 
     static const float pi2 = 2 * 3.1415926;
@@ -88,10 +94,10 @@
     }
 
 
- As you see, we need 16 bytes of additional information. That's the cost of this method.
- After getting that information in a framebuffer we need to make a fullscreen pass to perform
- antialiasing. We do that by lerping between two colors: current and the one sampled along 
- the computed direction and using computed coverage info.
+  As you see, we need 16 bytes of additional information. That's the cost of this method.
+  After getting that information in a framebuffer we need to make a fullscreen pass to perform
+  antialiasing. We do that by lerping between two colors: current and the one sampled along 
+  the computed direction and using computed coverage info.
 
 
     sampler tex0 : register(s0); //pixel to display
@@ -116,14 +122,17 @@
       return float4( color.rgb, 1 );
     }
 
- So that's it. I provide a [GitHub repository](https://github.com/alexpolt/DFAA) with the two pixel 
- shaders. I also put there a 32-bit small windows demo. In the demo you can press 'Z' to have a 
- zoomed image. Here is not the best screenshot of the DFAA at work.
 
- <center>![](images/dfaa-demo.png "DFAA at work")</center> 
+  So that's it. I provide a [GitHub repository](https://github.com/alexpolt/DFAA) with the two pixel 
+  shaders. I also put there a 32-bit small windows demo. In the demo you can press 'Z' to have a 
+  zoomed image. Here is not the best screenshot of the DFAA at work.
 
 
- *Would be nice to see DFAA being used in real games.*
+  <center>![](images/dfaa-demo.png "DFAA at work")</center> 
+
+
+  It seems like that approach could also help improve shadow quality. Would be nice to see DFAA 
+  being used in real games.
 
 
 
