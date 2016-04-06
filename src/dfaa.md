@@ -47,6 +47,7 @@
       float area=0, steps=4, rad=0.5;
 
       //sampling and calculating coverage
+      //tried direct distance computation, but that didn't work out
 
       for(float y=0; y<=steps; y++) {
         for(float x=0; x<=steps; x++) {
@@ -90,7 +91,7 @@
  As you see, we need 16 bytes of additional information. That's the cost of this method.
  After getting that information in a framebuffer we need to make a fullscreen pass to perform
  antialiasing. We do that by lerping between two colors: current and the one sampled along 
- the computed direction.
+ the computed direction and using computed coverage info.
 
 
     sampler tex0 : register(s0); //pixel to display
