@@ -9,9 +9,8 @@
 
   You can see from the second and third examples in the figure that having proper pixel color 
   can provide important information to our brain. This becomes even more crucial in VR.
-  As I was thinking about aliasing from this perspective has resulted in an interesting 
-  question: what if we somehow store the geometry information of the polygon and reuse it 
-  in a pixel shader?
+  Thinking about aliasing in that direction got me to an interesting idea: what 
+  if we somehow store the geometry information of the polygon and reuse it in a pixel shader?
 
   After iterating through a number of options (store edge equations in some form) I
   realized that all we need is already in our hands. I have already been toying with
