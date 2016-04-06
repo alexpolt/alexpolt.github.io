@@ -40,7 +40,7 @@
   Now, all that pain would be justified if only there were no choice. But we have a choice! 
   So here is my idea. 
 
-> *If we make the firm statement that a bind to an r-value parameter is always followed by a move 
+> *If we make the firm statement that a bind to an r-ref parameter is always followed by a move 
 > (sensible requirement), then we can assume that the r-value has become an empty value. So don't 
 > call a destructor on such a value.*
 
@@ -49,7 +49,7 @@
   move constructors and move assignment operators. Let's just introduce the rule (sorry for the 
   lame language):
 
-> *Any empty value is an r-value after being bound to an r-value function parameter in a function 
+> *Any empty value is an r-value after being bound to an r-ref function parameter in a function 
 > call and the end of the function call. If the class of the empty value object doesn't have 
 > a user-defined move constructor then skip destructing that object.*
 
