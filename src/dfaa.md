@@ -49,12 +49,13 @@
       float2 uvdy = ddy( uv01 );
       
       //area - coverage, (steps+1)^2 - total number of samples, rad - radius of sampling
+      //steps=3 is a good starting point
       
-      float area=0, steps=4, rad=0.5;
-
+      float area=0, steps=3, rad=0.5;
+      
       //sampling and calculating coverage
       //tried direct distance computation, but that didn't work out
-
+      
       for(float y=0; y<=steps; y++) {
         for(float x=0; x<=steps; x++) {
           float2 dxdy = float2( 2*rad*x/steps - rad, 2*rad*y/steps - rad );
@@ -84,12 +85,13 @@
       else if( uv01.x > uv01.y && (uv01.x+2*uv01.y) < 1 ) dir = float2( xydu.y, -xydu.x );
       else dir = float2( z.y, -z.x );
       
+      //so that we don't have to worry about winding of uv's
       dir = cross( float3(xydu, 0), float3(xydv, 0) ).z > 0 ? dir : -dir;
-
+      
       //encode direction as an angle
       float dir_atan = atan2( dir.y, dir.x );
       float dir_angle = ( dir_atan < 0 ? dir_atan + pi2 : dir_atan ) / pi2;
-
+      
       return float2( dir_angle, area );
     }
 
@@ -102,7 +104,7 @@
 
     sampler tex0 : register(s0); //pixel to display
     sampler tex1 : register(s1); //direction and coverage
-
+    
     static const float pi2 = 2 * 3.1415926;
     
     float4 main( float2 screenxy : TEXCOORD0 ) : COLOR0 {
