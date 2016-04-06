@@ -43,7 +43,9 @@
       //area - coverage, (steps+1)^2 - total number of samples, rad - radius of sampling
       
       float area=0, steps=4, rad=0.5;
-      
+
+      //sampling and calculating coverage
+
       for(float y=0; y<=steps; y++) {
         for(float x=0; x<=steps; x++) {
           float2 dxdy = float2( 2*rad*x/steps - rad, 2*rad*y/steps - rad );
