@@ -49,7 +49,7 @@
   to abandon our beloved move constructors and move assignment operators. Let's just introduce 
   the rule (sorry for the lame language):
 
-> *Any empty value is an r-value after being bound to an r-value reference function parameter 
+> *An empty value is an r-value after being bound to an r-value reference function parameter 
 > in a function call and the end of the function call. If the class of the empty value object 
 > doesn't have a user-defined move constructor then skip destructing that object.*
 
