@@ -130,8 +130,10 @@
 
 
   So that's it. I provide a [GitHub repository](https://github.com/alexpolt/DFAA) with the two pixel 
-  shaders. I also put there a 32-bit small windows demo. In the demo you can press 'Z' to have a 
-  zoomed image. Here is a zoomed in screenshot of the DFAA at work.
+  shaders. I also put there a 32-bit small windows demo and a RenderMoney project. In the RenderMonkey
+  project you have convenient knobs on the right to turn on/off DFAA and see the difference.
+
+  Here is a zoomed in screenshot of the DFAA at work.
 
 
   <center>![](images/dfaa-demo.png "DFAA at work")</center> 
