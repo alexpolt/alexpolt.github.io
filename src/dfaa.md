@@ -116,7 +116,7 @@
  shaders. I also put there a 32-bit small windows demo. In the demo you can press 'Z' to have a 
  zoomed image. Here is not the best screenshot of the DFAA at work.
 
- <center>[](images/dfaa-demo.png "DFAA at work")</center> 
+ <center>![](images/dfaa-demo.png "DFAA at work")</center> 
 
 
  *Would be nice to see DFAA being used in real games.*
