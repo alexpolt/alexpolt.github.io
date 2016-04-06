@@ -87,9 +87,9 @@ So don't call a destructor on such a value.</em></p>
 </blockquote>
 
 <p>Do you see? If we have that rule, then suddenly you don't need any of that mess with checking 
-  <code>if( data ) blah blah</code>. Just do normal destructor. Okay. We don't have to abandon our beloved 
-  move constructors and move assignment operators. Let's just introduce the rule (sorry for the 
-  lame language):</p>
+  <code>if( data ) blah blah</code> (at least the part related to move implementation). Okay. We don't have 
+  to abandon our beloved move constructors and move assignment operators. Let's just introduce 
+  the rule (sorry for the lame language):</p>
 
 <blockquote>
   <p><em>Any empty value is an r-value after being bound to an r-value reference function parameter 

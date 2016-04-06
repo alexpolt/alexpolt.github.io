@@ -45,9 +45,9 @@
 > So don't call a destructor on such a value.*
 
   Do you see? If we have that rule, then suddenly you don't need any of that mess with checking 
-  `if( data ) blah blah`. Just do normal destructor. Okay. We don't have to abandon our beloved 
-  move constructors and move assignment operators. Let's just introduce the rule (sorry for the 
-  lame language):
+  `if( data ) blah blah` (at least the part related to move implementation). Okay. We don't have 
+  to abandon our beloved move constructors and move assignment operators. Let's just introduce 
+  the rule (sorry for the lame language):
 
 > *Any empty value is an r-value after being bound to an r-value reference function parameter 
 > in a function call and the end of the function call. If the class of the empty value object 
