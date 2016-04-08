@@ -48,16 +48,15 @@
 
     static const float pi2 = 2*3.1415926;
     
-    //rad - radius of sampling, 0.5 means half-pixel
-    static float rad = 0.5;
-    
-    //(steps+1)^2 - total number subsamples for coverage computation
-    static float steps = 3;
-    
     
     //Implementation of the DFAA algorithm
     //should be fed with a [0,0],[1,0],[0,1] UV
     //returns one byte with packed direction and coverage
+    
+    
+    static float rad = 0.5; //rad - radius of sampling, 0.5 means half-pixel
+    static float steps = 3; //(steps+1)^2 - total number subsamples for coverage computation
+    
     
     float DFAA( float2 uv01 ) {
       
@@ -125,15 +124,18 @@
     
     static const float pi2 = 2*3.1415926;
     
-    float4 main( float2 screenxy : TEXCOORD0 ) : COLOR0 {
-      
-      float4 color0 = tex2D( tex0, screenxy );
-      float dfaa = color0.w;
+    #define dfaa_screen_texture tex0
+    #define dfaa_tex2D tex2D
+    
+    float3 DFAA( float2 screenxy ) {
+    
+      float4 color0 = dfaa_tex2D( dfaa_screen_texture, screenxy );
+      float dfaa_packed = color0.a;
       
       //unpack
-      float dir_angle = floor(255*dfaa/16)/15;
+      float dir_angle = floor(255*dfaa_packed/16)/15;
       float2 dir = float2( cos( dir_angle * pi2 ), sin( dir_angle * pi2 ) );
-      float area = frac(255*dfaa/16)*16/15;
+      float area = frac(255*dfaa_packed/16)*16/15;
       
       float2 sdx = ddx( screenxy );
       float2 sdy = ddy( screenxy );
@@ -142,11 +144,9 @@
       
       //only do fetch if necessary (edge pixels)
       if( area > 0 && area < 1 ) 
-        color1 = tex2D(tex0, screenxy + sdx*dir.x + sdy*dir.y );
+        color1 = dfaa_tex2D( dfaa_screen_texture, screenxy + sdx*dir.x + sdy*dir.y );
       
-      float3 color = lerp( color1, color0, area ).rgb;
-      
-      return float4( color, 1 );
+      return lerp( color1, color0, area ).rgb;
     }
 
 
