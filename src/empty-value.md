@@ -67,36 +67,47 @@
     #include <utility>
     
     
+    //simple class A that accepts some pointer
+
     struct A {
+
       A( int *data_ ) : data{ data_ } {}
+
       A( A&& other ) : data{ other.data } {
+
         printf("Call to A( A&& )\n");
-        other.data = nullptr; //<----------
+
+        other.data = nullptr; //<--- moved and nulled
+
       }
-      ~A(){}
+
+      ~A(){ }
       
       int *data;
     };
 
+    //B inherist from A and supplies it with pointer
     
     struct B : A {
-      B() : A{ new int{1} } {}
-      B( B&& other ) : A{ std::move(other) } {
-        printf("Call to B( B&& )\n");
-      }
+
+      B() : A{ new int{1} }  { }
+
+      B( B&& other ) : A{ std::move(other) }  { }
+
       ~B(){ 
-        if( ! A::data )
-          printf("CRASH!\n");
-        else printf("OK!\n");
+        if( !A::data ) <--- never should happen
+              printf("CRASH!\n");
+        else  printf("OK!\n");
 
         //delete A::data;
       }
     };
     
     
-    void test( A&& object ) { //<--------- should we allow binding of r-value of B to A&& ? It's worse than slicing.
-      printf("Call to test( A&& )\n");
+    void test( A&& object ) { //<--- should we allow binding of an r-value of B to A&& ? It's worse than slicing.
+
       A a{ std::move( object ) };
+
     }
     
     

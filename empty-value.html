@@ -110,36 +110,47 @@ doesn't have a user-defined move constructor then skip destructing that object.<
 #include &lt;utility&gt;
 
 
+//simple class A that accepts some pointer
+
 struct A {
+
   A( int *data_ ) : data{ data_ } {}
+
   A( A&amp;&amp; other ) : data{ other.data } {
+
     printf("Call to A( A&amp;&amp; )\n");
-    other.data = nullptr; //&lt;----------
+
+    other.data = nullptr; //&lt;--- moved and nulled
+
   }
-  ~A(){}
+
+  ~A(){ }
 
   int *data;
 };
 
+//B inherist from A and supplies it with pointer
 
 struct B : A {
-  B() : A{ new int{1} } {}
-  B( B&amp;&amp; other ) : A{ std::move(other) } {
-    printf("Call to B( B&amp;&amp; )\n");
-  }
+
+  B() : A{ new int{1} }  { }
+
+  B( B&amp;&amp; other ) : A{ std::move(other) }  { }
+
   ~B(){ 
-    if( ! A::data )
-      printf("CRASH!\n");
-    else printf("OK!\n");
+    if( !A::data ) &lt;--- never should happen
+          printf("CRASH!\n");
+    else  printf("OK!\n");
 
     //delete A::data;
   }
 };
 
 
-void test( A&amp;&amp; object ) { //&lt;--------- should we allow binding of r-value of B to A&amp;&amp; ? It's worse than slicing.
-  printf("Call to test( A&amp;&amp; )\n");
+void test( A&amp;&amp; object ) { //&lt;--- should we allow binding of an r-value of B to A&amp;&amp; ? It's worse than slicing.
+
   A a{ std::move( object ) };
+
 }
 
 
