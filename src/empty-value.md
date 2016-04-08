@@ -118,6 +118,8 @@
     }
 
 
-  [Ideone](http://ideone.com/yOcawV)
+  [Ideone](http://ideone.com/yOcawV) 
+  
+  No warnings in Clang 3.8.0 or GCC 5.3.0: [Godbolt](https://godbolt.org/g/eVbFBs)
 
 
