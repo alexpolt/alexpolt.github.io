@@ -95,7 +95,7 @@
       B( B&& other ) : A{ std::move(other) }  { }
 
       ~B(){ 
-        if( !A::data ) <--- never should happen
+        if( !A::data ) //<--- never should happen
               printf("CRASH!\n");
         else  printf("OK!\n");
 

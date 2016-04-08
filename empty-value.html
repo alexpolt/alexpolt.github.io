@@ -138,7 +138,7 @@ struct B : A {
   B( B&amp;&amp; other ) : A{ std::move(other) }  { }
 
   ~B(){ 
-    if( !A::data ) &lt;--- never should happen
+    if( !A::data ) //&lt;--- never should happen
           printf("CRASH!\n");
     else  printf("OK!\n");
 
