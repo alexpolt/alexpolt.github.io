@@ -10,9 +10,9 @@
     Checking multiple function calls with one macro.
 
 
-  * [**Why we should abandon move constructors and move assignment operators**](empty-value.html)
+  * [**On dangers of C++ move semantics**](empty-value.html)
 
-    The title is a bit radical. The things are not that bad, but certainly there are problematic places.
+    There are certain concerns with how we have to handle the state of objects given the move semantics.
 
 
   * [Free Variables Perfect Hashing Algorithm](perfect-hashing.html)
