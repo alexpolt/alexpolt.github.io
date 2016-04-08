@@ -1,7 +1,5 @@
 
-##Why we should abandon move constructors and move assignment operators
-
-  The title is a bit radical. The things are not that bad, but certainly there are *serious perils*.
+##On dangers of C++ move semantics
 
   Doing some programming with extensive use of move semantics I had several major bugs due to being 
   sloppy in my handling of object state in move constructors/assignment operators and destructors.
@@ -44,20 +42,21 @@
 > by a move (sensible requirement), then we can assume that the r-value has become an empty value. 
 > So don't call a destructor on such a value.*
 
-  If we have that rule, then suddenly you don't need any of the code with checkinh in the 
+  If we have that rule then suddenly you don't need any of the code with checking in the 
   destructor (at least the part related to move implementation). Actually we don't have 
   to ditch move constructors and move assignment operators. Let's just introduce a new rule (sorry 
   for the lame language, I'm not a spec guy):
 
 > *An empty value is an r-value after being bound to an r-value reference function parameter 
 > in a function call and the end of the function call. If the class of the empty value object 
-> doesn't have a user-defined move constructor then skip destructing that object.*
+> doesn't have a user-defined move constructor/move assignment operator then skip destructing 
+> that object.*
 
-  This way the user has a choice (the user can =default the move constructor for example or have 
+  This way the user has the choice (the user can =default the move constructor for example or have 
   implicit one) and avoid extra bugs in their code.
 
   PS. I am really not sure if I haven't missed something important. Would be grateful for any 
-  critique.
+  criticism.
 
   PS2. While writing this post I realized another danger of current state of moving semantics
   in C++. Here is the code:
@@ -84,9 +83,11 @@
       ~A(){ }
       
       int *data;
+
     };
 
-    //B inherist from A and supplies it with pointer
+
+    //B inherist from A and supplies it with a pointer
     
     struct B : A {
 
@@ -101,10 +102,11 @@
 
         //delete A::data;
       }
+
     };
     
     
-    void test( A&& object ) { //<--- should we allow binding of an r-value of B to A&& ? 
+    void test( A&& object ) { //<--- should we allow binding of an r-value of derived B to base A&&? 
 
       A a{ std::move( object ) }; //Worse than slicing.
 
