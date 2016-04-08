@@ -147,9 +147,9 @@ struct B : A {
 };
 
 
-void test( A&amp;&amp; object ) { //&lt;--- should we allow binding of an r-value of B to A&amp;&amp; ? It's worse than slicing.
+void test( A&amp;&amp; object ) { //&lt;--- should we allow binding of an r-value of B to A&amp;&amp; ? 
 
-  A a{ std::move( object ) };
+  A a{ std::move( object ) }; //Worse than slicing.
 
 }
 

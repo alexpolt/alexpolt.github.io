@@ -104,9 +104,9 @@
     };
     
     
-    void test( A&& object ) { //<--- should we allow binding of an r-value of B to A&& ? It's worse than slicing.
+    void test( A&& object ) { //<--- should we allow binding of an r-value of B to A&& ? 
 
-      A a{ std::move( object ) };
+      A a{ std::move( object ) }; //Worse than slicing.
 
     }
     
