@@ -159,9 +159,11 @@ sampler tex0 : register(s0);
 
 static const float pi2 = 2*3.1415926;
 
+//defines used by DFAA
 #define dfaa_screen_texture tex0
 #define dfaa_tex2D tex2D
 
+//DFAA: performs fetch, unpack and lerp
 float3 DFAA( float2 screenxy ) {
 
   float4 color0 = dfaa_tex2D( dfaa_screen_texture, screenxy );
