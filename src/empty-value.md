@@ -59,4 +59,53 @@
   PS. I am really not sure if I haven't missed something important. Would be grateful for any 
   critique.
 
+  PS2. While writing this post I realized another danger of current state of moving semantics
+  in C++. Here is the code:
+
+
+    #include <cstdio>
+    #include <utility>
+    
+    
+    struct A {
+      A( int *data_ ) : data{ data_ } {}
+      A( A&& other ) : data{ other.data } {
+        printf("Call to A( A&& )\n");
+        other.data = nullptr; //<----------
+      }
+      ~A(){}
+      
+      int *data;
+    };
+
+    
+    struct B : A {
+      B() : A{ new int{1} } {}
+      B( B&& other ) : A{ std::move(other) } {
+        printf("Call to B( B&& )\n");
+      }
+      ~B(){ 
+        if( ! A::data )
+          printf("CRASH!\n");
+        else printf("OK!\n");
+
+        //delete A::data;
+      }
+    };
+    
+    
+    void test( A&& object ) { //<--------- should we allow binding of r-value of B to A&& ? It's worse than slicing.
+      printf("Call to test( A&& )\n");
+      A a{ std::move( object ) };
+    }
+    
+    
+    int main() {
+    
+      test( B{} );
+    
+    }
+
+
+  [Ideone](http://ideone.com/yOcawV)
 
