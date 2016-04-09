@@ -35,8 +35,9 @@
   case some preprocessing may be necessary. Having such polygons is not critical, it will
   only affect DFAA action on that polygon.
   
-  The pixel shader part is done in two steps. In the first step
-  we use the provided Barycentrics and compute three values: direction of sampling and coverage.
+  The pixel shader part is done in two steps. In the first step we use the provided Barycentrics 
+  (that should be used with noperspective modifier for correctness, but it seems to have no 
+  influence on the final result) and compute two values: direction of sampling and coverage.
   Picture here will make it easy for you to understand the code of the shader.
 
 
@@ -57,7 +58,8 @@
     static float rad = 0.5; //rad - radius of sampling, 0.5 means half-pixel
     static float steps = 3; //(steps+1)^2 - total number subsamples for coverage computation
     
-    
+    //uv01 should be with 'noperspective' modifier (though it seems to have no impact)
+
     float DFAA( float2 uv01 ) {
       
       float2 uvdx = ddx( uv01 );
