@@ -36,9 +36,8 @@
   only affect DFAA action on that polygon.
   
   The pixel shader part is done in two steps. In the first step we use the provided Barycentrics 
-  (that should be used with noperspective modifier for correctness, but it seems to have no 
-  influence on the final result) and compute two values: direction of sampling and coverage.
-  Picture here will make it easy for you to understand the code of the shader.
+  (that should be used with *noperspective* modifier) and compute two values: direction of sampling 
+  and coverage. Picture here will make it easy for you to understand the code of the shader.
 
 
   <center>![](images/dfaa-algorithm.png)</center>
