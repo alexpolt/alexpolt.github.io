@@ -85,9 +85,9 @@
 
   Is that enough to test the hypothesis? I believe it's plenty!
 
-  PS. Something big happened 2000 years a go in the Middle East. A man by the name Jesus
+  PS. Something big happened 2000 years ago in the Middle East. A man by the name Jesus
   came. What was he? What abilities he possessed? Why had he left such a deep impact on 
-  people. We don't really now what was happening there. I think prophet Vanga gives us
+  people. We don't really know what was happening there. I think Prophet Vanga gives us
   a clue.
 
 
