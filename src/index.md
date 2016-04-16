@@ -87,4 +87,7 @@
   
     First blog post is about an important topic of motivation.
 
+  * [**Where Do We Come From? What Are We? Where Are We Going?**](phylosophy.html)
+
+    A deep question of the nature of our Universe.
 
