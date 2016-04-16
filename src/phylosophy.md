@@ -80,7 +80,9 @@
   * An anti-aging drug will be found and will contain horse hormones.
   * There is a planet called Vamfim, third from the Earth (Planet X?).
   * People will dig out a tomb with ancient books that will tell a lot about our past.
-<!---->
+
+<!-- markdown problem with closin lists-->
+
   Is that enough to test the hypothesis? I believe it's plenty!
 
   PS. Something big happened 2000 years a go in the Middle East. A man by the name Jesus
