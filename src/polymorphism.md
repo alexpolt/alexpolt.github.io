@@ -23,5 +23,6 @@
 
   Interesting question is what code could be less polymorphic for the same algorithm? 
   I guess we need to introduce some measure of the amount of polymorphism. Like the number of 
-  conditional jumps after compilation, so that we could compare different languages.
+  conditional jumps and indirect calls after compilation, so that we could compare different 
+  languages. The closest example is ["Cyclomatic complexity"](https://en.wikipedia.org/wiki/Cyclomatic_complexity). 
 
