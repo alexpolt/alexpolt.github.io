@@ -4,7 +4,7 @@
   This blog post is going to be somewhat controversial. It is about our Universe and meaning 
   of Life.
 
-  <center>![](Paul-Gauguin-1898.jpg "Paul Gauguin")</center>
+  <center>![](images/Paul-Gauguin-1898.jpg "Paul Gauguin")</center>
 
   Have you ever thought about the fact that if there were no magnetic field, protecting the
   Earth, there would be no life? Or water, or that photosynthesis is possible thanks to
