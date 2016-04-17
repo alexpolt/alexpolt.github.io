@@ -1,4 +1,9 @@
 
+>   __Learning__
+>   Previously I thought that I should try to learn everything up-front to prepared for 
+>   the job. But one day I realized that I can always learn the neccessary things on 
+>   demand, and it might turn out to be more efficient.
+
 
   * [Introducing DFAA antialiasing algorithm](dfaa.html)
 
