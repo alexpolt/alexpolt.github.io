@@ -20,9 +20,9 @@
 
 ---
 
-  ![](images/energia-buran-1.jpg "Energia-Buran on launchpad")
+  <img src="images/energia-buran-1.jpg" title="Energia-Buran on launchpad" style="max-width:100%"/>
 
-  ![](images/energia-polyus.jpg "Polyus Space Weapons Platform")
+  <img src="images/energia-polyus.jpg" title="Polyus Space Weapons Platform" style="max-width:100%"/>
 
   PS. Nice [Youtube video](https://www.youtube.com/watch?v=Q6WHjQ3Y3Uo) with a soundtrack.
  
