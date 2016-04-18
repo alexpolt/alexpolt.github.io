@@ -1,5 +1,5 @@
 
->   __Learning__
+
 >   Learning to learn is of paramount importance.
 
 
