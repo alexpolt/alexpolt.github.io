@@ -42,6 +42,14 @@
 
 <h2>On dangers of C++ move semantics</h2>
 
+<blockquote>
+  <p>Update: I realized that the greatest C++ design mistake is that r-values were copied.
+They must've been moved. Then today we woulnd't have to deal with all that problems
+surrounding move semantics (constructors, exceptions, etc.), skip the complexity part. 
+Then the only operator we would've needed is move( object) to turn l-value into r-value in place.
+But first read on the post to understand what I'm talking about.</p>
+</blockquote>
+
 <p>Doing some programming with extensive use of move semantics I had several major bugs due to being 
   sloppy in my handling of object state in move constructors/assignment operators and destructors.
   But it wasn't because of my lack of heed or skill. It was the direct result of having to keep 
@@ -78,11 +86,9 @@
   Now, all that pain would be justified if only there were no choice. But we have a choice! 
   So here is my idea. </p>
 
-<blockquote>
-  <p><em>If we make the firm statement that a bind to an r-value reference parameter is always followed 
-by a move (sensible requirement), then we can assume that the r-value has become an empty value. 
-So don't call a destructor on such a value.</em></p>
-</blockquote>
+<p>If we make the firm statement that a bind to an r-value reference parameter is <strong>always followed 
+  by a move (sensible requirement)</strong>, then we can assume that the r-value has become an empty value. 
+  So don't call a destructor on such a value.</p>
 
 <p>If we have that rule then suddenly you don't need any of the code with checking in the 
   destructor (at least the part related to move implementation). Actually we don't have 
