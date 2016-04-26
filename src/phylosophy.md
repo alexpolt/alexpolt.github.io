@@ -73,6 +73,7 @@
   * The World will divide by religion.
   * Europe won't get younger (the worsening demographics of Europe?).
   * Russia will become the leader of the World, not only in power, but as a spiritual leader.
+  * The Old Russia will get back (Ukraine will disintegrate and parts of it will join Russia?).
   * Trains will fly on wires from the Sun (levitation and thermonuclear power?).
   * Scientists will find out the origin of life.
   * The first contact (with aliens) will happen in Hungary.
