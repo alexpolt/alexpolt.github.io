@@ -27,8 +27,7 @@
 
     Consistent hashing is used to balance load in case a bucket (server) goes bad.
 
->   An idea is just a random jump in the knowledge space. After that a lot of stepping is 
->   necessary to get to a positive result.
+>   Being the best or being better than others is the dumbest choice for a goal in life.
 
 
   * [Tasking and object sharing](tasking.html)
