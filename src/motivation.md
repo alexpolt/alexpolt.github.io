@@ -1,7 +1,9 @@
 
 ##On motivation
 
-  In the first blog post I decided to go a little on the subject of motivation.
+  The motivation is the source of all of our actions in life. A lot of people don't experience
+  any problem with that, there is always somethnig to do: solve problems, get kids to school, etc.
+  But others are not content with that, they need a bigger goal in life.
 
   There are two primary reasons, in my humble opinion, for people to excel (not just do work):
   emotions and conscious reasoning. To the class of emotional motivation I refer all of ambition, 
