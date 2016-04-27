@@ -27,7 +27,6 @@
 
     Consistent hashing is used to balance load in case a bucket (server) goes bad.
 
->   __Ideas__  
 >   An idea is just a random jump in the knowledge space. After that a lot of stepping is 
 >   necessary to get to a positive result.
 
@@ -42,8 +41,6 @@
     One more nugget from C++.
 
 
->   __Quick tip__   
->
 >   When serializing data into a file, developers often make a dry run to calculate
 >   the size for the header. One possible workaround: add a size data member as the
 >   last field in the header struct, then just write the header at the end of the file.
@@ -65,10 +62,9 @@
     TLDR. Use them almost always.
 
 
->   __Quick tip__  
->
 >   #define $this (\*this)  
->   $this.value = ... //I advocate the use of '$' prefix for macros in C++
+>   $this.value = ...  
+>   //using '$' prefix helps to quickly identify macros and member variables
 
 
   * [The way *operator&lt;&lt;* and *operator&gt;&gt;* should have been overloaded](vector-push.html)
