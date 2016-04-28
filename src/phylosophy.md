@@ -81,6 +81,7 @@
   * An anti-aging drug will be found and will contain horse hormones.
   * There is a planet called Vamfim, third from the Earth (Planet X?).
   * People will dig out a tomb with ancient books that will tell a lot about our past.
+  * Evil will break out from below the ground and sky will darken (a giant volcano eruption?).
 
 <!-- markdown problem with closin lists-->
 
