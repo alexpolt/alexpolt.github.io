@@ -28,5 +28,7 @@
 
 <!-- md bug of not closing list if the first letter is space -->
 
-  These two questions should help you get things in order.
+  These two questions should help you get things in order. My main driving force is the desire
+  to build things and see people use them. That is an emotional reason, sure. So I guess I'm
+  somewhat lucky. :)
   
