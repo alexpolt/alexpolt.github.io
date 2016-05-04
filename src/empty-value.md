@@ -39,7 +39,7 @@
   I would like to add that may be it would've been right if moving was like that: if an object is
   moved then just make it look like it disappeared, don't call the destructor of such on object.
   ( by the way this approach shows us that moving a variable is a way of changing the scope of this
-  variable, as I said about references in the post on [values.html](value semantics) ).
+  variable, as I said about references in the post on [value semantics](values.html) ).
 
   Another thing to be aware of:
    
