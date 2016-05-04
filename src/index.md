@@ -13,9 +13,9 @@
     Checking multiple function calls with one macro.
 
 
-  * [**C++ move is broken**](empty-value.html)
+  * [**Minor problems with C++ move semantics**](empty-value.html)
 
-    some thought on why the current state of C++ move is not okay.
+    Some thoughts on the C++ move minor annoyances.
 
 
   * [Free Variables Perfect Hashing Algorithm](perfect-hashing.html)
