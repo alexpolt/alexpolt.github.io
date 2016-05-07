@@ -13,6 +13,9 @@
     Checking multiple function calls with one macro.
 
 
+>   Program execution could be viewed as data flowing across scopes.
+
+
   * [**Minor problems with C++ move semantics**](empty-value.html)
 
     Some thoughts on the C++ move minor annoyances.
@@ -29,11 +32,11 @@
 
 >   Being the best or being better than others is the dumbest choice for a goal in life.
 
-
+<!--
   * [Tasking and object sharing](tasking.html)
     
     Task programming model gives a chance to solve the object sharing problem.
-
+-->
 
   * [C++ properties](cpp-property.html)
 
