@@ -29,6 +29,10 @@
 
 <!-- md bug of not closing list if the first letter is space -->
 
+  Also pay attention that an unresolved gf/bf question could a serious distractor. You won't
+  even realize that what's bothering you is your basic instinct. I want to stress that
+  point one more time: check the partner question, is all good there?
+
   Personally, I have given a lot time to thinking about the primary motives in life. For me money
   means not that much, I have no ambitions either. I love science and mathematics, I am curious
   about physics and space, but all that wasn't enough to answer the question of why I should do
@@ -37,7 +41,5 @@
   players to do greater things. The same is in our daily life: we learn and work hard to gain
   additional abilities that will increase our power over this world. That power makes our life
   easier and happier.
-
-
 
   
