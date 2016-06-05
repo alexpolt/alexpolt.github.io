@@ -51,6 +51,12 @@
                ,g_pd3dDevice->CreateTexture( ... )
                ,g_pd3dDevice->CreateTexture( ... ) 
              );
+    
+    // or
+    
+    $checkall( FAILED,
+               ,g_pd3dDevice->CreateTexture( ... )
+             );
 
 
   Isn't it better? The only imperfection is that line numbers are messed up.

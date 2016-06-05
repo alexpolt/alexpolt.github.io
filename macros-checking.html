@@ -89,6 +89,12 @@ if( FAILED( hr ) )
            ,g_pd3dDevice-&gt;CreateTexture( ... )
            ,g_pd3dDevice-&gt;CreateTexture( ... ) 
          );
+
+// or
+
+$checkall( FAILED,
+           ,g_pd3dDevice-&gt;CreateTexture( ... )
+         );
 </code></pre>
 
 <p>Isn't it better? The only imperfection is that line numbers are messed up.</p>
