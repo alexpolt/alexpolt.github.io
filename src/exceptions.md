@@ -20,7 +20,8 @@
 
   My personal checklist when using exceptions is this:
   
-  * any problem related to resources (network connection, files, memory etc.) should end with an exception
+  * any problem related to resources (network connection, files, memory etc.) should end with 
+    an exception
   * any sort of bad input from outside world: wrong numbers, corrupted files, invalid input
   * don't use exceptions for checking preconditions (use types and asserts for that)
   * don't use exceptions for business logic
@@ -29,7 +30,11 @@
 <!--first character is non-space to avoid markdown bug of not closing list-->
 
   Exceptions are indispensable. There is just and odd anxiety among developers about them.
-  Yes, they make things harder, but error handling is hard. In fact I think the Holy Grail of 
-  the software development discipline is the ability to at least reason about program correctness.
-  How do you know if that pacemaker software doesn't contain a bug? By waiting for a death case?
+  
+  Also, I really think **the exception safety problem is so much overinflated**. We should've 
+  designed *STL* with exceptions on copy/move/destruct strictly prohibited. It just doesn't make 
+  sense to allow exceptions in this cases. Look, we need exceptions to signal some resource 
+  problems or bad input or anything like this. We don't exceptions on copy! If there are memory 
+  allocation failures, then just call std::terminate! Instead we decided to drown in useless 
+  complexity.
 
