@@ -53,7 +53,7 @@
 
 <pre><code>template&lt;typename T0&gt; struct shared {
 
-    shared&amp; link( shared const &amp; owner) {
+    shared&amp;&amp; link( shared const &amp; owner) {
       //create copy and also add backreference into global table
     }
 

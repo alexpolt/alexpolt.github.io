@@ -13,7 +13,7 @@
 
     template<typename T0> struct shared {
         
-        shared& link( shared const & owner) {
+        shared&& link( shared const & owner) {
           //create copy and also add backreference into global table
         }
         
