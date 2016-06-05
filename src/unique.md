@@ -30,7 +30,8 @@
       T0 handle;
     }
     
-    
+    //example specialization
+
     template<> unique<FILE*>::~unique() {
       fclose( handle );
     }
