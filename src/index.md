@@ -1,4 +1,9 @@
 
+  * [A better alternative to shared_ptr for shared ownership](link.html)
+
+    *shared_ptr* is not an answer to the shared ownership problem.
+
+
   * [unique_ptr -> unique](unique.html)
 
     We need a more general *unique* design pattern.
