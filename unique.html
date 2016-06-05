@@ -42,7 +42,7 @@
 
 <h2>unique_ptr -> unique</h2>
 
-<p><em>unique_ptr</em> is well-known design patters, but it is limited to memory handling. In practice
+<p><em>unique_ptr</em> is a well-known design patter, but it is limited to memory handling. In practice
   we need the same semantics (owning and RAII) for other resources too. So I suggest adding
   <em>unique</em> as a more general wrapper (sample code):</p>
 
@@ -53,7 +53,7 @@
   unique( unique const &amp;) = delete; //no copy
   unique&amp; operator=( unique const &amp; ) = delete; //no assignment
 
-  unique( unique&amp;&amp; r ) : handle{} {
+  unique( unique&amp;&amp; r ) : handle{} { //moving is okay
     using std::swap;
     swap( handle, r.handle );
   }
@@ -65,7 +65,7 @@
     return *this;
   }
 
-  ~unique();
+  ~unique(); //specialize to get desired behaviour
 
   T0 handle;
 }
@@ -75,8 +75,6 @@ template&lt;&gt; unique&lt;FILE*&gt;::~unique() {
   fclose( handle );
 }
 </code></pre>
-
-<p>By specializing <em>unique</em> you can provide custom destructors for your needs.</p>
 
 
 <script src="highlight/highlight.pack.js"></script>

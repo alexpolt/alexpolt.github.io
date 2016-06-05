@@ -1,7 +1,7 @@
 
 ##unique_ptr -> unique
 
-  *unique_ptr* is well-known design patters, but it is limited to memory handling. In practice
+  *unique_ptr* is a well-known design patter, but it is limited to memory handling. In practice
   we need the same semantics (owning and RAII) for other resources too. So I suggest adding
   *unique* as a more general wrapper (sample code):
 
@@ -13,7 +13,7 @@
       unique( unique const &) = delete; //no copy
       unique& operator=( unique const & ) = delete; //no assignment
     
-      unique( unique&& r ) : handle{} {
+      unique( unique&& r ) : handle{} { //moving is okay
         using std::swap;
         swap( handle, r.handle );
       }
@@ -25,7 +25,7 @@
         return *this;
       }
 
-      ~unique();
+      ~unique(); //specialize to get desired behaviour
     
       T0 handle;
     }
@@ -35,7 +35,5 @@
       fclose( handle );
     }
 
-
-  By specializing *unique* you can provide custom destructors for your needs.
 
 
