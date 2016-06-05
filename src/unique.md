@@ -1,7 +1,7 @@
 
 ##unique_ptr -> unique
 
-  *unique_ptr* is a well-known design patter, but it is limited to memory handling. In practice
+  *unique_ptr* is a well-known design pattern, but it is limited to memory handling. In practice
   we need the same semantics (owning and RAII) for other resources too. So I suggest adding
   *unique* as a more general wrapper (sample code):
 
