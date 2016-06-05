@@ -35,7 +35,7 @@
   for this. You can use it to generate the vertex ids at runtime like this:
 
 
-    auto vertex_id_buffer = generate_vertex_ids<float>( index_buffer, tris_count/3 );
+    auto vertex_id_buffer = generate_vertex_ids<float>( index_buffer, tris_count*3 );
 
 
   Here is a sample how it works: [Ideone](http://ideone.com/iiB3xw). The code: [Github](https://github.com/alexpolt/DFAA/blob/master/generate-vertex-ids.h)  
