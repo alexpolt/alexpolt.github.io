@@ -1,4 +1,8 @@
 
+  * [unique_ptr -> unique](unique.html)
+
+    We need a more general *unique* design pattern.
+
 
 >   Learning to learn is of paramount importance.
 
