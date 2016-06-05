@@ -36,5 +36,5 @@
     }
 
 
-  Sample code: [Ideone](http://ideone.com/Ktyz7b)
+  Sample code: [Ideone](http://ideone.com/Ktyz7b) [Github](https://github.com/alexpolt/poetry/blob/master/unique.h)
 
