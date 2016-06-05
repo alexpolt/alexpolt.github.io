@@ -77,7 +77,7 @@ out.uv01 = uv01[ 3 * frac(vertex_id/3) ];
 <pre><code>auto vertex_id_buffer = generate_vertex_ids&lt;float&gt;( index_buffer, tris_count/3 );
 </code></pre>
 
-<p>Here is a sample how it works: <a href="http://ideone.com/iiB3xw">ideone</a>. The code: <a href="https://github.com/alexpolt/DFAA/blob/master/generate-vertex-ids.h">Github</a> <br />
+<p>Here is a sample how it works: <a href="http://ideone.com/iiB3xw">Ideone</a>. The code: <a href="https://github.com/alexpolt/DFAA/blob/master/generate-vertex-ids.h">Github</a> <br />
   You may end up having some number of triangles with wrong uv01 mapping (if there are loops in the 
   mesh), but that is not critical to DFAA (no or partial AA there).</p>
 

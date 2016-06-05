@@ -38,7 +38,7 @@
     auto vertex_id_buffer = generate_vertex_ids<float>( index_buffer, tris_count/3 );
 
 
-  Here is a sample how it works: [ideone](http://ideone.com/iiB3xw). The code: [Github](https://github.com/alexpolt/DFAA/blob/master/generate-vertex-ids.h)  
+  Here is a sample how it works: [Ideone](http://ideone.com/iiB3xw). The code: [Github](https://github.com/alexpolt/DFAA/blob/master/generate-vertex-ids.h)  
   You may end up having some number of triangles with wrong uv01 mapping (if there are loops in the 
   mesh), but that is not critical to DFAA (no or partial AA there).
 
