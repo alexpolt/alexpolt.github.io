@@ -78,10 +78,11 @@
   C++ is flexible, so you can partially solve this problem by introducing a wrapper around types.
   After all you only need special handling in destructors for resources (memory, handles, etc.).</p>
 
-<p>I would like to add that may be it would've been right if moving was like that: if an object is
-  moved then just make it look like it disappeared, don't call the destructor of such on object.
-  ( by the way this approach shows us that moving a variable is a way of changing the scope of this
-  variable, as I said about references in the post on <a href="values.html">value semantics</a> ).</p>
+<p>After thinking about it, it seems that the introduction of the move constructor/assignment operator
+  was a bad idea. All we needed is r-value references for the sake of argument deduction, r-values
+  should've been movable by default (and you can't forbid it). If an object is moved then don't call 
+  the destructor of such an object - it's empty, no need for move constructors/operators. C++
+  would'be been so much simpler!</p>
 
 <p>Another thing to be aware of:</p>
 
