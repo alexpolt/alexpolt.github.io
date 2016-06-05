@@ -76,8 +76,8 @@ an exception</li>
 
 <p>Also, I really think <strong>the exception safety problem is so much overinflated</strong>. We should've 
   designed <em>STL</em> with exceptions on copy/move strictly prohibited. It just doesn't make  sense 
-  to allow exceptions in these cases. Look, we don't need exceptions to signal some resource 
-  problems or bad input or anything like this. We don't exceptions on copy! If there are memory 
+  to allow exceptions in these cases. Look, we need exceptions to signal some resource problems 
+  or bad input or anything like this. We don't need exceptions on copy! If there are memory 
   allocation failures, then just call std::terminate! Instead we decided to drown in useless 
   complexity.</p>
 

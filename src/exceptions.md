@@ -33,8 +33,8 @@
   
   Also, I really think **the exception safety problem is so much overinflated**. We should've 
   designed *STL* with exceptions on copy/move strictly prohibited. It just doesn't make  sense 
-  to allow exceptions in these cases. Look, we don't need exceptions to signal some resource 
-  problems or bad input or anything like this. We don't exceptions on copy! If there are memory 
+  to allow exceptions in these cases. Look, we need exceptions to signal some resource problems 
+  or bad input or anything like this. We don't need exceptions on copy! If there are memory 
   allocation failures, then just call std::terminate! Instead we decided to drown in useless 
   complexity.
 
