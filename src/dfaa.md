@@ -20,22 +20,29 @@
   in the past, and I know other people also used it for things like wireframe rendering.
 
   So, the first step in the DFAA algorithm is to assign the Barycentric coordinate system
-  to the polygon. This is easily done with the vertex id (but you can always provide uv's for 
-  that). For HLSL SM3.0 the code looks like this:
+  to the polygon. For non-indexed geometry this is done with the vertex id (or you can always 
+  provide uv's for that). For HLSL SM3.0 the code looks like this:
 
 
     //Barycentrics
     static float2 uv01[] = { {0,0}, {1,0}, {0,1} };
     ...
-    //No SV_VertexID, so get vertex id from buffer
-    out.uv01 = uv01[ vertex_id - 3 * floor(vertex_id/3) ];
+    //No SV_VertexID in SM3.0 , so get vertex id from buffer, is should be sequential
+    out.uv01 = uv01[ 3 * frac(vertex_id/3) ];
+
+  For indexed geometry SV_VertexID won't work (unless your vertices are in strips), so we need
+  to either use a geometry shader or generate a vertex id buffer. I provide a function template
+  for this. You can use it to generate the vertex ids at runtime like this:
 
 
-  It may not be always possible to easy provide each polygon with such coordinates. In that
-  case some preprocessing may be necessary. Having such polygons is not critical, it will
-  only affect DFAA action on that polygon.
-  
-  The pixel shader part is done in two steps. In the first step we use the provided Barycentrics 
+    auto vertex_id_buffer = generate_vertex_ids<float>( index_buffer, tris_count/3 );
+
+
+  Here is a sample how it works: [ideone](http://ideone.com/iiB3xw). The code: [Github](https://github.com/alexpolt/DFAA/blob/master/generate-vertex-ids.h)  
+  You may end up having some number of triangles with wrong uv01 mapping (if there are loops in the 
+  mesh), but that is not critical to DFAA (no or partial AA there).
+
+  The **pixel shader part** is done in two steps. In the first step we use the provided Barycentrics 
   (that should be used with *noperspective* modifier) and compute two values: direction of sampling 
   and coverage. Picture here will make it easy for you to understand the code of the shader.
 
