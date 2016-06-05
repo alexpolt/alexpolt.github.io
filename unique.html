@@ -42,11 +42,13 @@
 
 <h2>unique_ptr -> unique</h2>
 
-<p>unique_pre is well-known design patters, but it is limited to memory handling. In practice
+<p><em>unique_ptr</em> is well-known design patters, but it is limited to memory handling. In practice
   we need the same semantics (owning and RAII) for other resources too. So I suggest adding
   <em>unique</em> as a more general wrapper (sample code):</p>
 
 <pre><code>template&lt;typename T0&gt; struct unique {
+
+  unique( T0 handle ) : handle{ std::move( handle ) } { }
 
   unique( unique const &amp;) = delete; //no copy
   unique&amp; operator=( unique const &amp; ) = delete; //no assignment
@@ -63,12 +65,11 @@
     return *this;
   }
 
+  ~unique();
+
   T0 handle;
 }
 
-template&lt;&gt; unique&lt;T0*&gt;::~unique() {
-  delete handle;
-}
 
 template&lt;&gt; unique&lt;FILE*&gt;::~unique() {
   fclose( handle );

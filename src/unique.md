@@ -1,13 +1,15 @@
 
 ##unique_ptr -> unique
 
-  unique_pre is well-known design patters, but it is limited to memory handling. In practice
+  *unique_ptr* is well-known design patters, but it is limited to memory handling. In practice
   we need the same semantics (owning and RAII) for other resources too. So I suggest adding
   *unique* as a more general wrapper (sample code):
 
 
     template<typename T0> struct unique {
     
+      unique( T0 handle ) : handle{ std::move( handle ) } { }
+
       unique( unique const &) = delete; //no copy
       unique& operator=( unique const & ) = delete; //no assignment
     
@@ -22,13 +24,12 @@
         swap( handle, r.handle );
         return *this;
       }
+
+      ~unique();
     
       T0 handle;
     }
     
-    template<> unique<T0*>::~unique() {
-      delete handle;
-    }
     
     template<> unique<FILE*>::~unique() {
       fclose( handle );
