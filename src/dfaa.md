@@ -19,28 +19,32 @@
   coordinates. I have already been toying with the [0,0], [1,0], [0,1] coordinate system 
   in the past, and I know other people also used it for things like wireframe rendering.
 
-  So, the first step in the DFAA algorithm is to assign the Barycentric coordinate system
-  to the polygon. For non-indexed geometry this is done with the vertex id (or you can always 
-  provide uv's for that). For HLSL SM3.0 the code looks like this:
+##First step: Barycentric coordinates
 
+  So, the first step in the DFAA algorithm is to assign the Barycentric coordinate system
+  to the polygon. For non-indexed geometry this can be done with the vertex id.
+  Altenatively you or you can always provide you own uv's, or use a buffer with 0,1,2 values 
+  foe each vertex. For HLSL SM3.0 the code looks like this:
 
     //Barycentrics
     static float2 uv01[] = { {0,0}, {1,0}, {0,1} };
-    ...
-    //No SV_VertexID in SM3.0 , so get vertex id from buffer, it should be sequential
-    out.uv01 = uv01[ 3 * frac(vertex_id/3) ];
+
+    //in SM > 3.0 we use SV_VertexID
+    out.uv01 = uv01[ 3 * frac( SV_VertexID/3 ) ];
+
+    //or in SM <= 3.0 we use a generated buffer with 0,1,2 values for each vertex
+    out.uv01 = uv01[ uvid ];
 
   For indexed geometry SV_VertexID won't work (unless your vertices are in strips), so we need
-  to either use a geometry shader or generate a vertex id buffer. I provide a function template
-  for this. You can use it to generate the vertex ids at runtime like this:
-
+  to either use a geometry shader or generate a buffer with 0,1,2 mapping. Geometry optimized
+  as triangle fans won't do well (we'll end up having duplicate 0 or 1 or 2). Here's an example
+  how you can generated such a buffer:
 
     auto vertex_id_buffer = generate_vertex_ids<float>( index_buffer, tris_count*3 );
 
+  Here is a sample how it works: [Ideone](http://ideone.com/iiB3xw). The code: [Github](https://github.com/alexpolt/DFAA/blob/master/generate-vertex-ids.h)
 
-  Here is a sample how it works: [Ideone](http://ideone.com/iiB3xw). The code: [Github](https://github.com/alexpolt/DFAA/blob/master/generate-vertex-ids.h)  
-  You may end up having some number of triangles with wrong uv01 mapping (if there are loops in the 
-  mesh), but that is not critical to DFAA (no or partial AA there).
+##Second step: pixel shader
 
   The **pixel shader part** is done in two steps. In the first step we use the provided Barycentrics 
   (that should be used with *noperspective* modifier) and compute two values: direction of sampling 
