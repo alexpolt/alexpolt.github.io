@@ -23,22 +23,22 @@
 
   So, the first step in the DFAA algorithm is to assign the Barycentric coordinate system
   to the polygon. For non-indexed geometry this can be done with the vertex id.
-  Altenatively you or you can always provide you own uv's, or use a buffer with 0,1,2 values 
+  Alternatively you can always provide your own uv's, or use a buffer with 0,1,2 values 
   foe each vertex. For HLSL SM3.0 the code looks like this:
 
     //Barycentrics
     static float2 uv01[] = { {0,0}, {1,0}, {0,1} };
-
+    
     //in SM > 3.0 we use SV_VertexID
     out.uv01 = uv01[ 3 * frac( SV_VertexID/3 ) ];
-
+    
     //or in SM <= 3.0 we use a generated buffer with 0,1,2 values for each vertex
     out.uv01 = uv01[ uvid ];
 
-  For indexed geometry SV_VertexID won't work (unless your vertices are in strips), so we need
-  to either use a geometry shader or generate a buffer with 0,1,2 mapping. Geometry optimized
-  as triangle fans won't do well (we'll end up having duplicate 0 or 1 or 2). Here's an example
-  how you can generated such a buffer:
+  For indexed geometry SV_VertexID generally won't work (you can try, especially if your 
+  vertices are in strips), so we need to either use a geometry shader or generate a buffer 
+  with 0,1,2 mapping. Geometry optimized as triangle fans won't do well (we'll end up having 
+  duplicate 0 or 1 or 2). Here's an example how you can generated such a buffer:
 
     auto vertex_id_buffer = generate_vertex_ids<float>( index_buffer, tris_count*3 );
 
