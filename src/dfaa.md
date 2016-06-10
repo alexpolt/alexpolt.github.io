@@ -40,7 +40,7 @@
   with 0,1,2 mapping. Geometry optimized as triangle fans won't do well (we'll end up having 
   duplicate 0 or 1 or 2). Here's an example how you can generated such a buffer:
 
-    auto vertex_id_buffer = generate_vertex_ids<float>( index_buffer, tris_count*3 );
+    auto uvid_buffer = generate_uv_ids<float>( index_buffer, tris_count*3 );
 
   Here is a sample how it works: [Ideone](http://ideone.com/iiB3xw). The code: [Github](https://github.com/alexpolt/DFAA/blob/master/generate-vertex-ids.h)
 
