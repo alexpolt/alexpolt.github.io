@@ -42,7 +42,8 @@
 
     auto uvid_buffer = generate_uv_ids<float>( index_buffer, tris_count*3 );
 
-  Here is a sample how it works: [Ideone](http://ideone.com/iiB3xw). The code: [Github](https://github.com/alexpolt/DFAA/blob/master/generate-vertex-ids.h)
+  Here is a sample how it works: [Ideone](http://ideone.com/iiB3xw). The code:
+  [Github](https://github.com/alexpolt/DFAA/blob/master/generate-uv-ids.h)
 
 ##Second step: pixel shader
 
