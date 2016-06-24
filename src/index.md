@@ -1,4 +1,12 @@
 
+  * [Parallel Programming is like Quantum Mechanics](atomic-data.html)
+
+    About lock-free programming and a new lock-free data structure *atomic_data*.
+
+
+>   The way you spend your day is the way you spend your life
+
+
   * [A better alternative to shared_ptr for shared ownership](link.html)
 
     *shared_ptr* is not an answer to the shared ownership problem.
