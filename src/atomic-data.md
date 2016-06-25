@@ -9,11 +9,11 @@
   skill, it's just a reminder to all of us, developers, that parallel programming (and
   programming in general) is so damn hard. 
   
-  In this article I will talk about the lifetime management problem and the ABA. I will also 
-  describe a relatively new lock-free data structure **atomic_data**. It solves the above two
-  problems and offers a general enough approach to serve as a foundation for robust lock-free
-  algorithms. But first we'll take a more thorough look at what CAS (Compare-And-Swap) does and 
-  compare it to LL/SC (Load Linked/Store Condtional).
+  In this article I will talk about the lifetime management problem and what really causes ABA. 
+  I will also describe a relatively new lock-free data structure **atomic_data**. It solves 
+  the above two problems and offers a general enough approach to serve as a foundation for robust 
+  lock-free algorithms. But first we'll take a more thorough look at what CAS (Compare-And-Swap) 
+  does and compare it to LL/SC (Load Linked/Store Condtional).
 
 
   As a reminder, there are three levels of guarantees: wait-free, lock-free and obstruction
