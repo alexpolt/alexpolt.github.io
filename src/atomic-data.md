@@ -19,8 +19,8 @@
   assumes that some operations may fail, but progress is guaranteed in a fixed number of steps. 
   And finally obstruction free means progress under no contention from other threads.
 
-  There are two major primitives for doing lock-free programming:  CAS (compare and swap) and 
-  LL/SC (load-linked/store-conditional. These are RMW ( Read-Modify-Write ) operations, but 
+  There are two major primitives/ways for doing lock-free programming:  CAS (compare and swap) 
+  and  LL/SC (load-linked/store-conditional. These are RMW ( Read-Modify-Write ) operations, but 
   they are not equivalent. Also important is the fact that these operations acquire additional 
   semantics when operating on pointers.
 
@@ -30,29 +30,36 @@
   CAS is an indivisible operation (*[lock] cmpxchg* instruction on x86) that compares an expected
   value at a memory address and replaces it with a desired value, on fail it returns the current 
   value. Using CAS you could implement things like an atomic increment and basically any other
-  arithmetic operation. But it gains additional meaning when used on pointers. Using CAS on a 
-  pointer could also be viewed as a rename with a check. Actually *rename* is the way you do
-  atomic file modifications in Linux (rename system call is atomic if on the same device). Also
-  important is that it establishes an equivalence relationship between the pointer and the data
-  it points to. In the section on ABA we'll see how it plays out. CAS provides the lock-free 
-  level of guarantee.
+  atomic arithmetic operation. 
+  
+  But it gains additional meaning when used on pointers. Using CAS on a pointer could also be 
+  viewed as a rename with a check. Actually *rename* is the way you do atomic file modifications 
+  in Linux (rename system call is atomic if on the same device). Also important is that it 
+  establishes an equivalence relationship between the pointer and the data it points to. In the 
+  section on ABA we'll see how it plays out. 
+  
+  CAS provides the lock-free level of guarantee.
 
 
 ###LL/SC (Load Linked/Store Conditional).
   
   LL/SC operates with the help of a *link register* (one per core). By doing a special read 
   (lwarx on PowerPC, ldrex) the link register is initialized. Any processing  is allowed and 
-  finished with a conditional store (stwcx on PowerPC, strex on ARM). LL/SC is orthogonal to CAS 
-  because it's not comparing anything. It is also more general and robust (no reordering problem). 
-  But it requires more work from the OS developers: on context switch a dummy conditional store 
-  is necessary to clear the reservation. This also could manifest itself under heavy contention: 
-  LL/SC could theoretically become obstruction free (CAS is always lock-free because at least one 
-  thread will always succeed).
+  finished with a conditional store (stwcx on PowerPC, strex on ARM). 
+  
+  LL/SC is orthogonal to CAS because it's not comparing anything. It is also more general and 
+  robust (no reordering problem). But it requires more work from the OS developers: on context 
+  switch a dummy conditional store is necessary to clear the reservation. 
+    
+  This also could manifest itself under heavy contention: LL/SC could theoretically become 
+  obstruction free (CAS is always lock-free because at least one thread will always succeed).
 
+  --------
 
 ##The True Cause of the ABA
 
-  A lot is written about the dreaded ABA problem. Often it is referred as a reordering problem.
+  Now to the problems that hunt lock-free programming. One of those is the ABA. Often it is 
+  referred as a reordering problem.
 
 
 
