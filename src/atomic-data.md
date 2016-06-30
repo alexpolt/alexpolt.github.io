@@ -52,12 +52,12 @@
   store is necessary to clear the reservation. This also could manifest itself under heavy 
   contention: LL/SC could theoretically become obstruction free (CAS is always lock-free because 
   at least one thread will always succeed).
-
   
-  Now to the problems that hunt lock-free programming.   
-
-
-###Evil number one: The ABA
+  
+  Now to the problems that hunt lock-free programming.
+  
+  
+##Evil number one: The ABA
 
   Often it is also referred to as a reordering problem.
 
