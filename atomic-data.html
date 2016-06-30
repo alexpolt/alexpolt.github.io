@@ -53,15 +53,15 @@
   data structure <strong>atomic_data</strong>. It solves the above two problems and offers a general enough 
   approach to serve as a foundation for robust lock-free algorithms. </p>
 
-<p>As a reminder, there are three levels of guarantees: wait-free, lock-free and obstruction
-  free. Wait-free is the strongest: operations on shared data basically never fail. This could 
+<p>As a reminder, there are three levels of guarantees: <strong>wait-free, lock-free and obstruction
+  free</strong>. Wait-free is the strongest: operations on shared data basically never fail. This could 
   be achieved, for example, when reading and updating is a single atomic operation. Lock-free 
   assumes that some operations may fail, but progress is guaranteed in a fixed number of steps. 
   And finally obstruction free means progress under no contention from other threads.</p>
 
-<p>There are two major primitives/ways for doing lock-free programming:  CAS (compare and swap) 
-  and  LL/SC (load-linked/store-conditional. These are RMW ( Read-Modify-Write ) operations, but 
-  they are not equivalent. Also important is the fact that these operations acquire additional 
+<p>There are two major primitives/ways for doing lock-free programming:  <strong>CAS</strong> (compare and swap) 
+  and  <strong>LL/SC</strong> (load-linked/store-conditional. These are RMW ( Read-Modify-Write ) operations, 
+  but they are not equivalent. Also important is the fact that these operations acquire additional 
   semantics when operating on pointers.</p>
 
 <h3>CAS (Compare-And-Swap)</h3>
@@ -82,20 +82,20 @@
 <h3>LL/SC (Load Linked/Store Conditional).</h3>
 
 <p>LL/SC operates with the help of a <em>link register</em> (one per core). By doing a special read 
-  (lwarx on PowerPC, ldrex) the link register is initialized. Any processing  is allowed and 
-  finished with a conditional store (stwcx on PowerPC, strex on ARM). </p>
+  (lwarx on PowerPC, ldrex on ARM) the link register is initialized. Any processing is then 
+  allowed and finished with a conditional store (stwcx on PowerPC, strex on ARM). </p>
 
 <p>LL/SC is orthogonal to CAS because it's not comparing anything. It is also more general and 
-  robust (no reordering problem). But it requires more work from the OS developers: on context 
-  switch a dummy conditional store is necessary to clear the reservation. </p>
+  robust. But it requires more work from the OS developers: on context  switch a dummy conditional 
+  store is necessary to clear the reservation. This also could manifest itself under heavy 
+  contention: LL/SC could theoretically become obstruction free (CAS is always lock-free because 
+  at least one thread will always succeed).</p>
 
-<p>This also could manifest itself under heavy contention: LL/SC could theoretically become 
-  obstruction free (CAS is always lock-free because at least one thread will always succeed).</p>
+<p>Now to the problems that hunt lock-free programming.   </p>
 
-<h3>The ABA</h3>
+<h3>Evil number one: The ABA</h3>
 
-<p>Now to the problems that hunt lock-free programming. One of those is the ABA. Often it is 
-  referred to as a reordering problem.</p>
+<p>Often it is also referred to as a reordering problem.</p>
 
 
 <script src="highlight/highlight.pack.js"></script>

@@ -13,15 +13,15 @@
   data structure **atomic_data**. It solves the above two problems and offers a general enough 
   approach to serve as a foundation for robust lock-free algorithms. 
   
-  As a reminder, there are three levels of guarantees: wait-free, lock-free and obstruction
-  free. Wait-free is the strongest: operations on shared data basically never fail. This could 
+  As a reminder, there are three levels of guarantees: **wait-free, lock-free and obstruction
+  free**. Wait-free is the strongest: operations on shared data basically never fail. This could 
   be achieved, for example, when reading and updating is a single atomic operation. Lock-free 
   assumes that some operations may fail, but progress is guaranteed in a fixed number of steps. 
   And finally obstruction free means progress under no contention from other threads.
 
-  There are two major primitives/ways for doing lock-free programming:  CAS (compare and swap) 
-  and  LL/SC (load-linked/store-conditional. These are RMW ( Read-Modify-Write ) operations, but 
-  they are not equivalent. Also important is the fact that these operations acquire additional 
+  There are two major primitives/ways for doing lock-free programming:  **CAS** (compare and swap) 
+  and  **LL/SC** (load-linked/store-conditional. These are RMW ( Read-Modify-Write ) operations, 
+  but they are not equivalent. Also important is the fact that these operations acquire additional 
   semantics when operating on pointers.
 
 
@@ -44,21 +44,23 @@
 ###LL/SC (Load Linked/Store Conditional).
   
   LL/SC operates with the help of a *link register* (one per core). By doing a special read 
-  (lwarx on PowerPC, ldrex) the link register is initialized. Any processing  is allowed and 
-  finished with a conditional store (stwcx on PowerPC, strex on ARM). 
+  (lwarx on PowerPC, ldrex on ARM) the link register is initialized. Any processing is then 
+  allowed and finished with a conditional store (stwcx on PowerPC, strex on ARM). 
   
   LL/SC is orthogonal to CAS because it's not comparing anything. It is also more general and 
-  robust (no reordering problem). But it requires more work from the OS developers: on context 
-  switch a dummy conditional store is necessary to clear the reservation. 
-    
-  This also could manifest itself under heavy contention: LL/SC could theoretically become 
-  obstruction free (CAS is always lock-free because at least one thread will always succeed).
+  robust. But it requires more work from the OS developers: on context  switch a dummy conditional 
+  store is necessary to clear the reservation. This also could manifest itself under heavy 
+  contention: LL/SC could theoretically become obstruction free (CAS is always lock-free because 
+  at least one thread will always succeed).
+
+  
+  Now to the problems that hunt lock-free programming.   
 
 
-###The ABA
+###Evil number one: The ABA
 
-  Now to the problems that hunt lock-free programming. One of those is the ABA. Often it is 
-  referred to as a reordering problem.
+  Often it is also referred to as a reordering problem.
+
 
 
 
