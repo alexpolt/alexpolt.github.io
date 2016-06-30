@@ -1,5 +1,5 @@
 
-##A Multibyte General Purpose Lock-Free Data Structure: atomic_data
+##atomic_data: A Multibyte General Purpose Lock-Free Data Structure
 
 
   Perhaps every article on lock-free programming should start with a warning that it's extremely
@@ -54,19 +54,11 @@
   This also could manifest itself under heavy contention: LL/SC could theoretically become 
   obstruction free (CAS is always lock-free because at least one thread will always succeed).
 
-  --------
 
-##The True Cause of the ABA
+###The ABA
 
   Now to the problems that hunt lock-free programming. One of those is the ABA. Often it is 
-  referred as a reordering problem.
-
-
-
-
-
-
-
+  referred to as a reordering problem.
 
 
 

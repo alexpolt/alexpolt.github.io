@@ -40,7 +40,7 @@
 
   <!-- here goes the main content -->
 
-<h2>A Multibyte General Purpose Lock-Free Data Structure: atomic_data</h2>
+<h2>atomic_data: A Multibyte General Purpose Lock-Free Data Structure</h2>
 
 <p>Perhaps every article on lock-free programming should start with a warning that it's extremely
   hard to do right. There are certain subtle effects that lead to hard-to-catch bugs. Also, in
@@ -92,12 +92,10 @@
 <p>This also could manifest itself under heavy contention: LL/SC could theoretically become 
   obstruction free (CAS is always lock-free because at least one thread will always succeed).</p>
 
-<hr />
-
-<h2>The True Cause of the ABA</h2>
+<h3>The ABA</h3>
 
 <p>Now to the problems that hunt lock-free programming. One of those is the ABA. Often it is 
-  referred as a reordering problem.</p>
+  referred to as a reordering problem.</p>
 
 
 <script src="highlight/highlight.pack.js"></script>
