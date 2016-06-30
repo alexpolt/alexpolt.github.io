@@ -1,14 +1,4 @@
 
-
-  * A better mutex:
-
-    >std::mutex m0;  
-    >  
-    >m0.lock( [&](){  
-    >   do your business  
-    >} );  
-
-
   * [Parallel Programming is like Quantum Mechanics](atomic-data.html)
 
     About lock-free programming and a new lock-free data structure *atomic_data*.
