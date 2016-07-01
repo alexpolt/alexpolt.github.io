@@ -54,10 +54,13 @@
   at least one thread will always succeed).
 
 
-  Now to the problems that hunt lock-free programming.
+  Now to the problems that hunt lock-free programming. Here is a picture of a stack and two
+  threads doing work.
 
  <center>![](images/The-ABA-Problem.png)</center>
 
+  The above illustration shows two major evils in the lock-free world: the ABA and lifetime
+  management. Can you spot them?
 
 ##Evil number one: The ABA
 

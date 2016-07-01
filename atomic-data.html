@@ -91,9 +91,13 @@
   contention: LL/SC could theoretically become obstruction free (CAS is always lock-free because 
   at least one thread will always succeed).</p>
 
-<p>Now to the problems that hunt lock-free programming.</p>
+<p>Now to the problems that hunt lock-free programming. Here is a picture of a stack and two
+  threads doing work.</p>
 
 <p><center><img src="images/The-ABA-Problem.png" alt="" title="" /></center></p>
+
+<p>The above illustration shows two major evils in the lock-free world: the ABA and lifetime
+  management. Can you spot them?</p>
 
 <h2>Evil number one: The ABA</h2>
 
