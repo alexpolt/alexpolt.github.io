@@ -84,8 +84,11 @@
 
   In the above image the cat is an object. The object lifetime problem in multithreaded programming 
   is fundamental because at any point in time shared data could be accessed by a thread. Even 
-  using locks won't be of great service here. 
+  using locks won't be of great service here. Again, GC, hazard pointers or using  shared_ptr 
+  can help, but they all are not ideal. GC needs a stop-the-world pause, hazard pointers require
+  checking all threads, reference counting is a performance hit and might break out of control.
   
-
+  Now it is time for me to introduce atomic_data that is a good compromise between having a 
+  lock-free data structure and avoiding the ABA and lifetime issues.
 
 
