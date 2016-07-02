@@ -88,7 +88,16 @@
   can help, but they all are not ideal. GC needs a stop-the-world pause, hazard pointers require
   checking all threads, reference counting is a performance hit and might break out of control.
   
-  Now it is time for me to introduce atomic_data that is a good compromise between having a 
+  Now it is time for me to introduce **atomic_data** that is a good compromise between having a 
   lock-free data structure and avoiding the ABA and lifetime issues.
+
+###atomic_data
+
+  atomic_data is a variant of RCU (Read-Copy-Update).
+
+  To make easier to understand how atomic_data works I drew a picture.
+
+
+
 
 

@@ -123,8 +123,14 @@
   can help, but they all are not ideal. GC needs a stop-the-world pause, hazard pointers require
   checking all threads, reference counting is a performance hit and might break out of control.</p>
 
-<p>Now it is time for me to introduce atomic_data that is a good compromise between having a 
+<p>Now it is time for me to introduce <strong>atomic_data</strong> that is a good compromise between having a 
   lock-free data structure and avoiding the ABA and lifetime issues.</p>
+
+<h3>atomic_data</h3>
+
+<p>atomic_data is a variant of RCU (Read-Copy-Update).</p>
+
+<p>To make easier to understand how atomic_data works I drew a picture.</p>
 
 
 <script src="highlight/highlight.pack.js"></script>
