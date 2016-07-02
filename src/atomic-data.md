@@ -62,7 +62,8 @@
   The above illustration shows two major evils in the lock-free world: the ABA and lifetime
   management. Can you spot them?
 
-##Evil number one: The ABA
+
+###Evil Number One: the ABA
 
   As we observed above, CAS on pointers ties together the pointer and the data it points to.
   ABA happens when our idea about this relationship no longer holds true: the state of shared 
@@ -77,17 +78,13 @@
 
   It really helps to think about lock-free operations in the following way: as soon as we touched 
   any piece of shared data - we initiated a transaction, and the transaction should behave
-  as stated by the ACID rules. Can we work on different parts of shared data? Yes, if the data
-  is not connected by a dependency graph. Because otherwise you would have to resort to some
-  form of locking.
+  as stated by the ACID rules. 
 
 
+###Evil Number Two: Lifetime Management
 
-
-
-
-
-
+  Pic of a cat.
+  
 
 
 
