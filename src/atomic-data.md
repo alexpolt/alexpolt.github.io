@@ -64,18 +64,20 @@
 
 ##Evil number one: The ABA
 
-  As we observed above CAS on pointers ties together the pointer and the data it points to.
-  ABA happens when our idea about this relationship no longer hold true: the state of the
-  data structure has changed (broken invariant) and we are unable to detect that with the 
-  CAS (LL/LC is immune to this problem) on the pointer. That pointer might have been deleted 
-  and reallocated again. 
+  As we observed above, CAS on pointers ties together the pointer and the data it points to.
+  ABA happens when our idea about this relationship no longer holds true: the state of shared 
+  data has changed (broken invariant) and we are unable to detect that with the CAS (LL/LC is 
+  immune to this problem) on the pointer, because that pointer might have been deleted and 
+  reallocated again. The ABA results in lost data and invalid data structure.
 
-  The ABA can be solved by a number of ways. One option is never
-  is typically solved (with CAS) by adding a version tag to a pointer. 
+  ABA can be solved in a number of ways: GC, hazard pointers, versioned pointers. Another solution
+  is to make the data immutable in a strict sense. I mean, not only the data itself is constant,
+  but also the address it occupies is unique. This is the way a versioned pointer works: we add
+  a version tag to the pointer and this has the effect of increasing the address space.
 
   It really helps to think about lock-free operations in the following way: as soon as we touched 
   any piece of shared data - we initiated a transaction, and the transaction should behave
-  as stated by the ACID rules. Can we work on unrelated parts of shared data? Yes, if the data
+  as stated by the ACID rules. Can we work on different parts of shared data? Yes, if the data
   is not connected by a dependency graph. Because otherwise you would have to resort to some
   form of locking.
 
