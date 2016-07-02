@@ -54,13 +54,10 @@
   at least one thread will always succeed).
 
 
-  Now to the problems that hunt lock-free programming. Here is a picture of a stack and two
+  **Now to the evils that hunt lock-free programming.** Here is a picture of a stack and two
   threads doing work.
 
  <center>![](images/The-ABA-Problem.png)</center>
-
-  The above illustration shows two major evils in the lock-free world: the ABA and lifetime
-  management. Can you spot them?
 
 
 ###Evil Number One: the ABA
@@ -83,7 +80,11 @@
 
 ###Evil Number Two: Lifetime Management
 
-  Pic of a cat.
+ <center>![](images/atomic-cat.png)</center>
+
+  In the above image the cat is an object. The object lifetime problem in multithreaded programming 
+  is fundamental because at any point in time shared data could be accessed by a thread. Even 
+  using locks won't be of great service here. 
   
 
 
