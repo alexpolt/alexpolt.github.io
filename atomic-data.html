@@ -131,11 +131,11 @@
 
 <h3>atomic_data: A Multibyte General Purpose Lock-Free Data Structure</h3>
 
-<p>atomic<em>data is a variant of RCU (Read-Copy-Update). Actually, at first I didn't know that fact,
+<p>atomic_data is a variant of RCU (Read-Copy-Update). Actually, at first I didn't know that fact,
   but then, while exploring, I came upon this <a href="http://www.rdrop.com/~paulmck/RCU/">page</a> by 
-  Paul McKenney. After studying different implementations I came a conclusion that atomic</em>data
-  has a novel design and therefore has some value for the community. But if you feel like that 
-  was already done before - feel free to leave a comment.</p>
+  Paul McKenney. After studying different implementations I came to a conclusion that 
+  atomic_data has a novel design and therefore has some value for the community. But if you 
+  feel like that was already done before - feel free to leave a comment.</p>
 
 <p>The one important aspect that divides RCU techniques is in how reclamation of used memory is
   done. We need a grace period - when data is no longer accessed by threads - to do cleaning.

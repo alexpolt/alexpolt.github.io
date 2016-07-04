@@ -1,5 +1,5 @@
 
-##atomic_data: A Multibyte General Purpose Lock-Free Data Structure
+##atomic\_data: A Multibyte General Purpose Lock-Free Data Structure
 
 
   Perhaps every article on lock-free programming should start with a warning that it's extremely
@@ -87,26 +87,26 @@
 
   In the above image the cat is an object. The object lifetime problem in multithreaded programming 
   is fundamental because at any point in time shared data could be accessed by a thread. Even 
-  using locks won't be of great service here. Again, GC, hazard pointers or using  shared_ptr 
+  using locks won't be of great service here. Again, GC, hazard pointers or using  shared\_ptr 
   can help, but they all are not ideal. GC needs a stop-the-world pause, hazard pointers require
   checking all threads, reference counting is a performance hit and might break out of control.
   
   Now it is time for me to introduce **atomic_data** that is a good compromise between having a 
   lock-free data structure and avoiding the ABA and lifetime issues.
 
-###atomic_data: A Multibyte General Purpose Lock-Free Data Structure
+###atomic\_data: A Multibyte General Purpose Lock-Free Data Structure
 
-  atomic_data is a variant of RCU (Read-Copy-Update). Actually, at first I didn't know that fact,
+  atomic\_data is a variant of RCU (Read-Copy-Update). Actually, at first I didn't know that fact,
   but then, while exploring, I came upon this [page](http://www.rdrop.com/~paulmck/RCU/) by 
-  Paul McKenney. After studying different implementations I came a conclusion that atomic_data
-  has a novel design and therefore has some value for the community. But if you feel like that 
-  was already done before - feel free to leave a comment.
+  Paul McKenney. After studying different implementations I came to a conclusion that 
+  atomic\_data has a novel design and therefore has some value for the community. But if you 
+  feel like that was already done before - feel free to leave a comment.
 
   The one important aspect that divides RCU techniques is in how reclamation of used memory is
   done. We need a grace period - when data is no longer accessed by threads - to do cleaning.
   This way we solve the lifetime management problem but not necessarily the ABA problem. 
   
-  atomic_data is a template that wraps any data structure. There is a static preallocated queue 
+  atomic\_data is a template that wraps any data structure. There is a static preallocated queue 
   of this data of desired length (power of two). C++ rules for templates and static data makes it
   one per data type. The following illustration will make it easier to understand.
 
@@ -117,7 +117,7 @@
   tries to do CAS on the pointer to current data. In case of failure the steps are repeated.
   On success the now old data element is being atomically returned to the queue.
 
-  So how do we avoid reusing old data and the ABA problem? That's where atomic_data differs:
+  So how do we avoid reusing old data and the ABA problem? That's where atomic\_data differs:
   we introduce a synchronization barrier when the left pointer (atomic integer) modulo N 
   (length of the queue) equals zero. The barrier separates used elements from unused. By
   waiting at the barrier for the condition *(right - left) == N* (N - length of the queue) 
@@ -126,11 +126,11 @@
   synchronization.
 
   But careful readers noticed that some elements in the queue might still be accessed by readers.
-  There are a number of options to solve this. atomic_data uses a static atomic reader counter
+  There are a number of options to solve this. atomic\_data uses a static atomic reader counter
   with relaxed memory order (one per data type). Yes, this adds a point of contention, but it's a 
   good compromise because makes it easy to check for readers at the synchronization barrier.
 
-  To summarize the cost of atomic_data: two relaxed atomic increments/decrements for readers,
+  To summarize the cost of atomic\_data: two relaxed atomic increments/decrements for readers,
   two CAS and data structure copy for writers (optimistic scenario), and on hitting barrier
   we wait for all threads to stop working with data.
 
