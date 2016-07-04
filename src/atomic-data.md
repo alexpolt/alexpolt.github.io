@@ -107,23 +107,25 @@
   This way we solve the lifetime management problem but not necessarily the ABA problem. 
   
   atomic\_data is a template that wraps any data structure. There is a static preallocated queue 
-  of this data of desired length (power of two). C++ rules for templates and static data makes it
-  one per data type. The following illustration will make it easier to understand.
+  of this data of desired length. C++ rules for templates and static data makes it one per data 
+  type. The following illustration will make it easier to understand.
 
 
-  During operation the update and read methods are being called that accept a lambda  as a 
-  parameter provided by the user. It atomically allocates an element from the queue, makes a 
-  copy of the current data and passes it to the lambda. After lambda finishes the update method
+
+  During operation the update and read methods are being called that accept a functor (a lambda)
+  as a parameter provided by the user. It atomically allocates an element from the queue, makes a 
+  copy of the current data and passes it to the functor. After functor finishes, the update method
   tries to do CAS on the pointer to current data. In case of failure the steps are repeated.
   On success the now old data element is being atomically returned to the queue.
 
-  So how do we avoid reusing old data and the ABA problem? That's where atomic\_data differs:
+  So how do we avoid reusing used data and the ABA problem? That's where atomic\_data differs:
   we introduce a synchronization barrier when the left pointer (atomic integer) modulo N 
-  (length of the queue) equals zero. The barrier separates used elements from unused. By
-  waiting at the barrier for the condition *(right - left) == N* (N - length of the queue) 
-  we make the used elements ready to be used again. This solves the lifetime and ABA problems 
-  at once. By increasing the length of the queue we are able to offset the cost of this
-  synchronization.
+  (length of the queue) equals zero (modulo for N power of two is going to be faster).  The 
+  barrier separates used elements from unused. By waiting at the barrier for the  condition 
+  *(right - left) == N* (where N is length of the queue)  we make sure that no threads access
+  the data elements from the queue in the update method. The used elements ready are now to be 
+  safely used again. This solves the lifetime and ABA problems at once. By increasing the length  
+  of the queue we are able to offset the cost of this synchronization.
 
   But careful readers noticed that some elements in the queue might still be accessed by readers.
   There are a number of options to solve this. atomic\_data uses a static atomic reader counter
@@ -133,6 +135,29 @@
   To summarize the cost of atomic\_data: two relaxed atomic increments/decrements for readers,
   two CAS and data structure copy for writers (optimistic scenario), and on hitting barrier
   we wait for all threads to stop working with data.
+
+
+###How long should be the queue of preallocated data elements?
+  
+  This question might seem to be trivial, but it leads to interesting results on the pros/cons
+  of lock-free data structures.
+
+
+
+###Code Samples
+
+  atomic\_data is easy to use and it works on any data structure. Although you should always keep 
+  in mind the cost of copying.
+
+
+###Lock-free std::map?
+
+  Actually the design of the atomic\_data makes it easy to turn std::map (or anything else) into
+  lock-free. Sure, memory allocation uses locking, so we first need to implement a lock-free
+  allocator: atomic\_data can do that too (for an area allocator, for example, any freeing of 
+  memory could be done on successfully replacing the current data - there is a second functor 
+  parameter to the update method that receives a pointer to the new current data as a parameter). 
+
 
 
 
