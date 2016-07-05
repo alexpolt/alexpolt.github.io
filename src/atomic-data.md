@@ -110,7 +110,7 @@
   of this data of desired length. C++ rules for templates and static data makes it one per data 
   type. The following illustration will make it easier to understand.
 
-
+ <center>![](images/atomic-data.png)</center>
 
   During operation the update and read methods are being called that accept a functor (a lambda)
   as a parameter provided by the user. It atomically allocates an element from the queue, makes a 
@@ -133,8 +133,8 @@
   good compromise because makes it easy to check for readers at the synchronization barrier.
 
   To summarize the cost of atomic\_data: an atomic increment and decrement for readers with
-  relaxed memory order, two CAS on a pointer and a data structure copy for writers (always one 
-  successful thread), and on hitting the barrier we wait for all threads to stop working with data.
+  relaxed memory order, two CAS on a pointer and a data structure copy for writers (there is always 
+  one successful thread), and on hitting the barrier we wait for all threads to stop working with data.
 
 
 ###How long should be the queue of preallocated data elements?
