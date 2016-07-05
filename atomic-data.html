@@ -165,9 +165,9 @@
   with relaxed memory order (one per data type). Yes, this adds a point of contention, but it's a 
   good compromise because makes it easy to check for readers at the synchronization barrier.</p>
 
-<p>To summarize the cost of atomic_data: two relaxed atomic increments/decrements for readers,
-  two CAS and data structure copy for writers (optimistic scenario), and on hitting barrier
-  we wait for all threads to stop working with data.</p>
+<p>To summarize the cost of atomic_data: an atomic increment and decrement for readers with
+  relaxed memory order, two CAS on a pointer and a data structure copy for writers (always one 
+  successful thread), and on hitting the barrier we wait for all threads to stop working with data.</p>
 
 <h3>How long should be the queue of preallocated data elements?</h3>
 
@@ -181,11 +181,14 @@
 
 <h3>Lock-free std::map?</h3>
 
-<p>Actually the design of the atomic_data makes it easy to turn std::map (or anything else) into
-  lock-free. Sure, memory allocation uses locking, so we first need to implement a lock-free
-  allocator: atomic_data can do that too (for an area allocator, for example, any freeing of 
-  memory could be done on successfully replacing the current data - there is a second functor 
-  parameter to the update method that receives a pointer to the new current data as a parameter). </p>
+<p>Actually the design of the atomic_data makes it easy to make std::map (or anything else) 
+  lock-free. </p>
+
+<p>Technically it isn't lock-free because of memory allocation. To make it truly lock-free we
+  need to implement a lock-free allocator and the design of atomic_data helps. You defer memory
+  freeing by storing a pointer in a data field and then, in a copy constructor, you check for it.
+  Since data elements from the queue are allocated atomically to every thread, it's going to be 
+  safe.</p>
 
 
 <script src="highlight/highlight.pack.js"></script>
