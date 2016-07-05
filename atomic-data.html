@@ -40,7 +40,7 @@
 
   <!-- here goes the main content -->
 
-<h2>atomic_data: A Multibyte General Purpose Lock-Free Data Structure</h2>
+<h2><strong>atomic_data</strong>: A Multibyte General Purpose Lock-Free Data Structure</h2>
 
 <p>Perhaps every article on lock-free programming should start with a warning that it's extremely
   hard to do right. There are certain subtle effects that lead to hard-to-catch bugs. Also, in
@@ -129,65 +129,86 @@
 <p>Now it is time for me to introduce <strong>atomic_data</strong> that is a good compromise between having a 
   lock-free data structure and avoiding the ABA and lifetime issues.</p>
 
-<h3>atomic_data: A Multibyte General Purpose Lock-Free Data Structure</h3>
+<h3><strong>atomic_data</strong>: A Multibyte General Purpose Lock-Free Data Structure</h3>
 
-<p>atomic_data is a variant of RCU (Read-Copy-Update). Actually, at first I didn't know that fact,
+<p><strong>atomic_data</strong> is a variant of RCU (Read-Copy-Update). Actually, at first I didn't know that fact,
   but then, while exploring, I came upon this <a href="http://www.rdrop.com/~paulmck/RCU/">page</a> by 
   Paul McKenney. After studying different implementations I came to a conclusion that 
-  atomic_data has a novel design and therefore has some value for the community. But if you 
+  <strong>atomic_data</strong> has a novel design and therefore has some value for the community. But if you 
   feel like that was already done before - feel free to leave a comment.</p>
 
 <p>The one important aspect that divides RCU techniques is in how reclamation of used memory is
   done. We need a grace period - when data is no longer accessed by threads - to do cleaning.
   This way we solve the lifetime management problem but not necessarily the ABA problem. </p>
 
-<p>atomic_data is a template that wraps any data structure. There is a static preallocated queue 
-  of this data of desired length. C++ rules for templates and static data makes it one per data 
-  type. The following illustration will make it easier to understand.</p>
+<p><strong>atomic_data</strong> is a template that wraps any data structure. There is a static preallocated 
+  circular lock-free queue of this data of desired length. C++ rules for templates and static 
+  data makes it one instance per data type. The following illustration will make it easier to 
+  understand.</p>
 
 <p><center><img src="images/atomic-data.png" alt="" title="" /></center></p>
 
 <p>During operation the update and read methods are being called that accept a functor (a lambda)
-  as a parameter provided by the user. It atomically allocates an element from the queue, makes a 
-  copy of the current data and passes it to the functor. After functor finishes, the update method
-  tries to do CAS on the pointer to current data. In case of failure the steps are repeated.
-  On success the now old data element is being atomically returned to the queue.</p>
+  as a parameter provided by the user. It atomically allocates an element from the circular 
+  lock-free queue, makes a copy of the current data and passes it to the functor. After the functor 
+  finishes, the update method tries to do CAS on the pointer to current data. In case of failure 
+  the steps are repeated. On success the now old data element is being atomically returned to the 
+  circular queue. There is also an update_weak method that doesn't loop and returns a boolean.</p>
 
-<p>So how do we avoid reusing used data and the ABA problem? That's where atomic_data differs:
+<p>So how do we avoid reusing used data and the ABA problem? That's where <strong>atomic_data</strong> differs:
   we introduce a synchronization barrier when the left pointer (atomic integer) modulo N 
   (length of the queue) equals zero (modulo for N power of two is going to be faster).  The 
-  barrier separates used elements from unused. By waiting at the barrier for the  condition 
-  <em>(right - left) == N</em> (where N is length of the queue)  we make sure that no threads access
-  the data elements from the queue in the update method. The used elements ready are now to be 
+  barrier separates used elements from unused. By waiting at the barrier for the condition 
+  <em>(right - left) == N</em> (where N is length of the queue) we make sure that no threads access
+  the data elements from the queue in the update method. The used elements are now ready to be 
   safely used again. This solves the lifetime and ABA problems at once. By increasing the length <br />
   of the queue we are able to offset the cost of this synchronization.</p>
 
 <p>But careful readers noticed that some elements in the queue might still be accessed by readers.
-  There are a number of options to solve this. atomic_data uses a static atomic reader counter
+  There are a number of options to solve this. <strong>atomic_data</strong> uses a static atomic reader counter
   with relaxed memory order (one per data type). Yes, this adds a point of contention, but it's a 
   good compromise because makes it easy to check for readers at the synchronization barrier.</p>
 
-<p>To summarize the cost of atomic_data: an atomic increment and decrement for readers with
+<p>To summarize the cost of <strong>atomic_data</strong>: an atomic increment and decrement for readers with
   relaxed memory order, two CAS on a pointer and a data structure copy for writers (there is always 
   one successful thread), and on hitting the barrier we wait for all threads to stop working with data.</p>
+
+<h3>Shortcomings of <strong>atomic_data</strong></h3>
+
+<p>Although <strong>atomic_data</strong> is quite robust and lock-free, it is still a compromise. First, there is
+  a contention point on the readers counter. Secondly, there is a sync barrier. Upon hitting this
+  barrier we should wait for all threads - writers and readers - to finish their work.</p>
+
+<p>Also it's not tolerant to a thread kill or suspension. But this seems far-fetched. We write
+  our programs under the assumption that the hardware and OS will behave as documented. Threads 
+  are no worse than processes. There should be no unexpected thread/process kill signals or 
+  suspensions. It's a completely different story if a programmer does that on purpose.</p>
 
 <h3>How long should be the queue of preallocated data elements?</h3>
 
 <p>This question might seem to be trivial, but it leads to interesting results on the pros/cons
-  of lock-free data structures.</p>
+  of lock-free data structures. For update-only scenarios it doesn't make much sense to have a 
+  lengthy queue because only one thread will ever succeed, all other threads will do useless 
+  work. In fact there is a better concurrent data structure for such cases: messaging queues.
+  A messaging queue allows one to monitor the load, also messages can be reordered for better
+  efficiency. And it's relatively easy to implement.</p>
+
+<p>For other cases it makes sense to make the queue length equal number of threads (and power of 
+  two for better efficiency). You should really measure the frequency of sync events to make a 
+  good decision. For example, if reading isn't fast then it makes sense to bump the queue size.</p>
 
 <h3>Code Samples</h3>
 
-<p>atomic_data is easy to use and it works on any data structure. Although you should always keep 
+<p><strong>atomic_data</strong> is easy to use and it works on any data structure. Although you should always keep 
   in mind the cost of copying.</p>
 
 <h3>Lock-free std::map?</h3>
 
-<p>Actually the design of the atomic_data makes it easy to make std::map (or anything else) 
+<p>Actually the design of the <strong>atomic_data</strong> makes it easy to make std::map (or anything else) 
   lock-free. </p>
 
 <p>Technically it isn't lock-free because of memory allocation. To make it truly lock-free we
-  need to implement a lock-free allocator and the design of atomic_data helps. You defer memory
+  need to implement a lock-free allocator and the design of <strong>atomic_data</strong> helps. You defer memory
   freeing by storing a pointer in a data field and then, in a copy constructor, you check for it.
   Since data elements from the queue are allocated atomically to every thread, it's going to be 
   safe.</p>
