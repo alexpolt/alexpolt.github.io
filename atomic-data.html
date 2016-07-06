@@ -64,7 +64,7 @@
   but they are not equivalent. Also important is the fact that these operations acquire additional 
   semantics when operating on pointers.</p>
 
-<p>A one of kind resource the Internet about multithreaded programming, memory barriers,
+<p>A one of kind resource on the Internet about multithreaded programming, memory barriers,
   lock-free techniques, etc. is the website by <a href="http://preshing.com/about/">Jeff Preshing</a>. </p>
 
 <h3>CAS (Compare-And-Swap)</h3>
@@ -203,7 +203,7 @@
   A messaging queue allows one to monitor the load, also messages can be reordered for better
   efficiency. And it's relatively easy to implement.</p>
 
-<p>For other cases it makes sense to make the queue length equal number the of threads (and power 
+<p>For other cases it makes sense to make the queue length equal the number of threads (and power 
   of two for better efficiency). You should really measure the frequency of sync events to make a 
   good decision. For example, if reading isn't fast then it makes sense to bump up the queue size.</p>
 
@@ -223,7 +223,7 @@
 
     using array_t = atomic_array&lt;int, 16&gt;;
 
-    atomic_data&lt; array_t&lt;int&gt;, 16 &gt; array0;
+    atomic_data&lt;array_t&gt; array0;
 
     //called by each thread
     void update_array() {
@@ -255,8 +255,20 @@
 <p>Actually the design of the <strong>atomic_data</strong> makes it easy to make std::map (or anything else) 
   lock-free. </p>
 
+<pre><code>    atomic_data&lt; std::map&lt;key,value&gt; &gt; atomic_map0;
+
+    atomic_map0.update( []( auto *map_new ) {
+        map_new-&gt;insert( { key, value } );
+    } );
+
+    atomic_map0.read( [&amp;value]( auto *map ) mutable {
+        auto it = map-&gt;find( key );
+        if( it != map-&gt;end() ) value = *it;
+    } );
+</code></pre>
+
 <p>Technically it isn't lock-free because of memory allocation. To make it truly lock-free we
-  need to implement a lock-free allocator and the design of <strong>atomic_data</strong> helps. You defer memory
+  need to implement a lock-free allocator and the design of <strong>atomic_data</strong> helps: defer memory
   freeing by storing a pointer in a data field and then, in a copy constructor, you check for it.
   Since data elements from the queue are allocated atomically to every thread, it's going to be 
   safe.</p>

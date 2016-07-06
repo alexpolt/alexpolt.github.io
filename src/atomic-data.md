@@ -24,7 +24,7 @@
   but they are not equivalent. Also important is the fact that these operations acquire additional 
   semantics when operating on pointers.
 
-  A one of kind resource the Internet about multithreaded programming, memory barriers,
+  A one of kind resource on the Internet about multithreaded programming, memory barriers,
   lock-free techniques, etc. is the website by [Jeff Preshing](http://preshing.com/about/). 
 
 
@@ -171,7 +171,7 @@
   A messaging queue allows one to monitor the load, also messages can be reordered for better
   efficiency. And it's relatively easy to implement.
 
-  For other cases it makes sense to make the queue length equal number the of threads (and power 
+  For other cases it makes sense to make the queue length equal the number of threads (and power 
   of two for better efficiency). You should really measure the frequency of sync events to make a 
   good decision. For example, if reading isn't fast then it makes sense to bump up the queue size.
 
@@ -184,23 +184,24 @@
   Let's implement an atomic lock-free array. The threads will scan the array and increment the
   minimal value:
 
+
         template<typename T, size_t N>
         struct atomic_array {
             static const size_t size = N;
             T data[N];
         };
-
+        
         using array_t = atomic_array<int, 16>;
-
-        atomic_data< array_t<int>, 16 > array0;
-
+        
+        atomic_data<array_t> array0;
+        
         //called by each thread
         void update_array() {
           array0.update( []( array_t* array_new ) {
-
+        
             int min = 0;
             size_t min_index = 0;
-
+        
             //look up minimum value
             for( size_t i = 0; i < array_t.size; i++ ) {
                 if( array_new->data[i] < min ) {
@@ -208,11 +209,12 @@
                   min_index = i;
                 }
             }
-
+        
             array_new->data[ min_index ]++;
-
+        
           } );
         }
+
 
   Remember, you can't touch any data that doesn't belong to **atomic\_data**. So, for example, you 
   can't really make a double ended linked list, unless you make the size fixed and store the entire 
@@ -225,8 +227,20 @@
   lock-free. 
 
 
+        atomic_data< std::map<key,value> > atomic_map0;
+        
+        atomic_map0.update( []( auto *map_new ) {
+            map_new->insert( { key, value } );
+        } );
+        
+        atomic_map0.read( [&value]( auto *map ) mutable {
+            auto it = map->find( key );
+            if( it != map->end() ) value = *it;
+        } );
+
+
   Technically it isn't lock-free because of memory allocation. To make it truly lock-free we
-  need to implement a lock-free allocator and the design of **atomic\_data** helps. You defer memory
+  need to implement a lock-free allocator and the design of **atomic\_data** helps: defer memory
   freeing by storing a pointer in a data field and then, in a copy constructor, you check for it.
   Since data elements from the queue are allocated atomically to every thread, it's going to be 
   safe.
