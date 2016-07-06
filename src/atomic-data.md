@@ -121,23 +121,31 @@
   circular queue. There is also an update\_weak method that doesn't loop and returns a boolean.
 
   So how do we avoid reusing used data and the ABA problem? That's where **atomic\_data** differs:
-  we introduce a synchronization barrier when the left pointer (atomic integer) modulo N 
-  (length of the queue) equals zero (modulo for N power of two is going to be faster).  The 
-  barrier separates used elements from unused. By waiting at the barrier for the condition 
+  we introduce a synchronization barrier when the left pointer (atomic integer) modulo N
+  (length of the queue) equals zero (modulo for N power of two is going to be faster).  The
+  barrier separates used elements from unused. By waiting at the barrier for the condition
   *(right - left) == N* (where N is length of the queue) we make sure that no threads access
-  the data elements from the queue in the update method. The used elements are now ready to be 
-  safely used again. This solves the lifetime and ABA problems at once. By increasing the length  
+  the data elements from the queue in the update method. The used elements are now ready to be
+  safely used again. This solves the lifetime and ABA problems at once. By increasing the length
   of the queue we are able to offset the cost of this synchronization.
 
   But careful readers noticed that some elements in the queue might still be accessed by readers.
   There are a number of options to solve this. **atomic\_data** uses a static atomic reader counter
-  with relaxed memory order (one per data type). Yes, this adds a point of contention, but it's a 
-  good compromise because makes it easy to check for readers at the synchronization barrier.
+  with relaxed memory order (language rules make it one per data type). Yes, this adds a point of 
+  contention, but it's a good compromise because makes it easy to check for readers at the 
+  synchronization barrier.
 
-  To summarize the cost of **atomic\_data**: an atomic increment and decrement for readers with
-  relaxed memory order, two CAS on a pointer and a data structure copy for writers (there is always 
-  one successful thread), and on hitting the barrier we wait for all threads to stop working with data.
 
+###Perfomance Cost
+
+  The cost of **atomic\_data**: an atomic increment and decrement for readers with relaxed memory 
+  order, two CAS on a pointer and a data structure copy for writers (there is always one successful 
+  thread), and on hitting the barrier we wait for all threads to stop working with data.
+
+
+###Exceptions
+
+  **atomic\_data** is tolerant to exceptions: it catches all exceptions, does cleanup and rethrows.
 
 ###Shortcomings of **atomic\_data**
 
@@ -150,8 +158,11 @@
   are no worse than processes. There should be no unexpected thread/process kill signals or 
   suspensions. It's a completely different story if a programmer does that on purpose.
 
+  **atomic\_data::update** is not reentrable for a thread: calling **atomic\_data::update** from 
+  inside **atomic\_data::update** can cause an infinite wait on the barrier.
 
-###How long should be the queue of preallocated data elements?
+
+###How Long Should Be the Queue of Preallocated Data Elements?
   
   This question might seem to be trivial, but it leads to interesting results on the pros/cons
   of lock-free data structures. For update-only scenarios it doesn't make much sense to have a 
@@ -160,15 +171,52 @@
   A messaging queue allows one to monitor the load, also messages can be reordered for better
   efficiency. And it's relatively easy to implement.
 
-  For other cases it makes sense to make the queue length equal number of threads (and power of 
-  two for better efficiency). You should really measure the frequency of sync events to make a 
-  good decision. For example, if reading isn't fast then it makes sense to bump the queue size.
+  For other cases it makes sense to make the queue length equal number the of threads (and power 
+  of two for better efficiency). You should really measure the frequency of sync events to make a 
+  good decision. For example, if reading isn't fast then it makes sense to bump up the queue size.
 
 
 ###Code Samples
 
-  **atomic\_data** is easy to use and it works on any data structure. Although you should always keep 
-  in mind the cost of copying.
+  **atomic\_data** is easy to use and it works on any copyable data structure. Although you should 
+  always keep in mind the cost of copying.
+
+  Let's implement an atomic lock-free array. The threads will scan the array and increment the
+  minimal value:
+
+        template<typename T, size_t N>
+        struct atomic_array {
+            static const size_t size = N;
+            T data[N];
+        };
+
+        using array_t = atomic_array<int, 16>;
+
+        atomic_data< array_t<int>, 16 > array0;
+
+        //called by each thread
+        void update_array() {
+          array0.update( []( array_t* array_new ) {
+
+            int min = 0;
+            size_t min_index = 0;
+
+            //look up minimum value
+            for( size_t i = 0; i < array_t.size; i++ ) {
+                if( array_new->data[i] < min ) {
+                  min = array_new->data[i];
+                  min_index = i;
+                }
+            }
+
+            array_new->data[ min_index ]++;
+
+          } );
+        }
+
+  Remember, you can't touch any data that doesn't belong to **atomic\_data**. So, for example, you 
+  can't really make a double ended linked list, unless you make the size fixed and store the entire 
+  list in the **atomic\_data**.
 
 
 ###Lock-free std::map?
