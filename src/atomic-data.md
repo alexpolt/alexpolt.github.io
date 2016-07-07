@@ -116,41 +116,38 @@
   During operation the update and read methods are being called that accept a functor (a lambda)
   as a parameter provided by the user. It atomically allocates an element from the circular 
   lock-free queue, makes a copy of the current data and passes it to the functor. After the functor 
-  finishes, the update method tries to do CAS on the pointer to current data. In case of failure 
+  finishes, the update method tries to do CAS on the pointer to current data. In case of a failure 
   the steps are repeated. On success the now old data element is being atomically returned to the 
-  circular queue. There is also an update\_weak method that doesn't loop and returns a boolean.
+  circular queue. There is also an *update\_weak* method that doesn't loop and returns a boolean.
 
   So how do we avoid reusing used data and the ABA problem? That's where **atomic\_data** differs:
-  we introduce a synchronization barrier when the left pointer (atomic integer) modulo N
-  (length of the queue) equals zero (modulo for N power of two is going to be faster).  The
-  barrier separates used elements from unused. By waiting at the barrier for the condition
-  *(right - left) == N* (where N is length of the queue) we make sure that no threads access
-  the data elements from the queue in the update method. The used elements are now ready to be
-  safely used again. This solves the lifetime and ABA problems at once. By increasing the length
-  of the queue we are able to offset the cost of this synchronization.
-
-  But careful readers noticed that some elements in the queue might still be accessed by readers.
-  There are a number of options to solve this. **atomic\_data** uses a static atomic reader counter
-  with relaxed memory order (language rules make it one per data type). Yes, this adds a point of 
-  contention, but it's a good compromise because makes it easy to check for readers at the 
-  synchronization barrier.
+  we introduce *a synchronization barrier* when the left pointer (atomic integer) modulo N
+  (length of the queue) equals zero.  The barrier separates used elements from unused. By waiting 
+  at the barrier for the usage counter (readers + writers) to become zero we make sure that no 
+  threads access the data elements from the queue in the update method. The used elements are now 
+  ready to be safely used again. This solves the lifetime and ABA problems at once. By increasing 
+  the length of the queue we are able to offset the cost of this synchronization.
 
 
-###Perfomance Cost
+###Performance Cost
 
-  The cost of **atomic\_data**: an atomic increment and decrement for readers with relaxed memory 
-  order, two CAS on a pointer and a data structure copy for writers (there is always one successful 
-  thread), and on hitting the barrier we wait for all threads to stop working with data.
+  For readers: an atomic increment and a decrement for the usage counter with relaxed memory order. 
+  For writers: it is four relaxed increments/decrements, a data structure copy and a CAS on the 
+  data pointer. On hitting the barrier we wait for all threads (usage counter) to stop working with 
+  data.
 
 
 ###Exceptions
 
-  **atomic\_data** is tolerant to exceptions: it catches all exceptions, does cleanup and rethrows.
+  **atomic\_data** dynamically constructs queue elements in the constructor and deletes in the
+  destructor. It doesn't catch exceptions there. The *read* and *update* methods don't catch 
+  exceptions, but leave **atomic\_data** in the correct state.
+
 
 ###Shortcomings of **atomic\_data**
 
-  Although **atomic\_data** is quite robust and lock-free, it is still a compromise. First, there is
-  a contention point on the readers counter. Secondly, there is a sync barrier. Upon hitting this
+  Although **atomic\_data** is quite robust and lock-free, it is still a compromise. First, there
+  is a contention point on the usage counter. Secondly, there is a sync barrier. Upon hitting this
   barrier we should wait for all threads - writers and readers - to finish their work.
 
   Also it's not tolerant to a thread kill or suspension. But this seems far-fetched. We write
@@ -244,8 +241,6 @@
   freeing by storing a pointer in a data field and then, in a copy constructor, you check for it.
   Since data elements from the queue are allocated atomically to every thread, it's going to be 
   safe.
-
-
 
 
 
