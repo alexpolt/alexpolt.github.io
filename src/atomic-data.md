@@ -188,15 +188,15 @@
             T data[N];
         };
         
-        using array_t = atomic_array<int, 16>;
+        using array_t = atomic_array<unsigned, 16>;
         
-        atomic_data<array_t> array0;
+        atomic_data<array_t, 4> array0;
         
         //called by each thread
         void update_array() {
           array0.update( []( array_t* array_new ) {
         
-            int min = 0;
+            unsigned min = -1;
             size_t min_index = 0;
         
             //look up minimum value
@@ -212,6 +212,8 @@
           } );
         }
 
+  Here is the [Ideone](http://ideone.com/ExtrT5) example (everything in a single file, the above 
+  algorithm is at the end of the code).
 
   Remember, you can't touch any data that doesn't belong to **atomic\_data**. So, for example, you 
   can't really make a double ended linked list, unless you make the size fixed and store the entire 

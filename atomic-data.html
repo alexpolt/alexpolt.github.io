@@ -217,15 +217,15 @@
         T data[N];
     };
 
-    using array_t = atomic_array&lt;int, 16&gt;;
+    using array_t = atomic_array&lt;unsigned, 16&gt;;
 
-    atomic_data&lt;array_t&gt; array0;
+    atomic_data&lt;array_t, 4&gt; array0;
 
     //called by each thread
     void update_array() {
       array0.update( []( array_t* array_new ) {
 
-        int min = 0;
+        unsigned min = -1;
         size_t min_index = 0;
 
         //look up minimum value
@@ -241,6 +241,9 @@
       } );
     }
 </code></pre>
+
+<p>Here is the <a href="http://ideone.com/ExtrT5">Ideone</a> example (everything in a single file, the above 
+  algorithm is at the end of the code).</p>
 
 <p>Remember, you can't touch any data that doesn't belong to <strong>atomic_data</strong>. So, for example, you 
   can't really make a double ended linked list, unless you make the size fixed and store the entire 
