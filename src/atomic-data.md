@@ -129,6 +129,9 @@
   the length of the queue we are able to offset the cost of this synchronization.
 
 
+###Memory Ordering Considerations
+  ...
+
 ###Performance Cost
 
   For readers: an atomic increment and a decrement for the usage counter with relaxed memory order. 

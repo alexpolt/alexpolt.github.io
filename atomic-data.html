@@ -163,6 +163,10 @@
   ready to be safely used again. This solves the lifetime and ABA problems at once. By increasing 
   the length of the queue we are able to offset the cost of this synchronization.</p>
 
+<h3>Memory Ordering Considerations</h3>
+
+<p>...</p>
+
 <h3>Performance Cost</h3>
 
 <p>For readers: an atomic increment and a decrement for the usage counter with relaxed memory order. 
