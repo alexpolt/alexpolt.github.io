@@ -7,7 +7,7 @@
 >   The way you spend your day is the way you spend your life
 
 
-  * [A better alternative to shared_ptr for shared ownership](link.html)
+  * [A Better Alternative to Shared_ptr for Shared Ownership](link.html)
 
     *shared_ptr* is not an answer to the shared ownership problem.
 
@@ -20,12 +20,12 @@
 >   Learning to learn is of paramount importance.
 
 
-  * [Introducing DFAA antialiasing algorithm](dfaa.html)
+  * [Introducing DFAA Antialiasing Algorithm](dfaa.html)
 
     I've come up with a an intresting method for doing antialiasing.
 
 
-  * [Using macro kung fu to easier check function return values](macros-checking.html)
+  * [Using Macro Kung Fu to Easier Check Function Return Values](macros-checking.html)
 
     Checking multiple function calls with one macro.
 
@@ -33,7 +33,7 @@
 >   Program execution could be viewed as data flowing across scopes.
 
 
-  * [**Minor problems with C++ move semantics**](empty-value.html)
+  * [**Minor Problems with C++ Move Semantics**](empty-value.html)
 
     Some thoughts on the C++ move minor annoyances.
 
@@ -43,19 +43,19 @@
     A generalization and simplification of the CHM Perfect Hashing Algorithm.
 -->
 
-  * [Consistent hashing revisited](random-probing.html)
+  * [Consistent Hashing Revisited](random-probing.html)
 
     Consistent hashing is used to balance load in case a bucket (server) goes bad.
 
 >   Being the best or being better than others is the dumbest choice for a goal in life.
 
 <!--
-  * [Tasking and object sharing](tasking.html)
+  * [Tasking and Object Sharing](tasking.html)
     
     Task programming model gives a chance to solve the object sharing problem.
 -->
 
-  * [C++ properties](cpp-property.html)
+  * [C++ Properties](cpp-property.html)
 
     One more nugget from C++.
 
@@ -65,7 +65,7 @@
 >   last field in the header struct, then just write the header at the end of the file.
 
 
-  * [Value semantics](values.html)
+  * [Value Semantics](values.html)
 
     Some thoughts on using values vs pointers/references.
 
@@ -86,14 +86,14 @@
 >   //using '$' prefix helps to quickly identify macros and member variables
 
 
-  * [The way *operator&lt;&lt;* and *operator&gt;&gt;* should have been overloaded](vector-push.html)
+  * [The Way *operator&lt;&lt;* and *operator&gt;&gt;* Should Have Been Overloaded](vector-push.html)
 
     >*std::vector&lt;int&gt; v{}; int i{};*  
     >*v << 1 << 2;*  
     >*v >> i;*
 
 
-  * [**Print-format a float in base-10**](print-fp.html)
+  * [**Print-format a Float in Base-10**](print-fp.html)
   
     A hack for quick and easy printing of a floating point number in base-10.
 
@@ -101,7 +101,7 @@
 
     Some observations regarding human memory.
 
-  * [On motivation](motivation.html)
+  * [On Motivation](motivation.html)
   
     First blog post is about an important topic of motivation.
 
