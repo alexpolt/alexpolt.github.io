@@ -144,12 +144,12 @@
 
 ###Memory Ordering Considerations
   
-  To test correctness of **atomic\_data** operation I used an array of some size and the task was 
-  to find the minimum element and increment it. Given the right size of the array, the number of 
-  threads and the number of iterations for each thread the result should be that every array cell 
-  contains the same number: iterations * number of threads / array size. For example, 4 threads 
-  each doing 8192 increment iterations on an array of size 256: the entire array must contain the 
-  number 4\*8192/256 = 128 in the end.
+  To test the correctness of **atomic\_data** operation I used an array of some size and the task 
+  was to find the minimum element and increment it. Given the right size of the array, the number 
+  of threads and the number of iterations for each thread the result should be that every array 
+  cell contains the same number: iterations * number of threads / array size. For example, 
+  4 threads each doing 8192 increment iterations on an array of size 256: the entire array must 
+  contain the number 4\*8192/256 = 128 in the end.
 
   For the first draft of *atomic\_data* every atomic operation was using relaxed semantics just to 
   see what happens. Guess my surprise when on my 2 Core Intel machine the test was successful!
@@ -175,7 +175,7 @@
   memory. I mean, if your reads are dependent then you can skip having an acquire fence. 
 
 
- <center>![](images/ordered-unorder-stoers.jpg)</center>
+ <center>![](images/ordered-unorder-stores.jpg)</center>
 
 
 

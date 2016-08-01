@@ -177,12 +177,12 @@
 
 <h3>Memory Ordering Considerations</h3>
 
-<p>To test correctness of <strong>atomic_data</strong> operation I used an array of some size and the task was 
-  to find the minimum element and increment it. Given the right size of the array, the number of 
-  threads and the number of iterations for each thread the result should be that every array cell 
-  contains the same number: iterations * number of threads / array size. For example, 4 threads 
-  each doing 8192 increment iterations on an array of size 256: the entire array must contain the 
-  number 4*8192/256 = 128 in the end.</p>
+<p>To test the correctness of <strong>atomic_data</strong> operation I used an array of some size and the task 
+  was to find the minimum element and increment it. Given the right size of the array, the number 
+  of threads and the number of iterations for each thread the result should be that every array 
+  cell contains the same number: iterations * number of threads / array size. For example, 
+  4 threads each doing 8192 increment iterations on an array of size 256: the entire array must 
+  contain the number 4*8192/256 = 128 in the end.</p>
 
 <p>For the first draft of <em>atomic_data</em> every atomic operation was using relaxed semantics just to 
   see what happens. Guess my surprise when on my 2 Core Intel machine the test was successful!
@@ -207,7 +207,7 @@
   a release barrier, it means all the memory stores before the observed value has reached the
   memory. I mean, if your reads are dependent then you can skip having an acquire fence. </p>
 
-<p><center><img src="images/ordered-unorder-stoers.jpg" alt="" title="" /></center></p>
+<p><center><img src="images/ordered-unorder-stores.jpg" alt="" title="" /></center></p>
 
 <h3>Performance Cost</h3>
 
