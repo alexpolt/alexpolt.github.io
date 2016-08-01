@@ -7,7 +7,7 @@
 >   The way you spend your day is the way you spend your life
 
 
-  * [A Better Alternative to Shared_ptr for Shared Ownership](link.html)
+  * [A Better Alternative to shared_ptr for Shared Ownership](link.html)
 
     *shared_ptr* is not an answer to the shared ownership problem.
 
