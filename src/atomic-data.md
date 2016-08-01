@@ -90,9 +90,14 @@
   using locks won't be of great service here. Again, GC, hazard pointers or using  shared\_ptr 
   can help, but they all are not ideal. GC needs a stop-the-world pause, hazard pointers require
   checking all threads, reference counting is a performance hit and might break out of control.
-  
-  Now it is time for me to introduce **atomic_data** that is a good compromise between having a 
-  lock-free data structure and avoiding the ABA and lifetime issues.
+
+  In no way this is the exhaustive description of lock-free programming issues, but these two
+  are the most important. For linked data structures there is also a delete problem and we'll 
+  cover it later.
+
+  **Now it is time for me to introduce *atomic\_data* that is a good compromise between having a 
+  lock-free data structure and avoiding the ABA and lifetime issues.**
+
 
 ###**atomic\_data**: A Multibyte General Purpose Lock-Free Data Structure
 
@@ -113,7 +118,7 @@
 
  <center>![](images/atomic-data.png)</center>
 
-  During operation the update and read methods are being called that accept a functor (a lambda)
+  During operation the *update* and *read* methods are being called that accept a functor (a lambda)
   as a parameter provided by the user. It atomically allocates an element from the circular 
   lock-free queue, makes a copy of the current data and passes it to the functor. After the functor 
   finishes, the update method tries to do CAS on the pointer to current data. In case of a failure 
@@ -121,16 +126,58 @@
   circular queue. There is also an *update\_weak* method that doesn't loop and returns a boolean.
 
   So how do we avoid reusing used data and the ABA problem? That's where **atomic\_data** differs:
-  we introduce *a synchronization barrier* when the left pointer (atomic integer) modulo N
-  (length of the queue) equals zero.  The barrier separates used elements from unused. By waiting 
-  at the barrier for the usage counter (readers + writers) to become zero we make sure that no 
-  threads access the data elements from the queue in the update method. The used elements are now 
-  ready to be safely used again. This solves the lifetime and ABA problems at once. By increasing 
-  the length of the queue we are able to offset the cost of this synchronization.
+  we use a backing multi-producer/multi-consumer queue and introduce *a synchronization barrier*.
+  This sync barrier creates a "time out" during which **atomic\_data** waits for old reads and
+  updates to complete. There is also a nice hack: the backing array for the queue is double the 
+  size that makes possible to use two atomic counters to watch for the data usage. This allows 
+  reading to be independent of the sync barrier and be wait-free (read the code for more details).
+  
+  When I got the idea for the design of **atomic\_data** I had to choose how to implement a 
+  lock-free multi-producer/multi-consumer queue. I didn't suspect that doing this right is 
+  extremely difficult! I ran into every possible concurrency bug. There were three candidates in 
+  the end: two MP/SC queues with a single-threaded broker in between, a MP/MC queue requiring DCAS 
+  (Double CAS) to fight overruning and finally a MP/MC queue with a sync barrier (I think I need 
+  to blog about it in a different post). After testing the best implementation was the queue with
+  a barrier: it had a simple design, it worked very reliably, it didn't require DCAS and finally
+  it showed good performance.
 
 
 ###Memory Ordering Considerations
-  ...
+  
+  To test correctness of **atomic\_data** operation I used an array of some size and the task was 
+  to find the minimum element and increment it. Given the right size of the array, the number of 
+  threads and the number of iterations for each thread the result should be that every array cell 
+  contains the same number: iterations * number of threads / array size. For example, 4 threads 
+  each doing 8192 increment iterations on an array of size 256: the entire array must contain the 
+  number 4\*8192/256 = 128 in the end.
+
+  For the first draft of *atomic\_data* every atomic operation was using relaxed semantics just to 
+  see what happens. Guess my surprise when on my 2 Core Intel machine the test was successful!
+  What happened? Where is the memory ordering hell? This was my first revelation into strongly
+  ordered CPUs. 
+  As [Jeff Preshing mentions](http://preshing.com/20120515/memory-reordering-caught-in-the-act/), 
+  on x86 the locked instructions act as memory barriers themselves. Also using static globals for 
+  the queue didn't left much opportunity for the compiler reordering of the source code. 
+
+  But that's not the end of the story. The next in line for the test was my Samsung Galaxy S5 CPU: 
+  a 4 Core ARM. I created a simple project using Android NDK (thanks Google the C++ compilers are 
+  up-to-date and everything works, though some reading and googling might still be necessary ) and 
+  fired it up. BAM! Several thousand increments  were missing! Nice, I was looking for this. 
+  Actually, I really advise you to get the Android Studio project for **atomic\_data** and comment 
+  the two atomic\_thread\_fence calls there. After that fire it up on your smartphone, see the 
+  missing counts and then try to place the fences in the code yourself. The puzzle is - using
+  the minimum number of fences achieve correct behaviour.
+
+  Observing the memory operation's reordering in the act was a nice experience. Slowly I got
+  the intuition for what happens and solved the problem. It took me just two release fences.
+  Here I'd like to mention the following observation: if a thread read a variable that's behind
+  a release barrier, it means all the memory stores before the observed value has reached the
+  memory. I mean, if your reads are dependent then you can skip having an acquire fence. 
+
+
+ <center>![](images/ordered-unorder-stoers.jpg)</center>
+
+
 
 ###Performance Cost
 
