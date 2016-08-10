@@ -211,7 +211,7 @@
   happen. And threads are not inferior to processes in any way. The only real issue is 
   preemption and the picture below provides a Concurrency Visualizer graph of thread scheduling.
 
- <center>![](images/atomic-data-trace.jpg)</center>
+ <center>![](images/atomic-data-trace.png)</center>
 
   If it becomes a real problem in your program then you can increase the size of the queue.
   But from my tests and was never an issue and performance results speak for themselves (some
