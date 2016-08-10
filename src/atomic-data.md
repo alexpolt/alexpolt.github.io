@@ -13,8 +13,8 @@
   * [Code Samples](#code)
     * [Increment/Decrements of an Array](#atomic_data_test)
     * [Lock-Free std::map?](#atomic_map)
-    * [atomic\_data as a Container Element](vector_of_atomic)
-    * [Concurrent Singly Linked List with Arbitrary Access](atomic_list)
+    * [atomic\_data as a Container Element](#vector_of_atomic)
+    * [Concurrent Singly Linked List with Arbitrary Access](#atomic_list)
   * [Performance tests](#performance)
 
 
