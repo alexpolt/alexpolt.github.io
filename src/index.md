@@ -1,18 +1,21 @@
-<!--
-  * [Parallel Programming is like Quantum Mechanics](atomic-data.html)
 
-    About lock-free programming and a new lock-free data structure *atomic_data*.
--->
+
+
+  * [atomic\_data: A Multibyte General Purpose Lock-Free Data Structure](atomic-data.html)
+
+    My greatest work so far. I am writing about lock-free programming gotchas and also present
+    a hopefully novel design: **atomic\_data**.
+
 
 >   The way you spend your day is the way you spend your life
 
 
-  * [A Better Alternative to shared_ptr for Shared Ownership](link.html)
+  * [A Better Alternative to shared\_ptr for Shared Ownership](link.html)
 
     *shared_ptr* is not an answer to the shared ownership problem.
 
 
-  * [unique_ptr -> unique](unique.html)
+  * [unique\_ptr -> unique](unique.html)
 
     We need a more general *unique* design pattern.
 
@@ -37,11 +40,11 @@
 
     Some thoughts on the C++ move minor annoyances.
 
-<!--
+
   * [Free Variables Perfect Hashing Algorithm](perfect-hashing.html)
 
     A generalization and simplification of the CHM Perfect Hashing Algorithm.
--->
+
 
   * [Consistent Hashing Revisited](random-probing.html)
 
@@ -49,11 +52,11 @@
 
 >   Being the best or being better than others is the dumbest choice for a goal in life.
 
-<!--
+
   * [Tasking and Object Sharing](tasking.html)
     
     Task programming model gives a chance to solve the object sharing problem.
--->
+
 
   * [C++ Properties](cpp-property.html)
 
