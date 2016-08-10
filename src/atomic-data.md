@@ -11,6 +11,11 @@
   * [Memory Ordering Considerations](#memory_ordering)
   * [Exception safety, limitations and other issues](#issues)
   * [Code Samples](#code)
+    * [Increment/Decrements of an Array](#atomic_data_test)
+    * [Lock-Free std::map?](#atomic_map)
+    * [atomic\_data as a Container Element](vector_of_atomic)
+    * [Concurrent Singly Linked List with Arbitrary Access](atomic_list)
+  * [Performance tests](#performance)
 
 
 <a name="intro"></a>
@@ -255,6 +260,8 @@
 ##Code Samples
 
 
+<a name="incdec"></a>
+
 ###Increments/Decrements of an Array
 
   Now comes my favorite part because the design of **atomic\_data** allows to create really
@@ -314,6 +321,8 @@
   the update method the code updates some other global or captured data - that's gonna bite.
 
 
+<a name="atomic_map"></a>
+
 ###Lock-Free std::map?
 
   The design of the **atomic\_data** makes it really easy to turn any data structure into a 
@@ -342,6 +351,8 @@
   [Try it][atomic-vector] on your machine.
 
 
+<a name="vector_of_atomic"></a>
+
 ###atomic\_data as a Container Element
 
   **atomic\_data** is copyable and movable and it can be used as a container element.
@@ -355,6 +366,8 @@
 
   Here is a [sample][vector-of-atomic].
 
+
+<a name="atomic_list"></a>
 
 ###Concurrent Singly Linked List with Arbitrary Access
 
@@ -424,6 +437,8 @@
   and deletions at random positions. At the end we expect the list to remain the initial size.
   Get a look at the code on [Github][atomic_list].
 
+
+<a name="performance"></a>
 
 ##Performance
 

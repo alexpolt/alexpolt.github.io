@@ -51,7 +51,14 @@
 <li><a href="#atomic_data">atomic_data</a></li>
 <li><a href="#memory_ordering">Memory Ordering Considerations</a></li>
 <li><a href="#issues">Exception safety, limitations and other issues</a></li>
-<li><a href="#code">Code Samples</a></li>
+<li><a href="#code">Code Samples</a>
+<ul>
+<li><a href="#atomic_data_test">Increment/Decrements of an Array</a></li>
+<li><a href="#atomic_map">Lock-Free std::map?</a></li>
+<li><a href="vector_of_atomic">atomic_data as a Container Element</a></li>
+<li><a href="atomic_list">Concurrent Singly Linked List with Arbitrary Access</a></li>
+</ul></li>
+<li><a href="#performance">Performance tests</a></li>
 </ul>
 
 <p><a name="intro"></a></p>
@@ -285,6 +292,8 @@
 
 <h2>Code Samples</h2>
 
+<p><a name="incdec"></a></p>
+
 <h3>Increments/Decrements of an Array</h3>
 
 <p>Now comes my favorite part because the design of <strong>atomic_data</strong> allows to create really
@@ -342,6 +351,8 @@
 <p>One thing to remember though is that <strong>atomic_data</strong> guards only the data it holds. If inside
   the update method the code updates some other global or captured data - that's gonna bite.</p>
 
+<p><a name="atomic_map"></a></p>
+
 <h3>Lock-Free std::map?</h3>
 
 <p>The design of the <strong>atomic_data</strong> makes it really easy to turn any data structure into a 
@@ -369,6 +380,8 @@
   different: vector can skip memory allocation on copying and it makes it quite fast. 
   [Try it][atomic-vector] on your machine.</p>
 
+<p><a name="vector_of_atomic"></a></p>
+
 <h3>atomic_data as a Container Element</h3>
 
 <p><strong>atomic_data</strong> is copyable and movable and it can be used as a container element.</p>
@@ -380,6 +393,8 @@
 </code></pre>
 
 <p>Here is a <a href="https://github.com/alexpolt/atomic_data/blob/master/samples/vector_of_atomic.cpp">sample</a>.</p>
+
+<p><a name="atomic_list"></a></p>
 
 <h3>Concurrent Singly Linked List with Arbitrary Access</h3>
 
@@ -448,6 +463,8 @@
   array_size number of elements. Then we launch threads that perform equal number of insertions 
   and deletions at random positions. At the end we expect the list to remain the initial size.
   Get a look at the code on <a href="https://github.com/alexpolt/atomic_data/blob/master/samples/atomic_list.cpp">Github</a>.</p>
+
+<p><a name="performance"></a></p>
 
 <h2>Performance</h2>
 
