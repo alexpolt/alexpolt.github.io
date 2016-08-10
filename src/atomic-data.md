@@ -405,30 +405,47 @@
   reads prevailing over updates. Also important is the size of guarded data.
 
 
-  <TABLE>
+<TABLE>
   <TR><TH>OS
-      <TH colspan="4">Windows 7
-      <TH colspan="4">Android 5
-      <TH colspan="4">Ubuntu
-  <TR><TH>data size       <TH>1<TH>8<TH>64<TH>256 
-                          <TH>1<TH>8<TH>64<TH>256
-                          <TH>1<TH>8<TH>64<TH>256
-  <TR><TH>updates<br/>
+      <TH colspan="4">Windows 7<br>2 Core AMD
+      <TH colspan="4">Android 5<br>4 Core ARM
+      <TH colspan="4">Ubuntu <br>2 Core Intel
+  <TR><TH>data size       <TH>1   <TH>8   <TH>64    <TH>256 
+                          <TH>1   <TH>8   <TH>64    <TH>256
+                          <TH>1   <TH>8   <TH>64    <TH>256
+  <TR><TH>many updates<BR>
           zero reads      
-                          <TD>1.9<TD>40%<TD>0.003<TD>40%
-                          <TD>1.9<TD>40%<TD>0.003<TD>40%
-                          <TD>1.9<TD>40%<TD>0.003<TD>40%
-  <TR><TH>updates<br/>
-          equals reads    
-                          <TD>1.9<TD>40%<TD>0.003<TD>40%
-                          <TD>1.9<TD>40%<TD>0.003<TD>40%
-                          <TD>1.9<TD>40%<TD>0.003<TD>40%
-  <TR><TH>updates<br/>
-          less then reads 
-                          <TD>1.9<TD>40%<TD>0.003<TD>40%
-                          <TD>1.9<TD>40%<TD>0.003<TD>40%
-                          <TD>1.9<TD>40%<TD>0.003<TD>40%
-  </TABLE>
+                          <TD>110<BR>220  <TD>160<BR>290 <TD>300<BR>500 <TD>750<BR>1000
+                          <TD><BR>  <TD><BR> <TD><BR> <TD><BR>
+                          <TD><BR>  <TD><BR> <TD><BR> <TD><BR>
+ <TR><TH>many updates<BR>
+         many reads    
+                          <TD>130<BR>250  <TD>210<BR>290 <TH>580<BR>510 <TH>1400<BR>1200
+                          <TD><BR>  <TD><BR> <TD><BR> <TD><BR>
+                          <TD><BR>  <TD><BR> <TD><BR> <TD><BR>
+ <TR><TH>many updates<BR>
+         20x more reads 
+                          <TD>280<BR>300  <TH>690<BR>620 <TH>3500<BR>2000 <TH>13400<BR>6800
+                          <TD><BR>  <TD><BR> <TD><BR> <TD><BR>
+                          <TD><BR>  <TD><BR> <TD><BR> <TD><BR>
+</TABLE>
+
+
+  To get the numbers I used the array increments/decrements sample - the first in the Samples 
+  section above. These are milliseconds but they are relative just to compare the performance with 
+  the baseline std::mutex case. The first line is for the mutex, the second is **atomic\_data**.
+  The queue size for the **atomic\_data** was 2\*threads\_size and threads\_size = 8.
+
+  You can see how good the Windows 7 mutex is. I guess they do some scheduling tricks under the 
+  hood (wasn't able to find relative info on the Net). And the fact that increasing the data size
+  changes the situation supports that guess.
+
+  You see, **atomic\_data** is quite competitive even with it copying data on every update. But
+  we more testing and I ask for your help here. Clone or download the [Github][github] repo and
+  run the tests on your machine. **atomic\_data** works both on 32-bit and 64-bit machines.
+ 
+  You're a hero if you've read all of the article.
+
 
 
   [preshing]: http://preshing.com/about/ "Jeff Prshing Excellent Website"
@@ -444,6 +461,7 @@
           "CppCon 2014: Lock-Free Programming (or, Juggling Razor Blades), Part II"
   [atomic_list]: https://github.com/alexpolt/atomic_data/blob/master/samples/atomic_list.cpp
   [mutex]: https://github.com/alexpolt/atomic_data/blob/master/samples/atomic_data_mutex.h
+  [github]: https://github.com/alexpolt/atomic_data
   [deletion]: images/deletion-problem.png "The deletion problem in lock-free lists"
   [preemption-orig]: images/atomic-data-trace-orig.png "Clean version of above"
   [preemption]: images/atomic-data-trace.png "The effect of preemption"
