@@ -1,5 +1,5 @@
 
-##Using macro kung fu to easier check function return values
+##Using Macro Kung Fu to Easier Check Function Return Values
 
   Below is a chopped piece of code from Directx SDK sources.
 
@@ -52,7 +52,7 @@
                ,g_pd3dDevice->CreateTexture( ... ) 
              );
     
-    // or
+    // or (from one to three arguments)
     
     $checkall( FAILED,
                ,g_pd3dDevice->CreateTexture( ... )
@@ -60,4 +60,5 @@
 
 
   Isn't it better? The only imperfection is that line numbers are messed up.
+
 
