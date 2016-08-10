@@ -1,5 +1,5 @@
 
-##Value semantics
+##Value Semantics
 
   Lengthy articles are written about value semantics. Now it's my turn and I will try to be short.
 
