@@ -404,37 +404,32 @@
   There are three basic cases: updates and zero reads, equal number of update and read calls, and
   reads prevailing over updates. Also important is the size of guarded data.
 
-  <TABLE>
 
+  <TABLE>
   <TR><TH>OS
       <TH colspan="4">Windows 7
       <TH colspan="4">Android 5
       <TH colspan="4">Ubuntu
-
   <TR><TH>data size       <TH>1<TH>8<TH>64<TH>256 
                           <TH>1<TH>8<TH>64<TH>256
                           <TH>1<TH>8<TH>64<TH>256
-
   <TR><TH>updates<br/>
           zero reads      
                           <TD>1.9<TD>40%<TD>0.003<TD>40%
                           <TD>1.9<TD>40%<TD>0.003<TD>40%
                           <TD>1.9<TD>40%<TD>0.003<TD>40%
-
   <TR><TH>updates<br/>
           equals reads    
                           <TD>1.9<TD>40%<TD>0.003<TD>40%
                           <TD>1.9<TD>40%<TD>0.003<TD>40%
                           <TD>1.9<TD>40%<TD>0.003<TD>40%
-
   <TR><TH>updates<br/>
           less then reads 
                           <TD>1.9<TD>40%<TD>0.003<TD>40%
                           <TD>1.9<TD>40%<TD>0.003<TD>40%
                           <TD>1.9<TD>40%<TD>0.003<TD>40%
-
-
   </TABLE>
+
 
   [preshing]: http://preshing.com/about/ "Jeff Prshing Excellent Website"
   [RCU]: http://www.rdrop.com/~paulmck/RCU/ "A dissertation about Read-Copy-Update"
