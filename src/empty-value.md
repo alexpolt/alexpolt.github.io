@@ -1,5 +1,5 @@
 
-##On dangers of C++ move semantics
+##On Dangers of C++ Move Semantics
 
   Doing some programming with extensive use of move semantics I had several major bugs in my 
   handling of object state in move constructors/assignment operators and destructors. But it 
