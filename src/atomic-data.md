@@ -491,7 +491,7 @@
   **atomic\_data**).
 
   The results show that **atomic\_data** is quite competitive even with it copying the data on 
-  every update. But we more testing and I ask for your help here. Clone or download the 
+  every update. But we need more testing and I ask for your help here. Clone or download the 
   [Github][github] repo and run the tests on your machine. **atomic\_data** works both on 32-bit 
   and 64-bit machines.
  
