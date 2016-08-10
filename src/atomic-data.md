@@ -407,30 +407,31 @@
   <TABLE border="1">
 
   <TR><TH>OS
-      <TH colspan="5">Windows 7
-      <TH colspan="5">Android 5
-      <TH colspan="5">Ubuntu
+      <TH colspan="4">Windows 7
+      <TH colspan="4">Android 5
+      <TH colspan="4">Ubuntu
 
-  <TR><TH>atomic\_data<br/>
-          size            <TH>1<TH>8<TH>16<TH>64<TH>256 <TH>1<TH>8<TH>16<TH>64<TH>256
+  <TR><TH>data size       <TH>1<TH>8<TH>64<TH>256 
+                          <TH>1<TH>8<TH>64<TH>256
+                          <TH>1<TH>8<TH>64<TH>256
 
   <TR><TH>updates<br/>
           zero reads      
-                          <TD>1.9<TD>0.003<TD>40%<TD>0.003<TD>40%
-                          <TD>1.9<TD>0.003<TD>40%<TD>0.003<TD>40%
-                          <TD>1.9<TD>0.003<TD>40%<TD>0.003<TD>40%
+                          <TD>1.9<TD>40%<TD>0.003<TD>40%
+                          <TD>1.9<TD>40%<TD>0.003<TD>40%
+                          <TD>1.9<TD>40%<TD>0.003<TD>40%
 
   <TR><TH>updates<br/>
           equals reads    
-                          <TD>1.9<TD>0.003<TD>40%<TD>0.003<TD>40%
-                          <TD>1.9<TD>0.003<TD>40%<TD>0.003<TD>40%
-                          <TD>1.9<TD>0.003<TD>40%<TD>0.003<TD>40%
+                          <TD>1.9<TD>40%<TD>0.003<TD>40%
+                          <TD>1.9<TD>40%<TD>0.003<TD>40%
+                          <TD>1.9<TD>40%<TD>0.003<TD>40%
 
   <TR><TH>updates<br/>
           less then reads 
-                          <TD>1.9<TD>0.003<TD>40%<TD>0.003<TD>40%
-                          <TD>1.9<TD>0.003<TD>40%<TD>0.003<TD>40%
-                          <TD>1.9<TD>0.003<TD>40%<TD>0.003<TD>40%
+                          <TD>1.9<TD>40%<TD>0.003<TD>40%
+                          <TD>1.9<TD>40%<TD>0.003<TD>40%
+                          <TD>1.9<TD>40%<TD>0.003<TD>40%
 
 
   </TABLE>
