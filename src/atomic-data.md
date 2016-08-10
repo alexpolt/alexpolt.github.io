@@ -404,7 +404,7 @@
   There are three basic cases: updates and zero reads, equal number of update and read calls, and
   reads prevailing over updates. Also important is the size of guarded data.
 
-  <TABLE border="1">
+  <TABLE>
 
   <TR><TH>OS
       <TH colspan="4">Windows 7
