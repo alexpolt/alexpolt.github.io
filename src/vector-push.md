@@ -1,5 +1,5 @@
 
-##The way *operator<<* and *operator>>* should have been overloaded
+##The Way *operator<<* and *operator>>* Should Have Been Overloaded
 
 
     
