@@ -426,7 +426,8 @@
       <TD class="red">280<BR>300  <TD class="green">690<BR>620 <TD class="green">3500<BR>2000 <TD class="green">13400<BR>6800
       <TD class="green">720<BR>165  <TD class="green">1750<BR>215 <TD class="green">7000<BR>800 <TD class="green">25000<BR>2700
       <!--TD><BR>  <TD><BR> <TD><BR> <TD><BR-->
- <TR><TH colspan="9"><span style="color: #500000">red</span> - mutex wins, <span style="color: #005000">green</span> - atomic_data wins
+ <TR><TH colspan="9"><span style="color: #500000">red</span> background - mutex wins, 
+                     <span style="color: #005000">green</span> background - atomic_data wins
 </TABLE>
 
 
