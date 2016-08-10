@@ -449,7 +449,7 @@
       //*it returns a ref to atomic_data
       if( (*it)-&gt;value == search_value ) {
 
-          //note the weak suffix, we can't be sure that an element still exists or not locked
+          //note the weak suffix, we can't be sure that an element is not locked
           auto r = auto atomic_list0.remove_weak( it );
 
       }
