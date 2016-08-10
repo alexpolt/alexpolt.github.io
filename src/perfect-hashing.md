@@ -1,3 +1,4 @@
+
 ##Free Variables Perfect Hashing Algorithm
 
   Perfect hashing is an alluring idea of having a hashing function that maps keys to 
