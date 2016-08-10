@@ -1,5 +1,5 @@
 
-##Tasking and object sharing
+##Tasking and Object Sharing
 
   If you're using a strict tasking model (all execution happens in jobs) in your 
   application, then you have an opportunity to solve *the object sharing problem*.
