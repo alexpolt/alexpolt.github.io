@@ -25,7 +25,7 @@
   semantics when operating on pointers.
 
   A one of kind resource on the Internet about multithreaded programming, memory barriers,
-  lock-free techniques, etc. is the website by [Jeff Preshing](preshing). 
+  lock-free techniques, etc. is the website by [Jeff Preshing][preshing].
 
 
 ###CAS (Compare-And-Swap)
@@ -60,7 +60,7 @@
   **Now to the evils that hunt lock-free programming.** Here is a picture of a stack and two
   threads doing work.
 
- <center>![](images/The-ABA-Problem.png)</center>
+ <center>![][ABA]</center>
 
 
 ###Evil Number One: the ABA
@@ -83,7 +83,7 @@
 
 ###Evil Number Two: Lifetime Management
 
- <center>![](images/atomic-cat.png)</center>
+ <center>![][cat]</center>
 
   In the above image the cat is an object. The object lifetime problem in multithreaded programming 
   is fundamental because at any point in time shared data could be accessed by a thread. Even 
@@ -101,11 +101,11 @@
 
 ###**atomic\_data**: A Multibyte General Purpose Lock-Free Data Structure
 
-  **atomic\_data** is a variant of RCU (Read-Copy-Update). Actually, at first I didn't know that fact,
-  but then, while exploring, I came upon this [page](http://www.rdrop.com/~paulmck/RCU/) by 
-  Paul McKenney. After studying different implementations I came to a conclusion that 
-  **atomic\_data** has a novel design and therefore has some value for the community. But if you 
-  feel like that was already done before - feel free to leave a comment.
+  **atomic\_data** is a variant of RCU (Read-Copy-Update). Actually, at first I didn't know that 
+  fact, but then, while exploring, I came upon this [page][RCU] by  Paul McKenney. After studying 
+  different implementations I came to a conclusion that  **atomic\_data** has a novel design and 
+  therefore has some value for the community. But if you feel like that was already done before - 
+  feel free to leave a comment.
 
   The one important aspect that divides RCU techniques is in how reclamation of used memory is
   done. We need a grace period - when data is no longer accessed by threads - to do cleaning.
@@ -116,7 +116,7 @@
   data makes it one instance per data type. The following illustration will make it easier to 
   understand.
 
- <center>![](images/atomic-data.png)</center>
+ <center>![][atomic-data]</center>
 
   During operation the *update* and *read* methods are being called that accept a functor (a lambda)
   as a parameter provided by the user. It atomically allocates an element from the circular 
@@ -151,13 +151,12 @@
   4 threads each doing 8192 increment iterations on an array of size 256: the entire array must 
   contain the number 4\*8192/256 = 128 in the end.
 
-  For the first draft of **atomic\_data** every atomic operation was using relaxed semantics just to 
-  see what happens. Guess my surprise when on my 2 Core Intel machine the test was successful!
+  For the first draft of **atomic\_data** every atomic operation was using relaxed semantics just 
+  to see what happens. Guess my surprise when on my 2 Core Intel machine the test was successful!
   What happened? Where is the memory ordering hell? This was my first revelation into strongly
-  ordered CPUs. 
-  As [Jeff Preshing mentions](http://preshing.com/20120515/memory-reordering-caught-in-the-act/), 
-  on x86 the locked instructions act as memory barriers themselves. Also using static globals for 
-  the queue didn't left much opportunity for the compiler reordering of the source code. 
+  ordered CPUs. As [Jeff Preshing mentions][x86-sync], on x86 the locked instructions act as memory 
+  barriers themselves. Also using static globals for the queue didn't left much opportunity for the 
+  compiler reordering of the source code. 
 
   But that's not the end of the story. The next in line for the test was my Samsung Galaxy S5 CPU: 
   a 4 Core ARM. I created a simple project using Android NDK (thanks Google the C++ compilers are 
@@ -175,7 +174,7 @@
   memory. I mean, if your reads are dependent then you can skip having an acquire fence. 
 
 
- <center>![](images/ordered-unorder-stores.jpg)</center>
+ <center>![][sheep]</center>
 
 
 ###Exception safety, limitations and other issues
@@ -211,9 +210,9 @@
   happen. And threads are not inferior to processes in any way. The only real issue is 
   preemption and the picture below provides a Concurrency Visualizer graph of thread scheduling.
 
- <center>![](images/atomic-data-trace.png)</center>
+ <center>![][preemption]</center>
 
-  [Here is the pic](images/atomic-data-trace-orig.png) without crappy graffiti.
+  [Here is the pic][preemption-orig] without crappy graffiti.
 
   If it becomes a real problem in your program then you can increase the size of the queue.
   But from my tests it was never an issue and performance results speak for themselves (some
@@ -235,13 +234,14 @@
         const unsigned threads_size = 8;
         const unsigned iterations = 81920;
         
-        //here comes the array
+        //here comes the array, we can use any size, atomic\_data's read and update 
+        //methods make the behaviour transactional
         struct array_test {
             unsigned data[ array_size ];
         };
         
-        //instance of atomic_data, queue length is 16
-        atomic_data<array_test, 16> atomic_array;
+        //instance of atomic_data, queue length is 2x number of threads
+        atomic_data<array_test, 2*threads_size> atomic_array;
         
         //called by each thread
         void update_array() {
@@ -271,19 +271,17 @@
 
 
   At the end of execution every array element must be equal **threads\_size\*iterations/array\_size 
-  = 10240**. Check out the code for this example on
-  [Github](https://github.com/alexpolt/atomic_data/blob/master/samples/atomic_data_test.cpp).
-  There is also an
-  [Android Studio](https://github.com/alexpolt/atomic_data/tree/master/AndroidStudio/atomic_data_test/app/src/main/jni) 
-  project with this test and you can observe the effects of memory
-  ordering on the result (try removing std::atomic\_thread\_fences in atomic\_data.h) if you run it
-  on a smartphone with a weakly ordered many-core processor (like ARM).
+  = 10240**. Check out the code for this example on [Github][atomic-data-test].
+
+  There is also an [Android Studio][android-studio] project with this test and you can observe the 
+  effects of memory ordering on the result (try removing std::atomic\_thread\_fences in 
+  atomic\_data.h) if you run it on a smartphone with a weakly ordered many-core processor (like ARM).
 
   One thing to remember though is that **atomic\_data** guards only the data it holds. If inside
   the update method the code updates some other global or captured data - that's gonna bite.
 
 
-####Lock-free std::map?
+####Lock-Free std::map?
 
   The design of the **atomic\_data** makes it really easy to turn any data structure into a 
   concurrent one. All we need is to wrap it in **atomic\_data** and use provided *read* and 
@@ -302,18 +300,16 @@
             return it;
         } );
 
-  Here is an [example](https://github.com/alexpolt/atomic_data/blob/master/samples/atomic_map.cpp).
-  Long time ago Andrei Alexandrescu offered such a map in his 
-  [article](http://erdani.com/publications/cuj-2004-10.pdf). This one is definitely better.
+  Here is an [example][atomic-map]. Long time ago Andrei Alexandrescu offered such a map in his 
+  [article][andrei]. This one is definitely better.
 
   Yes, it works. But the cost of copying makes it slower than using a mutex unless the access 
   pattern is mostly reading. Actually for an **atomic\_data&lt; std::vector &gt;** the story is
   different: vector can skip memory allocation on copying and it makes it quite fast. 
-  [Try it](https://github.com/alexpolt/atomic_data/blob/master/samples/atomic_vector.cpp) on your 
-  machine.
+  [Try it][atomic-vector] on your machine.
 
 
-####atomic\_data as a container element
+####atomic\_data as a Container Element
 
   **atomic\_data** is copyable and movable and it can be used as a container element.
 
@@ -324,15 +320,14 @@
           std::sort( begin( vector ), end( vector ) );
 
 
-  Here is a [sample](https://github.com/alexpolt/atomic_data/blob/master/samples/vector_of_atomic.cpp).
+  Here is a [sample][vector-of-atomic].
 
 
 ####Concurrent Singly Linked List with Arbitrary Access
 
-  This is where **atomic\_data** comes to its full glory. Compared to 
-  [Herb Sutter's solution](https://www.youtube.com/watch?v=CmxkPChOcvw) it doesn't require any 
-  special support from the std::atomic library, no need for Double CAS, no ABA and you can safely
-  store iterators to list elements and dispose of them when necessary.
+  This is where **atomic\_data** comes to its full glory. Compared to [Herb Sutter's solution][herb] 
+  it doesn't require any special support from the std::atomic library, no need for Double CAS, 
+  no ABA and you can safely store iterators to list elements and dispose of them when necessary.
 
   Here is the basic structure:
 
@@ -369,6 +364,28 @@
 
 
   [preshing]: http://preshing.com/about/ "Jeff Prshing Excellent Website"
+  [RCU]: http://www.rdrop.com/~paulmck/RCU/ "A dissertation about Read-Copy-Update"
+  [x86-sync]: http://preshing.com/20120515/memory-reordering-caught-in-the-act/
+  [atomic-data-test]: https://github.com/alexpolt/atomic_data/blob/master/samples/atomic_data_test.cpp
+  [android-studio]: https://github.com/alexpolt/atomic_data/tree/master/AndroidStudio/atomic_data_test/app/src/main/jni
+
+  [atomic-map]: https://github.com/alexpolt/atomic_data/blob/master/samples/atomic_map.cpp
+  [andrei]: http://erdani.com/publications/cuj-2004-10.pdf "Lock-Free Data Structures. 17 December 2007."
+  [atomic-vecotr]: https://github.com/alexpolt/atomic_data/blob/master/samples/atomic_vector.cpp
+  [vector-of-atomic]: https://github.com/alexpolt/atomic_data/blob/master/samples/vector_of_atomic.cpp
+  [herb]: https://www.youtube.com/watch?v=CmxkPChOcvw 
+          "CppCon 2014: Lock-Free Programming (or, Juggling Razor Blades), Part II"
+  []: 
+  []: 
+  [preemption-orig]: images/atomic-data-trace-orig.png "Clean version of above"
+  [preemption]: images/atomic-data-trace.png "The effect of preemption"
+  [atomic-data]: images/atomic-data.png "A diagramm of atomic_data operation"
+  [sheep]: images/ordered-unorder-stores.jpg "Sheep are stores. A man is a memory barrier."
+  [cat]: images/atomic-cat.png "Schroedinger's Cat"
+  [ABA]: images/The-ABA-Problem.png "The dreaded ABA"
+
+
+
 
 
 

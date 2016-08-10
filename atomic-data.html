@@ -65,7 +65,7 @@
   semantics when operating on pointers.</p>
 
 <p>A one of kind resource on the Internet about multithreaded programming, memory barriers,
-  lock-free techniques, etc. is the website by <a href="preshing">Jeff Preshing</a>. </p>
+  lock-free techniques, etc. is the website by <a href="http://preshing.com/about/" title="Jeff Prshing Excellent Website">Jeff Preshing</a>.</p>
 
 <h3>CAS (Compare-And-Swap)</h3>
 
@@ -97,7 +97,7 @@
 <p><strong>Now to the evils that hunt lock-free programming.</strong> Here is a picture of a stack and two
   threads doing work.</p>
 
-<p><center><img src="images/The-ABA-Problem.png" alt="" title="" /></center></p>
+<p><center><img src="images/The-ABA-Problem.png" alt="" title="The dreaded ABA" /></center></p>
 
 <h3>Evil Number One: the ABA</h3>
 
@@ -118,7 +118,7 @@
 
 <h3>Evil Number Two: Lifetime Management</h3>
 
-<p><center><img src="images/atomic-cat.png" alt="" title="" /></center></p>
+<p><center><img src="images/atomic-cat.png" alt="" title="Schroedinger's Cat" /></center></p>
 
 <p>In the above image the cat is an object. The object lifetime problem in multithreaded programming 
   is fundamental because at any point in time shared data could be accessed by a thread. Even 
@@ -135,11 +135,11 @@
 
 <h3><strong>atomic_data</strong>: A Multibyte General Purpose Lock-Free Data Structure</h3>
 
-<p><strong>atomic_data</strong> is a variant of RCU (Read-Copy-Update). Actually, at first I didn't know that fact,
-  but then, while exploring, I came upon this <a href="http://www.rdrop.com/~paulmck/RCU/">page</a> by 
-  Paul McKenney. After studying different implementations I came to a conclusion that 
-  <strong>atomic_data</strong> has a novel design and therefore has some value for the community. But if you 
-  feel like that was already done before - feel free to leave a comment.</p>
+<p><strong>atomic_data</strong> is a variant of RCU (Read-Copy-Update). Actually, at first I didn't know that 
+  fact, but then, while exploring, I came upon this <a href="http://www.rdrop.com/~paulmck/RCU/" title="A dissertation about Read-Copy-Update">page</a> by  Paul McKenney. After studying 
+  different implementations I came to a conclusion that  <strong>atomic_data</strong> has a novel design and 
+  therefore has some value for the community. But if you feel like that was already done before - 
+  feel free to leave a comment.</p>
 
 <p>The one important aspect that divides RCU techniques is in how reclamation of used memory is
   done. We need a grace period - when data is no longer accessed by threads - to do cleaning.
@@ -150,7 +150,7 @@
   data makes it one instance per data type. The following illustration will make it easier to 
   understand.</p>
 
-<p><center><img src="images/atomic-data.png" alt="" title="" /></center></p>
+<p><center><img src="images/atomic-data.png" alt="" title="A diagramm of atomic_data operation" /></center></p>
 
 <p>During operation the <em>update</em> and <em>read</em> methods are being called that accept a functor (a lambda)
   as a parameter provided by the user. It atomically allocates an element from the circular 
@@ -184,13 +184,12 @@
   4 threads each doing 8192 increment iterations on an array of size 256: the entire array must 
   contain the number 4*8192/256 = 128 in the end.</p>
 
-<p>For the first draft of <strong>atomic_data</strong> every atomic operation was using relaxed semantics just to 
-  see what happens. Guess my surprise when on my 2 Core Intel machine the test was successful!
+<p>For the first draft of <strong>atomic_data</strong> every atomic operation was using relaxed semantics just 
+  to see what happens. Guess my surprise when on my 2 Core Intel machine the test was successful!
   What happened? Where is the memory ordering hell? This was my first revelation into strongly
-  ordered CPUs. 
-  As <a href="http://preshing.com/20120515/memory-reordering-caught-in-the-act/">Jeff Preshing mentions</a>, 
-  on x86 the locked instructions act as memory barriers themselves. Also using static globals for 
-  the queue didn't left much opportunity for the compiler reordering of the source code. </p>
+  ordered CPUs. As <a href="http://preshing.com/20120515/memory-reordering-caught-in-the-act/">Jeff Preshing mentions</a>, on x86 the locked instructions act as memory 
+  barriers themselves. Also using static globals for the queue didn't left much opportunity for the 
+  compiler reordering of the source code. </p>
 
 <p>But that's not the end of the story. The next in line for the test was my Samsung Galaxy S5 CPU: 
   a 4 Core ARM. I created a simple project using Android NDK (thanks Google the C++ compilers are 
@@ -207,7 +206,7 @@
   a release barrier, it means all the memory stores before the observed value has reached the
   memory. I mean, if your reads are dependent then you can skip having an acquire fence. </p>
 
-<p><center><img src="images/ordered-unorder-stores.jpg" alt="" title="" /></center></p>
+<p><center><img src="images/ordered-unorder-stores.jpg" alt="" title="Sheep are stores. A man is a memory barrier." /></center></p>
 
 <h3>Exception safety, limitations and other issues</h3>
 
@@ -242,9 +241,9 @@
   happen. And threads are not inferior to processes in any way. The only real issue is 
   preemption and the picture below provides a Concurrency Visualizer graph of thread scheduling.</p>
 
-<p><center><img src="images/atomic-data-trace.png" alt="" title="" /></center></p>
+<p><center><img src="images/atomic-data-trace.png" alt="" title="The effect of preemption" /></center></p>
 
-<p><a href="images/atomic-data-trace-orig.png">Here is the pic</a> without crappy graffiti.</p>
+<p><a href="images/atomic-data-trace-orig.png" title="Clean version of above">Here is the pic</a> without crappy graffiti.</p>
 
 <p>If it becomes a real problem in your program then you can increase the size of the queue.
   But from my tests it was never an issue and performance results speak for themselves (some
@@ -263,13 +262,14 @@
     const unsigned threads_size = 8;
     const unsigned iterations = 81920;
 
-    //here comes the array
+    //here comes the array, we can use any size, atomic\_data's read and update 
+    //methods make the behaviour transactional
     struct array_test {
         unsigned data[ array_size ];
     };
 
-    //instance of atomic_data, queue length is 16
-    atomic_data&lt;array_test, 16&gt; atomic_array;
+    //instance of atomic_data, queue length is 2x number of threads
+    atomic_data&lt;array_test, 2*threads_size&gt; atomic_array;
 
     //called by each thread
     void update_array() {
@@ -299,18 +299,16 @@
 </code></pre>
 
 <p>At the end of execution every array element must be equal <strong>threads_size*iterations/array_size 
-  = 10240</strong>. Check out the code for this example on
-  <a href="https://github.com/alexpolt/atomic_data/blob/master/samples/atomic_data_test.cpp">Github</a>.
-  There is also an
-  <a href="https://github.com/alexpolt/atomic_data/tree/master/AndroidStudio/atomic_data_test/app/src/main/jni">Android Studio</a> 
-  project with this test and you can observe the effects of memory
-  ordering on the result (try removing std::atomic_thread_fences in atomic_data.h) if you run it
-  on a smartphone with a weakly ordered many-core processor (like ARM).</p>
+  = 10240</strong>. Check out the code for this example on <a href="https://github.com/alexpolt/atomic_data/blob/master/samples/atomic_data_test.cpp">Github</a>.</p>
+
+<p>There is also an <a href="https://github.com/alexpolt/atomic_data/tree/master/AndroidStudio/atomic_data_test/app/src/main/jni">Android Studio</a> project with this test and you can observe the 
+  effects of memory ordering on the result (try removing std::atomic_thread_fences in 
+  atomic_data.h) if you run it on a smartphone with a weakly ordered many-core processor (like ARM).</p>
 
 <p>One thing to remember though is that <strong>atomic_data</strong> guards only the data it holds. If inside
   the update method the code updates some other global or captured data - that's gonna bite.</p>
 
-<h4>Lock-free std::map?</h4>
+<h4>Lock-Free std::map?</h4>
 
 <p>The design of the <strong>atomic_data</strong> makes it really easy to turn any data structure into a 
   concurrent one. All we need is to wrap it in <strong>atomic_data</strong> and use provided <em>read</em> and 
@@ -329,17 +327,15 @@
     } );
 </code></pre>
 
-<p>Here is an <a href="https://github.com/alexpolt/atomic_data/blob/master/samples/atomic_map.cpp">example</a>.
-  Long time ago Andrei Alexandrescu offered such a map in his 
-  <a href="http://erdani.com/publications/cuj-2004-10.pdf">article</a>. This one is definitely better.</p>
+<p>Here is an <a href="https://github.com/alexpolt/atomic_data/blob/master/samples/atomic_map.cpp">example</a>. Long time ago Andrei Alexandrescu offered such a map in his 
+  <a href="http://erdani.com/publications/cuj-2004-10.pdf" title="Lock-Free Data Structures. 17 December 2007.">article</a>. This one is definitely better.</p>
 
 <p>Yes, it works. But the cost of copying makes it slower than using a mutex unless the access 
   pattern is mostly reading. Actually for an <strong>atomic_data&lt; std::vector &gt;</strong> the story is
   different: vector can skip memory allocation on copying and it makes it quite fast. 
-  <a href="https://github.com/alexpolt/atomic_data/blob/master/samples/atomic_vector.cpp">Try it</a> on your 
-  machine.</p>
+  [Try it][atomic-vector] on your machine.</p>
 
-<h4>atomic_data as a container element</h4>
+<h4>atomic_data as a Container Element</h4>
 
 <p><strong>atomic_data</strong> is copyable and movable and it can be used as a container element.</p>
 
@@ -353,10 +349,9 @@
 
 <h4>Concurrent Singly Linked List with Arbitrary Access</h4>
 
-<p>This is where <strong>atomic_data</strong> comes to its full glory. Compared to 
-  <a href="https://www.youtube.com/watch?v=CmxkPChOcvw">Herb Sutter's solution</a> it doesn't require any 
-  special support from the std::atomic library, no need for Double CAS, no ABA and you can safely
-  store iterators to list elements and dispose of them when necessary.</p>
+<p>This is where <strong>atomic_data</strong> comes to its full glory. Compared to <a href="https://www.youtube.com/watch?v=CmxkPChOcvw" title="CppCon 2014: Lock-Free Programming (or, Juggling Razor Blades), Part II">Herb Sutter's solution</a> 
+  it doesn't require any special support from the std::atomic library, no need for Double CAS, 
+  no ABA and you can safely store iterators to list elements and dispose of them when necessary.</p>
 
 <p>Here is the basic structure:</p>
 
@@ -388,6 +383,9 @@
   really clear and short.</p>
 
 <p>Lock-free linked data structures suffer from a deletion problem.</p>
+
+<p>[]: 
+  []: </p>
 
 
 <script src="highlight/highlight.pack.js"></script>
