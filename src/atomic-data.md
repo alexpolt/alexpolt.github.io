@@ -407,27 +407,27 @@
 
 <TABLE>
   <TR><TH>OS
-      <TH colspan="4">Windows 7<br>2 Core AMD
-      <TH colspan="4">Android 5<br>4 Core ARM
-      <TH colspan="4">Ubuntu <br>2 Core Intel
+      <TH colspan="4">Windows 7<br>2 Core AMD<br>VS2015
+      <TH colspan="4">Android 5<br>4 Core ARM<br>NDK r12b, gnustl
+      <!--TH colspan="4">Ubuntu <br>2 Core Intel-->
   <TR><TH>data size       <TH>1   <TH>8   <TH>64    <TH>256 
                           <TH>1   <TH>8   <TH>64    <TH>256
-                          <TH>1   <TH>8   <TH>64    <TH>256
+                          <!--TH>1   <TH>8   <TH>64    <TH>256-->
   <TR><TH>many updates<BR>
           zero reads      
                           <TD>110<BR>220  <TD>160<BR>290 <TD>300<BR>500 <TD>750<BR>1000
-                          <TD><BR>  <TD><BR> <TD><BR> <TD><BR>
-                          <TD><BR>  <TD><BR> <TD><BR> <TD><BR>
+                          <TD>570<BR>150  <TD>380<BR>150 <TD>1000<BR>250 <TD>1600<BR>480
+                          <!--TD><BR>  <TD><BR> <TD><BR> <TD><BR-->
  <TR><TH>many updates<BR>
          many reads    
                           <TD>130<BR>250  <TD>210<BR>290 <TD class="bold">580<BR>510 <TD class="bold">1400<BR>1200
-                          <TD><BR>  <TD><BR> <TD><BR> <TD><BR>
-                          <TD><BR>  <TD><BR> <TD><BR> <TD><BR>
+                          <TD>330<BR>150  <TD>890<BR>170 <TD>1400<BR>310 <TD>2400<BR>700
+                          <!--TD><BR>  <TD><BR> <TD><BR> <TD><BR-->
  <TR><TH>many updates<BR>
          20x more reads 
-                          <TD>280<BR>300  <TD class="bold">690<BR>620 <TD calss="bold">3500<BR>2000 <TD class="bold">13400<BR>6800
-                          <TD><BR>  <TD><BR> <TD><BR> <TD><BR>
-                          <TD><BR>  <TD><BR> <TD><BR> <TD><BR>
+                          <TD>280<BR>300  <TD class="bold">690<BR>620 <TD class="bold">3500<BR>2000 <TD class="bold">13400<BR>6800
+                          <TD>720<BR>165  <TD>1750<BR>215 <TD>7000<BR>800 <TD>25000<BR>2700
+                          <!--TD><BR>  <TD><BR> <TD><BR> <TD><BR-->
 </TABLE>
 
 
@@ -436,11 +436,15 @@
   the baseline std::mutex case. The first line is for the mutex, the second is **atomic\_data**.
   The queue size for the **atomic\_data** was 2\*threads\_size and threads\_size = 8.
 
-  You can see how good the Windows 7 mutex is. I guess they do some scheduling tricks under the 
-  hood (wasn't able to find relative info on the Net). And the fact that increasing the data size
-  changes the situation supports that guess.
+  You can see how good the std::mutex on Windows 7 is (it was compiled with Visual Studio 2015). 
+  Looking up on the Net it seems the implementation busy spins for a while (optimistic logic) and 
+  the fact, that increasing the data size changes the situation, supports that guess.
 
-  You see, **atomic\_data** is quite competitive even with it copying data on every update. But
+  On Android the timings are especially sweet. The only problem was that Android dynamically
+  adjusts priorities and the mutex version had quite different timings (but always worse that
+  **atomic\_data**).
+
+  As data tells us, **atomic\_data** is quite competitive even with it copying data on every update. But
   we more testing and I ask for your help here. Clone or download the [Github][github] repo and
   run the tests on your machine. **atomic\_data** works both on 32-bit and 64-bit machines.
  
