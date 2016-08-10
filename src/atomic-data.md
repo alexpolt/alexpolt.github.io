@@ -358,34 +358,36 @@
 
  <center>![][deletion]</center>
 
-  The easiest solution is to lock the node before deleting it. **atomic\_data** here really helps.
-  It allows for the atomic modification of all of the members of the node and makes implementation
-  really clear and short. As a result we can write code like this:
+  Easy to get orphaned data. The easiest solution is to lock the node before deleting it. 
+  **atomic\_data** here really helps. It allows for the atomic modification of all of the members of 
+  the node and makes implementation really clear and short. As a result we can write code like this:
+
 
         //create an instance
         atomic_list<int, threads_size*2> atomic_list0;
-
+        
         //insert at the beginning, get iterator to the result
         auto it = atomic_list0.insert( value );
-
+        
         //getting to the data under concurrency
         auto value = it->read( [](auto* data) { return data->value; }
-
+        
         //removing
         for( auto it = atomic_list0.begin(); it; ++it ) {
-
+        
           //*it returns a ref to atomic_data
           if( (*it)->value == search_value ) {
-
-              //note the weak suffix, we can't be sure that an element still exists
+        
+              //note the weak suffix, we can't be sure that an element still exists or not locked
               auto r = auto atomic_list0.remove_weak( it );
-
+        
           }
-
+        
         }
-
+        
         //iterating
         for( auto& element : atomic_data0 ) ...
+
 
   Here is an example to test the correctness: we prepopulate an instance of **atomic\_list** with
   array\_size number of elements. Then we launch threads that perform equal number of insertions 
@@ -402,7 +404,25 @@
   There are three basic cases: updates and zero reads, equal number of update and read calls, and
   reads prevailing over updates. Also important is the size of guarded data.
 
+  <TABLE border="1">
 
+  <TR><TH>OS
+      <TH colspan="5">Windows 7
+      <TH colspan="5">Android 5
+      <TH colspan="5">Ubuntu
+
+  <TR><TH>size            <TH>1<TH>8<TH>16<TH>64<TH>256 <TH>1<TH>8<TH>16<TH>64<TH>256
+
+  <TR><TH>updates<br/>
+          zero reads      <TD>1.9<TD>0.003<TD>40%<TD>0.003<TD>40%
+
+  <TR><TH>updates<br/>
+          equals reads    <TD>1.9<TD>0.003<TD>40%<TD>0.003<TD>40%
+
+  <TR><TH>updates<br/>
+          less then reads <TD>1.9<TD>0.003<TD>40%<TD>0.003<TD>40%
+
+  </TABLE>
 
   [preshing]: http://preshing.com/about/ "Jeff Prshing Excellent Website"
   [RCU]: http://www.rdrop.com/~paulmck/RCU/ "A dissertation about Read-Copy-Update"

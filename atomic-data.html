@@ -383,9 +383,9 @@
 
 <p><center><img src="images/deletion-problem.png" alt="" title="The deletion problem in lock-free lists" /></center></p>
 
-<p>The easiest solution is to lock the node before deleting it. <strong>atomic_data</strong> here really helps.
-  It allows for the atomic modification of all of the members of the node and makes implementation
-  really clear and short. As a result we can write code like this:</p>
+<p>Easy to get orphaned data. The easiest solution is to lock the node before deleting it. 
+  <strong>atomic_data</strong> here really helps. It allows for the atomic modification of all of the members of 
+  the node and makes implementation really clear and short. As a result we can write code like this:</p>
 
 <pre><code>    //create an instance
     atomic_list&lt;int, threads_size*2&gt; atomic_list0;
@@ -402,7 +402,7 @@
       //*it returns a ref to atomic_data
       if( (*it)-&gt;value == search_value ) {
 
-          //note the weak suffix, we can't be sure that an element still exists
+          //note the weak suffix, we can't be sure that an element still exists or not locked
           auto r = auto atomic_list0.remove_weak( it );
 
       }
@@ -426,6 +426,26 @@
 
 <p>There are three basic cases: updates and zero reads, equal number of update and read calls, and
   reads prevailing over updates. Also important is the size of guarded data.</p>
+
+<p><TABLE border="1"></p>
+
+<p><TR><TH>OS
+      <TH colspan="5">Windows 7
+      <TH colspan="5">Android 5
+      <TH colspan="5">Ubuntu</p>
+
+<p><TR><TH>size            <TH>1<TH>8<TH>16<TH>64<TH>256 <TH>1<TH>8<TH>16<TH>64<TH>256</p>
+
+<p><TR><TH>updates<br/>
+          zero reads      <TD>1.9<TD>0.003<TD>40%<TD>0.003<TD>40%</p>
+
+<p><TR><TH>updates<br/>
+          equals reads    <TD>1.9<TD>0.003<TD>40%<TD>0.003<TD>40%</p>
+
+<p><TR><TH>updates<br/>
+          less then reads <TD>1.9<TD>0.003<TD>40%<TD>0.003<TD>40%</p>
+
+<p></TABLE></p>
 
 
 <script src="highlight/highlight.pack.js"></script>
