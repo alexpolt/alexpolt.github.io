@@ -1,8 +1,7 @@
 
 ##**atomic\_data**: A Multibyte General Purpose Lock-Free Data Structure
 
-###Article Contents:
-  
+
   * [Introduction](#intro)
   * [Compare-And-Swap](#cas)
   * [Load Linked/Store Conditional](#llsc)
@@ -12,6 +11,7 @@
   * [Memory Ordering Considerations](#memory_ordering)
   * [Exception safety, limitations and other issues](#issues)
   * [Code Samples](#code)
+
 
 <a name="intro"></a>
 
