@@ -34,6 +34,10 @@ a:hover {
   margin-right: 20px;
 }
 
+#content img {
+  max-width: 100%;
+}
+
 #content {
   border-top: 1px solid silver;
   padding: 30px 10% 1px 10%;
