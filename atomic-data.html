@@ -245,7 +245,7 @@
 <p><center><img src="images/atomic-data-trace.png" alt="" title="" /></center></p>
 
 <p>If it becomes a real problem in your program then you can increase the size of the queue.
-  But from my tests and was never an issue and performance results speak for themselves (some
+  But from my tests it was never an issue and performance results speak for themselves (some
   numbers are at the very end).</p>
 
 <h2>Code Samples</h2>
@@ -351,30 +351,28 @@
 <p>This is where <strong>atomic_data</strong> comes to its full glory. Compared to 
   <a href="https://www.youtube.com/watch?v=CmxkPChOcvw">Herb Sutter's solution</a> it doesn't require any 
   special support from the std::atomic library, no need for Double CAS, no ABA and you can safely
-  store iterators to list elements and dispose of them when necessary. </p>
+  store iterators to list elements and dispose of them when necessary.</p>
 
-<pre><code>One thing should noted first. Lock-free linked data structures suffer from a deletion problem.
+<p>One thing should noted first. Lock-free linked data structures suffer from a deletion problem.</p>
 
+<p>Here is the basic structure:</p>
 
-Here is the basic structure:
+<pre><code>    template&lt; typename T0, unsigned N0 &gt; struct atomic_list {
 
+      struct node;
 
-            template&lt; typename T0, unsigned N0 &gt; struct atomic_list {
+      using atomic_node = atomic_data&lt;node, N0&gt;;
+      using node_ptr = std::shared_ptr&lt;atomic_node&gt;;
+      using size_t = unsigned;
 
-                struct node;
-
-                using atomic_node = atomic_data&lt;node, N0&gt;;
-                using node_ptr = std::shared_ptr&lt;atomic_node&gt;;
-                using size_t = unsigned;
-
-                struct node {
-                    bool lock;
-                    T0 data;
-                    node_ptr next;
-                };
+      struct node {
+        bool lock;
+        T0 data;
+        node_ptr next;
+      };
 
 
-            };
+    };
 </code></pre>
 
 

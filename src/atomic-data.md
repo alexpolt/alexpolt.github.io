@@ -214,7 +214,7 @@
  <center>![](images/atomic-data-trace.png)</center>
 
   If it becomes a real problem in your program then you can increase the size of the queue.
-  But from my tests and was never an issue and performance results speak for themselves (some
+  But from my tests it was never an issue and performance results speak for themselves (some
   numbers are at the very end).
 
 
@@ -327,30 +327,30 @@
   This is where **atomic\_data** comes to its full glory. Compared to 
   [Herb Sutter's solution](https://www.youtube.com/watch?v=CmxkPChOcvw) it doesn't require any 
   special support from the std::atomic library, no need for Double CAS, no ABA and you can safely
-  store iterators to list elements and dispose of them when necessary. 
+  store iterators to list elements and dispose of them when necessary.
 
-	One thing should noted first. Lock-free linked data structures suffer from a deletion problem.
-
-
-	Here is the basic structure:
+  One thing should noted first. Lock-free linked data structures suffer from a deletion problem.
 
 
-				template< typename T0, unsigned N0 > struct atomic_list {
-				
-					struct node;
-					
-					using atomic_node = atomic_data<node, N0>;
-					using node_ptr = std::shared_ptr<atomic_node>;
-					using size_t = unsigned;
-					
-					struct node {
-						bool lock;
-						T0 data;
-						node_ptr next;
-					};
-					
-					
-				};
+  Here is the basic structure:
+
+
+        template< typename T0, unsigned N0 > struct atomic_list {
+        
+          struct node;
+          
+          using atomic_node = atomic_data<node, N0>;
+          using node_ptr = std::shared_ptr<atomic_node>;
+          using size_t = unsigned;
+          
+          struct node {
+            bool lock;
+            T0 data;
+            node_ptr next;
+          };
+          
+          
+        };
 
 
 
