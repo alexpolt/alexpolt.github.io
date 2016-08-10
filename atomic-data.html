@@ -251,7 +251,7 @@
 
 <h2>Code Samples</h2>
 
-<h4>Increments/Decrements of an Array</h4>
+<h3>Increments/Decrements of an Array</h3>
 
 <p>Now comes my favorite part because the design of <strong>atomic_data</strong> allows to create really
   cool things. Let us start with a test that was already described above (Memory Ordering part):
@@ -308,7 +308,7 @@
 <p>One thing to remember though is that <strong>atomic_data</strong> guards only the data it holds. If inside
   the update method the code updates some other global or captured data - that's gonna bite.</p>
 
-<h4>Lock-Free std::map?</h4>
+<h3>Lock-Free std::map?</h3>
 
 <p>The design of the <strong>atomic_data</strong> makes it really easy to turn any data structure into a 
   concurrent one. All we need is to wrap it in <strong>atomic_data</strong> and use provided <em>read</em> and 
@@ -335,7 +335,7 @@
   different: vector can skip memory allocation on copying and it makes it quite fast. 
   [Try it][atomic-vector] on your machine.</p>
 
-<h4>atomic_data as a Container Element</h4>
+<h3>atomic_data as a Container Element</h3>
 
 <p><strong>atomic_data</strong> is copyable and movable and it can be used as a container element.</p>
 
@@ -347,7 +347,7 @@
 
 <p>Here is a <a href="https://github.com/alexpolt/atomic_data/blob/master/samples/vector_of_atomic.cpp">sample</a>.</p>
 
-<h4>Concurrent Singly Linked List with Arbitrary Access</h4>
+<h3>Concurrent Singly Linked List with Arbitrary Access</h3>
 
 <p>This is where <strong>atomic_data</strong> comes to its full glory. Compared to <a href="https://www.youtube.com/watch?v=CmxkPChOcvw" title="CppCon 2014: Lock-Free Programming (or, Juggling Razor Blades), Part II">Herb Sutter's solution</a> 
   it doesn't require any special support from the std::atomic library, no need for Double CAS, 

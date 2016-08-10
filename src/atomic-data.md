@@ -222,7 +222,7 @@
 ##Code Samples
 
 
-####Increments/Decrements of an Array
+###Increments/Decrements of an Array
 
   Now comes my favorite part because the design of **atomic\_data** allows to create really
   cool things. Let us start with a test that was already described above (Memory Ordering part):
@@ -281,7 +281,7 @@
   the update method the code updates some other global or captured data - that's gonna bite.
 
 
-####Lock-Free std::map?
+###Lock-Free std::map?
 
   The design of the **atomic\_data** makes it really easy to turn any data structure into a 
   concurrent one. All we need is to wrap it in **atomic\_data** and use provided *read* and 
@@ -309,7 +309,7 @@
   [Try it][atomic-vector] on your machine.
 
 
-####atomic\_data as a Container Element
+###atomic\_data as a Container Element
 
   **atomic\_data** is copyable and movable and it can be used as a container element.
 
@@ -323,7 +323,7 @@
   Here is a [sample][vector-of-atomic].
 
 
-####Concurrent Singly Linked List with Arbitrary Access
+###Concurrent Singly Linked List with Arbitrary Access
 
   This is where **atomic\_data** comes to its full glory. Compared to [Herb Sutter's solution][herb] 
   it doesn't require any special support from the std::atomic library, no need for Double CAS, 
