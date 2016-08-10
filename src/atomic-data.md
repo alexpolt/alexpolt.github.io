@@ -27,7 +27,7 @@
   approach to serve as a foundation for robust lock-free algorithms. In short, you wrap your
   data in **atomic\_data** and by using its *read* and *update* methods you get transactional
   semantics of operation under any number of threads. You can have a megabyte array for example
-  and it will still work. All of the code with a Visual Studio and Android Studio prkjects and
+  and it will still work. All of the code with a Visual Studio and Android Studio projects and
   some samples is available on [GitHub][github].
   
   As a reminder, there are three levels of guarantees: **wait-free, lock-free and obstruction
