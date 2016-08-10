@@ -385,11 +385,47 @@
 
 <p>The easiest solution is to lock the node before deleting it. <strong>atomic_data</strong> here really helps.
   It allows for the atomic modification of all of the members of the node and makes implementation
-  really clear and short.</p>
+  really clear and short. As a result we can write code like this:</p>
 
-<p>Lock-free linked data structures suffer from a deletion problem.</p>
+<pre><code>    //create an instance
+    atomic_list&lt;int, threads_size*2&gt; atomic_list0;
 
-<p>[]: </p>
+    //insert at the beginning, get iterator to the result
+    auto it = atomic_list0.insert( value );
+
+    //getting to the data under concurrency
+    auto value = it-&gt;read( [](auto* data) { return data-&gt;value; }
+
+    //removing
+    for( auto it = atomic_list0.begin(); it; ++it ) {
+
+      //*it returns a ref to atomic_data
+      if( (*it)-&gt;value == search_value ) {
+
+          //note the weak suffix, we can't be sure that an element still exists
+          auto r = auto atomic_list0.remove_weak( it );
+
+      }
+
+    }
+
+    //iterating
+    for( auto&amp; element : atomic_data0 ) ...
+</code></pre>
+
+<p>Here is an example to test the correctness: we prepopulate an instance of <strong>atomic_list</strong> with
+  array_size number of elements. Then we launch threads that perform equal number of insertions 
+  and deletions at random positions. At the end we expect the list to remain the initial size.
+  Get a look at the code on <a href="https://github.com/alexpolt/atomic_data/blob/master/samples/atomic_list.cpp">Github</a>.</p>
+
+<h2>Performance</h2>
+
+<p>So what about efficiency of <strong>atomic_data</strong>. Is it all worth learning about it? I say firm yes.
+  The baseline was a bare mutex locking all reads and updates: the <a href="https://github.com/alexpolt/atomic_data/blob/master/samples/atomic_data_mutex.h">same interface</a> as with 
+  <strong>atomic_data</strong> but no copying, no queues, just simple locking.</p>
+
+<p>There are three basic cases: updates and zero reads, equal number of update and read calls, and
+  reads prevailing over updates. Also important is the size of guarded data.</p>
 
 
 <script src="highlight/highlight.pack.js"></script>

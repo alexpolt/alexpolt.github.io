@@ -360,10 +360,47 @@
 
   The easiest solution is to lock the node before deleting it. **atomic\_data** here really helps.
   It allows for the atomic modification of all of the members of the node and makes implementation
-  really clear and short.
+  really clear and short. As a result we can write code like this:
 
-  
-  Lock-free linked data structures suffer from a deletion problem.
+        //create an instance
+        atomic_list<int, threads_size*2> atomic_list0;
+
+        //insert at the beginning, get iterator to the result
+        auto it = atomic_list0.insert( value );
+
+        //getting to the data under concurrency
+        auto value = it->read( [](auto* data) { return data->value; }
+
+        //removing
+        for( auto it = atomic_list0.begin(); it; ++it ) {
+
+          //*it returns a ref to atomic_data
+          if( (*it)->value == search_value ) {
+
+              //note the weak suffix, we can't be sure that an element still exists
+              auto r = auto atomic_list0.remove_weak( it );
+
+          }
+
+        }
+
+        //iterating
+        for( auto& element : atomic_data0 ) ...
+
+  Here is an example to test the correctness: we prepopulate an instance of **atomic\_list** with
+  array\_size number of elements. Then we launch threads that perform equal number of insertions 
+  and deletions at random positions. At the end we expect the list to remain the initial size.
+  Get a look at the code on [Github][atomic_list].
+
+
+##Performance
+
+  So what about efficiency of **atomic\_data**. Is it all worth learning about it? I say firm yes.
+  The baseline was a bare mutex locking all reads and updates: the [same interface][mutex] as with 
+  **atomic\_data** but no copying, no queues, just simple locking.
+
+  There are three basic cases: updates and zero reads, equal number of update and read calls, and
+  reads prevailing over updates. Also important is the size of guarded data.
 
 
 
@@ -372,14 +409,14 @@
   [x86-sync]: http://preshing.com/20120515/memory-reordering-caught-in-the-act/
   [atomic-data-test]: https://github.com/alexpolt/atomic_data/blob/master/samples/atomic_data_test.cpp
   [android-studio]: https://github.com/alexpolt/atomic_data/tree/master/AndroidStudio/atomic_data_test/app/src/main/jni
-
   [atomic-map]: https://github.com/alexpolt/atomic_data/blob/master/samples/atomic_map.cpp
   [andrei]: http://erdani.com/publications/cuj-2004-10.pdf "Lock-Free Data Structures. 17 December 2007."
   [atomic-vecotr]: https://github.com/alexpolt/atomic_data/blob/master/samples/atomic_vector.cpp
   [vector-of-atomic]: https://github.com/alexpolt/atomic_data/blob/master/samples/vector_of_atomic.cpp
   [herb]: https://www.youtube.com/watch?v=CmxkPChOcvw 
           "CppCon 2014: Lock-Free Programming (or, Juggling Razor Blades), Part II"
-  []: 
+  [atomic_list]: https://github.com/alexpolt/atomic_data/blob/master/samples/atomic_list.cpp
+  [mutex]: https://github.com/alexpolt/atomic_data/blob/master/samples/atomic_data_mutex.h
   [deletion]: images/deletion-problem.png "The deletion problem in lock-free lists"
   [preemption-orig]: images/atomic-data-trace-orig.png "Clean version of above"
   [preemption]: images/atomic-data-trace.png "The effect of preemption"
@@ -387,6 +424,9 @@
   [sheep]: images/ordered-unorder-stores.jpg "Sheep are stores. A man is a memory barrier"
   [cat]: images/atomic-cat.png "Schroedinger's Cat"
   [ABA]: images/The-ABA-Problem.png "The dreaded ABA"
+
+
+
 
 
 
