@@ -87,3 +87,38 @@ a:hover {
   margin: 5px 0px;
 }
 
+table {
+  margin: 0px auto;
+  border-collapse: collapse;
+}
+td, th {
+  border: 1px solid silver;
+  margin: 0px;
+  padding: 10px;
+  text-align: center;
+  vertical-align: middle;
+}
+
+th {
+  background-color: #ecf2f9;
+}
+
+td { 
+  color: #005000;
+}
+
+td:first-line {
+  text-decoration: underline;
+  color: #500000;
+}
+
+td.red {
+  background-color: #FFF0F0;
+}
+
+td.green {
+  background-color: #F0FFF0;
+}
+
+
+
