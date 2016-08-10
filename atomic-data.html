@@ -42,6 +42,19 @@
 
 <h2><strong>atomic_data</strong>: A Multibyte General Purpose Lock-Free Data Structure</h2>
 
+<p>Article contents:
+  * <a href="#intro">Introduction</a>
+  * <a href="#cas">Compare-And-Swap</a>
+  * <a href="#llsc">Load Linked/Store Conditional</a>
+  * <a href="#aba">Evil Number One: the ABA</a>
+  * <a href="#lifetime">Evil Number Two: Lifetime Management</a>
+  * <a href="#atomic_data">atomic_data</a>
+  * <a href="#memory_ordering">Memory Ordering Considerations</a>
+  * <a href="#issues">Exception safety, limitations and other issues</a>
+  * <a href="#code">Code Samples</a></p>
+
+<p><a name="intro"></a></p>
+
 <p>Perhaps every article on lock-free programming should start with a warning that it's extremely
   hard to do right. There are certain subtle effects that lead to hard-to-catch bugs. Also, in
   an attempt to deal with it lock-free data structures and algorithms quickly become monstrous
@@ -54,7 +67,8 @@
   approach to serve as a foundation for robust lock-free algorithms. In short, you wrap your
   data in <strong>atomic_data</strong> and by using its <em>read</em> and <em>update</em> methods you get transactional
   semantics of operation under any number of threads. You can have a megabyte array for example
-  and it will still work.</p>
+  and it will still work. All of the code with a Visual Studio and Android Studio prkjects and
+  some samples is available on <a href="https://github.com/alexpolt/atomic_data">GitHub</a>.</p>
 
 <p>As a reminder, there are three levels of guarantees: <strong>wait-free, lock-free and obstruction
   free</strong>. Wait-free is the strongest: operations on shared data basically never fail. This could 
@@ -67,8 +81,10 @@
   but they are not equivalent. Also important is the fact that these operations acquire additional 
   semantics when operating on pointers.</p>
 
-<p>A one of kind resource on the Internet about multithreaded programming, memory barriers,
+<p>A one of a kind resource on the Internet about multithreaded programming, memory barriers,
   lock-free techniques, etc. is the website by <a href="http://preshing.com/about/" title="Jeff Prshing Excellent Website">Jeff Preshing</a>.</p>
+
+<p><a name="cas"></a></p>
 
 <h3>CAS (Compare-And-Swap)</h3>
 
@@ -84,6 +100,8 @@
   section on ABA we'll see how it plays out. </p>
 
 <p>CAS provides the lock-free level of guarantee.</p>
+
+<p><a name="llsc"></a></p>
 
 <h3>LL/SC (Load Linked/Store Conditional).</h3>
 
@@ -102,6 +120,8 @@
 
 <p><center><img src="images/The-ABA-Problem.png" alt="" title="The dreaded ABA" /></center></p>
 
+<p><a name="aba"></a></p>
+
 <h3>Evil Number One: the ABA</h3>
 
 <p>As we observed above, CAS on pointers ties together the pointer and the data it points to.
@@ -119,6 +139,8 @@
   any piece of shared data - we initiated a transaction, and the transaction should behave
   as stated by the ACID rules. </p>
 
+<p><a name="lifetime"></a></p>
+
 <h3>Evil Number Two: Lifetime Management</h3>
 
 <p><center><img src="images/atomic-cat.png" alt="" title="Schroedinger's Cat" /></center></p>
@@ -135,6 +157,8 @@
 
 <p><strong>Now it is time for me to introduce <em>atomic_data</em> that is a good compromise between having a 
   lock-free data structure and avoiding the ABA and lifetime issues.</strong></p>
+
+<p><a name="atomic_data"></a></p>
 
 <h3><strong>atomic_data</strong>: A Multibyte General Purpose Lock-Free Data Structure</h3>
 
@@ -178,6 +202,8 @@
   a barrier: it had a simple design, it worked very reliably, it didn't require DCAS and finally
   it showed good performance.</p>
 
+<p><a name="memory_ordering"></a></p>
+
 <h3>Memory Ordering Considerations</h3>
 
 <p>To test the correctness of <strong>atomic_data</strong> operation I used an array of some size and the task 
@@ -210,6 +236,8 @@
   memory. I mean, if your reads are dependent then you can skip having an acquire fence. </p>
 
 <p><center><img src="images/ordered-unorder-stores.jpg" alt="" title="Sheep are stores. A man is a memory barrier" /></center></p>
+
+<p><a name="issues"></a></p>
 
 <h3>Exception safety, limitations and other issues</h3>
 
@@ -251,6 +279,8 @@
 <p>If it becomes a real problem in your program then you can increase the size of the queue.
   But from my tests it was never an issue and performance results speak for themselves (some
   numbers are at the very end).</p>
+
+<p><a name="code"></a></p>
 
 <h2>Code Samples</h2>
 

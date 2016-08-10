@@ -1,6 +1,18 @@
 
 ##**atomic\_data**: A Multibyte General Purpose Lock-Free Data Structure
 
+  Article contents:
+  * [Introduction](#intro)
+  * [Compare-And-Swap](#cas)
+  * [Load Linked/Store Conditional](#llsc)
+  * [Evil Number One: the ABA](#aba)
+  * [Evil Number Two: Lifetime Management](#lifetime)
+  * [atomic\_data](#atomic_data)
+  * [Memory Ordering Considerations](#memory_ordering)
+  * [Exception safety, limitations and other issues](#issues)
+  * [Code Samples](#code)
+
+<a name="intro"></a>
 
   Perhaps every article on lock-free programming should start with a warning that it's extremely
   hard to do right. There are certain subtle effects that lead to hard-to-catch bugs. Also, in
@@ -14,7 +26,8 @@
   approach to serve as a foundation for robust lock-free algorithms. In short, you wrap your
   data in **atomic\_data** and by using its *read* and *update* methods you get transactional
   semantics of operation under any number of threads. You can have a megabyte array for example
-  and it will still work.
+  and it will still work. All of the code with a Visual Studio and Android Studio prkjects and
+  some samples is available on [GitHub][github].
   
   As a reminder, there are three levels of guarantees: **wait-free, lock-free and obstruction
   free**. Wait-free is the strongest: operations on shared data basically never fail. This could 
@@ -27,9 +40,11 @@
   but they are not equivalent. Also important is the fact that these operations acquire additional 
   semantics when operating on pointers.
 
-  A one of kind resource on the Internet about multithreaded programming, memory barriers,
+  A one of a kind resource on the Internet about multithreaded programming, memory barriers,
   lock-free techniques, etc. is the website by [Jeff Preshing][preshing].
 
+
+<a name="cas"></a>
 
 ###CAS (Compare-And-Swap)
 
@@ -46,6 +61,8 @@
   
   CAS provides the lock-free level of guarantee.
 
+
+<a name="llsc"></a>
 
 ###LL/SC (Load Linked/Store Conditional).
   
@@ -66,6 +83,8 @@
  <center>![][ABA]</center>
 
 
+<a name="aba"></a>
+
 ###Evil Number One: the ABA
 
   As we observed above, CAS on pointers ties together the pointer and the data it points to.
@@ -84,6 +103,8 @@
   as stated by the ACID rules. 
 
 
+<a name="lifetime"></a>
+ 
 ###Evil Number Two: Lifetime Management
 
  <center>![][cat]</center>
@@ -102,6 +123,8 @@
   lock-free data structure and avoiding the ABA and lifetime issues.**
 
 
+<a name="atomic_data"></a>
+ 
 ###**atomic\_data**: A Multibyte General Purpose Lock-Free Data Structure
 
   **atomic\_data** is a variant of RCU (Read-Copy-Update). Actually, at first I didn't know that 
@@ -145,6 +168,8 @@
   it showed good performance.
 
 
+<a name="memory_ordering"></a>
+
 ###Memory Ordering Considerations
   
   To test the correctness of **atomic\_data** operation I used an array of some size and the task 
@@ -180,6 +205,8 @@
  <center>![][sheep]</center>
 
 
+<a name="issues"></a>
+ 
 ###Exception safety, limitations and other issues
 
   The *read* and *update* methods - the workhorses - are exception safe. They employ RAII 
@@ -222,6 +249,8 @@
   numbers are at the very end).
 
 
+<a name="code"></a>
+ 
 ##Code Samples
 
 
