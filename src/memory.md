@@ -1,5 +1,5 @@
 
-##Human memory
+##Human Memory
 
   I've got a well developed visual type of thinking (sometimes referred to as daydreaming).
   And I also can multiply 2 and 3 digit numbers by charting them in my head (multiplying 4
