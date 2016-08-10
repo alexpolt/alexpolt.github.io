@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<HTML>
+
+<HEAD>
+
+  <title>Alexandr Poltavsky, software developer</title>
+
+  <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+  <meta http-equiv="Cache-Control" content="no-store" />
+
+  <link rel="stylesheet" type="text/css" href="css/common.css" />
+  <link rel="stylesheet" href="highlight/styles/hybrid.css">
+
+</HEAD>
+
+<BODY> 
+
+<div id="wrap">
+
+  <!-- header part -->
+
+  <div id="header">
+
+    <a href="/energia-buran.html">
+      <img width="160" src="images/alexandr-poltavsky-avatar.jpeg" title="Energia-Buran Military Space System" align="left"/>
+    </a>
+    <strong>
+      Personal blog of Alexandr Poltavsky. <br/> 
+      Software developer. <em>alexpolt&#64;yandex.ru</em><br/>
+    </strong>
+    <ul id="menu">
+      <li><a href="/">Contents</a></li>
+      <li><a href="https://github.com/alexpolt/">Github</a></li>
+    </ul>
+
+  </div>
+
+
+  <div id="content" style="clear: left">
+
+  <!-- here goes the main content -->
+
+<h2>Color Throne - Brain Gymnastics</h2>
+
+<p>Made my first Android app and released it on Google Play. It's a game, reminds of Tetris, but 
+  with a different game mechanics. You need not only to rotate blocks but also rotate colors to 
+  make it match other colors. Any matching colors disappear. </p>
+
+<p>During programming I came to appreciate a state machines. It nicely partitioned the flow of the
+  program. And it made me think what is the magic behind a state machine. It seems to me that
+  the following might be true:</p>
+
+<blockquote>
+  <p>state machine = flow of messages = message queue = react style programming (?)</p>
+</blockquote>
+
+<p>Having a message queue direct your program gives you a great tool: control over execution flow.</p>
+
+<p>Here is a Youtube recording of the gameplay (image is clickable):</p>
+
+<p><center>
+  <a href="https://youtu.be/HRDsfdoKkTY" title="Color Throne Gameplay Video">
+  <img src="images/color-throne-screenshot-0.png"></a>
+ </center></p>
+
+<p>Kindly request to give it a try.</p>
+
+
+<script src="highlight/highlight.pack.js"></script>
+<script>
+  //hljs.configure({languages: ["C++"]});
+  hljs.initHighlightingOnLoad();
+</script>
+
+
+<div id="disqus_thread"></div>
+<script>
+    /**
+     *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+     *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables
+     */
+    /*
+    var disqus_config = function () {
+        this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+        this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+    };
+    */
+    if( ! document.getElementById("contents") ) // alexpolt: exclude main page with contents
+    (function() {  // DON'T EDIT BELOW THIS LINE
+        var d = document, s = d.createElement('script');
+        
+        s.src = '//alexpolt-github-io.disqus.com/embed.js';
+        
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
+
+
+  </div> <!-- end content -->
+
+</div> <!-- end wrap -->
+
+
+
+<!-- Google Analytics -->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-75341409-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+</BODY>
+
