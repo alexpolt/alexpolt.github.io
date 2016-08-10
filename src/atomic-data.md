@@ -411,16 +411,27 @@
       <TH colspan="5">Android 5
       <TH colspan="5">Ubuntu
 
-  <TR><TH>size            <TH>1<TH>8<TH>16<TH>64<TH>256 <TH>1<TH>8<TH>16<TH>64<TH>256
+  <TR><TH>atomic\_data<br/>
+          size            <TH>1<TH>8<TH>16<TH>64<TH>256 <TH>1<TH>8<TH>16<TH>64<TH>256
 
   <TR><TH>updates<br/>
-          zero reads      <TD>1.9<TD>0.003<TD>40%<TD>0.003<TD>40%
+          zero reads      
+                          <TD>1.9<TD>0.003<TD>40%<TD>0.003<TD>40%
+                          <TD>1.9<TD>0.003<TD>40%<TD>0.003<TD>40%
+                          <TD>1.9<TD>0.003<TD>40%<TD>0.003<TD>40%
 
   <TR><TH>updates<br/>
-          equals reads    <TD>1.9<TD>0.003<TD>40%<TD>0.003<TD>40%
+          equals reads    
+                          <TD>1.9<TD>0.003<TD>40%<TD>0.003<TD>40%
+                          <TD>1.9<TD>0.003<TD>40%<TD>0.003<TD>40%
+                          <TD>1.9<TD>0.003<TD>40%<TD>0.003<TD>40%
 
   <TR><TH>updates<br/>
-          less then reads <TD>1.9<TD>0.003<TD>40%<TD>0.003<TD>40%
+          less then reads 
+                          <TD>1.9<TD>0.003<TD>40%<TD>0.003<TD>40%
+                          <TD>1.9<TD>0.003<TD>40%<TD>0.003<TD>40%
+                          <TD>1.9<TD>0.003<TD>40%<TD>0.003<TD>40%
+
 
   </TABLE>
 
