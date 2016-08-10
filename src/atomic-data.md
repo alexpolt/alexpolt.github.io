@@ -15,7 +15,7 @@
     * [Lock-Free std::map?](#atomic_map)
     * [atomic\_data as a Container Element](#vector_of_atomic)
     * [Concurrent Singly Linked List with Arbitrary Access](#atomic_list)
-  * [Performance tests](#performance)
+  * [Performance Tests](#performance)
 
 
 <a name="intro"></a>
