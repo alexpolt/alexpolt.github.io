@@ -51,7 +51,10 @@
 <p>This article discusses two major problems in the lock-free Universe: the lifetime management 
   problem and the root cause of the ABA. Also we will describe a relatively new lock-free 
   data structure <strong>atomic_data</strong>. It solves the above two problems and offers a general enough 
-  approach to serve as a foundation for robust lock-free algorithms. </p>
+  approach to serve as a foundation for robust lock-free algorithms. In short, you wrap your
+  data in <strong>atomic_data</strong> and by using its <em>read</em> and <em>update</em> methods you get transactional
+  semantics of operation under any number of threads. You can have a megabyte array for example
+  and it will still work.</p>
 
 <p>As a reminder, there are three levels of guarantees: <strong>wait-free, lock-free and obstruction
   free</strong>. Wait-free is the strongest: operations on shared data basically never fail. This could 
@@ -206,7 +209,7 @@
   a release barrier, it means all the memory stores before the observed value has reached the
   memory. I mean, if your reads are dependent then you can skip having an acquire fence. </p>
 
-<p><center><img src="images/ordered-unorder-stores.jpg" alt="" title="Sheep are stores. A man is a memory barrier." /></center></p>
+<p><center><img src="images/ordered-unorder-stores.jpg" alt="" title="Sheep are stores. A man is a memory barrier" /></center></p>
 
 <h3>Exception safety, limitations and other issues</h3>
 
@@ -378,14 +381,15 @@
 <p>When we talk about lock-free linked data structures there is one particular problem they suffer
   from: <strong>the deletion problem</strong>. The drawing below describes it quite good.</p>
 
+<p><center><img src="images/deletion-problem.png" alt="" title="The deletion problem in lock-free lists" /></center></p>
+
 <p>The easiest solution is to lock the node before deleting it. <strong>atomic_data</strong> here really helps.
   It allows for the atomic modification of all of the members of the node and makes implementation
   really clear and short.</p>
 
 <p>Lock-free linked data structures suffer from a deletion problem.</p>
 
-<p>[]: 
-  []: </p>
+<p>[]: </p>
 
 
 <script src="highlight/highlight.pack.js"></script>

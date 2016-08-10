@@ -11,7 +11,10 @@
   This article discusses two major problems in the lock-free Universe: the lifetime management 
   problem and the root cause of the ABA. Also we will describe a relatively new lock-free 
   data structure **atomic_data**. It solves the above two problems and offers a general enough 
-  approach to serve as a foundation for robust lock-free algorithms. 
+  approach to serve as a foundation for robust lock-free algorithms. In short, you wrap your
+  data in **atomic\_data** and by using its *read* and *update* methods you get transactional
+  semantics of operation under any number of threads. You can have a megabyte array for example
+  and it will still work.
   
   As a reminder, there are three levels of guarantees: **wait-free, lock-free and obstruction
   free**. Wait-free is the strongest: operations on shared data basically never fail. This could 
@@ -353,6 +356,7 @@
   When we talk about lock-free linked data structures there is one particular problem they suffer
   from: **the deletion problem**. The drawing below describes it quite good.
 
+ <center>![][deletion]</center>
 
   The easiest solution is to lock the node before deleting it. **atomic\_data** here really helps.
   It allows for the atomic modification of all of the members of the node and makes implementation
@@ -376,11 +380,11 @@
   [herb]: https://www.youtube.com/watch?v=CmxkPChOcvw 
           "CppCon 2014: Lock-Free Programming (or, Juggling Razor Blades), Part II"
   []: 
-  []: 
+  [deletion]: images/deletion-problem.png "The deletion problem in lock-free lists"
   [preemption-orig]: images/atomic-data-trace-orig.png "Clean version of above"
   [preemption]: images/atomic-data-trace.png "The effect of preemption"
   [atomic-data]: images/atomic-data.png "A diagramm of atomic_data operation"
-  [sheep]: images/ordered-unorder-stores.jpg "Sheep are stores. A man is a memory barrier."
+  [sheep]: images/ordered-unorder-stores.jpg "Sheep are stores. A man is a memory barrier"
   [cat]: images/atomic-cat.png "Schroedinger's Cat"
   [ABA]: images/The-ABA-Problem.png "The dreaded ABA"
 
