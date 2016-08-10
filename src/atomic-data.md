@@ -506,7 +506,7 @@
   [android-studio]: https://github.com/alexpolt/atomic_data/tree/master/AndroidStudio/atomic_data_test/app/src/main/jni
   [atomic-map]: https://github.com/alexpolt/atomic_data/blob/master/samples/atomic_map.cpp
   [andrei]: http://erdani.com/publications/cuj-2004-10.pdf "Lock-Free Data Structures. 17 December 2007."
-  [atomic-vecotr]: https://github.com/alexpolt/atomic_data/blob/master/samples/atomic_vector.cpp
+  [atomic-vector]: https://github.com/alexpolt/atomic_data/blob/master/samples/atomic_vector.cpp
   [vector-of-atomic]: https://github.com/alexpolt/atomic_data/blob/master/samples/vector_of_atomic.cpp
   [herb]: https://www.youtube.com/watch?v=CmxkPChOcvw 
           "CppCon 2014: Lock-Free Programming (or, Juggling Razor Blades), Part II"
