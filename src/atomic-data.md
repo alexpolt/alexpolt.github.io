@@ -329,19 +329,14 @@
   special support from the std::atomic library, no need for Double CAS, no ABA and you can safely
   store iterators to list elements and dispose of them when necessary.
 
-  One thing should noted first. Lock-free linked data structures suffer from a deletion problem.
-
-
   Here is the basic structure:
 
-
-        template< typename T0, unsigned N0 > struct atomic_list {
+        template< typename T, unsigned queue_length > struct atomic_list {
         
           struct node;
           
-          using atomic_node = atomic_data<node, N0>;
+          using atomic_node = atomic_data<node, queue_length>;
           using node_ptr = std::shared_ptr<atomic_node>;
-          using size_t = unsigned;
           
           struct node {
             bool lock;
@@ -349,8 +344,22 @@
             node_ptr next;
           };
           
-          
+          ...
+        
         };
+
+
+  When we talk about lock-free linked data structures there is one particular problem they suffer
+  from: **the deletion problem**. The drawing below describes it quite good.
+
+
+  The easiest solution is to lock the node before deleting it. **atomic\_data** here really helps.
+  It allows for the atomic modification of all of the members of the node and makes implementation
+  really clear and short.
+
+  
+  Lock-free linked data structures suffer from a deletion problem.
+
 
 
 
