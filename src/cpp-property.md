@@ -1,5 +1,5 @@
 
-## C++ properties
+## C++ Properties
 
    C++ allows one to have syntatic sugar for properties. Here's how.
 

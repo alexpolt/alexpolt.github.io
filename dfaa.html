@@ -59,7 +59,7 @@
   coordinates. I have already been toying with the [0,0], [1,0], [0,1] coordinate system 
   in the past, and I know other people also used it for things like wireframe rendering.</p>
 
-<h2>First step: Barycentric coordinates</h2>
+<h2>First Step: Barycentric Coordinates</h2>
 
 <p>So, the first step in the DFAA algorithm is to assign the Barycentric coordinate system
   to the polygon. For non-indexed geometry this can be done with the vertex id.
@@ -87,7 +87,7 @@ out.uv01 = uv01[ uvid ];
 <p>Here is a sample how it works: <a href="http://ideone.com/iiB3xw">Ideone</a>. The code:
   <a href="https://github.com/alexpolt/DFAA/blob/master/generate-uv-ids.h">Github</a></p>
 
-<h2>Second step: pixel shader</h2>
+<h2>Second Step: Pixel Shader</h2>
 
 <p>The <strong>pixel shader part</strong> is done in two steps. In the first step we use the provided Barycentrics 
   (that should be used with <em>noperspective</em> modifier) and compute two values: direction of sampling 

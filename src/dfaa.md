@@ -1,3 +1,4 @@
+
 ##Introducing DFAA antialiasing algorithm
 
   Aliasing is a longstanding problem in computer graphics. To date a lot of different 
@@ -19,7 +20,7 @@
   coordinates. I have already been toying with the [0,0], [1,0], [0,1] coordinate system 
   in the past, and I know other people also used it for things like wireframe rendering.
 
-##First step: Barycentric coordinates
+##First Step: Barycentric Coordinates
 
   So, the first step in the DFAA algorithm is to assign the Barycentric coordinate system
   to the polygon. For non-indexed geometry this can be done with the vertex id.
@@ -45,7 +46,7 @@
   Here is a sample how it works: [Ideone](http://ideone.com/iiB3xw). The code:
   [Github](https://github.com/alexpolt/DFAA/blob/master/generate-uv-ids.h)
 
-##Second step: pixel shader
+##Second Step: Pixel Shader
 
   The **pixel shader part** is done in two steps. In the first step we use the provided Barycentrics 
   (that should be used with *noperspective* modifier) and compute two values: direction of sampling 
