@@ -151,7 +151,7 @@
   4 threads each doing 8192 increment iterations on an array of size 256: the entire array must 
   contain the number 4\*8192/256 = 128 in the end.
 
-  For the first draft of *atomic\_data* every atomic operation was using relaxed semantics just to 
+  For the first draft of **atomic\_data** every atomic operation was using relaxed semantics just to 
   see what happens. Guess my surprise when on my 2 Core Intel machine the test was successful!
   What happened? Where is the memory ordering hell? This was my first revelation into strongly
   ordered CPUs. 
@@ -170,7 +170,7 @@
 
   Observing the memory operation's reordering in the act was a nice experience. Slowly I got
   the intuition for what happens and solved the problem. It took me just two release fences.
-  Here I'd like to mention the following observation: if a thread read a variable that's behind
+  Here I'd like to mention the following observation: if a thread reads a variable that's behind
   a release barrier, it means all the memory stores before the observed value has reached the
   memory. I mean, if your reads are dependent then you can skip having an acquire fence. 
 
@@ -178,79 +178,78 @@
  <center>![](images/ordered-unorder-stores.jpg)</center>
 
 
+###Exception safety, limitations and other issues
 
-###Performance Cost
+  The *read* and *update* methods - the workhorses - are exception safe. They employ RAII 
+  techniques to maintain invariants. There is also static initialization which calls new to
+  fill the queue and destructor of **atomic\_data** calls delete. Nothing is done there to
+  guard against exceptions.
 
-  For readers: an atomic increment and a decrement for the usage counter with relaxed memory order. 
-  For writers: it is four relaxed increments/decrements, a data structure copy and a CAS on the 
-  data pointer. On hitting the barrier we wait for all threads (usage counter) to stop working with 
-  data.
+  Special attention should be paid to the fact that **atomic\_data::update** method is not
+  reentrant, because you might hit a barrier and a second call to update will spin forever.
+  **atomic\_data::update_weak** on the other hand is reentrant. Though you should keep in 
+  mind that in no way two recursive calls to this method creates a transaction. Those are
+  going to be separate updates.
 
+  You might rightfully ask if **atomic\_data** is really lock-free since it has a sync barrier.
+  Actually, if you think about it for a moment, due to limited computer memory some synchronization 
+  is unavoidable no matter what lock-free technique you use. Whether it be a GC pause or a
+  check of all other threads or reference counting or something else. Reference counting and
+  LL/LC to get around ABA might seem like a perfect match, but reference counting brings
+  its own problems to the table. **atomic\_data** is a good compromise and its flexible because
+  you can adjust the length of the queue. Also a sync barrier helps uncover bugs earlier.
 
-###Exceptions
+  By the way what the length of the backing queue should be. From my tests it seems like 2x 
+  number of threads is quite enough. Actually **atomic\_data** works even with the queue of 
+  length 1 (which I was surprised to find out). Nothing prevents from making the queue
+  longer and offset the cost of the synchronization events.
 
-  **atomic\_data** dynamically constructs queue elements in the constructor and deletes in the
-  destructor. It doesn't catch exceptions there. The *read* and *update* methods don't catch 
-  exceptions, but leave **atomic\_data** in the correct state.
+  Another often cited feature of *true* lock-free data structures is the tolerance to thread
+  killings or suspensions. I am a bit confused by this argument. After all we are creating
+  programs under the assumption of documented behaviour from the OS and hardware. We rely on
+  fair scheduling policies from the OS and no spurious kill signals or suspensions should
+  happen. And threads are not inferior to processes in any way. The only real issue is 
+  preemption and the picture below provides a Concurrency Visualizer graph of thread scheduling.
 
+ <center>![](images/atomic-data-trace.jpg)</center>
 
-###Shortcomings of **atomic\_data**
-
-  Although **atomic\_data** is quite robust and lock-free, it is still a compromise. First, there
-  is a contention point on the usage counter. Secondly, there is a sync barrier. Upon hitting this
-  barrier we should wait for all threads - writers and readers - to finish their work.
-
-  Also it's not tolerant to a thread kill or suspension. But this seems far-fetched. We write
-  our programs under the assumption that the hardware and OS will behave as documented. Threads 
-  are no worse than processes. There should be no unexpected thread/process kill signals or 
-  suspensions. It's a completely different story if a programmer does that on purpose.
-
-  **atomic\_data::update** is not reentrable for a thread: calling **atomic\_data::update** from 
-  inside **atomic\_data::update** can cause an infinite wait on the barrier.
-
-
-###How Long Should Be the Queue of Preallocated Data Elements?
-  
-  This question might seem to be trivial, but it leads to interesting results on the pros/cons
-  of lock-free data structures. For update-only scenarios it doesn't make much sense to have a 
-  lengthy queue because only one thread will ever succeed, all other threads will do useless 
-  work. In fact there is a better concurrent data structure for such cases: messaging queues.
-  A messaging queue allows one to monitor the load, also messages can be reordered for better
-  efficiency. And it's relatively easy to implement.
-
-  For other cases it makes sense to make the queue length equal the number of threads (and power 
-  of two for better efficiency). You should really measure the frequency of sync events to make a 
-  good decision. For example, if reading isn't fast then it makes sense to bump up the queue size.
+  If it becomes a real problem in your program then you can increase the size of the queue.
+  But from my tests and was never an issue and performance results speak for themselves (some
+  numbers are at the very end).
 
 
-###Code Samples
+##Code Samples
 
-  **atomic\_data** is easy to use and it works on any copyable data structure. Although you should 
-  always keep in mind the cost of copying.
+####Increments/Decrements of an Array
 
-  Let's implement an atomic lock-free array. The threads will scan the array and increment the
-  minimal value:
+  Now comes my favorite part because the design of **atomic\_data** allows to create really
+  cool things. Let us start with a test that was already described above (Memory Ordering part):
+  a number of threads look up a minimum value in an array of some size and increment it. By the
+  end of execution we expect all array cells to contains some know number.
 
+        
+        const size_t array_size = 16;
 
-        template<typename T, size_t N>
-        struct atomic_array {
-            static const size_t size = N;
-            T data[N];
+        //here comes the array
+        struct array_test {
+            unsigned data[ array_size ];
         };
         
-        using array_t = atomic_array<unsigned, 16>;
         
-        atomic_data<array_t, 4> array0;
+        //instance of atomic_data, queue length is 16
+        atomic_data<array_test, 16> array0;
         
+
         //called by each thread
         void update_array() {
+
           array0.update( []( array_t* array_new ) {
         
             unsigned min = -1;
             size_t min_index = 0;
         
-            //look up minimum value
-            for( size_t i = 0; i < array_t.size; i++ ) {
+            //look up the minimum value
+            for( size_t i = 0; i < array_size; i++ ) {
                 if( array_new->data[i] < min ) {
                   min = array_new->data[i];
                   min_index = i;
@@ -258,19 +257,21 @@
             }
         
             array_new->data[ min_index ]++;
+
+            //tell update that we are good to go
+            return true;
         
           } );
         }
 
-  Here is the [Ideone](http://ideone.com/ExtrT5) example (everything in a single file, the above 
-  algorithm is at the end of the code).
+  Check out the code for this example on
+  [Github](https://github.com/alexpolt/atomic_data/blob/master/samples/atomic_data_test.cpp).
 
-  Remember, you can't touch any data that doesn't belong to **atomic\_data**. So, for example, you 
-  can't really make a double ended linked list, unless you make the size fixed and store the entire 
-  list in the **atomic\_data**.
+  One thing to remember though is that **atomic\_data** guards only the data it holds. If inside
+  the update method the code updates some other global or captured data - that's gonna bite.
+  
 
-
-###Lock-free std::map?
+####Lock-free std::map?
 
   Actually the design of the **atomic\_data** makes it easy to make std::map (or anything else) 
   lock-free. 
