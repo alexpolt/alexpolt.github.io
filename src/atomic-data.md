@@ -25,7 +25,7 @@
   semantics when operating on pointers.
 
   A one of kind resource on the Internet about multithreaded programming, memory barriers,
-  lock-free techniques, etc. is the website by [Jeff Preshing](http://preshing.com/about/). 
+  lock-free techniques, etc. is the website by [Jeff Preshing](preshing). 
 
 
 ###CAS (Compare-And-Swap)
@@ -213,6 +213,8 @@
 
  <center>![](images/atomic-data-trace.png)</center>
 
+  [Here is the pic](images/atomic-data-trace-orig.png) without crappy graffiti.
+
   If it becomes a real problem in your program then you can increase the size of the queue.
   But from my tests it was never an issue and performance results speak for themselves (some
   numbers are at the very end).
@@ -268,8 +270,8 @@
         }
 
 
-  At the end of execution every array must equal **threads\_size\*iterations/array\_size = 10240**.
-  Check out the code for this example on
+  At the end of execution every array element must be equal **threads\_size\*iterations/array\_size 
+  = 10240**. Check out the code for this example on
   [Github](https://github.com/alexpolt/atomic_data/blob/master/samples/atomic_data_test.cpp).
   There is also an
   [Android Studio](https://github.com/alexpolt/atomic_data/tree/master/AndroidStudio/atomic_data_test/app/src/main/jni) 
@@ -301,6 +303,9 @@
         } );
 
   Here is an [example](https://github.com/alexpolt/atomic_data/blob/master/samples/atomic_map.cpp).
+  Long time ago Andrei Alexandrescu offered such a map in his 
+  [article](http://erdani.com/publications/cuj-2004-10.pdf). This one is definitely better.
+
   Yes, it works. But the cost of copying makes it slower than using a mutex unless the access 
   pattern is mostly reading. Actually for an **atomic\_data&lt; std::vector &gt;** the story is
   different: vector can skip memory allocation on copying and it makes it quite fast. 
@@ -348,6 +353,7 @@
         
         };
 
+  Basically it's a list of **atomic\_data** objects and the next pointer is wrapped in shared\_ptr.
 
   When we talk about lock-free linked data structures there is one particular problem they suffer
   from: **the deletion problem**. The drawing below describes it quite good.
@@ -362,7 +368,7 @@
 
 
 
-
+  [preshing]: http://preshing.com/about/ "Jeff Prshing Excellent Website"
 
 
 

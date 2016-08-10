@@ -65,7 +65,7 @@
   semantics when operating on pointers.</p>
 
 <p>A one of kind resource on the Internet about multithreaded programming, memory barriers,
-  lock-free techniques, etc. is the website by <a href="http://preshing.com/about/">Jeff Preshing</a>. </p>
+  lock-free techniques, etc. is the website by <a href="preshing">Jeff Preshing</a>. </p>
 
 <h3>CAS (Compare-And-Swap)</h3>
 
@@ -244,6 +244,8 @@
 
 <p><center><img src="images/atomic-data-trace.png" alt="" title="" /></center></p>
 
+<p><a href="images/atomic-data-trace-orig.png">Here is the pic</a> without crappy graffiti.</p>
+
 <p>If it becomes a real problem in your program then you can increase the size of the queue.
   But from my tests it was never an issue and performance results speak for themselves (some
   numbers are at the very end).</p>
@@ -296,8 +298,8 @@
     }
 </code></pre>
 
-<p>At the end of execution every array must equal <strong>threads_size*iterations/array_size = 10240</strong>.
-  Check out the code for this example on
+<p>At the end of execution every array element must be equal <strong>threads_size*iterations/array_size 
+  = 10240</strong>. Check out the code for this example on
   <a href="https://github.com/alexpolt/atomic_data/blob/master/samples/atomic_data_test.cpp">Github</a>.
   There is also an
   <a href="https://github.com/alexpolt/atomic_data/tree/master/AndroidStudio/atomic_data_test/app/src/main/jni">Android Studio</a> 
@@ -328,7 +330,10 @@
 </code></pre>
 
 <p>Here is an <a href="https://github.com/alexpolt/atomic_data/blob/master/samples/atomic_map.cpp">example</a>.
-  Yes, it works. But the cost of copying makes it slower than using a mutex unless the access 
+  Long time ago Andrei Alexandrescu offered such a map in his 
+  <a href="http://erdani.com/publications/cuj-2004-10.pdf">article</a>. This one is definitely better.</p>
+
+<p>Yes, it works. But the cost of copying makes it slower than using a mutex unless the access 
   pattern is mostly reading. Actually for an <strong>atomic_data&lt; std::vector &gt;</strong> the story is
   different: vector can skip memory allocation on copying and it makes it quite fast. 
   <a href="https://github.com/alexpolt/atomic_data/blob/master/samples/atomic_vector.cpp">Try it</a> on your 
@@ -372,6 +377,8 @@
 
     };
 </code></pre>
+
+<p>Basically it's a list of <strong>atomic_data</strong> objects and the next pointer is wrapped in shared_ptr.</p>
 
 <p>When we talk about lock-free linked data structures there is one particular problem they suffer
   from: <strong>the deletion problem</strong>. The drawing below describes it quite good.</p>
