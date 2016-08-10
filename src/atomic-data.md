@@ -445,9 +445,10 @@
   adjusts priorities and the mutex version had quite different timings (but always worse that
   **atomic\_data**).
 
-  As data tells us, **atomic\_data** is quite competitive even with it copying data on every update. But
-  we more testing and I ask for your help here. Clone or download the [Github][github] repo and
-  run the tests on your machine. **atomic\_data** works both on 32-bit and 64-bit machines.
+  The results show that **atomic\_data** is quite competitive even with it copying the data on 
+  every update. But we more testing and I ask for your help here. Clone or download the 
+  [Github][github] repo and run the tests on your machine. **atomic\_data** works both on 32-bit 
+  and 64-bit machines.
  
   You're a hero if you've read all of the article.
 
