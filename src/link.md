@@ -1,5 +1,5 @@
 
-##A better alternative to shared_ptr for shared ownership
+##A Better Alternative to shared_ptr for Shared Ownership
 
   *shared_ptr* is notorious for the problems it brings into the codebase. The idea is neat and
   simple - reference counting. But, as the complexity and size of the code grows, two questions 
