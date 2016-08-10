@@ -254,10 +254,12 @@
 
 <p>Now comes my favorite part because the design of <strong>atomic_data</strong> allows to create really
   cool things. Let us start with a test that was already described above (Memory Ordering part):
-  a number of threads look up a minimum value in an array of some size and increment it. By the
-  end of execution we expect all array cells to contains some know number.</p>
+  a number of threads look up the minimum value in an array of some size and increment it. 
+  By the end of execution we expect all array cells to contains some know number.</p>
 
-<pre><code>    const size_t array_size = 16;
+<pre><code>    const size_t array_size = 64;
+    const unsigned threads_size = 8;
+    const unsigned iterations = 81920;
 
     //here comes the array
     struct array_test {
@@ -294,8 +296,14 @@
     }
 </code></pre>
 
-<p>Check out the code for this example on
-  <a href="https://github.com/alexpolt/atomic_data/blob/master/samples/atomic_data_test.cpp">Github</a>.</p>
+<p>At the end of execution every array must equal <strong>threads_size*iterations/array_size = 10240</strong>.
+  Check out the code for this example on
+  <a href="https://github.com/alexpolt/atomic_data/blob/master/samples/atomic_data_test.cpp">Github</a>.
+  There is also an
+  <a href="https://github.com/alexpolt/atomic_data/tree/master/AndroidStudio/atomic_data_test/app/src/main/jni">Android Studio</a> 
+  project with this test and you can observe the effects of memory
+  ordering on the result (try removing std::atomic_thread_fences in atomic_data.h) if you run it
+  on a smartphone with a weakly ordered many-core processor (like ARM).</p>
 
 <p>One thing to remember though is that <strong>atomic_data</strong> guards only the data it holds. If inside
   the update method the code updates some other global or captured data - that's gonna bite.</p>

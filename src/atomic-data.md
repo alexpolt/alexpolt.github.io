@@ -224,11 +224,12 @@
 
   Now comes my favorite part because the design of **atomic\_data** allows to create really
   cool things. Let us start with a test that was already described above (Memory Ordering part):
-  a number of threads look up a minimum value in an array of some size and increment it. By the
-  end of execution we expect all array cells to contains some know number.
+  a number of threads look up the minimum value in an array of some size and increment it. 
+  By the end of execution we expect all array cells to contains some know number.
 
-        
-        const size_t array_size = 16;
+        const size_t array_size = 64;
+        const unsigned threads_size = 8;
+        const unsigned iterations = 81920;
 
         //here comes the array
         struct array_test {
@@ -264,8 +265,14 @@
           } );
         }
 
+  At the end of execution every array must equal **threads\_size\*iterations/array\_size = 10240**.
   Check out the code for this example on
   [Github](https://github.com/alexpolt/atomic_data/blob/master/samples/atomic_data_test.cpp).
+  There is also an
+  [Android Studio](https://github.com/alexpolt/atomic_data/tree/master/AndroidStudio/atomic_data_test/app/src/main/jni) 
+  project with this test and you can observe the effects of memory
+  ordering on the result (try removing std::atomic\_thread\_fences in atomic\_data.h) if you run it
+  on a smartphone with a weakly ordered many-core processor (like ARM).
 
   One thing to remember though is that **atomic\_data** guards only the data it holds. If inside
   the update method the code updates some other global or captured data - that's gonna bite.
