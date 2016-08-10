@@ -420,12 +420,12 @@
                           <TD><BR>  <TD><BR> <TD><BR> <TD><BR>
  <TR><TH>many updates<BR>
          many reads    
-                          <TD>130<BR>250  <TD>210<BR>290 <TH>580<BR>510 <TH>1400<BR>1200
+                          <TD>130<BR>250  <TD>210<BR>290 <TD class="bold">580<BR>510 <TD class="bold">1400<BR>1200
                           <TD><BR>  <TD><BR> <TD><BR> <TD><BR>
                           <TD><BR>  <TD><BR> <TD><BR> <TD><BR>
  <TR><TH>many updates<BR>
          20x more reads 
-                          <TD>280<BR>300  <TH>690<BR>620 <TH>3500<BR>2000 <TH>13400<BR>6800
+                          <TD>280<BR>300  <TD class="bold">690<BR>620 <TD calss="bold">3500<BR>2000 <TD class="bold">13400<BR>6800
                           <TD><BR>  <TD><BR> <TD><BR> <TD><BR>
                           <TD><BR>  <TD><BR> <TD><BR> <TD><BR>
 </TABLE>
