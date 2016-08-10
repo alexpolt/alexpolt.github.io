@@ -215,7 +215,7 @@
 
  <center>![][preemption]</center>
 
-  [Here is the pic][preemption-orig] without crappy graffiti.
+  [Here is the pic][preemption-orig] without drawing.
 
   If it becomes a real problem in your program then you can increase the size of the queue.
   But from my tests it was never an issue and performance results speak for themselves (some
