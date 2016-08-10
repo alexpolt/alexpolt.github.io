@@ -237,14 +237,15 @@
         struct array_test {
             unsigned data[ array_size ];
         };
-                
+        
         //instance of atomic_data, queue length is 16
-        atomic_data<array_test, 16> array0;
-                
+        atomic_data<array_test, 16> atomic_array;
+        
         //called by each thread
         void update_array() {
         
-          array0.update( []( array_t* array_new ) {
+          //update, we are given a copy that we should update (RCU)
+          atomic_array.update( []( array_test* array_new ) {
         
             unsigned min = -1;
             size_t min_index = 0;
@@ -263,6 +264,7 @@
             return true;
         
           } );
+
         }
 
 
@@ -277,31 +279,81 @@
 
   One thing to remember though is that **atomic\_data** guards only the data it holds. If inside
   the update method the code updates some other global or captured data - that's gonna bite.
-  
+
 
 ####Lock-free std::map?
 
-  Actually the design of the **atomic\_data** makes it easy to make std::map (or anything else) 
-  lock-free. 
+  The design of the **atomic\_data** makes it really easy to turn any data structure into a 
+  concurrent one. All we need is to wrap it in **atomic\_data** and use provided *read* and 
+  *update* methods to access it.
 
 
-        atomic_data< std::map<key,value> > atomic_map0;
+        atomic_data< std::map<key, value> > atomic_map;
         
-        atomic_map0.update( []( auto *map_new ) {
+        atomic_map.update( []( auto *map_new ) {
             map_new->insert( { key, value } );
+            return true;
         } );
         
-        atomic_map0.read( [&value]( auto *map ) mutable {
+        auto it = atomic_map.read( []( auto *map ) {
             auto it = map->find( key );
-            if( it != map->end() ) value = *it;
+            return it;
         } );
 
+  Here is an [example](https://github.com/alexpolt/atomic_data/blob/master/samples/atomic_map.cpp).
+  Yes, it works. But the cost of copying makes it slower than using a mutex unless the access 
+  pattern is mostly reading. Actually for an **atomic\_data&lt; std::vector &gt;** the story is
+  different: vector can skip memory allocation on copying and it makes it quite fast. 
+  [Try it](https://github.com/alexpolt/atomic_data/blob/master/samples/atomic_vector.cpp) on your 
+  machine.
 
-  Technically it isn't lock-free because of memory allocation. To make it truly lock-free we
-  need to implement a lock-free allocator and the design of **atomic\_data** helps: defer memory
-  freeing by storing a pointer in a data field and then, in a copy constructor, you check for it.
-  Since data elements from the queue are allocated atomically to every thread, it's going to be 
-  safe.
+
+####atomic\_data as a container element
+
+  **atomic\_data** is copyable and movable and it can be used as a container element.
+
+
+          std::vector< atomic_data<int, threads_size*2> > vector{ some_size };
+          vector[0].update( []() { .... } );
+          auto result = vector[0].read( [](){ .... } );
+          std::sort( begin( vector ), end( vector ) );
+
+
+  Here is a [sample](https://github.com/alexpolt/atomic_data/blob/master/samples/vector_of_atomic.cpp).
+
+
+####Concurrent Singly Linked List with Arbitrary Access
+
+  This is where **atomic\_data** comes to its full glory. Compared to 
+  [Herb Sutter's solution](https://www.youtube.com/watch?v=CmxkPChOcvw) it doesn't require any 
+  special support from the std::atomic library, no need for Double CAS, no ABA and you can safely
+  store iterators to list elements and dispose of them when necessary. 
+
+	One thing should noted first. Lock-free linked data structures suffer from a deletion problem.
+
+
+	Here is the basic structure:
+
+
+				template< typename T0, unsigned N0 > struct atomic_list {
+				
+					struct node;
+					
+					using atomic_node = atomic_data<node, N0>;
+					using node_ptr = std::shared_ptr<atomic_node>;
+					using size_t = unsigned;
+					
+					struct node {
+						bool lock;
+						T0 data;
+						node_ptr next;
+					};
+					
+					
+				};
+
+
+
 
 
 

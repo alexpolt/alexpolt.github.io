@@ -267,12 +267,13 @@
     };
 
     //instance of atomic_data, queue length is 16
-    atomic_data&lt;array_test, 16&gt; array0;
+    atomic_data&lt;array_test, 16&gt; atomic_array;
 
     //called by each thread
     void update_array() {
 
-      array0.update( []( array_t* array_new ) {
+      //update, we are given a copy that we should update (RCU)
+      atomic_array.update( []( array_test* array_new ) {
 
         unsigned min = -1;
         size_t min_index = 0;
@@ -291,6 +292,7 @@
         return true;
 
       } );
+
     }
 </code></pre>
 
@@ -308,26 +310,72 @@
 
 <h4>Lock-free std::map?</h4>
 
-<p>Actually the design of the <strong>atomic_data</strong> makes it easy to make std::map (or anything else) 
-  lock-free. </p>
+<p>The design of the <strong>atomic_data</strong> makes it really easy to turn any data structure into a 
+  concurrent one. All we need is to wrap it in <strong>atomic_data</strong> and use provided <em>read</em> and 
+  <em>update</em> methods to access it.</p>
 
-<pre><code>    atomic_data&lt; std::map&lt;key,value&gt; &gt; atomic_map0;
+<pre><code>    atomic_data&lt; std::map&lt;key, value&gt; &gt; atomic_map;
 
-    atomic_map0.update( []( auto *map_new ) {
+    atomic_map.update( []( auto *map_new ) {
         map_new-&gt;insert( { key, value } );
+        return true;
     } );
 
-    atomic_map0.read( [&amp;value]( auto *map ) mutable {
+    auto it = atomic_map.read( []( auto *map ) {
         auto it = map-&gt;find( key );
-        if( it != map-&gt;end() ) value = *it;
+        return it;
     } );
 </code></pre>
 
-<p>Technically it isn't lock-free because of memory allocation. To make it truly lock-free we
-  need to implement a lock-free allocator and the design of <strong>atomic_data</strong> helps: defer memory
-  freeing by storing a pointer in a data field and then, in a copy constructor, you check for it.
-  Since data elements from the queue are allocated atomically to every thread, it's going to be 
-  safe.</p>
+<p>Here is an <a href="https://github.com/alexpolt/atomic_data/blob/master/samples/atomic_map.cpp">example</a>.
+  Yes, it works. But the cost of copying makes it slower than using a mutex unless the access 
+  pattern is mostly reading. Actually for an <strong>atomic_data&lt; std::vector &gt;</strong> the story is
+  different: vector can skip memory allocation on copying and it makes it quite fast. 
+  <a href="https://github.com/alexpolt/atomic_data/blob/master/samples/atomic_vector.cpp">Try it</a> on your 
+  machine.</p>
+
+<h4>atomic_data as a container element</h4>
+
+<p><strong>atomic_data</strong> is copyable and movable and it can be used as a container element.</p>
+
+<pre><code>      std::vector&lt; atomic_data&lt;int, threads_size*2&gt; &gt; vector{ some_size };
+      vector[0].update( []() { .... } );
+      auto result = vector[0].read( [](){ .... } );
+      std::sort( begin( vector ), end( vector ) );
+</code></pre>
+
+<p>Here is a <a href="https://github.com/alexpolt/atomic_data/blob/master/samples/vector_of_atomic.cpp">sample</a>.</p>
+
+<h4>Concurrent Singly Linked List with Arbitrary Access</h4>
+
+<p>This is where <strong>atomic_data</strong> comes to its full glory. Compared to 
+  <a href="https://www.youtube.com/watch?v=CmxkPChOcvw">Herb Sutter's solution</a> it doesn't require any 
+  special support from the std::atomic library, no need for Double CAS, no ABA and you can safely
+  store iterators to list elements and dispose of them when necessary. </p>
+
+<pre><code>One thing should noted first. Lock-free linked data structures suffer from a deletion problem.
+
+
+Here is the basic structure:
+
+
+            template&lt; typename T0, unsigned N0 &gt; struct atomic_list {
+
+                struct node;
+
+                using atomic_node = atomic_data&lt;node, N0&gt;;
+                using node_ptr = std::shared_ptr&lt;atomic_node&gt;;
+                using size_t = unsigned;
+
+                struct node {
+                    bool lock;
+                    T0 data;
+                    node_ptr next;
+                };
+
+
+            };
+</code></pre>
 
 
 <script src="highlight/highlight.pack.js"></script>
