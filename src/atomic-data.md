@@ -220,6 +220,7 @@
 
 ##Code Samples
 
+
 ####Increments/Decrements of an Array
 
   Now comes my favorite part because the design of **atomic\_data** allows to create really
@@ -227,23 +228,22 @@
   a number of threads look up the minimum value in an array of some size and increment it. 
   By the end of execution we expect all array cells to contains some know number.
 
+
         const size_t array_size = 64;
         const unsigned threads_size = 8;
         const unsigned iterations = 81920;
-
+        
         //here comes the array
         struct array_test {
             unsigned data[ array_size ];
         };
-        
-        
+                
         //instance of atomic_data, queue length is 16
         atomic_data<array_test, 16> array0;
-        
-
+                
         //called by each thread
         void update_array() {
-
+        
           array0.update( []( array_t* array_new ) {
         
             unsigned min = -1;
@@ -258,12 +258,13 @@
             }
         
             array_new->data[ min_index ]++;
-
+        
             //tell update that we are good to go
             return true;
         
           } );
         }
+
 
   At the end of execution every array must equal **threads\_size\*iterations/array\_size = 10240**.
   Check out the code for this example on
