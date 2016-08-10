@@ -1,5 +1,5 @@
 
-##On consistent hashing
+##On Consistent Hashing
 
 Consistent hashing is an algorithm that allows to amortize the cost of object movement
 in case a bucket becomes unavailable (offline). It's frequently used to distribute
