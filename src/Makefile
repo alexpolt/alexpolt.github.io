@@ -14,14 +14,14 @@ all: $(targets)
 	echo -e '\n</div>\n' >> $@
 	cat tmpl-footer.html >> $@
 	$(git) add $< $@
-	$(git) commit
+#	$(git) commit
 
 $(filter-out %index.html,$(targets)) : ../%.html : %.md $(tmpl) 
 	cat tmpl-header.html > $@
 	$(md) $< >> $@
 	cat tmpl-footer.html >> $@
 	$(git) add $< $@
-	$(git) commit
+#	$(git) commit
 
 $(tmpl) : ;
 
