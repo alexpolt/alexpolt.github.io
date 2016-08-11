@@ -9,7 +9,7 @@
   program. And it made me think what is the magic behind a state machine. It seems to me that
   the following might be true:
 
-  > state machine = flow of messages = message queue = react style programming (?)
+				state machine = flow of messages = message queue = react style programming (?)
 
   Having a message queue direct your program gives you a great tool: control over execution flow.
 
