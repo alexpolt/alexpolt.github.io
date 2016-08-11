@@ -280,7 +280,7 @@
             unsigned data[ array_size ];
         };
         
-        //instance of atomic_data, queue length is 2x number of threads
+        //an instance of atomic_data, queue is 2x threads_size
         atomic_data<array_test, 2*threads_size> atomic_array;
         
         //called by each thread
@@ -333,12 +333,16 @@
         atomic_data< std::map<key, value> > atomic_map;
         
         atomic_map.update( []( auto *map_new ) {
+
             map_new->insert( { key, value } );
+
             return true;
         } );
         
         auto it = atomic_map.read( []( auto *map ) {
+
             auto it = map->find( key );
+
             return it;
         } );
 
@@ -358,9 +362,12 @@
   **atomic\_data** is copyable and movable and it can be used as a container element.
 
 
-          std::vector< atomic_data<int, threads_size*2> > vector{ some_size };
+          std::vector< atomic_data<int> > vector{ some_size };
+
           vector[0].update( []() { .... } );
+
           auto result = vector[0].read( [](){ .... } );
+
           std::sort( begin( vector ), end( vector ) );
 
 
@@ -381,7 +388,7 @@
         
           struct node;
           
-          using atomic_node = atomic_data<node, queue_length>;
+          using atomic_node = atomic_data<node>;
           using node_ptr = std::shared_ptr<atomic_node>;
           
           struct node {
@@ -407,7 +414,7 @@
 
 
         //create an instance
-        atomic_list<int, threads_size*2> atomic_list0;
+        atomic_list<int> atomic_list0;
         
         //insert at the beginning, get iterator to the result
         auto it = atomic_list0.insert( value );
@@ -429,7 +436,7 @@
         }
         
         //iterating
-        for( auto& element : atomic_data0 ) ...
+        for( auto& element : atomic_list0 ) { ... }
 
 
   Here is an example to test the correctness: we prepopulate an instance of **atomic\_list** with

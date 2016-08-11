@@ -314,7 +314,7 @@
         unsigned data[ array_size ];
     };
 
-    //instance of atomic_data, queue length is 2x number of threads
+    //an instance of atomic_data, queue is 2x threads_size
     atomic_data&lt;array_test, 2*threads_size&gt; atomic_array;
 
     //called by each thread
@@ -365,12 +365,16 @@
 <pre><code>    atomic_data&lt; std::map&lt;key, value&gt; &gt; atomic_map;
 
     atomic_map.update( []( auto *map_new ) {
+
         map_new-&gt;insert( { key, value } );
+
         return true;
     } );
 
     auto it = atomic_map.read( []( auto *map ) {
+
         auto it = map-&gt;find( key );
+
         return it;
     } );
 </code></pre>
@@ -389,9 +393,12 @@
 
 <p><strong>atomic_data</strong> is copyable and movable and it can be used as a container element.</p>
 
-<pre><code>      std::vector&lt; atomic_data&lt;int, threads_size*2&gt; &gt; vector{ some_size };
+<pre><code>      std::vector&lt; atomic_data&lt;int&gt; &gt; vector{ some_size };
+
       vector[0].update( []() { .... } );
+
       auto result = vector[0].read( [](){ .... } );
+
       std::sort( begin( vector ), end( vector ) );
 </code></pre>
 
@@ -411,7 +418,7 @@
 
       struct node;
 
-      using atomic_node = atomic_data&lt;node, queue_length&gt;;
+      using atomic_node = atomic_data&lt;node&gt;;
       using node_ptr = std::shared_ptr&lt;atomic_node&gt;;
 
       struct node {
@@ -437,7 +444,7 @@
   the node and makes implementation really clear and short. As a result we can write code like this:</p>
 
 <pre><code>    //create an instance
-    atomic_list&lt;int, threads_size*2&gt; atomic_list0;
+    atomic_list&lt;int&gt; atomic_list0;
 
     //insert at the beginning, get iterator to the result
     auto it = atomic_list0.insert( value );
@@ -459,7 +466,7 @@
     }
 
     //iterating
-    for( auto&amp; element : atomic_data0 ) ...
+    for( auto&amp; element : atomic_list0 ) { ... }
 </code></pre>
 
 <p>Here is an example to test the correctness: we prepopulate an instance of <strong>atomic_list</strong> with
