@@ -2,7 +2,7 @@
 ##Color Throne - Brain Gymnastics
 
   Made my first Android app and released it on Google Play. It's a game, reminds of Tetris, but 
-  with a comletely different game mechanics. You need not only to rotate blocks but also rotate 
+  with a completely different game mechanics. You need not only to rotate blocks but also rotate 
 	colors to make it match other colors. Any matching colors disappear. 
 
   During programming I came to appreciate a state machines. It nicely partitioned the flow of the

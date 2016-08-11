@@ -1,6 +1,6 @@
 
 
-   * [Color Throne - Brain Gymnastics](color-throne.html)
+  * [Color Throne - Brain Gymnastics](color-throne.html)
 
     Released my first Android application on Google Play. It's a color puzzle-arcade game.
     Any installs and positive reviews are much welcome.
