@@ -105,15 +105,24 @@
   
     A hack for quick and easy printing of a floating point number in base-10.
 
+
   * [Human Memory](memory.html)
 
     Some observations regarding human memory.
+
 
   * [On Motivation](motivation.html)
   
     First blog post is about an important topic of motivation.
 
+
   * [Where Do We Come From? What Are We? Where Are We Going?](phylosophy.html)
 
     A deep question of the nature of our Universe.
+
+
+  * [Energia-Buran Military Space System](energia-buran.html)
+
+    About unjustly forgotten technical marvel.
+
 
