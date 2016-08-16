@@ -83,25 +83,30 @@ void print_fp( float number, int digits ) {
     if( d2 &gt;= 10.0 ) { d2 = d2 / 10.0; exp10+=1.0; }
     if( d2 &lt; 1.0 ) { d2 = d2 * 10.0; exp10-=1.0; }
 
+    static char digits[] = "0123456789";
+
     //print sign
-    if( minus ) printf("-");
+    if( minus ) putc( '-', stdout );
 
     //print integer part
     int i = int( d2 );
-    printf("%.1d.", i);
+    putc( digits[i], stdout );
+    putc( '.', stdout );
     d2 = d2 - i;
 
     //print fractional part
     while( digits-- ) { 
         d2 = d2 * 10.0;
         int i = int( d2 );
-        printf("%.1d", i);
+        putc( digits[i], stdout );
         d2 = d2 - i;
     }
 
     //print exponent part
+    //being a little lazy and using printf
     printf("e%d\n", int(exp10));
 }
+
 
 int main() {
 
@@ -119,6 +124,7 @@ int main() {
     print_fp( d , 10 );
 
 }
+
 
 Output:
 

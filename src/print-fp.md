@@ -24,7 +24,7 @@
         };
         
         d = number;
-
+        
         //deal with sign
         bool minus = u >> 31; 
         u = u & ~(1 << 31); 
@@ -32,57 +32,64 @@
         //calculate base-10 exponent
         double exp = (u >> 23) - 127;
         double exp10 = exp / log2( 10.0 );
-
+        
         //adjust the number 
         u = (u & ~(0xFF << 23)) | (127 << 23);
         double d2 = double(d) * pow( 10.0, exp10 - int(exp10) ); 
         if( d2 >= 10.0 ) { d2 = d2 / 10.0; exp10+=1.0; }
         if( d2 < 1.0 ) { d2 = d2 * 10.0; exp10-=1.0; }
-
+        
+        static char digits[] = "0123456789";
+        
         //print sign
-        if( minus ) printf("-");
-
+        if( minus ) putc( '-', stdout );
+        
         //print integer part
         int i = int( d2 );
-        printf("%.1d.", i);
+        putc( digits[i], stdout );
+        putc( '.', stdout );
         d2 = d2 - i;
-
+        
         //print fractional part
         while( digits-- ) { 
             d2 = d2 * 10.0;
             int i = int( d2 );
-            printf("%.1d", i);
+            putc( digits[i], stdout );
             d2 = d2 - i;
         }
-
+        
         //print exponent part
+        //being a little lazy and using printf
         printf("e%d\n", int(exp10));
     }
-
+    
+    
     int main() {
-
+        
         double d;
-
+        
         //the two doubles below are special, in that a float can't distinguish between them
         //taken from Bruce Dawson post "Float Precision–From Zero to 100+ Digits"
-
+        
         d = 8.589973e9;
         printf("%.10f\n", d);
         print_fp( d , 10 );
-
+        
         d = 8.589974e9;
         printf("%.10f\n", d);
         print_fp( d , 10 );
-
+        
     }
-
+    
+    
     Output:
-
+    
     8589973000.0000000000
     8.5899735040e9
-
+    
     8589974000.0000000000
     8.5899735040e9
+
 
   [Github](https://github.com/alexpolt/poetry/blob/master/print-fp.cpp) [Ideone](http://ideone.com/QO1fU5)
 
