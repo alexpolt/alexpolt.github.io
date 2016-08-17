@@ -88,7 +88,7 @@
   developed a Java app for Google Play Store (Color Throne). 
 
   Used that time to boost my C++ skills, got a deep understanding of new features in C++11.
-  Also read a lot about computer graphics algorithms and rendering technique, wrote a couple 
+  Also read a lot about computer graphics algorithms and rendering techniques, wrote a couple 
   programs, came up with a new anti-aliasing algorithm (*DFAA*). Got a good idea of lock-free
   programming and came up with a new lock-free data structure *atomic\_data*.
   
@@ -100,8 +100,9 @@
 
 ###Certificates
 
-  [Zend Certified Engineer](http://www.zend.com/en/yellow-pages/ZEND004080) (LAMP software stack)
-  [Mail.ru C++ Silver Certificate](https://certification.mail.ru/certificates/819e345a-c9d5-405e-bbb2-04083208f9d8/en/)
+  * [Zend Certified Engineer](http://www.zend.com/en/yellow-pages/ZEND004080) (LAMP software stack)
+
+  * [Mail.ru C++ Silver Certificate](https://certification.mail.ru/certificates/819e345a-c9d5-405e-bbb2-04083208f9d8/en/)
 
 
 
