@@ -6,7 +6,7 @@
     Any installs and positive reviews are much welcome.
 
 
-  * [atomic\_data: A Multibyte General Purpose Lock-Free Data Structure](atomic-data.html)
+  * [**atomic\_data: A Multibyte General Purpose Lock-Free Data Structure**](atomic-data.html)
 
     My greatest work so far. I am writing about lock-free programming gotchas and also present
     a hopefully novel design: **atomic\_data**.
@@ -28,7 +28,7 @@
 >   Learning to learn is of paramount importance.
 
 
-  * [Introducing DFAA Antialiasing Algorithm](dfaa.html)
+  * [**Introducing DFAA Antialiasing Algorithm**](dfaa.html)
 
     I've come up with a an intresting method for doing antialiasing.
 
@@ -83,7 +83,7 @@
     A couple notes on polymorphic behaviour.
 
 
-  * [C++ Exceptions](exceptions.html)
+  * [**C++ Exceptions**](exceptions.html)
 
     Neverending struggle to work out the rules of using C++ exceptions, my thoughts on that.  
     TLDR. Use them almost always.
