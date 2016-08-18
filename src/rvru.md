@@ -15,7 +15,15 @@
 <img src="images/android.png" class="resume-logo" />
 <img src="images/perl.png" class="resume-logo" />
 
+
 #Резюме
+
+
+###Контакты
+
+  * Почта: poltavsky.alexandr&#64;gmail.com
+  * Телефон: +7 (964) 791-19-61
+
 
 ###Общая информация
 
