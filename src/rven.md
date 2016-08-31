@@ -27,11 +27,11 @@
 
 ###Summary
 
-  I'm looking for a job that is mostly about C++ and computer graphics. I have been interested
-  in computers and 3D graphics since I was young and over time acquired a good understanding of 
-  computer architecture and 3D graphics algorithms. In the field of 3D graphics I've come up with 
-  a new [*anti-aliasing algorthim (DFAA)*][DFAA] ( the article was approved for a publication 
-  in the [JCGT][] journal after some editing ). Also, I have created a C++ library 
+  I'm looking for a job that is mostly about C++ and possibly computer graphics. I have been 
+  interested in computers since I was young and over time acquired a good understanding of 
+  computer architecture, data structures and algorithms. For example, in the field of 3D graphics 
+  I've come up with a new [*anti-aliasing algorthim (DFAA)*][DFAA] ( the article was approved for a 
+  publication in the [JCGT][] journal after some editing ). Also, I have created a C++ library 
   [*atomic\_data*][ad] for doing lock-free programming with data structures of any size ( all code, 
   including Android Studio NDK project, is available on [GitHub][] ).
 
