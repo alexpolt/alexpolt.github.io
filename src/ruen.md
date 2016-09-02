@@ -107,7 +107,7 @@
 
   * [Zend Certified Engineer](http://www.zend.com/en/yellow-pages/ZEND004080) (LAMP software stack)
 
-  * [Mail.ru C++ Silver Certificate](https://certification.mail.ru/certificates/819e345a-c9d5-405e-bbb2-04083208f9d8/en/)
+  * [Mail.ru C++ Gold Certificate](https://certification.mail.ru/certificates/d7f3561b-7cda-44b7-9110-1b0fc35f0285/en/)
 
 
 
