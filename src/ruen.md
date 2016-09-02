@@ -16,7 +16,7 @@
 <img src="images/opengl.png" class="resume-logo" />
 
 
-#Resume
+##Resume
 
 
 ###Contact Details
@@ -29,9 +29,9 @@
 
   I'm looking for a job that is mostly about C++. I have been interested in computers since I was 
   young and over time acquired a good understanding of computer architecture, data structures and
-  algorithms. Also I have created a C++ library [*atomic\_data*][ad] for doing lock-free programming 
-  with data structures of any size ( all code, including Android Studio NDK project, is available 
-  on [GitHub][] ).
+  algorithms. Also I am experienced with Internet technologies. One of my achievements is a C++ 
+  library [*atomic\_data*][ad] for doing lock-free programming with data structures of any size 
+  ( all code, including Android Studio NDK project, is available on [GitHub][] ).
 
   [DFAA]: http://alexpolt.github.io/dfaa.html "DFAA Anti-Aliasing Algorthim"
   [JCGT]: http://jcgt.org/ "the Journal of Computer Graphics Techniques"

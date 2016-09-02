@@ -16,7 +16,7 @@
 <img src="images/perl.png" class="resume-logo" />
 
 
-#Резюме
+##Резюме
 
 
 ###Контакты
