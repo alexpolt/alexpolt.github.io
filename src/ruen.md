@@ -1,5 +1,5 @@
 
- <div class="resume">
+<div class="resume">
 
 <img src="images/cpp.png" class="resume-logo" />
 <img src="images/java.png" class="resume-logo" />
@@ -145,6 +145,6 @@
 
 <div style="clear: both;"></div>
 
- </div>
+</div>
 
 
