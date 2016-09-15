@@ -6,13 +6,12 @@
   First, what is a value? A value is the content of an object. There are different types of values,
   depending on the usage.
 
-  *Value semantics*: manipulating with the value of an object directly without any sort of a proxy.
-  Proxies are usually pointers. Although you could come up with other sorts of addressing the object.
-  Whether references are such proxies too is questionable. To me references seem more like a way 
-  to change the scope of an object.
+  *Value semantics* in C++ is defined by passing objects by value (in contrast to by pointer or by
+  reference) and this requirement recursively holds for all data members. It has a direct relation 
+  to functional style of programming (add to that immutability).
 
-  C++ allows one to create a wrapper class containing a pointer to an object, that will behave as
-  a value.
+  Even if you use pointers in your data, you still can maintain value semantics for them. Here is
+  a wrapper over a pointer that provides value-like behaviour:
 
     
     template<class T0> struct value_wrapper {
