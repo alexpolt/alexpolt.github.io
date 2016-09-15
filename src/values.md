@@ -11,7 +11,7 @@
   to functional style of programming (add to that immutability).
 
   Even if you use pointers in your data, you still can maintain value semantics for them. Here is
-  a wrapper over a pointer that provides value-like behaviour:
+  a wrapper over a pointer that provides value-like behavior:
 
     
     template<class T0> struct value_wrapper {
