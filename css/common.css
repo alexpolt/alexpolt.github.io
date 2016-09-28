@@ -101,7 +101,7 @@ div.resume h3 {
   margin-top: 70px;
 }
 
-#contents > blockquote {
+#content blockquote {
   padding: 5px 20px;
   width: 80%;
   margin: 0px auto;
@@ -110,7 +110,7 @@ div.resume h3 {
   border: 1px dashed silver;
 }
 
-#contents > blockquote > p {
+#content blockquote > p {
   padding: 0px;
   margin: 5px 0px;
 }
