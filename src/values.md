@@ -10,8 +10,10 @@
   reference) and this requirement recursively holds for all data members. It has a direct relation 
   to functional style of programming (add to that immutability).
 
-  Even if you use pointers in your data, you still can maintain value semantics for them. Here is
-  a wrapper over a pointer that provides value-like behavior:
+> The greatest benefit of value semantics is avoding dynamic memory allocation.
+
+  By the way, even if you use pointers in your data, you still can maintain value semantics for 
+  them. Here is a wrapper over a pointer that provides value-like behavior:
 
     
     template<class T0> struct value_wrapper {
