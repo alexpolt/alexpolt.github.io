@@ -1,9 +1,9 @@
-/*
+<!--
   * [C++ Static Objects and Default Member Initializer Hell](member-init.html)
 
     Ran into a nasty problem with how the global static objects are initialized with respect to 
     default member initializers.
-*/
+-->
 
   * [Color Throne - Brain Gymnastics](color-throne.html)
 
