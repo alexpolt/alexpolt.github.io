@@ -1,4 +1,9 @@
 
+  * [C++ Static Objects and Default Member Initializer Hell](member-init.html)
+
+    Ran into a nasty problem with how the global static objects are initialized with respect to 
+    default member initializers.
+
 
   * [Color Throne - Brain Gymnastics](color-throne.html)
 
@@ -89,9 +94,9 @@
     TLDR. Use them almost always.
 
 
->   #define $this (\*this)  
->   $this.value = ...  
->   //using '$' prefix helps to quickly identify macros and member variables
+>   #define that (\*this)  
+>
+>   that.value = ...
 
 
   * [The Way *operator&lt;&lt;* and *operator&gt;&gt;* Should Have Been Overloaded](vector-push.html)

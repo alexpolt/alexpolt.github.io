@@ -6,7 +6,15 @@ targets := $(patsubst %.md,../%.html,$(wildcard *.md))
 
 all: $(targets)
 
-#special treatment for index
+$(targets) : ../%.html : %.md $(tmpl) 
+#	cat tmpl-header.html > $@
+	title=`grep -m1  '##.*' $< | cut -b3-` && sed "s/<title>\(.*\)<\/title>/<title>$${title} - \1<\/title>/" tmpl-header.html > $@
+	$(md) $< >> $@
+	cat tmpl-footer.html >> $@
+	$(git) add $< $@
+#	$(git) commit
+
+# special treatment for index
 ../index.html : index.md $(tmpl)
 	cat tmpl-header.html > $@
 	echo -e '<div id="contents">\n' >> $@
@@ -14,14 +22,17 @@ all: $(targets)
 	echo -e '\n</div>\n' >> $@
 	cat tmpl-footer.html >> $@
 	$(git) add $< $@
-#	$(git) commit
+# $(git) commit
 
-$(filter-out %index.html,$(targets)) : ../%.html : %.md $(tmpl) 
-	cat tmpl-header.html > $@
+../rvru.html ../ruru.html : ../%ru.html : %ru.md $(tmpl)
+#	cat tmpl-header.html > $@
+	title=`grep -m1  '##.*' $< | cut -b3-` && sed "s/<title>\(.*\)<\/title>/<title>$${title} - \1<\/title>/" tmpl-header-ru.html > $@
 	$(md) $< >> $@
 	cat tmpl-footer.html >> $@
 	$(git) add $< $@
 #	$(git) commit
 
+
 $(tmpl) : ;
+
 

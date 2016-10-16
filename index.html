@@ -48,6 +48,10 @@
 <div id="contents">
 
 <ul>
+<li><p><a href="member-init.html">C++ Static Objects and Default Member Initializer Hell</a></p>
+
+<p>Ran into a nasty problem with how the global static objects are initialized with respect to 
+default member initializers.</p></li>
 <li><p><a href="color-throne.html">Color Throne - Brain Gymnastics</a></p>
 
 <p>Released my first Android application on Google Play. It's a color puzzle-arcade game.
@@ -133,9 +137,9 @@ TLDR. Use them almost always.</p></li>
 </ul>
 
 <blockquote>
-  <p>#define $this (*this) <br />
-  $this.value = ... <br />
-  //using '$' prefix helps to quickly identify macros and member variables</p>
+  <p>#define that (*this)  </p>
+
+<p>that.value = ...</p>
 </blockquote>
 
 <ul>
