@@ -57,7 +57,7 @@
   [Ideone](http://ideone.com/P02SbL)
 
 
-  There is a good explanation of [Stackoverflow][1] of the Hell happening.
+  There is a good explanation on [Stackoverflow][1] of the Hell happening.
 
 
   [1]: http://stackoverflow.com/questions/1819131/c-static-member-initalization-template-fun-inside
