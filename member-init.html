@@ -3,7 +3,7 @@
 
 <HEAD>
 
-  <title>C++ Static Objects and Default Member Initializer Hell - Alexandr Poltavsky, software developer</title>
+  <title>C++ Templates and Static Initialization Order - Alexandr Poltavsky, software developer</title>
 
   <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
   <meta http-equiv="Cache-Control" content="no-store" />
@@ -45,44 +45,64 @@
 
   <!-- here goes the main content -->
 
-<h2>C++ Static Objects and Default Member Initializer Hell</h2>
+<h2>C++ Templates and Static Initialization Order</h2>
 
-<p>Ran into a nasty problem with how the global static objects are initialized with respect to
-  default member initializers. Check the code:</p>
+<p>Ran into a nasty problem with how the global static objects are initialized in templates.
+  Check the code:</p>
 
 <pre><code>#include &lt;cstdio&gt;
 
 struct test {
 
+  test() : _a{} { }
+
   int getA() { return _a; }
+  int setA(int a) { return _a = a; }
 
-  void setA( int a ) { _a = a; }
-
-  int _a{}; 
+  int _a; 
 };
 
+template&lt;class T&gt;
 struct init {
 
   init() {
-
-    t.setA( 10 ); //set the value to 10
+    //init objects
+    t1.setA( 10 );
+    t2.setA( 10 );
   } 
 
-static test t;
+static test t1;
+static test t2;
 };
 
-test init::t; //global static object, default constructed
+//declare static objects
+template&lt;class T&gt; test init&lt;T&gt;::t1;
+template&lt;class T&gt; test init&lt;T&gt;::t2;
+
+//test instantiation
+template test init&lt;void&gt;::t2;
+
+//init t1 and t2
+init&lt;void&gt; I;
 
 int main() {
 
-  printf( "A = %d\n", init::t.getA() ); // A = 0, check Ideone
 
+  printf( "t1.A = %d\n", I.t1.getA() );
+  printf( "t2.A = %d\n", I.t2.getA() );
+
+  return 0;
 }
+
+Output:
+
+t1.A = 0
+t2.A = 10
 </code></pre>
 
 <p><a href="http://ideone.com/P02SbL">Ideone</a></p>
 
-<p>As you can guess, <strong>default member initializers are the last to be constructed</strong>.</p>
+<p>There is a good explanation of <a href="http://stackoverflow.com/questions/1819131/c-static-member-initalization-template-fun-inside">Stackoverflow</a> of the Hell happening.</p>
 
 
 <script src="highlight/highlight.pack.js"></script>

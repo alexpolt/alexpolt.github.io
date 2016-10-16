@@ -1,41 +1,66 @@
-##C++ Static Objects and Default Member Initializer Hell
 
-  Ran into a nasty problem with how the global static objects are initialized with respect to
-  default member initializers. Check the code:
+##C++ Templates and Static Initialization Order
 
-    
+  Ran into a nasty problem with how the global static objects are initialized in templates.
+  Check the code:
+
+
     #include <cstdio>
-     
+    
     struct test {
-     
+    
+      test() : _a{} { }
+      
       int getA() { return _a; }
+      int setA(int a) { return _a = a; }
     
-      void setA( int a ) { _a = a; }
-     
-      int _a{}; 
+      int _a; 
     };
-     
+    
+    template<class T>
     struct init {
-     
+      
       init() {
-    
-        t.setA( 10 ); //set the value to 10
+        //init objects
+        t1.setA( 10 );
+        t2.setA( 10 );
       } 
-     
-    static test t;
+      
+    static test t1;
+    static test t2;
     };
-     
-    test init::t; //global static object, default constructed
-     
+    
+    //declare static objects
+    template<class T> test init<T>::t1;
+    template<class T> test init<T>::t2;
+    
+    //test instantiation
+    template test init<void>::t2;
+    
+    //init t1 and t2
+    init<void> I;
+    
     int main() {
-     
-      printf( "A = %d\n", init::t.getA() ); // A = 0, check Ideone
-     
+      
+    
+      printf( "t1.A = %d\n", I.t1.getA() );
+      printf( "t2.A = %d\n", I.t2.getA() );
+      
+      return 0;
     }
     
+    Output:
+    
+    t1.A = 0
+    t2.A = 10
 
   [Ideone](http://ideone.com/P02SbL)
 
-  As you can guess, **default member initializers are the last to be constructed**.
+
+  There is a good explanation of [Stackoverflow][1] of the Hell happening.
+
+
+  [1]: http://stackoverflow.com/questions/1819131/c-static-member-initalization-template-fun-inside
+
 
 
