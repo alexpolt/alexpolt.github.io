@@ -36,6 +36,6 @@
 
   [Ideone](http://ideone.com/P02SbL)
 
-  As you can guess, **member initializers are the last to be constructed**.
+  As you can guess, **default member initializers are the last to be constructed**.
 
 
