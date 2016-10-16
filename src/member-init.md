@@ -8,8 +8,9 @@
      
     struct test {
      
-      nt getA() { return _a; }
-      oid setA(int a) { _a = a; }
+      int getA() { return _a; }
+    
+      void setA( int a ) { _a = a; }
      
       int _a{}; 
     };
@@ -17,19 +18,19 @@
     struct init {
      
       init() {
-        t.setA( 10 );
+    
+        t.setA( 10 ); //set the value to 10
       } 
      
     static test t;
     };
      
-    test init::t;
+    test init::t; //global static object, default constructed
      
     int main() {
      
-      printf( "A = %d\n", init::t.getA() );
+      printf( "A = %d\n", init::t.getA() ); // A = 0, check Ideone
      
-      return 0;
     }
     
 
