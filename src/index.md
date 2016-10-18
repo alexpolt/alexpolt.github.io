@@ -5,6 +5,10 @@
     Ran into a nasty problem with how the global static objects are initialized in templates.
 
 
+>   If every single one were to follow the Ten Commandments, then suddenly a paradise 
+>   would become, here, on Earth.
+
+
   * [Color Throne - Brain Gymnastics](color-throne.html)
 
     Released my first Android application on Google Play. It's a color puzzle-arcade game.
@@ -17,7 +21,7 @@
     a hopefully novel design: **atomic\_data**.
 
 
->   The way you spend your day is the way you spend your life
+>   The way you spend your day is the way you spend your life.
 
 
   * [A Better Alternative to shared\_ptr for Shared Ownership](link.html)
