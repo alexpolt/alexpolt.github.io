@@ -11,6 +11,7 @@
 
 
     #include <stdio.h>
+    #include <stdint.h>
     
     double n0 = 0.5;
     double n1 = -0.5;
@@ -19,22 +20,23 @@
     double n2 = 0.49999999999999994;
     double n3 = -0.49999999999999994;
     
-    int round_naive( double n ) {
+    
+    int32_t round_naive( double n ) {
     
       return n + 0.5;
     }
     
-    int round_less_naive( double n ) {
+    int32_t round_less_naive( double n ) {
     
       return n > 0.0 ? n + 0.5 : n - 0.5;
     }
     
-    int round_my_try( double n ){
+    int32_t round_my_try( double n ){
     
-      int n2 = (int)( n * 2.0 ); // double it
+      int32_t n2 = (int32_t)( n * 2.0 ); // double it
       int bit = n2 & 0x1; // extract the half-bit
-      unsigned sign = n2 >> 31; // extract sign info
-      return  n2/2 + sign ? -bit : bit; // adjust
+      bit = n2 >> 31 ? -bit : bit; // check sign
+      return  n2/2 + bit; // adjust
     }
     
     void test( double n ) {
@@ -73,7 +75,8 @@
     round_my_try     ( -0.49999999999999994 ) ->  0
 
 
-
+  Notice that I explicitly use int32\_t, that limits the range of values. If you need, try int64\_t.
+  This method also works for large floats (if using floats in place of doubles) like 8388609.0f.
 
   [Ideone](http://ideone.com/koDJi8)
 

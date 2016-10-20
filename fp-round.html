@@ -56,6 +56,7 @@
   cases. And it's certainly easier than this <a href="http://blog.frama-c.com/index.php?post/2013/05/03/nearbyintf2">solution</a> by "pascal".</p>
 
 <pre><code>#include &lt;stdio.h&gt;
+#include &lt;stdint.h&gt;
 
 double n0 = 0.5;
 double n1 = -0.5;
@@ -64,22 +65,23 @@ double n1 = -0.5;
 double n2 = 0.49999999999999994;
 double n3 = -0.49999999999999994;
 
-int round_naive( double n ) {
+
+int32_t round_naive( double n ) {
 
   return n + 0.5;
 }
 
-int round_less_naive( double n ) {
+int32_t round_less_naive( double n ) {
 
   return n &gt; 0.0 ? n + 0.5 : n - 0.5;
 }
 
-int round_my_try( double n ){
+int32_t round_my_try( double n ){
 
-  int n2 = (int)( n * 2.0 ); // double it
+  int32_t n2 = (int32_t)( n * 2.0 ); // double it
   int bit = n2 &amp; 0x1; // extract the half-bit
-  unsigned sign = n2 &gt;&gt; 31; // extract sign info
-  return  n2/2 + sign ? -bit : bit; // adjust
+  bit = n2 &gt;&gt; 31 ? -bit : bit; // check sign
+  return  n2/2 + bit; // adjust
 }
 
 void test( double n ) {
@@ -117,6 +119,9 @@ round_naive      ( -0.49999999999999994 ) -&gt;  0
 round_less_naive ( -0.49999999999999994 ) -&gt; -1 //&lt;--wrong
 round_my_try     ( -0.49999999999999994 ) -&gt;  0
 </code></pre>
+
+<p>Notice that I explicitly use int32_t, that limits the range of values. If you need, try int64_t.
+  This method also works for large floats (if using floats in place of doubles) like 8388609.0f.</p>
 
 <p><a href="http://ideone.com/koDJi8">Ideone</a></p>
 
