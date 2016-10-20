@@ -1,5 +1,10 @@
 
 
+  * [Floating Point Rounding](fp-round.html)
+
+    How to properly round a floating point number?
+
+
   * [C++ Templates and Static Initialization Order](member-init.html)
 
     Ran into a nasty problem with how the global static objects are initialized in templates.
