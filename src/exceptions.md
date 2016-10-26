@@ -26,6 +26,7 @@
   * don't use exceptions for checking preconditions (use types and asserts for that)
   * don't use exceptions for business logic
   * combine exceptions with RAII for full throttle (take a look at Alexandrescu's *scope_guard*)
+  * don't confuse recovarable and irrecovarable ( covered by assertions ) cases
 
 <!--first character is non-space to avoid markdown bug of not closing list-->
 
