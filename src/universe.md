@@ -7,17 +7,17 @@
       space) across the entire Universe.
 
   2.  Because of that all particles interact with other particles. Quantum Entanglement is better
-      called Quantum Synchronization: particles a synchronized in space and time. Such particles
+      called Quantum Synchronization: particles are synchronized in space and time. Such particles
       are a whole one because energy can redistribute instantly ( wave function collapse ).
 
   3.  Gravity is a particle wave moving in a gradient of the fields of other particles. 
       
   4.  Galaxies are formed by a giant eruption from a rotating quasar ( pulsar ) forming spiral 
-      sleeves. So, it's like squeezing an eclair. The presser comes from the strong magnetic fields,
-      that are weakest at the poles . The puzzle with the start orbiting speed is  because of 
-      the above.
+      sleeves. So, it's like squeezing an eclair. The pressure comes from the strong magnetic fields,
+      that are weakest at the poles. The puzzle with the star orbiting speed is because of 
+      the gradient.
 
-  5.  There is no such thing as Black Holes. Because of the speed of light limitation. Quasars are
+  5.  There is no such thing as Black Hole because of the speed of light limitation. Quasars are
       the trash refinaries - they turn all material back again into light atoms.
 
   6.  We can possibly have an instant communication device by having a source of entangled photons
