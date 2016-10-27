@@ -1,5 +1,10 @@
 
 
+  * [To Throw or to Assert, Or Return an Error Code?](return-codes.html)
+
+    This is a really important question actually because all our code consists of functions.
+
+
   * [Floating Point Rounding](fp-round.html)
 
     How to properly round a floating point number?
@@ -11,7 +16,7 @@
 
 
 >   If every single one were to follow the Ten Commandments, then suddenly a paradise 
->   would become, here, on Earth.
+>   would happen not in other world, but here - on Earth.
 
 
   * [Color Throne - Brain Gymnastics](color-throne.html)
