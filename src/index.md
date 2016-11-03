@@ -1,5 +1,10 @@
 
 
+  * [Memory Allocation Wisdom](alloc.html)
+
+    What lessons can we learn from garbage collectors.
+
+
   * [To Throw or to Assert, Or Return an Error Code?](return-codes.html)
 
     This is a really important question actually because all our code consists of functions.

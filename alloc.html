@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<HTML>
+
+<HEAD>
+
+  <title>Memory Allocation Wisdom - Alexandr Poltavsky, software developer</title>
+
+  <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+  <meta http-equiv="Cache-Control" content="no-store" />
+
+  <link rel="stylesheet" type="text/css" href="css/common.css" />
+  <link rel="stylesheet" href="highlight/styles/hybrid.css">
+
+</HEAD>
+
+<BODY> 
+
+<div id="wrap">
+
+  <!-- header part -->
+
+  <div id="header">
+
+  <a href="/color-throne.html"><img class="ad" src="images/color-throne-logo-promo.png" title="Color Throne Game"/></a>    
+
+  <a href="/">
+      <img class="avatar" width="160" src="images/alexandr-poltavsky-avatar.jpeg" title="Alexandr Poltavsky" align="left"/>
+    </a>
+    <strong>
+      Alexandr Poltavsky <br/> 
+      Software developer <br/>
+      <em>poltavsky.alexandr&#64;gmail.com</em> 
+    </strong>
+    <ul id="menu">
+      <li><a href="/">Blog Contents</a></li>
+      <li><a href="https://github.com/alexpolt/">Github</a></li>
+      <li><a href="https://www.shadertoy.com/user/alexpolt">Shadertoy</a></li>
+      <li><a href="https://twitter.com/poltavsky_alex">Twitter</a></li>
+    </ul>
+
+  </div>
+
+
+  <div id="content" style="clear: left">
+
+  <!-- here goes the main content -->
+
+<h2>Memory Allocation Wisdom</h2>
+
+<p>Memory allocators are in fact primitive garbage collectors: one has to decide when it's okay
+  to reclaim memory back to OS. Modern garbage collectors are very sophisticated machines when 
+  it comes to memory handling and I thought we should take some lessons from them.</p>
+
+<p>For example, consider the following case:</p>
+
+<pre><code>std::ifstream file{ "somefile.txt" }
+
+std::string line;
+
+while( std::getline( file, line ) ) {
+  ...
+}
+</code></pre>
+
+<p>Here we read a file line by line and store lines perhaps in a map or a vector. Now, think about
+  memory allocation. Because you have to store the lines, you'll allocate memory and copy on every
+  iteration.</p>
+
+<p>Now what we can learn from garbage collectors is that some objects are persistent, such objects
+  usually live till the end of the program. In the above example the generated strings could be 
+  such objects. We can rig our string with an allocator that will allocate memory in big chunks 
+  and uses bump allocation from that chunks. It doesn't need to free memory because it's assumed
+  that memory is going to be held until the end. Here is some incomplete code:</p>
+
+<pre><code>template&lt;typename T&gt;
+allocator {
+
+  T* allocate( size_t ); //allocates memory from chunks by bumping up an offset
+
+  void free( T*, size_t ); // does nothing
+
+  size_t chunk_size;
+  shared_ptr&lt; chunk &gt; chunk_list; //points to a list of chunks and uses a custom deleter
+};
+
+std::string line{ allocator{ 1024 } }; //chunk size 1024
+</code></pre>
+
+<p>From the code you can get the general idea of how it works. The allocator keeps a list of
+  chunks and serves memory on demand. All the copied string will share the allocator with 
+  shared_ptr responsible for deallocation using a custom deleter;</p>
+
+
+<script src="highlight/highlight.pack.js"></script>
+<script>
+  //hljs.configure({languages: ["C++"]});
+  hljs.initHighlightingOnLoad();
+</script>
+
+
+<div id="disqus_thread"></div>
+<script>
+    /**
+     *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+     *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables
+     */
+    /*
+    var disqus_config = function () {
+        this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+        this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+    };
+    */
+    if( ! document.getElementById("contents") ) // alexpolt: exclude main page with contents
+    (function() {  // DON'T EDIT BELOW THIS LINE
+        var d = document, s = d.createElement('script');
+        
+        s.src = '//alexpolt-github-io.disqus.com/embed.js';
+        
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
+
+
+  </div> <!-- end content -->
+
+</div> <!-- end wrap -->
+
+
+
+<!-- Google Analytics -->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-75341409-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+</BODY>
+
