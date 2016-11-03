@@ -75,19 +75,22 @@ while( std::getline( file, line ) ) {
 <pre><code>template&lt;typename T&gt;
 allocator {
 
+  using value_type = T;
+
   T* allocate( size_t ); //allocates memory from chunks by bumping up an offset
 
   void free( T*, size_t ); // does nothing
 
   size_t chunk_size;
-  shared_ptr&lt; chunk &gt; chunk_list; //points to a list of chunks and uses a custom deleter
+
+  std::shared_ptr&lt; chunk &gt; chunk_list; //points to a list of chunks and uses a custom deleter
 };
 
 std::string line{ allocator{ 1024 } }; //chunk size 1024
 </code></pre>
 
 <p>From the code you can get the general idea of how it works. The allocator keeps a list of
-  chunks and serves memory on demand. All the copied string will share the allocator with 
+  chunks and serves memory on demand. All the copied strings will share the allocator with 
   shared_ptr responsible for deallocation using a custom deleter;</p>
 
 

@@ -28,18 +28,21 @@
     template<typename T>
     allocator {
       
+      using value_type = T;
+      
       T* allocate( size_t ); //allocates memory from chunks by bumping up an offset
       
       void free( T*, size_t ); // does nothing
       
       size_t chunk_size;
-      shared_ptr< chunk > chunk_list; //points to a list of chunks and uses a custom deleter
+      
+      std::shared_ptr< chunk > chunk_list; //points to a list of chunks and uses a custom deleter
     };
     
     std::string line{ allocator{ 1024 } }; //chunk size 1024
 
   From the code you can get the general idea of how it works. The allocator keeps a list of
-  chunks and serves memory on demand. All the copied string will share the allocator with 
+  chunks and serves memory on demand. All the copied strings will share the allocator with 
   shared\_ptr responsible for deallocation using a custom deleter;
 
 
