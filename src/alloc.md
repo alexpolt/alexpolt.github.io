@@ -32,7 +32,7 @@
       
       T* allocate( size_t ); //allocates memory from chunks by bumping up an offset
       
-      void free( T*, size_t ); // does nothing
+      void deallocate( T*, size_t ); // does nothing
       
       size_t chunk_size;
       

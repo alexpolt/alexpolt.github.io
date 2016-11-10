@@ -3,7 +3,7 @@
 
 <HEAD>
 
-  <title>Memory Allocation Wisdom - Alexandr Poltavsky, software developer</title>
+  <title>To Move or Not to Move, Except or noexcept - Alexandr Poltavsky, software developer</title>
 
   <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
   <meta http-equiv="Cache-Control" content="no-store" />
@@ -45,53 +45,32 @@
 
   <!-- here goes the main content -->
 
-<h2>Memory Allocation Wisdom</h2>
+<h2>To Move or Not to Move, Except or noexcept</h2>
 
-<p>Memory allocators are in fact primitive garbage collectors: one has to decide when it's okay
-  to reclaim memory back to OS. Modern garbage collectors are very sophisticated machines when 
-  it comes to memory handling and I thought we should take some lessons from them.</p>
+<p>With the introduction of move semantics into C++ one has to decide when and how
+  to use it for the benefit. I have already written on the <a href="empty-value.html" title="Problems of Move Semantics in C++">problems</a> that it introduces.
+  Also I came up with a clear rule for this:</p>
 
-<p>For example, consider the following case:</p>
+<ul>
+<li><p>If you store on object than just use a value (no references) as a parameter. It'll deal with
+both r-values and l-values correctly. This is the clear advantage that move semantics has given
+us.</p></li>
+<li><p>You can use copy-and-swap idiom. But there are subtleties with container like objects - you
+don't wont unnecessary copies.</p></li>
+<li><p>In other cases you'll end up using either a universal reference or two distinct methods/functions.</p>
 
-<pre><code>std::ifstream file{ "somefile.txt" }
-
-std::string line;
-
-while( std::getline( file, line ) ) {
-  ...
-}
-</code></pre>
-
-<p>Here we read a file line by line and store lines perhaps in a map or a vector. Now, think about
-  memory allocation. Because you have to store the lines, you'll allocate memory and copy on every
-  iteration.</p>
-
-<p>Now what we can learn from garbage collectors is that some objects are persistent, such objects
-  usually live till the end of the program. In the above example the generated strings could be 
-  such objects. We can rig our string with an allocator that will allocate memory in big chunks 
-  and uses bump allocation from that chunks. It doesn't need to free memory because it's assumed
-  that memory is going to be held until the end. Here is some incomplete code:</p>
-
-<pre><code>template&lt;typename T&gt;
-allocator {
-
-  using value_type = T;
-
-  T* allocate( size_t ); //allocates memory from chunks by bumping up an offset
-
-  void deallocate( T*, size_t ); // does nothing
-
-  size_t chunk_size;
-
-  std::shared_ptr&lt; chunk &gt; chunk_list; //points to a list of chunks and uses a custom deleter
-};
-
-std::string line{ allocator{ 1024 } }; //chunk size 1024
-</code></pre>
-
-<p>From the code you can get the general idea of how it works. The allocator keeps a list of
-  chunks and serves memory on demand. All the copied strings will share the allocator with 
-  shared_ptr responsible for deallocation using a custom deleter;</p>
+<p>Now to the question of noexcept. I've already written on the subject of <a href="exceptions.html" title="C++ Exceptions">exceptions</a> 
+and where to use them. With regard to noexcept my experience tells me that we should just forget
+about noexcept. The only case it is necessary is for std::vector or other containers ( noexcept
+on move constructor ). But this is the result of the really dubious decision to allow exceptions
+on copy and move. We should just ban exceptions in that cases and make our lives better.
+bad_alloc? Yes, memory allocation failure is a no-go situation. <strong>We write programs with an
+assumption that an OS will behave as documented. No spurious failures are allowed!</strong> No threads
+should become suddenly suspended, no memory allocation failures in case we're not out of memory,
+which is a bug of a program than a normal situation. STL went the wrong way with its exception 
+safety paranoia. So I think one should not normally use noexcept. Try to make your constructors
+and probably assignment operators noexcept by default and allow exceptions in every other case.</p></li>
+</ul>
 
 
 <script src="highlight/highlight.pack.js"></script>

@@ -1,8 +1,15 @@
 
+  * [To Move or Not to Move, Except or noexcept](move-noexcept.html)
+
+    Some guides on using move semantics and exception specifiers.
+
 
   * [Memory Allocation Wisdom](alloc.html)
 
     What lessons can we learn from garbage collectors.
+
+
+>   Working and clear are the only important criteria to assess code.
 
 
   * [To Throw or to Assert, Or Return an Error Code?](return-codes.html)
@@ -21,7 +28,7 @@
 
 
 >   If every single one were to follow the Ten Commandments, then suddenly a paradise 
->   would happen not in other world, but here - on Earth.
+>   would happen not in other world, but here, on Earth.
 
 
   * [Color Throne - Brain Gymnastics](color-throne.html)
