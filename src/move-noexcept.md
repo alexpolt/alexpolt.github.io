@@ -10,7 +10,7 @@
   us.
 
   * You can use copy-and-swap idiom. But there are subtleties with container like objects - you
-  don't wont unnecessary copies.
+  don't want unnecessary copies.
 
   * In other cases you'll end up using either a universal reference or two distinct methods/functions.
 
@@ -23,7 +23,7 @@
   on copy and move. We should just ban exceptions in that cases and make our lives better.
   bad\_alloc? Yes, memory allocation failure is a no-go situation. **We write programs with an
   assumption that an OS will behave as documented. No spurious failures are allowed!** No threads
-  should become suddenly suspended, no memory allocation failures in case we're not out of memory,
+  should become suddenly suspended, no memory allocation failures in case we're not *out of memory*,
   which is a bug of a program than a normal situation. STL went the wrong way with its exception 
   safety paranoia. So I think one should not normally use noexcept. Try to make your constructors
   and probably assignment operators noexcept by default and allow exceptions in every other case.
