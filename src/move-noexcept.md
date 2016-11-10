@@ -14,6 +14,8 @@
 
   * In other cases you'll end up using either a universal reference or two distinct methods/functions.
 
+<!-- stop list -->
+
   Now to the question of noexcept. I've already written on the subject of [exceptions][exceptions] 
   and where to use them. With regard to noexcept my experience tells me that we should just forget
   about noexcept. The only case it is necessary is for std::vector or other containers ( noexcept
