@@ -87,7 +87,13 @@
   was a bad idea. All we needed is r-value references for the sake of argument deduction, r-values
   should've been movable by default (and you can't forbid it). If an object is moved then don't call 
   the destructor of such an object - it's empty, no need for move constructors/operators. C++
-  would'be been so much simpler!</p>
+  would've been so much simpler!</p>
+
+<p>UPD: In short we need r-value refs, a bind to an r-value ref always is a move (only that action 
+  has meaning with r-values) and because of that no need to call destructors of such (bound to an 
+  r-value ref) moved from/empty objects, as a result the user would only rarely need to implement 
+  custom move constructors/move assignment operators (maybe some advanced logic) and more often 
+  just =default or =delete it.</p>
 
 <p>Another thing to be aware of:</p>
 
