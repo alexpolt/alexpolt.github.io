@@ -444,6 +444,14 @@
   and deletions at random positions. At the end we expect the list to remain the initial size.
   Get a look at the code on [Github][atomic_list].
 
+  *UPDATE*. After thinking about it more I realized that there is no escaping of reference
+  counting as you move through the list (you need nodes alive), and it essentially means hand-over 
+  locking. So in case you have a lean shared\_ptr (to avoid DCAS) you just need to place two locks 
+  on the nodes, do the job of deleting or adding (adding needs a single lock), and be very accurate
+  with shared\_ptrs, because you going to have a mismatch between the number of shared\_ptrs and
+  reference counters, basically you'll have to add a release() method to a shared\_ptr. That's all
+  for a concurrent singly linked list.
+
 
 <a name="performance"></a>
 
