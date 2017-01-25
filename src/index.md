@@ -9,7 +9,7 @@
     What lessons can we learn from garbage collectors.
 
 
->   Working and clear are the only important criteria to assess code.
+>   Creating new products and technologies that didn't exist in the World before is a nice life goal.
 
 
   * [To Throw or to Assert, Or Return an Error Code?](return-codes.html)
