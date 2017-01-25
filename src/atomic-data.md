@@ -134,10 +134,11 @@
 ###**atomic\_data**: A Multibyte General Purpose Lock-Free Data Structure
 
   **atomic\_data** is a variant of RCU (Read-Copy-Update). Actually, at first I didn't know that 
-  fact, but then, while exploring, I came upon this [page][RCU] by  Paul McKenney. After studying 
-  different implementations I came to a conclusion that  **atomic\_data** has a novel design and 
-  therefore has some value for the community. But if you feel like that was already done before - 
-  feel free to leave a comment.
+  fact, but then, while exploring, I came upon this [page][RCU] by  Paul McKenney. Also you can 
+  read about how the RCU is used in the [Linux Kernel][linux]. After studying different 
+  implementations I came to a conclusion that  **atomic\_data** has a novel design and  therefore 
+  has some value for the community. But if you feel like that was already done before - feel free 
+  to leave a comment.
 
   The one important aspect that divides RCU techniques is in how reclamation of used memory is
   done. We need a grace period - when data is no longer accessed by threads - to do cleaning.
@@ -160,15 +161,17 @@
   So how do we avoid reusing used data and the ABA problem? That's where **atomic\_data** differs:
   we use a backing multi-producer/multi-consumer queue and introduce *a synchronization barrier*.
   This sync barrier creates a "time out" during which **atomic\_data** waits for old reads and
-  updates to complete. There is also a nice hack: the backing array for the queue is double the 
-  size that makes possible to use two atomic counters to watch for the data usage. This allows 
-  reading to be independent of the sync barrier and be wait-free (read the code for more details).
+  updates to complete. Another way of thinking about it: it's a form of preemption control by which
+  we wait for all threads to stop using the data. There is also a nice hack: the backing array for 
+  the queue is double the size that makes possible to use two atomic counters to watch for the data 
+  usage. This allows reading to be independent of the sync barrier and be wait-free (read the code 
+  for more details). So reading is never blocked.
   
   When I got the idea for the design of **atomic\_data** I had to choose how to implement a 
   lock-free multi-producer/multi-consumer queue. I didn't suspect that doing this right is 
   extremely difficult! I ran into every possible concurrency bug. There were three candidates in 
   the end: two MP/SC queues with a single-threaded broker in between, a MP/MC queue requiring DCAS 
-  (Double CAS) to fight overruning and finally a MP/MC queue with a sync barrier (I think I need 
+  (Double CAS) to fight overrunning and finally a MP/MC queue with a sync barrier (I think I need 
   to blog about it in a different post). After testing the best implementation was the queue with
   a barrier: it had a simple design, it worked very reliably, it didn't require DCAS and finally
   it showed good performance.
@@ -177,7 +180,29 @@
 <a name="memory_ordering"></a>
 
 ###Memory Ordering Considerations
+
+  The cores of most modern CPUs are [out-of-order][ooo] (multi-core systems are out-of-order by
+  definition). That means we have to consider the model of execution of our code. When it comes
+  to memory we are dealing with a [memory model][mm]. Another form of out-of-order execution is the 
+  [reordering of memory operations][mr]. For example, Intel processors can [reorder][intel] a store 
+  followed by load, but not a load followed by store. In that regard Intel CPUs are strongly-ordered. 
+  On the other hand ARM cores are weakly-ordered and can reorder both store-load and load-store 
+  operations.
   
+  Also the compilers themselves are capable of doing optimizations with reordering of instructions. 
+  To deal with it on both the hardware and software level C++11 introduced a [C++ memory model][cmm]. 
+  First, it has the notion of *a data race* - reading and writing the same memory location from 
+  different threads. To deal with data races **atomic\_data** uses *std::atomic* data type from C++ 
+  standard library. Second, the C++ memory model introduces the concept of a [memory order][cr] and
+  defines them: relaxed, acquire, release and sequentially consistent. The seq-cst memory order is
+  the strongest but also pessimistic in terms of possible optimizations. If you want more details,
+  I really suggest you take some time and read the Jeff's blog and watch Herb Sutter's [talk][hs].
+
+  When we use standard synchronization primitives like mutexes then we don't usually have to
+  think about memory ordering, because it's done for us implicitly. But when doing concurrent 
+  programming using RMW by hand we take full responsibility enforcing correct ordering on different
+  platforms. For that the methods of the *std::atomic* data type take a memory order parameter.
+
   To test the correctness of **atomic\_data** operation I used an array of some size and the task 
   was to find the minimum element and increment it. Given the right size of the array, the number 
   of threads and the number of iterations for each thread the result should be that every array 
@@ -201,11 +226,12 @@
   missing counts and then try to place the fences in the code yourself. The puzzle is - using
   the minimum number of fences achieve correct behaviour.
 
-  Observing the memory operation's reordering in the act was a nice experience. Slowly I got
+  Observing the memory operation's reordering in the act was a nice experience. Gradually I got
   the intuition for what happens and solved the problem. It took me just two release fences.
   Here I'd like to mention the following observation: if a thread reads a variable that's behind
   a release barrier, it means all the memory stores before the observed value has reached the
-  memory. I mean, if your reads are dependent then you can skip having an acquire fence. 
+  memory. I mean, if your reads are dependent then you can skip having an acquire fence (that's
+  not valid for Alpha CPUs, you can read about it in Jeff's [post][mr]).
 
 
  <center>![][sheep]</center>
@@ -535,9 +561,14 @@
   [sheep]: images/ordered-unorder-stores.jpg "Sheep are stores. A man is a memory barrier"
   [cat]: images/atomic-cat.png "Schroedinger's Cat"
   [ABA]: images/The-ABA-Problem.png "The dreaded ABA"
-
-
-
+  [ooo]: https://en.wikipedia.org/wiki/Out-of-order_execution "Out-of-order execution"
+  [mm]: https://en.wikipedia.org/wiki/Memory_model_(programming) "Memory model"
+  [mr]: http://preshing.com/20120930/weak-vs-strong-memory-models/ "Weak vs. Strong Memory Models"
+  [intel]: http://preshing.com/20120515/memory-reordering-caught-in-the-act/ "Memory Reordering Caught in the Act"
+  [cmm]: http://en.cppreference.com/w/cpp/language/memory_model "C++ Memory Model"
+  [cr]: http://en.cppreference.com/w/cpp/atomic/memory_order "C++ Memory Order"
+  [hs]: http://channel9.msdn.com/Shows/Going+Deep/Cpp-and-Beyond-2012-Herb-Sutter-atomic-Weapons-1-of-2 "Atomic Weapons"
+  [linux]: https://lwn.net/Articles/262464/ "What is RCU, Fundamentally?"
 
 
 

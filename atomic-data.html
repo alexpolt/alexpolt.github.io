@@ -176,10 +176,11 @@
 <h3><strong>atomic_data</strong>: A Multibyte General Purpose Lock-Free Data Structure</h3>
 
 <p><strong>atomic_data</strong> is a variant of RCU (Read-Copy-Update). Actually, at first I didn't know that 
-  fact, but then, while exploring, I came upon this <a href="http://www.rdrop.com/~paulmck/RCU/" title="A dissertation about Read-Copy-Update">page</a> by  Paul McKenney. After studying 
-  different implementations I came to a conclusion that  <strong>atomic_data</strong> has a novel design and 
-  therefore has some value for the community. But if you feel like that was already done before - 
-  feel free to leave a comment.</p>
+  fact, but then, while exploring, I came upon this <a href="http://www.rdrop.com/~paulmck/RCU/" title="A dissertation about Read-Copy-Update">page</a> by  Paul McKenney. Also you can 
+  read about how the RCU is used in the <a href="https://lwn.net/Articles/262464/" title="What is RCU, Fundamentally?">Linux Kernel</a>. After studying different 
+  implementations I came to a conclusion that  <strong>atomic_data</strong> has a novel design and  therefore 
+  has some value for the community. But if you feel like that was already done before - feel free 
+  to leave a comment.</p>
 
 <p>The one important aspect that divides RCU techniques is in how reclamation of used memory is
   done. We need a grace period - when data is no longer accessed by threads - to do cleaning.
@@ -202,15 +203,17 @@
 <p>So how do we avoid reusing used data and the ABA problem? That's where <strong>atomic_data</strong> differs:
   we use a backing multi-producer/multi-consumer queue and introduce <em>a synchronization barrier</em>.
   This sync barrier creates a "time out" during which <strong>atomic_data</strong> waits for old reads and
-  updates to complete. There is also a nice hack: the backing array for the queue is double the 
-  size that makes possible to use two atomic counters to watch for the data usage. This allows 
-  reading to be independent of the sync barrier and be wait-free (read the code for more details).</p>
+  updates to complete. Another way of thinking about it: it's a form of preemption control by which
+  we wait for all threads to stop using the data. There is also a nice hack: the backing array for 
+  the queue is double the size that makes possible to use two atomic counters to watch for the data 
+  usage. This allows reading to be independent of the sync barrier and be wait-free (read the code 
+  for more details). So reading is never blocked.</p>
 
 <p>When I got the idea for the design of <strong>atomic_data</strong> I had to choose how to implement a 
   lock-free multi-producer/multi-consumer queue. I didn't suspect that doing this right is 
   extremely difficult! I ran into every possible concurrency bug. There were three candidates in 
   the end: two MP/SC queues with a single-threaded broker in between, a MP/MC queue requiring DCAS 
-  (Double CAS) to fight overruning and finally a MP/MC queue with a sync barrier (I think I need 
+  (Double CAS) to fight overrunning and finally a MP/MC queue with a sync barrier (I think I need 
   to blog about it in a different post). After testing the best implementation was the queue with
   a barrier: it had a simple design, it worked very reliably, it didn't require DCAS and finally
   it showed good performance.</p>
@@ -218,6 +221,28 @@
 <p><a name="memory_ordering"></a></p>
 
 <h3>Memory Ordering Considerations</h3>
+
+<p>The cores of most modern CPUs are <a href="https://en.wikipedia.org/wiki/Out-of-order_execution" title="Out-of-order execution">out-of-order</a> (multi-core systems are out-of-order by
+  definition). That means we have to consider the model of execution of our code. When it comes
+  to memory we are dealing with a <a href="https://en.wikipedia.org/wiki/Memory_model_(programming)" title="Memory model">memory model</a>. Another form of out-of-order execution is the 
+  <a href="http://preshing.com/20120930/weak-vs-strong-memory-models/" title="Weak vs. Strong Memory Models">reordering of memory operations</a>. For example, Intel processors can <a href="http://preshing.com/20120515/memory-reordering-caught-in-the-act/" title="Memory Reordering Caught in the Act">reorder</a> a store 
+  followed by load, but not a load followed by store. In that regard Intel CPUs are strongly-ordered. 
+  On the other hand ARM cores are weakly-ordered and can reorder both store-load and load-store 
+  operations.</p>
+
+<p>Also the compilers themselves are capable of doing optimizations with reordering of instructions. 
+  To deal with it on both the hardware and software level C++11 introduced a <a href="http://en.cppreference.com/w/cpp/language/memory_model" title="C++ Memory Model">C++ memory model</a>. 
+  First, it has the notion of <em>a data race</em> - reading and writing the same memory location from 
+  different threads. To deal with data races <strong>atomic_data</strong> uses <em>std::atomic</em> data type from C++ 
+  standard library. Second, the C++ memory model introduces the concept of a <a href="http://en.cppreference.com/w/cpp/atomic/memory_order" title="C++ Memory Order">memory order</a> and
+  defines them: relaxed, acquire, release and sequentially consistent. The seq-cst memory order is
+  the strongest but also pessimistic in terms of possible optimizations. If you want more details,
+  I really suggest you take some time and read the Jeff's blog and watch Herb Sutter's <a href="http://channel9.msdn.com/Shows/Going+Deep/Cpp-and-Beyond-2012-Herb-Sutter-atomic-Weapons-1-of-2" title="Atomic Weapons">talk</a>.</p>
+
+<p>When we use standard synchronization primitives like mutexes then we don't usually have to
+  think about memory ordering, because it's done for us implicitly. But when doing concurrent 
+  programming using RMW by hand we take full responsibility enforcing correct ordering on different
+  platforms. For that the methods of the <em>std::atomic</em> data type take a memory order parameter.</p>
 
 <p>To test the correctness of <strong>atomic_data</strong> operation I used an array of some size and the task 
   was to find the minimum element and increment it. Given the right size of the array, the number 
@@ -242,11 +267,12 @@
   missing counts and then try to place the fences in the code yourself. The puzzle is - using
   the minimum number of fences achieve correct behaviour.</p>
 
-<p>Observing the memory operation's reordering in the act was a nice experience. Slowly I got
+<p>Observing the memory operation's reordering in the act was a nice experience. Gradually I got
   the intuition for what happens and solved the problem. It took me just two release fences.
   Here I'd like to mention the following observation: if a thread reads a variable that's behind
   a release barrier, it means all the memory stores before the observed value has reached the
-  memory. I mean, if your reads are dependent then you can skip having an acquire fence. </p>
+  memory. I mean, if your reads are dependent then you can skip having an acquire fence (that's
+  not valid for Alpha CPUs, you can read about it in Jeff's <a href="http://preshing.com/20120930/weak-vs-strong-memory-models/" title="Weak vs. Strong Memory Models">post</a>).</p>
 
 <p><center><img src="images/ordered-unorder-stores.jpg" alt="" title="Sheep are stores. A man is a memory barrier" /></center></p>
 
