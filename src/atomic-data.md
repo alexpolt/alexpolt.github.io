@@ -106,7 +106,10 @@
 
   It really helps to think about lock-free operations in the following way: as soon as we touched 
   any piece of shared data - we initiated a transaction, and the transaction should behave
-  as stated by the ACID rules. 
+  as stated by the [ACID][acid] rules.
+
+  As is written above, LL/SC doesn't suffer from ABA because on context switch the reservation is
+  cleared.
 
 
 <a name="lifetime"></a>
@@ -116,10 +119,11 @@
  <center>![][cat]</center>
 
   In the above image the cat is an object. The object lifetime problem in multithreaded programming 
-  is fundamental because at any point in time shared data could be accessed by a thread. Even 
-  using locks won't be of great service here. Again, GC, hazard pointers or using  shared\_ptr 
-  can help, but they all are not ideal. GC needs a stop-the-world pause, hazard pointers require
-  checking all threads, reference counting is a performance hit and might break out of control.
+  is fundamental because at any point in time shared data could be accessed by a thread. Using
+  exclusive locking is going to work but kills performance. Also GC, hazard pointers or using  
+  shared\_ptrs can help, but they all are not ideal. GC needs a stop-the-world pause, hazard 
+  pointers require checking all threads, reference counting is a performance hit and might break 
+  out of control.
 
   In no way this is the exhaustive description of lock-free programming issues, but these two
   are the most important. For linked data structures there is also a delete problem and we'll 
@@ -161,8 +165,8 @@
   So how do we avoid reusing used data and the ABA problem? That's where **atomic\_data** differs:
   we use a backing multi-producer/multi-consumer queue and introduce *a synchronization barrier*.
   This sync barrier creates a "time out" during which **atomic\_data** waits for old reads and
-  updates to complete. Another way of thinking about it: it's a form of preemption control by which
-  we wait for all threads to stop using the data. There is also a nice hack: the backing array for 
+  updates to complete, no threads are touching data. But does it mean that readers are also
+  blocked from reading data during that period? Here is a nice hack: the backing array for 
   the queue is double the size that makes possible to use two atomic counters to watch for the data 
   usage. This allows reading to be independent of the sync barrier and be wait-free (read the code 
   for more details). So reading is never blocked.
@@ -569,7 +573,7 @@
   [cr]: http://en.cppreference.com/w/cpp/atomic/memory_order "C++ Memory Order"
   [hs]: http://channel9.msdn.com/Shows/Going+Deep/Cpp-and-Beyond-2012-Herb-Sutter-atomic-Weapons-1-of-2 "Atomic Weapons"
   [linux]: https://lwn.net/Articles/262464/ "What is RCU, Fundamentally?"
-
+  [acid]: https://en.wikipedia.org/wiki/ACID "Atomicity, Consistency, Isolation, Durability"
 
 
 
