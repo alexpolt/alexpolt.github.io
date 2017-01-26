@@ -296,8 +296,8 @@
   be anything, the only requirement for it to be copyable and default constructable. 
 
   You have two basic methods to read and modify your data. The *read* method takes a functor
-  that has a single parameter of a type *"pointer to data structure type"* and returns whatever
-  the passed functor returns:
+  that has a single parameter of a type *"pointer to data structure type"* that points to the
+  latest version of the data and returns whatever the passed functor returns:
 
         struct mydata {
           int a;
@@ -318,9 +318,10 @@
         } );
 
   The same thing is for the *update*, except it takes *a pointer to a copy of the current data*
-  and returns a *bool* indicating whether you want for the update to happen or not.
+  and returns a *bool* indicating whether you want for the update to happen or not. **Data is 
+  updated atomically.**
 
-        //updating the data
+        //atomically updating the data
         
         mydata0.update( []( mydata* data ) {
         
