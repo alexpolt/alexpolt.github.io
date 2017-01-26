@@ -56,6 +56,7 @@
 <li><a href="#atomic_data">atomic_data</a></li>
 <li><a href="#memory_ordering">Memory Ordering Considerations</a></li>
 <li><a href="#issues">Exception safety, limitations and other issues</a></li>
+<li><a href="#usage">Usage (API)</a></li>
 <li><a href="#code">Code Samples</a>
 <ul>
 <li><a href="#atomic_data_test">Increment/Decrements of an Array</a></li>
@@ -275,8 +276,9 @@
   the intuition for what happens and solved the problem. It took me just two release fences.
   Here I'd like to mention the following observation: if a thread reads a variable that's behind
   a release barrier, it means all the memory stores before the observed value has reached the
-  memory. I mean, if your reads are dependent then you can skip having an acquire fence (that's
-  not valid for Alpha CPUs, you can read about it in Jeff's <a href="http://preshing.com/20120930/weak-vs-strong-memory-models/" title="Weak vs. Strong Memory Models">post</a>).</p>
+  memory. I mean, if your reads are dependent then you can skip having an acquire fence. Actually,
+  that is what you can read about in Jeff Preshing's <a href="http://preshing.com/20120930/weak-vs-strong-memory-models/" title="Weak vs. Strong Memory Models">post</a> ( a-&gt;b ), where he also mentions
+  that it is not true for Alpha CPUs.</p>
 
 <p><center><img src="images/ordered-unorder-stores.jpg" alt="" title="Sheep are stores. A man is a memory barrier" /></center></p>
 
@@ -322,6 +324,54 @@
 <p>If it becomes a real problem in your program then you can increase the size of the queue.
   But from my tests it was never an issue and performance results speak for themselves (some
   numbers are at the very end).</p>
+
+<p><a name="usage"></a></p>
+
+<h2>Usage (API)</h2>
+
+<p>The greatest advantage of <strong>atomic_data</strong> in comparison with other lock-free techniques is
+  the easy of using it. <strong>atomic_data</strong> is a template that wraps your data structure. It can 
+  be anything, the only requirement for it to be copyable and default constructable. </p>
+
+<p>You have two basic methods to read and modify your data. The <em>read</em> method takes a functor
+  that has a single parameter of a type <em>"pointer to data structure type"</em> and returns whatever
+  the passed functor returns:</p>
+
+<pre><code>    struct mydata {
+      int a;
+      float b;
+      double c;
+    };
+
+    atomic_data&lt; mydata &gt; mydata0;
+
+    //you can optionally add a second template parameter that sets the backing queue size
+    //making it equal 2 * number of threads is usually a good guess
+
+    //reading and returning field a
+
+    auto result = mydata0.read( []( mydata* data ) {
+
+      return data-&gt;a;
+    } );
+</code></pre>
+
+<p>The same thing is for the <em>update</em>, except it takes <em>a pointer to a copy of the current data</em>
+  and returns a <em>bool</em> indicating whether you want for the update to happen or not.</p>
+
+<pre><code>    //updating the data
+
+    mydata0.update( []( mydata* data ) {
+
+      data-&gt;b = data-&gt;b + 1.0f;
+      data-&gt;a++;
+
+      return true;
+    } );
+</code></pre>
+
+<p>You can read the <a href="https://github.com/alexpolt/atomic_data/blob/master/atomic_data.h" title="atomic_data header file">source code</a> of <strong>atomic_data</strong> on GitHub. It is a single header file 
+  and is just 300 lines of code. The simplicity of its implementation is another great plus.</p>
 
 <p><a name="code"></a></p>
 
@@ -565,7 +615,7 @@
 
 <p>The results show that <strong>atomic_data</strong> is quite competitive even with it copying the data on 
   every update. But we need more testing and I ask for your help here. Clone or download the 
-  <a href="https://github.com/alexpolt/atomic_data">Github</a> repo and run the tests on your machine. <strong>atomic_data</strong> works both on 32-bit 
+  <a href="https://github.com/alexpolt/atomic_data">GitHub</a> repo and run the tests on your machine. <strong>atomic_data</strong> works both on 32-bit 
   and 64-bit machines.</p>
 
 <p>You're a hero if you've read all of the article.</p>

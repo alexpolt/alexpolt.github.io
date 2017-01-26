@@ -10,6 +10,7 @@
   * [atomic\_data](#atomic_data)
   * [Memory Ordering Considerations](#memory_ordering)
   * [Exception safety, limitations and other issues](#issues)
+  * [Usage (API)](#usage)
   * [Code Samples](#code)
     * [Increment/Decrements of an Array](#atomic_data_test)
     * [Lock-Free std::map?](#atomic_map)
@@ -234,8 +235,9 @@
   the intuition for what happens and solved the problem. It took me just two release fences.
   Here I'd like to mention the following observation: if a thread reads a variable that's behind
   a release barrier, it means all the memory stores before the observed value has reached the
-  memory. I mean, if your reads are dependent then you can skip having an acquire fence (that's
-  not valid for Alpha CPUs, you can read about it in Jeff's [post][mr]).
+  memory. I mean, if your reads are dependent then you can skip having an acquire fence. Actually,
+  that is what you can read about in Jeff Preshing's [post][mr] ( a-&gt;b ), where he also mentions
+  that it is not true for Alpha CPUs.
 
 
  <center>![][sheep]</center>
@@ -285,8 +287,55 @@
   numbers are at the very end).
 
 
+<a name="usage"></a>
+
+##Usage (API)
+
+  The greatest advantage of **atomic\_data** in comparison with other lock-free techniques is
+  the easy of using it. **atomic\_data** is a template that wraps your data structure. It can 
+  be anything, the only requirement for it to be copyable and default constructable. 
+
+  You have two basic methods to read and modify your data. The *read* method takes a functor
+  that has a single parameter of a type *"pointer to data structure type"* and returns whatever
+  the passed functor returns:
+
+        struct mydata {
+          int a;
+          float b;
+          double c;
+        };
+        
+        atomic_data< mydata > mydata0;
+        
+        //you can optionally add a second template parameter that sets the backing queue size
+        //making it equal 2 * number of threads is usually a good guess
+        
+        //reading and returning field a
+        
+        auto result = mydata0.read( []( mydata* data ) {
+        
+          return data->a;
+        } );
+
+  The same thing is for the *update*, except it takes *a pointer to a copy of the current data*
+  and returns a *bool* indicating whether you want for the update to happen or not.
+
+        //updating the data
+        
+        mydata0.update( []( mydata* data ) {
+        
+          data->b = data->b + 1.0f;
+          data->a++;
+          
+          return true;
+        } );
+
+  You can read the [source code][source] of **atomic\_data** on GitHub. It is a single header file 
+  and is just 300 lines of code. The simplicity of its implementation is another great plus.
+
+
 <a name="code"></a>
- 
+
 ##Code Samples
 
 
@@ -537,7 +586,7 @@
 
   The results show that **atomic\_data** is quite competitive even with it copying the data on 
   every update. But we need more testing and I ask for your help here. Clone or download the 
-  [Github][github] repo and run the tests on your machine. **atomic\_data** works both on 32-bit 
+  [GitHub][github] repo and run the tests on your machine. **atomic\_data** works both on 32-bit 
   and 64-bit machines.
  
   You're a hero if you've read all of the article.
@@ -558,6 +607,7 @@
   [atomic_list]: https://github.com/alexpolt/atomic_data/blob/master/samples/atomic_list.cpp
   [mutex]: https://github.com/alexpolt/atomic_data/blob/master/samples/atomic_data_mutex.h
   [github]: https://github.com/alexpolt/atomic_data
+  [source]: https://github.com/alexpolt/atomic_data/blob/master/atomic_data.h "atomic_data header file"
   [deletion]: images/deletion-problem.png "The deletion problem in lock-free lists"
   [preemption-orig]: images/atomic-data-trace-orig.png "Clean version of above"
   [preemption]: images/atomic-data-trace.png "The effect of preemption"
