@@ -121,16 +121,16 @@
 
   In the above image the cat is an object. The object lifetime problem in multithreaded programming 
   is fundamental because at any point in time shared data could be accessed by a thread. Using
-  exclusive locking is going to work but kills performance. Also GC, hazard pointers or using  
-  shared\_ptrs can help, but they all are not ideal. GC needs a stop-the-world pause, hazard 
-  pointers require checking all threads, reference counting is a performance hit and might break 
+  exclusive locking is going to work but kills performance. Also GC, hazard pointers or using
+  shared\_ptrs can help, but they all are not ideal. GC needs a stop-the-world pause, hazard
+  pointers require checking all threads, reference counting is a performance hit and might break
   out of control.
 
   In no way this is the exhaustive description of lock-free programming issues, but these two
-  are the most important. For linked data structures there is also a delete problem and we'll 
+  are the most important. For linked data structures there is also a delete problem and we'll
   cover it later.
 
-  **Now it is time for me to introduce *atomic\_data* that is a good compromise between having a 
+  **Now it is time for me to introduce *atomic\_data* that is a good compromise between having a
   lock-free data structure and avoiding the ABA and lifetime issues.**
 
 
