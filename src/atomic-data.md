@@ -243,50 +243,6 @@
  <center>![][sheep]</center>
 
 
-<a name="issues"></a>
- 
-###Exception safety, limitations and other issues
-
-  The *read* and *update* methods - the workhorses - are exception safe. They employ RAII 
-  techniques to maintain invariants. There is also static initialization which calls new to
-  fill the queue and destructor of **atomic\_data** calls delete. Nothing is done there to
-  guard against exceptions.
-
-  Special attention should be paid to the fact that **atomic\_data::update** method is not
-  reentrant, because you might hit a barrier and a second call to update will spin forever.
-  **atomic\_data::update_weak** on the other hand is reentrant. Though you should keep in 
-  mind that in no way two recursive calls to this method creates a transaction. Those are
-  going to be separate updates.
-
-  You might rightfully ask if **atomic\_data** is really lock-free since it has a sync barrier.
-  Actually, if you think about it for a moment, due to limited computer memory some synchronization 
-  is unavoidable no matter what lock-free technique you use. Whether it be a GC pause or a
-  check of all other threads or reference counting or something else. Reference counting and
-  LL/LC to get around ABA might seem like a perfect match, but reference counting brings
-  its own problems to the table. **atomic\_data** is a good compromise and its flexible because
-  you can adjust the length of the queue. Also a sync barrier helps uncover bugs earlier.
-
-  By the way what the length of the backing queue should be. From my tests it seems like 2x 
-  number of threads is quite enough. Actually **atomic\_data** works even with the queue of 
-  length 1 (which I was surprised to find out). Nothing prevents from making the queue
-  longer and offset the cost of the synchronization events.
-
-  Another often cited feature of *true* lock-free data structures is the tolerance to thread
-  killings or suspensions. I am a bit confused by this argument. After all we are creating
-  programs under the assumption of documented behaviour from the OS and hardware. We rely on
-  fair scheduling policies from the OS and no spurious kill signals or suspensions should
-  happen. And threads are not inferior to processes in any way. The only real issue is 
-  preemption and the picture below provides a Concurrency Visualizer graph of thread scheduling.
-
- <center>![][preemption]</center>
-
-  [Here is the pic][preemption-orig] without drawing.
-
-  If it becomes a real problem in your program then you can increase the size of the queue.
-  But from my tests it was never an issue and performance results speak for themselves (some
-  numbers are at the very end).
-
-
 <a name="usage"></a>
 
 ##Usage (API)
@@ -333,6 +289,50 @@
 
   You can read the [source code][source] of **atomic\_data** on GitHub. It is a single header file 
   and is just 300 lines of code. The simplicity of its implementation is another great plus.
+
+
+<a name="issues"></a>
+ 
+###Exception safety, limitations and other issues
+
+  The *read* and *update* methods - the workhorses - are exception safe. They employ RAII 
+  techniques to maintain invariants. There is also static initialization which calls new to
+  fill the queue and destructor of **atomic\_data** calls delete. Nothing is done there to
+  guard against exceptions.
+
+  Special attention should be paid to the fact that **atomic\_data::update** method is not
+  reentrant, because you might hit a barrier and a second call to update will spin forever.
+  **atomic\_data::update_weak** on the other hand is reentrant. Though you should keep in 
+  mind that in no way two recursive calls to this method creates a transaction. Those are
+  going to be separate updates.
+
+  You might rightfully ask if **atomic\_data** is really lock-free since it has a sync barrier.
+  Actually, if you think about it for a moment, due to limited computer memory some synchronization 
+  is unavoidable no matter what lock-free technique you use. Whether it be a GC pause or a
+  check of all other threads or reference counting or something else. Reference counting and
+  LL/LC to get around ABA might seem like a perfect match, but reference counting brings
+  its own problems to the table. **atomic\_data** is a good compromise and its flexible because
+  you can adjust the length of the queue. Also a sync barrier helps uncover bugs earlier.
+
+  By the way what the length of the backing queue should be. From my tests it seems like 2x 
+  number of threads is quite enough. Actually **atomic\_data** works even with the queue of 
+  length 1 (which I was surprised to find out). Nothing prevents from making the queue
+  longer and offset the cost of the synchronization events.
+
+  Another often cited feature of *true* lock-free data structures is the tolerance to thread
+  killings or suspensions. I am a bit confused by this argument. After all we are creating
+  programs under the assumption of documented behaviour from the OS and hardware. We rely on
+  fair scheduling policies from the OS and no spurious kill signals or suspensions should
+  happen. And threads are not inferior to processes in any way. The only real issue is 
+  preemption and the picture below provides a Concurrency Visualizer graph of thread scheduling.
+
+ <center>![][preemption]</center>
+
+  [Here is the pic][preemption-orig] without drawing.
+
+  If it becomes a real problem in your program then you can increase the size of the queue.
+  But from my tests it was never an issue and performance results speak for themselves (some
+  numbers are at the very end).
 
 
 <a name="code"></a>
