@@ -5,14 +5,15 @@
   to use it for the benefit. I have already written on the [problems][move] that it introduces.
   Also I came up with a clear rule for this:
 
-  * If you store on object than just use a value (no references) as a parameter. It'll deal with
-  both r-values and l-values correctly. This is the clear advantage that move semantics has given
-  us.
+  * If you store and keep an object - just use a value (no references) as a parameter. It'll deal 
+  with both r-values and l-values correctly. This is the clear advantage that move semantics has 
+  given us.
 
   * You can use copy-and-swap idiom. But there are subtleties with container like objects - you
   don't want unnecessary copies.
 
-  * In other cases you'll end up using either a universal reference or two distinct methods/functions.
+  * In other cases you'll end up using either a universal reference or two distinct methods (with 
+  r-value and l-value references as parameters).
 
 <!-- stop list -->
 
@@ -26,9 +27,11 @@
   should become suddenly suspended, no memory allocation failures in case we're not *out of memory*,
   which is a bug of a program than a normal situation. STL went the wrong way with its exception 
   safety paranoia. So I think one should not normally use noexcept. Try to make your constructors
-  and probably assignment operators noexcept by default and allow exceptions in every other case.
+  (all three types, [rul of five][rule]) and probably assignment operators noexcept by default and  
+  allow exceptions in every other case.
 
 
   [move]: empty-value.html "Problems of Move Semantics in C++"
   [exceptions]: exceptions.html "C++ Exceptions"
+  [rule]: http://en.cppreference.com/w/cpp/language/rule_of_three "C++ Rule of Zero, Three or Five"
 
