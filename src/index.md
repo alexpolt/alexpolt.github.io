@@ -92,11 +92,6 @@
 >   Being the best or being better than others is the dumbest choice for a goal in life.
 
 
-  * [Tasking and Object Sharing](tasking.html)
-    
-    Task programming model gives a chance to solve the object sharing problem.
-
-
   * [C++ Properties](cpp-property.html)
 
     One more nugget from C++.
