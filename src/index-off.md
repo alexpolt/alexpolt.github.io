@@ -4,6 +4,9 @@
     Some guides on using move semantics and exception specifiers.
 
 
+>   There is not much from a human in any great success.
+
+
 >   Scores of NPCs are created and slayed every second. Kind of hints on the importance of death.
 
 
