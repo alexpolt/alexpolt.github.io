@@ -1,7 +1,7 @@
 
-  * [To Move or Not to Move, Except or noexcept](move-noexcept.html)
+  * [When should One Use r-value References and noexcept](move-noexcept.html)
 
-    Some guides on using move semantics and exception specifiers.
+    Some thoughts on when to use move semantics and exception specifiers.
 
 
 >   Scores of NPCs are created and slayed every second. Kind of hints on the importance of death.
