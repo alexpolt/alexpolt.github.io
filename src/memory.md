@@ -18,8 +18,6 @@
   the stronger the memory: so called *synesthesia*. Some people have spontaneous *synesthesia*, 
   like this Russian journalist [Solomon Shereshevsky](https://en.wikipedia.org/wiki/Solomon_Shereshevsky).
 
-  It seems I have a _voluntary synesthesia_: my brain is able to self stimulate and create sensations.
-  They do not feel real and they are not very clear, but as I do more of some imaginary exercise it 
-  gets more realistic. Just one example, I can imagine the floor breaks and I fall through. As I do
-  that I feel as if I really fall, and if I do that more often then it gets ever more vivid.
+  As I said above I have daydreaming. That means I think in very vivid images. Also I can remember
+  tastes, scents, touches, temperature sensations.
 
