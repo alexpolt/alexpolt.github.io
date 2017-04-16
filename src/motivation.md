@@ -1,5 +1,17 @@
 
-##On Motivation
+##The meaning of life.
+
+  The ultimate question of our existence. There is even a 
+  [Wikipedia article](https://en.wikipedia.org/wiki/Meaning_of_life). Sure you have your own idea
+  about that. Here is mine: **happiness**. What is happiness? It is a state when all of our demands 
+  are satisfied. When a woman or a man is happy, they don't need anything, they enjoy the world, 
+  they love everyone. And yes, it is very emotional by nature. But that is exactly why we ask
+  that question in the first place. Emotions are so central to our lives, it's frightening!
+
+  If we do not succeed in obtaining happiness, whether it's a career or family, we fail, we
+  feel that our life was nothing, empty. What will make you happy?
+
+###On Motivation
 
   The motivation is the source of all of our actions in life. A lot of people don't experience
   any problem with that, there is always something to do: solve problems, get kids to school, etc.
@@ -29,25 +41,26 @@
 
 <!-- md bug of not closing list if the first letter is space -->
 
-  Also pay attention, that an unresolved gf/bf question can be a serious distraction. You won't
-  even realize that what's bothering you is your primary instinct.
+> Try to find something that makes you feel alive
+
+  If you've went through all of the above and still struggling with finding a reason to live, then
+  try hard to realize your purpose in this world. Family, kids, business? Why not.
 
   Personally, I have given a lot time to thinking about the primary motives in life. For me money
   means not that much, I have no ambitions either. I love science, I am curious about physics and 
   space, but all that wasn't enough to answer the question of why I should do my best in life and 
   work. 
   
-  First, I realized that what drives most of us is the pursuit of power. It is very much like an 
+  I also realized that what drives most of us is the pursuit of power. It is very much like an 
   RPG game where players do their best to earn levels, that in turn empower players to do 
   greater things. The same is in our daily life: we learn and work hard to gain additional 
   abilities that will increase our power over this world. That power makes our life easier and 
-  happier. One could notice that is very rational behaviour. It allows us to have a certain place
-  in a pyramid of human relations.
+  happier. One could notice that is very rational behaviour. It allows us to get a better place
+  in a people hierarchy.
 
-  Thinking more on the subject I have found a rational reason for me to try to work hard. It makes
-  a lot of sense in my opinion to create new products and technologies that did not exist in the
-  World before. Something creative, innovative, not necessarily perfect. Guess that is what I would 
-  be doing in a Minecraft session. And also maybe having occasional fun, just to remind myself
-  the beauty of the World we live in.
+  For me personally it makes a lot of sense to create new products and technologies that did not 
+  exist in the World before. Something creative, innovative, not necessarily perfect. Guess that 
+  is what I would  be doing in a Minecraft session. And also maybe having occasional fun, just to 
+  remind myself the beauty of the World we live in.
 
   
