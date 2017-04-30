@@ -58,9 +58,5 @@
   happier. One could notice that is very rational behaviour. It allows us to get a better place
   in a people hierarchy.
 
-  For me personally it makes a lot of sense to create new products and technologies that did not 
-  exist in the World before. Something creative, innovative, not necessarily perfect. Guess that 
-  is what I would  be doing in a Minecraft session. And also maybe having occasional fun, just to 
-  remind myself the beauty of the World we live in.
+> The forst think you can do is procrastinate.  
 
-  
