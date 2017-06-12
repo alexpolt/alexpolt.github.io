@@ -4,11 +4,9 @@
   Lets consider a simple example of filling a std::vector:
 
 
-    std::vector<int> data( 5 );
+    std::vector<int> data;
 
-    int n{};
-    
-    std::generate( begin(data), end(data), [&n](){ return n++; } );
+    for( int i = 0; i < 10; i++ ) data.push_back( i );
 
 
   What could possibly go wrong? Well, apart from "out of memory"? Nothing. Computers are such

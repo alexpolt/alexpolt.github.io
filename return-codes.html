@@ -56,11 +56,9 @@
 
 <p>Lets consider a simple example of filling a std::vector:</p>
 
-<pre><code>std::vector&lt;int&gt; data( 5 );
+<pre><code>std::vector&lt;int&gt; data;
 
-int n{};
-
-std::generate( begin(data), end(data), [&amp;n](){ return n++; } );
+for( int i = 0; i &lt; 10; i++ ) data.push_back( i );
 </code></pre>
 
 <p>What could possibly go wrong? Well, apart from "out of memory"? Nothing. Computers are such
