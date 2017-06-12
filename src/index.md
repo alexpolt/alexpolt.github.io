@@ -10,9 +10,9 @@
   What lessons can we learn from garbage collectors.
 
 
-* [To Throw or to Assert, Or Return an Error Code?](return-codes.html)
+* [Lets Talk About Error Handling...](return-codes.html)
 
-  This is a really important question actually because all our code consists of functions.
+  What's really the right way to handle program errors? I have some ideas.
 
 
 * [Floating Point Rounding](fp-round.html)

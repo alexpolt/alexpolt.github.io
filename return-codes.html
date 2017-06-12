@@ -3,7 +3,7 @@
 
 <HEAD>
 
-  <title>To Throw or to Assert, Or Return an Error Code? - Alexandr Poltavsky, software developer</title>
+  <title>Lets talk about error handling... - Alexandr Poltavsky, software developer</title>
 
   <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
   <meta http-equiv="Cache-Control" content="no-store" />
@@ -52,29 +52,47 @@
   </ul>
 
 
-<h2>To Throw or to Assert, Or Return an Error Code?</h2>
+<h2>Lets talk about error handling...</h2>
 
-<p>This is a really important question actually because all our code consists of functions.
-  Recently, while coding, I ran into a quandary of the kind - should I assert or throw?</p>
+<p>Lets consider a simple example of filling a std::vector:</p>
 
-<p>As I have updated my post on <a href="/exceptions.html">exceptions</a> I wrote that one should divide 
-  between recoverable and irrecoverable situations. </p>
+<pre><code>std::vector&lt;int&gt; data( 5 );
 
-<p>Out of bounds array access for example is irrecoverable. It's like reading a null pointer,
-  the same matter. Also reading garbage will certainly lead to further problems in the program.
-  So it's definitely an assert: program should terminate now!</p>
+int n{};
 
-<p>If it's a file access error and the user has an option (or the program has on option), than 
-  just throw.</p>
+std::generate( begin(data), end(data), [&amp;n](){ return n++; } );
+</code></pre>
 
-<p>But now the following question comes: <strong>given the above should a function return an error code?</strong>
-  And the answer is no, I guess. Because you either assert or throw. In all other cases a 
-  function should work perfectly and return only needed values. Probably you might return some
-  code that's not an error but is part of the logic, returning an optional falls into that 
-  category.</p>
+<p>What could possibly go wrong? Well, apart from "out of memory"? Nothing. Computers are such
+  marvellous machines that never fail (to execute some bug-free code like above). Except for
+  hardware errors but that is out of a developer control. That puts the question what is an 
+  error really and when do they happen.</p>
 
-<p>And sure you should have proper handling of APIs: create wrappers and throw or assert. I tried
-  to follow that code style recently and it's going well thus far.</p>
+<p>If we think about it, we'll realize that the only sources of errors are external API calls.
+  Okay, good. Anytime we call some API, be it a <em>syscall</em> or some <em>middleware</em> etc., there usually
+  are some ways of communicating back the success state. And we have a choice what to do with it.</p>
+
+<p>So this is what I'm trying to tell: every time we call an external API we a have choice of
+  what to do with errors. If we state that some error (file not found, network timeout, etc.) is
+  <strong>expected</strong> then we handle it right there in the code. Otherwise the error is <strong>unexpected</strong> 
+  and we just don't do anything about it: we throw an exception.</p>
+
+<p>Therefore I think there is little space for tools like <em>std::optional</em> or similar. Because it
+  turns an obvious error into an implicit one. Just throw in that case, or handle it in place.</p>
+
+<p>As for tools like <em>assert</em>, their primary purpose is to assist the type system but keep the code
+  efficient. Take vector subscript as an example: should we be checking out of bounds access every
+  time or just assert it? Asserting is the only valid option because we don't write buggy soft 
+  (at least we do our best). And buggy soft is not something we should to accept as a new normal.</p>
+
+<p>Another important aspect is <strong>exception safety in C++</strong>. Again, if we rule out API calls and out 
+  of memory then suddenly we have no point of failure. Then what's the value of creating that 
+  insane layer of complexity? New jobs? A simple rule, that should've gone into C++ standard, 
+  of not calling into OS or other APIs in object constructors (destructors are already special 
+  cased) solves most exception safety issues.</p>
+
+<p>Before I had written a post about <a href="exceptions.html">when to use exceptions</a>. It's still worth
+  taking a look and becomes even more clear with above description.</p>
 
 
 <script src="highlight/highlight.pack.js"></script>

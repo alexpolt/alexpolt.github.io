@@ -1,28 +1,45 @@
 
-##To Throw or to Assert, Or Return an Error Code?
+##Lets talk about error handling...
+
+  Lets consider a simple example of filling a std::vector:
 
 
-  This is a really important question actually because all our code consists of functions.
-  Recently, while coding, I ran into a quandary of the kind - should I assert or throw?
+    std::vector<int> data( 5 );
 
-  As I have updated my post on [exceptions](/exceptions.html) I wrote that one should divide 
-  between recoverable and irrecoverable situations. 
-  
-  Out of bounds array access for example is irrecoverable. It's like reading a null pointer,
-  the same matter. Also reading garbage will certainly lead to further problems in the program.
-  So it's definitely an assert: program should terminate now!
+    int n{};
+    
+    std::generate( begin(data), end(data), [&n](){ return n++; } );
 
-  If it's a file access error and the user has an option (or the program has on option), than 
-  just throw.
 
-  But now the following question comes: **given the above should a function return an error code?**
-  And the answer is no, I guess. Because you either assert or throw. In all other cases a 
-  function should work perfectly and return only needed values. Probably you might return some
-  code that's not an error but is part of the logic, returning an optional falls into that 
-  category.
+  What could possibly go wrong? Well, apart from "out of memory"? Nothing. Computers are such
+  marvellous machines that never fail (to execute some bug-free code like above). Except for
+  hardware errors but that is out of a developer control. That puts the question what is an 
+  error really and when do they happen.
 
-  And sure you should have proper handling of APIs: create wrappers and throw or assert. I tried
-  to follow that code style recently and it's going well thus far.
+  If we think about it, we'll realize that the only sources of errors are external API calls.
+  Okay, good. Anytime we call some API, be it a *syscall* or some *middleware* etc., there usually
+  are some ways of communicating back the success state. And we have a choice what to do with it.
 
-  
+  So this is what I'm trying to tell: every time we call an external API we a have choice of
+  what to do with errors. If we state that some error (file not found, network timeout, etc.) is
+  **expected** then we handle it right there in the code. Otherwise the error is **unexpected** 
+  and we just don't do anything about it: we throw an exception.
+
+  Therefore I think there is little space for tools like *std::optional* or similar. Because it
+  turns an obvious error into an implicit one. Just throw in that case, or handle it in place.
+
+  As for tools like *assert*, their primary purpose is to assist the type system but keep the code
+  efficient. Take vector subscript as an example: should we be checking out of bounds access every
+  time or just assert it? Asserting is the only valid option because we don't write buggy soft 
+  (at least we do our best). And buggy soft is not something we should to accept as a new normal.
+
+  Another important aspect is **exception safety in C++**. Again, if we rule out API calls and out 
+  of memory then suddenly we have no point of failure. Then what's the value of creating that 
+  insane layer of complexity? New jobs? A simple rule, that should've gone into C++ standard, 
+  of not calling into OS or other APIs in object constructors (destructors are already special 
+  cased) solves most exception safety issues.
+
+  Before I had written a post about [when to use exceptions](exceptions.html). It's still worth
+  taking a look and becomes even more clear with above description.
+ 
 

@@ -39,7 +39,7 @@
     //or in SM <= 3.0 we use a generated buffer with 0,1,2 values for each vertex
     out.uv01 = uv01[ uvid ];
 
-  For indexed geometry SV_VertexID generally won't work (you can try, especially if your 
+  For indexed geometry SV\_VertexID generally won't work (you can try, especially if your 
   vertices are in strips), so we need to either use a geometry shader or generate a buffer 
   with 0,1,2 mapping. Geometry optimized as triangle fans won't do well (we'll end up having 
   duplicate 0 or 1 or 2). Here's an example how you can generate such a buffer:

@@ -22,8 +22,8 @@
   Now what we can learn from garbage collectors is that some objects are persistent, such objects
   usually live till the end of the program. In the above example the generated strings could be 
   such objects. We can rig our string with an allocator that will allocate memory in big chunks 
-  and uses bump allocation from that chunks. It doesn't need to free memory because it's assumed
-  that memory is going to be held until the end. Here is some incomplete code:
+  and use bump allocation from these chunks. It doesn't need to free memory because it's assumed
+  that memory is going to be held till the end. Here is some incomplete code:
 
     template<typename T>
     allocator {
@@ -40,6 +40,7 @@
     };
     
     std::string line{ allocator{ 1024 } }; //chunk size 1024
+
 
   From the code you can get the general idea of how it works. The allocator keeps a list of
   chunks and serves memory on demand. All the copied strings will share the allocator with 
