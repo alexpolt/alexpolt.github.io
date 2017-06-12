@@ -1,4 +1,5 @@
 
+
 * [When should One Use r-value References and noexcept](move-noexcept.html)
 
   Some thoughts on when to use move semantics and exception specifiers.
@@ -24,7 +25,6 @@
   Ran into a nasty problem with how the global static objects are initialized in templates.
 
 
-
 * [Color Throne - Brain Gymnastics](color-throne.html)
 
   Released my first Android application on Google Play. It's a color puzzle-arcade game.
@@ -33,18 +33,8 @@
 
 * [atomic\_data: A Multibyte General Purpose Lock-Free Data Structure](atomic-data.html)
 
-  **My greatest work so far**. I am writing about lock-free programming gotchas and also present
+  My **greatest** work so far. I am writing about lock-free programming gotchas and also present
   a hopefully novel design: **atomic\_data**.
-
-
-* [A Better Alternative to shared\_ptr for Shared Ownership](link.html)
-
-  *shared_ptr* is not an answer to the shared ownership problem.
-
-
-* [unique\_ptr -> unique](unique.html)
-
-  We need a more general *unique* design pattern.
 
 
 * [Using Macro Kung Fu to Easier Check Function Return Values](macros-checking.html)
@@ -57,7 +47,7 @@
 
 * [Some Problems with C++ Move Semantics](empty-value.html)
 
-  Some thoughts on the C++ move minor annoyances.
+  The C++ brings joy, but problems too.
 
 
 * [Free Variables Perfect Hashing Algorithm](perfect-hashing.html)

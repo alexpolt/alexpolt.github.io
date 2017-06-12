@@ -1,7 +1,8 @@
 
 ##Introducing DFAA antialiasing algorithm
 
-  **Update: text here is no longer relevant, you can find the correct implementation of DFAA here.**
+  **Update: text here is no longer relevant! There will be a new post with more correct 
+  implementation of DFAA.**
 
   Aliasing is a longstanding problem in computer graphics. To date a lot of different 
   algorithms have been developed. These are just some of them: SSAA, MSAA, CSAA, MLAA, FXAA etc.
