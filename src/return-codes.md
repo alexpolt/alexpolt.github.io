@@ -5,7 +5,7 @@
 
 
     std::vector<int> data;
-
+    
     for( int i = 0; i < 10; i++ ) data.push_back( i );
 
 
