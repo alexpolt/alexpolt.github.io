@@ -45,6 +45,13 @@
 
   <!-- here goes the main content -->
 
+  <ul id="main-menu">
+    <li id="main-menu-0"><a href="index.html">Programming</a></li>
+    <li id="main-menu-1"><a href="index-gfx.html">Graphics</a></li>
+    <li id="main-menu-2"><a href="index-off.html">Off-topic</a></li>
+  </ul>
+
+
 <h2>atomic_data: A Multibyte General Purpose Lock-Free Data Structure</h2>
 
 <ul>
@@ -94,9 +101,6 @@
   and  <strong>LL/SC</strong> (load-linked/store-conditional. These are RMW ( Read-Modify-Write ) operations, 
   but they are not equivalent. Also important is the fact that these operations acquire additional 
   semantics when operating on pointers.</p>
-
-<p>A one of a kind resource on the Internet about multithreaded programming, memory barriers,
-  lock-free techniques, etc. is the website by <a href="http://preshing.com/about/" title="Jeff Prshing Excellent Website">Jeff Preshing</a>.</p>
 
 <p><a name="cas"></a></p>
 
@@ -629,8 +633,9 @@
 </script>
 
 
+<div id="disqus_comments"><a href="document.getElementById('disqus').src='js/disqus.js';">read and write commentaries</a></div>
 <div id="disqus_thread"></div>
-<script>
+<script id="disqus">
     /**
      *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
      *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables
@@ -641,7 +646,7 @@
         this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
     };
     */
-    if( ! document.getElementById("contents") ) // alexpolt: exclude main page with contents
+    //if( ! document.getElementById("contents") ) // alexpolt: exclude main page with contents
     (function() {  // DON'T EDIT BELOW THIS LINE
         var d = document, s = d.createElement('script');
         
@@ -671,6 +676,35 @@
   ga('create', 'UA-75341409-1', 'auto');
   ga('send', 'pageview');
 </script>
+
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+    (function (d, w, c) {
+        (w[c] = w[c] || []).push(function() {
+            try {
+                w.yaCounter43425229 = new Ya.Metrika({
+                    id:43425229,
+                    clickmap:true,
+                    trackLinks:true,
+                    accurateTrackBounce:true
+                });
+            } catch(e) { }
+        });
+
+        var n = d.getElementsByTagName("script")[0],
+            s = d.createElement("script"),
+            f = function () { n.parentNode.insertBefore(s, n); };
+        s.type = "text/javascript";
+        s.async = true;
+        s.src = "https://mc.yandex.ru/metrika/watch.js";
+
+        if (w.opera == "[object Opera]") {
+            d.addEventListener("DOMContentLoaded", f, false);
+        } else { f(); }
+    })(document, window, "yandex_metrika_callbacks");
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/43425229" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
 
 </BODY>
 

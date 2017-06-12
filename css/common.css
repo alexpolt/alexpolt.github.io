@@ -64,17 +64,37 @@ div.resume h3 {
 
 #content {
   border-top: 1px solid silver;
-  padding: 30px 10% 1px 10%;
+  padding: 10px 10% 1px 10%;
 }
 
 #menu {
+  list-style: none;
   padding: 0px;
   margin: 10px 0px;
 }
 
 #menu li {
-  display: inline;
-  margin-right: 10px;
+  display: inline-block;
+  padding-right: 10px;
+}
+
+#main-menu {
+  list-style: none;
+  padding: 0px;
+  margin: 0px 0px 20px 0px;
+  text-align: center;
+}
+
+#main-menu li {
+  display: inline-block;
+  padding: 0px 10px;
+  margin: 0px 5px;
+  border: 1px solid silver;
+  font-weight: bold;
+}
+
+#main-menu li:hover {
+  background-color: #EEAAAA;
 }
 
 #contents > ul {
@@ -148,5 +168,11 @@ td.green {
   background-color: #F0FFF0;
 }
 
+
+#disqus_comments {
+  text-align: center;
+  font-weight: bold;
+  font-size: 120%;
+}
 
 

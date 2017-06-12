@@ -45,6 +45,12 @@
 
   <!-- here goes the main content -->
 
+  <ul id="main-menu">
+    <li id="main-menu-0"><a href="index.html">Программирование</a></li>
+    <li id="main-menu-1"><a href="index-gfx.html">Графика</a></li>
+    <li id="main-menu-2"><a href="index-off.html">Разное</a></li>
+  </ul>
+
 <p><div class="resume"></p>
 
 <p><img src="images/cpp.png" class="resume-logo" />
@@ -189,8 +195,9 @@ Render Monkey доступны на <a href="https://github.com/alexpolt/DFAA">G
 </script>
 
 
+<div id="disqus_comments"><a href="document.getElementById('disqus').src='js/disqus.js';">read and write commentaries</a></div>
 <div id="disqus_thread"></div>
-<script>
+<script id="disqus">
     /**
      *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
      *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables
@@ -201,7 +208,7 @@ Render Monkey доступны на <a href="https://github.com/alexpolt/DFAA">G
         this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
     };
     */
-    if( ! document.getElementById("contents") ) // alexpolt: exclude main page with contents
+    //if( ! document.getElementById("contents") ) // alexpolt: exclude main page with contents
     (function() {  // DON'T EDIT BELOW THIS LINE
         var d = document, s = d.createElement('script');
         
@@ -231,6 +238,35 @@ Render Monkey доступны на <a href="https://github.com/alexpolt/DFAA">G
   ga('create', 'UA-75341409-1', 'auto');
   ga('send', 'pageview');
 </script>
+
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+    (function (d, w, c) {
+        (w[c] = w[c] || []).push(function() {
+            try {
+                w.yaCounter43425229 = new Ya.Metrika({
+                    id:43425229,
+                    clickmap:true,
+                    trackLinks:true,
+                    accurateTrackBounce:true
+                });
+            } catch(e) { }
+        });
+
+        var n = d.getElementsByTagName("script")[0],
+            s = d.createElement("script"),
+            f = function () { n.parentNode.insertBefore(s, n); };
+        s.type = "text/javascript";
+        s.async = true;
+        s.src = "https://mc.yandex.ru/metrika/watch.js";
+
+        if (w.opera == "[object Opera]") {
+            d.addEventListener("DOMContentLoaded", f, false);
+        } else { f(); }
+    })(document, window, "yandex_metrika_callbacks");
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/43425229" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
 
 </BODY>
 

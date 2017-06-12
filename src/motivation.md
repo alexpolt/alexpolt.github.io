@@ -55,8 +55,17 @@
   RPG game where players do their best to earn levels, that in turn empower players to do 
   greater things. The same is in our daily life: we learn and work hard to gain additional 
   abilities that will increase our power over this world. That power makes our life easier and 
-  happier. One could notice that is very rational behaviour. It allows us to get a better place
-  in a people hierarchy.
+  happier. One could notice that is a very rational behaviour. It allows us to get a better place
+  in a society hierarchy.
 
-> The forst think you can do is procrastinate.  
+> The worst think you can do is procrastinate.
+
+  **The most important question one can ask is "What do I want from this World?"**
+  
+  Actually, without people creating things, the life on Earth would be just surviving and fucking.
+  So we need people creating stuff, making gadgets, getting into space to make the life of a 
+  human more enjoyable and fulfilled! So please, do stuff! :)
+
+
+
 

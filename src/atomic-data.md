@@ -47,10 +47,6 @@
   but they are not equivalent. Also important is the fact that these operations acquire additional 
   semantics when operating on pointers.
 
-  A one of a kind resource on the Internet about multithreaded programming, memory barriers,
-  lock-free techniques, etc. is the website by [Jeff Preshing][preshing].
-
-
 <a name="cas"></a>
 
 ###CAS (Compare-And-Swap)
