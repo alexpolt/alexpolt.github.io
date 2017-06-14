@@ -18,7 +18,7 @@
   Okay, good. Anytime we call some API, be it a *syscall* or some *middleware* etc., there usually
   are some ways of communicating back the success state. And we have a choice what to do with it.
 
-  So this is what I'm trying to tell: every time we call an external API we a have choice of
+  So this is what I'm trying to tell: every time we call an external API we have a choice of
   what to do with errors. If we state that some error (file not found, network timeout, etc.) is
   **expected** then we handle it right there in the code. Otherwise the error is **unexpected** 
   and we just don't do anything about it: we throw an exception.

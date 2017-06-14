@@ -34,7 +34,7 @@
   unexciting work.
 
   If you are such a person that you don't have an emotional stimulus, then almost certainly you are
-  going to have trouble with being successful. Ask yourself the following advise in that case:
+  going to have trouble with being successful. Ask yourself the following in that case:
 
   * What would you do if you had 1000 years of life?
   * What would you do if you were not lazy?

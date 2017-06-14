@@ -70,7 +70,7 @@ for( int i = 0; i &lt; 10; i++ ) data.push_back( i );
   Okay, good. Anytime we call some API, be it a <em>syscall</em> or some <em>middleware</em> etc., there usually
   are some ways of communicating back the success state. And we have a choice what to do with it.</p>
 
-<p>So this is what I'm trying to tell: every time we call an external API we a have choice of
+<p>So this is what I'm trying to tell: every time we call an external API we have a choice of
   what to do with errors. If we state that some error (file not found, network timeout, etc.) is
   <strong>expected</strong> then we handle it right there in the code. Otherwise the error is <strong>unexpected</strong> 
   and we just don't do anything about it: we throw an exception.</p>
