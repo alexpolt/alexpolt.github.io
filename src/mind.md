@@ -2,8 +2,8 @@
 ##Some Thoughts About Consciousness
 
   Our brains and our thinking process is is a great mystery. There are heavy philosophical
-  treatises talking about the phenomenon of intelligence. There is also
-  [Wikipedia](https://en.wikipedia.org/wiki/Consciousness) article about consciousness that
+  treatises talking about the phenomenon of intelligence. There is also a
+  [Wikipedia article](https://en.wikipedia.org/wiki/Consciousness) about consciousness that
   gives a broad overview of the issue.
 
   In here I'm gonna give my personal view on that.
