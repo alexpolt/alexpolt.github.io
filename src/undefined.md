@@ -1,6 +1,6 @@
 
 
-##Undefined behaviour and optimizations: GCC vs Clang
+##Undefined behaviour and optimizations: GCC vs Clang vs MSC
 
   It's a well known fact that compiler optimizers sometimes exploit undefined behaviour to
   optimize code. As a classic example:
@@ -60,7 +60,7 @@ cmovel %ecx, %eax
 
   2\. The idea for the following sample was that: if x equals one then we have integer overflow, 
   which is undefined, so a compiler can just return zero, may be. Actually all are wrapping with
-  Clang doing trying to be exceedingly clever.
+  Clang trying to be exceedingly clever.
 
 <div class="code"><TABLE><TR><TH>C++ Code</TH><TH>GCC</TH><TH>Clang</TH><TH>MSC</TH></TR>
 <TR>

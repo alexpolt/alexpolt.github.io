@@ -3,7 +3,7 @@
 
 <HEAD>
 
-  <title>Undefined behaviour and optimizations: GCC vs Clang - Alexandr Poltavsky, software developer</title>
+  <title>Undefined behaviour and optimizations: GCC vs Clang vs MSC - Alexandr Poltavsky, software developer</title>
 
   <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
   <meta http-equiv="Cache-Control" content="no-store" />
@@ -52,7 +52,7 @@
   </ul>
 
 
-<h2>Undefined behaviour and optimizations: GCC vs Clang</h2>
+<h2>Undefined behaviour and optimizations: GCC vs Clang vs MSC</h2>
 
 <p>It's a well known fact that compiler optimizers sometimes exploit undefined behaviour to
   optimize code. As a classic example:</p>
@@ -114,7 +114,7 @@ cmovel %ecx, %eax
 
 <p>2. The idea for the following sample was that: if x equals one then we have integer overflow, 
   which is undefined, so a compiler can just return zero, may be. Actually all are wrapping with
-  Clang doing trying to be exceedingly clever.</p>
+  Clang trying to be exceedingly clever.</p>
 
 <div class="code"><TABLE><TR><TH>C++ Code</TH><TH>GCC</TH><TH>Clang</TH><TH>MSC</TH></TR>
 <TR>
