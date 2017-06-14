@@ -1,4 +1,9 @@
 
+* [Undefined behaviour and optimizations: GCC vs Clang](undefined.html)
+
+  Was thinking the other day about undefined behaviour and optimizations it allows and came up
+  with a couple interesting short samples.
+
 
 * [When should One Use r-value References and noexcept](move-noexcept.html)
 

@@ -29,7 +29,7 @@
   As for tools like *assert*, their primary purpose is to assist the type system but keep the code
   efficient. Take vector subscript as an example: should we be checking out of bounds access every
   time or just assert it? Asserting is the only valid option because we don't write buggy soft 
-  (at least we do our best). And buggy soft is not something we should to accept as a new normal.
+  (at least we do our best). And buggy soft is not something we should accept as a new normal.
 
   Another important aspect is **exception safety in C++**. Again, if we rule out API calls and out 
   of memory then suddenly we have no point of failure. Then what's the value of creating that 
@@ -39,5 +39,5 @@
 
   Before I had written a post about [when to use exceptions](exceptions.html). It's still worth
   taking a look and becomes even more clear with above description.
- 
+
 

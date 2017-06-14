@@ -139,8 +139,12 @@ table {
   margin: 0px auto;
   border-collapse: collapse;
 }
+
 td, th {
   border: 1px solid silver;
+}
+
+table.atomic td, table.atomic th {
   margin: 0px;
   padding: 10px;
   text-align: center;
@@ -155,7 +159,7 @@ td {
   color: #005000;
 }
 
-td:first-line {
+table.atomic td:first-line {
   text-decoration: underline;
   color: #500000;
 }

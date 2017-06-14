@@ -6,7 +6,8 @@
   about that. Here is mine: **happiness**. What is happiness? It is a state when all of our demands 
   are satisfied. When a woman or a man is happy, they don't need anything, they enjoy the world, 
   they love everyone. And yes, it is very emotional by nature. But that is exactly why we ask
-  that question in the first place. Emotions are so central to our lives, it's frightening!
+  that question (about meaning of life) in the first place. Emotions are so central to our living, 
+  it's frightening!
 
   If we do not succeed in obtaining happiness, whether it's a career or family, we fail, we
   feel that our life was nothing, empty. What will make you happy?
@@ -33,7 +34,7 @@
   unexciting work.
 
   If you are such a person that you don't have an emotional stimulus, then almost certainly you are
-  going to have trouble with being successful. I have the following advise in that case:
+  going to have trouble with being successful. Ask yourself the following advise in that case:
 
   * What would you do if you had 1000 years of life?
   * What would you do if you were not lazy?
@@ -41,7 +42,7 @@
 
 <!-- md bug of not closing list if the first letter is space -->
 
-> Try to find something that makes you feel alive
+> Try to find something that makes you feel alive.
 
   If you've went through all of the above and still struggling with finding a reason to live, then
   try hard to realize your purpose in this world. Family, kids, business? Why not.
@@ -58,7 +59,7 @@
   happier. One could notice that is a very rational behaviour. It allows us to get a better place
   in a society hierarchy.
 
-> The worst think you can do is procrastinate.
+> The worst thing you can do is procrastinate.
 
   **The most important question one can ask is "What do I want from this World?"**
   

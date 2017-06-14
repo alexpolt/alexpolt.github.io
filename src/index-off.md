@@ -12,9 +12,9 @@
 > not in other world, but here, on Earth.
 
 
-* [On Motivation](motivation.html)
+* [The Meaning of Life](motivation.html)
   
-  First blog post is about an important topic of motivation.
+  A very important post.
 
 
 > The way you spend your day is the way you spend your life.

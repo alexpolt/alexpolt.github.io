@@ -541,7 +541,7 @@
   reads prevailing over updates. Also important is the size of guarded data.
 
 
-<TABLE>
+<TABLE class="atomic">
   <TR><TH>OS
       <TH colspan="4">Windows 7<br>2 Core AMD<br>VS2015
       <TH colspan="4">Android 5<br>4 Core ARM<br>NDK r12b, gnustl

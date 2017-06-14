@@ -81,7 +81,7 @@ for( int i = 0; i &lt; 10; i++ ) data.push_back( i );
 <p>As for tools like <em>assert</em>, their primary purpose is to assist the type system but keep the code
   efficient. Take vector subscript as an example: should we be checking out of bounds access every
   time or just assert it? Asserting is the only valid option because we don't write buggy soft 
-  (at least we do our best). And buggy soft is not something we should to accept as a new normal.</p>
+  (at least we do our best). And buggy soft is not something we should accept as a new normal.</p>
 
 <p>Another important aspect is <strong>exception safety in C++</strong>. Again, if we rule out API calls and out 
   of memory then suddenly we have no point of failure. Then what's the value of creating that 
