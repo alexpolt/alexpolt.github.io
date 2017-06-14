@@ -1,4 +1,8 @@
 
+* [Some Thoughts About Consciousness](mind.md)
+
+  What is consciousness, how we think, etc. Just personal speculation.
+
 
 > Scores of NPCs are created and slayed every second. Kind of hints on the importance of death.
 
