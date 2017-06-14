@@ -1,5 +1,5 @@
 
-* [Some Thoughts About Consciousness](mind.md)
+* [Some Thoughts About Consciousness](mind.html)
 
   What is consciousness, how we think, etc. Just personal speculation.
 
