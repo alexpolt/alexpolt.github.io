@@ -22,8 +22,7 @@
   Undefined behaviour restricts the set of valid values (or valid actions), which in turn allows 
   optimizations. But actually any condition in the code has that property. Removing redundant null
   pointer checks is one such example. That realization made me come up with some code samples to 
-  test the behaviour of compiler optimizers. I show the resulting assembly code for Clang and GCC 
-  only because not enough space.
+  test the behaviour of compiler optimizers. 
 
   1\. And the first primitive sample I put up is below. It doesn't have any undefined behaviour 
   obviously but the result is still quite surprising. Clang, what's up?
