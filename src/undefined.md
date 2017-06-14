@@ -482,12 +482,12 @@ mov eax, DWORD PTR a$[rsp+rcx*4] <!--*-->
 </div>
 
 
-  That's all.
+  That's all. [All code][godbolt] is compiled with the latest compilers available in 
+  [Compiler Explorer][gcc] in 64 bit mode with O2 and Wall options. The final *ret* in assembly 
+  code is omitted.
 
   The code was produced with the help of the excellent [Compiler Explorer][gcc] service by 
   [Matt Godbolt][matt]. Big thanks to him, it greatly speeds up prototyping. 
-  
-  All the code in [one place][godbolt].
 
 
 <div>
