@@ -522,7 +522,7 @@ mov eax, DWORD PTR a$[rsp+rcx*4] <!--*-->
 </div>
 
 
-  [godbolt]: https://godbolt.org/g/tkcsYI "C++ samples: GCC vs Clang"
+  [godbolt]: https://godbolt.org/g/RZZ68Y "C++ samples: GCC vs Clang"
   [horror]: https://stackoverflow.com/questions/2958633/gcc-strict-aliasing-and-horror-stories "Strict Aliasing Horror"
   [gcc]: https://gcc.godbolt.org "Compiler Explorer"
   [matt]: https://twitter.com/mattgodbolt "Matt Godbolt Twitter"
