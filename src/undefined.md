@@ -104,7 +104,7 @@ cmove eax, edx
 
   3\. The next sample is interesting in how compilers disagree. If x == INT\_MAX then x + 2 in the
   loop condition wraps and it should not execute. Clang and MSC wrap and optimize it out whereas
-  GCC assumes no undefined behaviour, but in the previous code it wrapped just fine.
+  GCC assumes no undefined behaviour (GCC 7.1 chaged behaviour and compiles to xor).
 
 <div class="code"><TABLE><TR><TH>C++ Code</TH><TH>GCC</TH><TH>Clang</TH><TH>MSC</TH></TR>
 <TR>
@@ -251,7 +251,7 @@ mov  eax, 1
   6\. This is an interesting case. When x != 0 the return value is 0, but when x == 0 we have
   divide by zero which is undefined. What should a compiler optimizer do? Also the expressions for
   _y_ are independent and can be moved around. GCC is smart and only does division when needed, but 
-  that has a negative effect of hiding potential problems. MSC is just being awesome.
+  that has a negative effect of hiding potential problems. MSC is just trying to be awesome.
 
 <div class="code"><TABLE><TR><TH>C++ Code</TH><TH>GCC</TH><TH>Clang</TH><TH>MSC</TH></TR>
 <TR>
@@ -354,8 +354,8 @@ cmovl  eax, edx
 </div>
 
   8\. The next code is often used as an example of optimization opportunity. A compiler optimizer
-  can just skip the loop and compute the final value (10 here). Again, GCC is being consistent.
-  Clang and MSC check for overflow.
+  can just skip the loop and compute the final value (10 here). Again, GCC is being consistent in
+  its handling of potential undefined. Clang and MSC check for overflow.
 
 <div class="code"><TABLE><TR><TH>C++ Code</TH><TH>GCC</TH><TH>Clang</TH><TH>MSC</TH></TR>
 <TR>
@@ -482,9 +482,8 @@ mov eax, DWORD PTR a$[rsp+rcx*4] <!--*-->
 </div>
 
 
-  That's all. [All code][godbolt] is compiled with the latest compilers available in 
-  [Compiler Explorer][gcc] in 64 bit mode with O2 and Wall options. The final *ret* in assembly 
-  code is omitted.
+  That's all. [All code][godbolt] is compiled with GCC 6.3, Clang 4.0, MSC 19.10 in 64 bit mode 
+  with O2 and Wall options. The final *ret* in assembly code is omitted.
 
   The code was produced with the help of the excellent [Compiler Explorer][gcc] service by 
   [Matt Godbolt][matt]. Big thanks to him, it greatly speeds up prototyping. 
@@ -507,7 +506,7 @@ mov eax, DWORD PTR a$[rsp+rcx*4] <!--*-->
   div.code td {
     font-family: monospace;
     white-space: nowrap;
-    padding: 0px 15px;
+    padding: 0px 10px;
   }
   div.code {
     width: 100%;
