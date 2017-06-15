@@ -104,7 +104,7 @@ cmove eax, edx
 
   3\. The next sample is interesting in how compilers disagree. If x == INT\_MAX then x + 2 in the
   loop condition wraps and it should not execute. Clang and MSC wrap and optimize it out whereas
-  GCC assumes no undefined behaviour (GCC 7.1 chaged behaviour and compiles to xor).
+  GCC assumes no undefined behaviour (GCC 7.1 changed behaviour and compiles to xor).
 
 <div class="code"><TABLE><TR><TH>C++ Code</TH><TH>GCC</TH><TH>Clang</TH><TH>MSC</TH></TR>
 <TR>
