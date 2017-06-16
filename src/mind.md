@@ -15,20 +15,21 @@
   coherent. So, in my opinion, consciousness is that feeling created by knowing where are we now,
   what the time is and our position in space.
 
-  Now, to the question of thinking. I have a very visual type of thinking. I can visualize almost
-  any picture with great detail. And someday I was just trying to spin a wheel in my mind. It 
+  Now, to the question of thinking. I have a very visual type of thinking. I can visualize 
+  a picture with great detail. And someday I was just trying to spin a wheel in my mind. It 
   might seem stupid, but I just couldn't get it spinning, so it was sort of a challenge. And one 
   day I got it: I can't really spin it continuously, only in short frames, like animation. And that
   got me the idea of how we really think: we are jumping, the whole brain really jumps from one
   state to another. The entire brain. We move from one thought to another, from one set of 
   associations to another set.
 
-  Speaking is too being done by quickly switching the brain from one phrase to another. And I mean
-  a phrase, not single words.
-
-  Our brains are giant associative machines. And there is a special circuitry that is responsible
-  for directing our thoughts. This special nucleus (or maybe a gyrus, perhaps from a frontal lobe)
-  gets all the input and chooses the next state.
+  This set of associations form, what I call, a notion. A notion is created in our mind when we
+  read word, say water or apple. We instantly understand what the meaning (or have a notion) is
+  because the word creates a set of associations. Speaking is too being done by quickly switching 
+  the brain from one phrase to another. And I mean a phrase, not single words. Our brains are giant 
+  associative machines. And there is a special circuitry that is responsible for directing our 
+  thoughts. This special nucleus (or maybe a gyrus, perhaps from a frontal lobe) gets all the input 
+  and chooses the next state (or notion).
 
   A couple words about memory. First, short memory is probably just a circulating excitation. Why
   I think so, because, as I said, I can create picture (and other sensations really) and I noticed,
