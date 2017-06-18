@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<HTML>
+
+<HEAD>
+  <title>WEBGL Samples - Alexandr Poltavsky, software developer</title>
+
+  <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+  <meta http-equiv="Cache-Control" content="no-store" />
+
+  <link rel="stylesheet" type="text/css" href="css/common.css" />
+  <link rel="stylesheet" href="highlight/styles/hybrid.css">
+</HEAD>
+
+<BODY> 
+<div class="shader" id="shader0" js="" fn="" style="width: 320px">
+<ul><li class="canvas">Canvas</li><li class="vs">VS</li><li class="ps">PS</li></ul>
+<canvas class="canvas"></canvas>
+<textarea class="vs" spellcheck="false">
+#version 300 es
+
+layout(location=0) in vec2 v_in;
+layout(location=1) in vec2 uv_in;
+
+out vec2 uv;
+
+uniform float t;
+
+void main() {
+
+  uv = v_in;
+
+  gl_Position = vec4( vec2( 2.0 * v_in - 1.0 ), 0, 1 );
+}
+</textarea>
+<textarea class="ps" spellcheck="false">
+#version 300 es
+
+precision highp float;
+
+in vec2 uv;
+
+uniform float t;
+
+layout(location=0) out vec4 C;
+
+const float pi12 = 3.14159265/4.0;
+
+void main() {
+
+  vec4 uvn = vec4( uv * 2.0 - 1.0, 1, 0 );
+
+  vec4 ray;
+  
+  if( fract( t / 2.0 ) > 0.5 ) 
+
+    ray = vec4( sin( abs(uvn.x) * pi12 ), uvn.y, cos( uvn.x * pi12 ), 0 );
+
+  else
+    
+    ray = vec4( uvn.x, uvn.y, 1, 0 );
+
+  vec4 color = vec4( 14, 29, 25, 255 ) / 255.0;
+
+  vec4 p = ray * ( 100.0 / ray.z );
+
+  if( p.y >= .0 && p.y <= 50. ) {
+   
+    float k = cos( p.x )*0.25+0.75;
+
+    color = vec4(k,k,k,1);
+  }
+
+  C = color;
+}
+</textarea>
+<button class="reload">Reload</button><button class="pause">Pause</button>
+</div>
+
+<script src="js/webgl.js"></script>
+<script src="js/webgl-quad.js"></script>
+
+<script>
+  run_shader('shader0');
+  run_shader('shader1');
+</script>
+
+</BODY>
+</HTML>
+
+
