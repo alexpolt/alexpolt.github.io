@@ -1,5 +1,5 @@
 
-##Lets talk about error handling...
+##Lets Talk About Error Handling...
 
   Lets consider a simple example of filling a std::vector:
 
