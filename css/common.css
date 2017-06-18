@@ -218,7 +218,7 @@ div.shader button {
 }
 
 div.shader button:hover {
-  background-color: #edf3ff;
+  background-color: #f2dcdc;
   cursor: pointer;
 }
 
