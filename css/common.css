@@ -207,14 +207,19 @@ div.shader textarea {
   background-color: #fcfdff;
   white-space: pre;
   font-weight: bold;
-};
+}
 
 div.shader button {
-  min-width: 5em;
   border: 0;
   padding: 5px;
   margin-right: 1px;
   outline: none;
+  min-width: 5em;
+}
+
+div.shader button:hover {
+  background-color: #edf3ff;
+  cursor: pointer;
 }
 
 div.shader ul {
@@ -237,10 +242,6 @@ div.shader li {
 div.shader li:hover {
   background-color: #38777c;
   cursor: pointer;
-}
-
-div.shader .hide {
-  display: none;
 }
 
 
