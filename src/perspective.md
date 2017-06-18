@@ -19,6 +19,10 @@
   because we only have 100% of visual acuity at a small window in the center - [foveal system][f] - 
   that is only 2&deg; in size. Here is a *WebGl2* demo that tries to simulate the behaviour. 
 
+  Also this is a good to place to recommend two books on visual perception: 
+  [Sensation and Perception: An Integrated Approach][book1] by Harvey Richard Schiffman and
+  [Sensation and Perception][book2] by E. Bruce Goldstein.
+
 
 <div class="shader" id="shader0" js="" fn="" style="width: 70%">
 <ul><li class="canvas">Canvas</li><li class="vs">VS</li><li class="ps">PS</li></ul>
@@ -94,4 +98,7 @@ void main() {
   
   [sa]: https://en.wikipedia.org/wiki/Solid_angle "Solid Angle"
   [f]: https://en.wikipedia.org/wiki/Peripheral_vision "Peripheeral Vision"
+  [book1]: https://www.amazon.com/Sensation-Perception-Harvey-Richard-Schiffman/dp/0471249300 "Sensation and Perception: An Integrated Approach"
+  [book2]: https://www.amazon.com/Sensation-Perception-CourseMate-Printed-Access/dp/1133958494 "Sensation and Perception"
+
 
