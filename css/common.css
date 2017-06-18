@@ -174,6 +174,7 @@ td.green {
 
 
 #disqus_comments {
+  margin-top: 1em;
   text-align: center;
   font-weight: bold;
   font-size: 120%;
@@ -201,9 +202,11 @@ div.shader textarea {
   outline: none;
   display: none;
   margin: 0px;
-  padding: 0px;
+  padding: 2px 4px;
   box-sizing: border-box;
-  background-color: #F9F2EC;
+  background-color: #fcfdff;
+  white-space: pre;
+  font-weight: bold;
 };
 
 div.shader button {

@@ -1,5 +1,10 @@
 
 
+* [Solid Angle and Perspective](perspective.html)
+
+  A little about the solid angle and perspective. Also some WebGL.
+
+
 * [Introducing DFAA Antialiasing Algorithm](dfaa.html)
 
   I've come up with a an intresting method for doing antialiasing.
