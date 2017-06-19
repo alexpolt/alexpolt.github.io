@@ -34,12 +34,14 @@
 
   <center>![][img2]</center>
 
+  <a name="barycentrics-in-shader"></a>
+
   So how do we get barycentric coordinates in a shader? There is no gl\_Barycentric or similar.
   Actually, on GCN there is an [intrinsic][i] (there you will also find a link to a great
   presentation by Michal Drobot). In other cases we have the following options:
 
   * For non-indexed geometry provide UVs with vertices. Or we can just take vertex id and index 
-  into an array {{0,0}, {1,0}, {0,1}} by using index % 3.
+  into an array {{0,0},{1,0},{0,1}} by using index % 3.
 
   * Use a geometry shader.
 
