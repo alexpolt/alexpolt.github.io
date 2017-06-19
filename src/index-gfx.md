@@ -1,5 +1,10 @@
 
 
+* [Barycentric Coordinates](barycentric.html)
+
+  It's important to understand barycentric coordinates for graphics programmers. JavaScript demo.
+
+
 * [Solid Angle and Perspective](perspective.html)
 
   A little about the solid angle and perspective. Also some WebGL.
