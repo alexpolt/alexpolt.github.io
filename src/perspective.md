@@ -19,7 +19,7 @@
   because we only have 100% of visual acuity at a small window in the center - [foveal system][f] - 
   that is only 2&deg; in size. Here is a *WebGl2* demo that tries to simulate the behaviour. 
 
-  Also this is a good to place to recommend two books on visual perception: 
+  Also this is a good place to recommend two books on visual perception: 
   [Sensation and Perception: An Integrated Approach][book1] by Harvey Richard Schiffman and
   [Sensation and Perception][book2] by E. Bruce Goldstein.
 
@@ -55,7 +55,7 @@ uniform float t;
 
 layout(location=0) out vec4 C;
 
-const float pi12 = 3.14159265/4.0;
+const float pi14 = 3.14159265/4.0;
 
 void main() {
 
@@ -65,7 +65,7 @@ void main() {
   
   if( fract( t / 2.0 ) > 0.5 ) 
 
-    ray = vec4( sin( abs(uvn.x) * pi12 ), uvn.y, cos( uvn.x * pi12 ), 0 );
+    ray = vec4( sin( abs(uvn.x) * pi14 ), uvn.y, cos( uvn.x * pi14 ), 0 );
 
   else
     
