@@ -40,11 +40,10 @@
   * What would you do if you were not lazy?
   * If your life were a 24-hour session in the Minecraft, what would you do?
   * What will fill your life more than anything else?
-  * **What will make you to be a happy person?**
 
 <!-- md bug of not closing list if the first letter is space -->
 
-> Try to find something that makes you feel alive.
+> What will make you to be a happy person?
 
   If you've went through all of the above and still struggling with finding a reason to live, then
   try hard to realize your purpose in this world. Family, kids, business? Why not.
