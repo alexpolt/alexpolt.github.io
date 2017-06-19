@@ -34,16 +34,39 @@
 
   <center>![][img2]</center>
 
-  And to end the post here is JavaScript demo. Drag the point to see how the barycentrics change.
+  So how do we get barycentric coordinates in a shader? There is no gl\_Barycentric or similar.
+  Actually, on GCN there is an [intrinsic][i] (there you will also find a link to a great
+  presentation by Michal Drobot). In other cases we have the following options:
 
-<div style="width: 640px;border:1px solid silver;margin:10px auto;">
-  <canvas width="640" height="480" id="bar" style="display:block"></canvas>
+  * For non-indexed geometry provide UVs with vertices. Or we can just take vertex id and index 
+  into an array {{0,0},{1,0},{0,1}} by using index % 3.
+
+  * Use a geometry shader.
+
+  * For indexed geometry things are more involved: we need to map vertices to 0,1 or 2 (to index 
+  into a shader uv-array). Sometimes it's not possible, when geometry is highly optimized and
+  a lot of vertices are shared. But because we just need 2 bits we can pack another mapping into
+  the same byte avoding mapping conflict. In the shader you'll have to unpack and use partial
+  derivatives (on a flag) to decide what mapping is correct.
+
+<!-- close list md bug -->
+
+  And to finish, here is a JavaScript demo. Drag the points to see how the barycentrics change.
+
+
+<div style="width: 70%;border:1px solid silver;margin:10px auto;">
+  <canvas id="bar" style="display:block;width:100%;"></canvas>
   <script>
     try{
 
     var c = document.getElementById("bar");
+    var pr = window.devicePixelRatio || 1.0;
+    var h = Math.round( 3.0/4.0 * ( parseInt( c.clientWidth ) + 2.0*pr ) );
+    c.width = Math.round( c.clientWidth * pr );   
+    c.height = Math.round( h * pr );
+
     var mx, my;
-    var points=[[-0.8,-0.8], [0.7,-0.5], [-0.2,0.75]];
+    var points=[[-0.8,-0.8], [0.5,-0.5], [-0.2,0.75]];
     var w = c.width, h = c.height, wh = w/2, hh = h/2;
     var P=[0,0];
     var CP=[];
@@ -158,6 +181,7 @@
   [b]: https://en.wikipedia.org/wiki/Barycentric_coordinate_system "Barycentric Coordinate System"
   [t]: https://en.wikipedia.org/wiki/Trilinear_coordinates "Trilinear Coordinate System"
   [d]: dfaa.html "DFAA Antialiasing Algorithm"
+  [i]: http://gpuopen.com/gaming-product/barycentrics12-dx12-gcnshader-ext-sample/ "GCN Barycentrics extension"
   [img0]: images/barycentric.png "Barycentric Coordynate System"
   [img1]: images/barycentric-math.png "Finding Barycentric Coordinates Math"
   [img2]: images/trilinear.png "Finding Distance to Edge"

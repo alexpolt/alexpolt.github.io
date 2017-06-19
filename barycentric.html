@@ -86,16 +86,38 @@
 
 <p><center><img src="images/trilinear.png" alt="" title="Finding Distance to Edge" /></center></p>
 
-<p>And to end the post here is JavaScript demo. Drag the point to see how the barycentrics change.</p>
+<p>So how do we get barycentric coordinates in a shader? There is no gl_Barycentric or similar.
+  Actually, on GCN there is an <a href="http://gpuopen.com/gaming-product/barycentrics12-dx12-gcnshader-ext-sample/" title="GCN Barycentrics extension">intrinsic</a> (there you will also find a link to a great
+  presentation by Michal Drobot). In other cases we have the following options:</p>
 
-<div style="width: 640px;border:1px solid silver;margin:10px auto;">
-  <canvas width="640" height="480" id="bar" style="display:block"></canvas>
+<ul>
+<li><p>For non-indexed geometry provide UVs with vertices. Or we can just take vertex id and index 
+into an array {{0,0},{1,0},{0,1}} by using index % 3.</p></li>
+<li><p>Use a geometry shader.</p></li>
+<li><p>For indexed geometry things are more involved: we need to map vertices to 0,1 or 2 (to index 
+into a shader uv-array). Sometimes it's not possible, when geometry is highly optimized and
+a lot of vertices are shared. But because we just need 2 bits we can pack another mapping into
+the same byte avoding mapping conflict. In the shader you'll have to unpack and use partial
+derivatives (on a flag) to decide what mapping is correct.</p></li>
+</ul>
+
+<!-- close list md bug -->
+
+<p>And to finish, here is a JavaScript demo. Drag the points to see how the barycentrics change.</p>
+
+<div style="width: 70%;border:1px solid silver;margin:10px auto;">
+  <canvas id="bar" style="display:block;width:100%;"></canvas>
   <script>
     try{
 
     var c = document.getElementById("bar");
+    var pr = window.devicePixelRatio || 1.0;
+    var h = Math.round( 3.0/4.0 * ( parseInt( c.clientWidth ) + 2.0*pr ) );
+    c.width = Math.round( c.clientWidth * pr );   
+    c.height = Math.round( h * pr );
+
     var mx, my;
-    var points=[[-0.8,-0.8], [0.7,-0.5], [-0.2,0.75]];
+    var points=[[-0.8,-0.8], [0.5,-0.5], [-0.2,0.75]];
     var w = c.width, h = c.height, wh = w/2, hh = h/2;
     var P=[0,0];
     var CP=[];
