@@ -40,6 +40,7 @@
   * What would you do if you were not lazy?
   * If your life were a 24-hour session in the Minecraft, what would you do?
   * What will fill your life more than anything else?
+  * What do you want from this World?
 
 <!-- md bug of not closing list if the first letter is space -->
 
@@ -62,12 +63,9 @@
 
 > The worst thing you can do is procrastinate.
 
-  **The most important question one can ask is "What do I want from this World?"**
-  
   Actually, without people creating things, the life on Earth would be just surviving and fucking.
   So we need people creating stuff, making gadgets, getting into space to make the life of a 
   human more enjoyable and fulfilled! So please, do stuff! :)
-
 
 
 
