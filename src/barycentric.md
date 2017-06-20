@@ -132,6 +132,7 @@
       ctx.stroke();
       ctx.closePath();
 
+      ctx.fillStyle = "darkred";
       ctx.fillText( "u", uv1[0], uv1[1] );
       ctx.fillText( "v", uv2[0], uv2[1] );
 
