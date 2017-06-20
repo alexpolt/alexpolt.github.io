@@ -69,8 +69,8 @@
 
 <p>Another way of looking at it as an equation for a plane in 3D: 
   <b>Z = (w0-w2)*u + (w1-w2)*v + w2 = w0*u + w1*v + w2*(1-u-v)</b>, which is used for 
-  interpolating any value across the triangle. By adding the constraint <b>u + v &lt;= 1</b> we 
-  limit the domain to the triangle.</p>
+  interpolating any value across the triangle. By adding the constraint <b>u &gt;= 0, v &gt;= 0, 
+  u + v &lt;= 1</b> we limit the domain to the triangle.</p>
 
 <p>As easy it is to find the barycentrics given a triangle: we just take the inverse of the matrix
   and get to the uv-space as seen in the drawing. Usually in different articles the barycentric 
@@ -107,23 +107,30 @@ derivatives (on a flag) to decide what mapping is correct.</p></li>
 
 <p>And to finish, here is a JavaScript demo. Drag the points to see how the barycentrics change.</p>
 
-<div style="width: 70%;border:1px solid silver;margin:10px auto;">
+<div style="width:60%;border:1px solid silver;margin:10px auto;">
   <canvas id="bar" style="display:block;width:100%;"></canvas>
   <script>
     try{
 
     var c = document.getElementById("bar");
     var pr = window.devicePixelRatio || 1.0;
-    var h = Math.round( 3.0/4.0 * ( parseInt( c.clientWidth ) + 2.0*pr ) );
+    var h = Math.round( parseInt( c.clientWidth ) );
     c.width = Math.round( c.clientWidth * pr );   
     c.height = Math.round( h * pr );
 
     var mx, my;
-    var points=[[-0.8,-0.8], [0.5,-0.5], [-0.2,0.75]];
+    var points=[[-0.8,-0.8], [0.5,-0.75], [-0.5,0.8]];
     var w = c.width, h = c.height, wh = w/2, hh = h/2;
-    var P=[0,0];
+    var P=[-0.25,-0.25];
     var CP=[];
 
+    window.onresize = function(e) {
+      console.log("resize");
+      h = Math.round( parseInt( c.clientWidth ) );
+      c.width = Math.round( c.clientWidth * pr );   
+      c.height = Math.round( h * pr );
+      w = c.width, h = c.height, wh = w/2, hh = h/2;
+    }
 
     c.onmousemove = function(e) {
       mx = e.pageX - e.target.offsetLeft;
@@ -207,6 +214,29 @@ derivatives (on a flag) to decide what mapping is correct.</p></li>
       var b = barycentric();
       ctx.fillText( "["+b[0].toFixed(2)+","+b[1].toFixed(2)+"]", p[0], p[1]-4 );
 
+      var edges = [ sub(points[2],points[0]), sub(points[1],points[0]), sub(points[2],points[1]) ];
+      var d = [ dist( b[0], edges[0] ), dist( b[1], edges[1] ), dist( 1.0-b[0]-b[1], edges[2] ) ];
+      var dmin, mini, dv;
+      d.forEach( function(e, i) {
+        if( dmin === undefined || e < dmin ) { dmin = e; mini = i; }
+      });
+
+      var dv = norm( edges[ mini ] );
+      dv = [ -dv[1], dv[0] ];
+      if( dot( dv, sub( points[mini], P ) ) < 0 ) dv = neg(dv);
+      var dvh = T( add( P, add( mul( dv, dmin ), mul( dv, 0.05 ) )  ) );
+      dv = T( add( P, mul( dv, dmin ) ) );
+
+      ctx.beginPath();
+      ctx.moveTo( p[0], p[1] );
+      ctx.lineTo( dv[0], dv[1] );
+      ctx.stroke();
+      ctx.closePath();
+
+      ctx.font = "75% sans-serif"
+      ctx.fillStyle = "black";
+      ctx.fillText( "d="+dmin.toFixed(2), dvh[0], dvh[1] );
+
       requestAnimationFrame(draw);
     }
 
@@ -215,15 +245,29 @@ derivatives (on a flag) to decide what mapping is correct.</p></li>
     function sub(p0,p1) { return [ p0[0]-p1[0], p0[1]-p1[1] ]; }
     function add(p0,p1) { return [ p0[0]+p1[0], p0[1]+p1[1] ]; }
     function mul(p0,v) { return [ p0[0]*v, p0[1]*v ]; }
+    function neg(v) { return [ -v[0], -v[1] ]; }
+    function dot(p0,p1) { return p0[0]*p1[0]+p0[1]*p1[1]; }
+    function norm(v0) { return mul(v0, 1.0/Math.sqrt( dot( v0, v0 ) ) ); }
 
     function barycentric() {
+
       var v0 = sub( points[1], points[0] );
       var v1 = sub( points[2], points[0] );
       var p = sub( P, points[0] );
       var d = v0[0]*v1[1]-v0[1]*v1[0];
+
       if(d != 0) {
         return [ v1[1]/d * p[0] - v1[0]/d*p[1], -v0[1]/d*p[0]+v0[0]/d*p[1] ];
       } else console.log("barycentric error: determinant is zero");
+    }
+
+    function dist( u, v ) {
+
+      var v0 = sub( points[1], points[0] );
+      var v1 = sub( points[2], points[0] );
+      var A = abs( ( v0[0]*v1[1]-v0[1]*v1[0] ) ) * 0.5;
+      var vlen = Math.sqrt( dot( v, v ) );
+      return 2.0 * abs(u) * A / vlen;
     }
 
     }catch(e){alert(e);}
