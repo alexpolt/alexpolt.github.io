@@ -9,8 +9,8 @@
 
   What we need to understand is that the edges of a triangle on a plane form a 2D vector space.
   Lets call it a uv-space. We can take the edge vectors of the triangle and form a matrix 
-  that takes us from this uv-space. As you can see, a _u_ coordinate of 1 will transform to A
-  point, a _v_ equal to 1 will get us to B, by adding translation we get a point in the triangle: 
+  that takes us from this uv-space. As you can see, a _v_ coordinate of 1 will transform to A
+  point, a _u_ equal to 1 will get us to B, by adding translation we get a point in the triangle: 
   <b>P = (A-C)\*u + (B-C)\*v + C = A\*u + B\*v + C\*(1-u-v)</b>.
 
   <center>![][img0]</center>
