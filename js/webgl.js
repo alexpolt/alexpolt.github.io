@@ -73,12 +73,22 @@ function run_shader( div ) {
 
   d.onclick( { target: d.querySelector("li.canvas") } );
 
+  if( d.windowresize ) {
+    window.removeEventListener( "resize", d.windowresize );
+    c.removeEventListener( "webglcontextlost", d.contextlost );
+    d.windowresize = null;
+    d.contextlost = null;
+  }
+
+  var woff = c.offsetWidth;
+  var hpx = c.style.height = woff + "px";
+
   var pr = window.devicePixelRatio || 1.0;
-  var h = Math.round( parseInt( c.clientWidth ) );
-  c.width = Math.round( c.clientWidth * pr );
-  c.height = Math.round( h * pr );
+  c.width = c.clientWidth * pr;
+  c.height = c.clientHeight * pr;
+
   var ta = d.querySelectorAll("textarea");
-  if( ta ) ta.forEach( function(e) { e.style.height = h + "px"; } );
+  if( ta ) ta.forEach( function(e) { e.style.height = hpx; } );
 
   if( ! d.windowresize ) {
     d.windowresize = function() { console.log("resize"); run_shader( div ); };

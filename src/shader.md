@@ -52,7 +52,7 @@
     vec2 pos_tri = gl\_Position.xy - uv2scr*uv;
 
 <div class="demo" style="clear:both;width:60%">
-  <a href="javascript: void(0)" onclick="demo(0, this)">Click to open/close the WebGL2 demo</a>
+  <a href="javascript: void(0)" onclick="demo(0)">Click to open/close the WebGL2 demo</a>
 </div>
 
 <div class="shader" id="shader0" js="" fn="" style="width: 60%; display: none">
@@ -101,7 +101,7 @@ void main() {
     var demo_js = ["webgl/shader-tricks0.js","",""];
     var demo_div = ["shader0","shader1","shader3"];
 
-    function demo(n,el) {
+    function demo(n) {
 
       if( ! demo_flag[n] ) {
         demo_flag[n] = 1;
@@ -123,7 +123,7 @@ void main() {
     div.demo {
       text-align: center;
       border:1px solid black;
-      margin: 5px auto;
+      margin: 10px auto;
       background-color: #ede1e1;
       font-size: 90%;
       font-weight: bold;
