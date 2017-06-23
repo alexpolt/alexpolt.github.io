@@ -24,7 +24,7 @@
   [Sensation and Perception][book2] by E. Bruce Goldstein.
 
 
-<div class="shader" id="shader0" js="" fn="" style="width: 70%">
+<div class="shader" id="shader0" js="" fn="" style="width: 60%">
 <ul><li class="canvas">Canvas</li><li class="vs">VS</li><li class="ps">PS</li></ul>
 <canvas class="canvas"></canvas>
 <textarea class="vs" spellcheck="false">

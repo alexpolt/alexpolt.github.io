@@ -51,11 +51,11 @@
 
     vec2 pos_tri = gl\_Position.xy - uv2scr*uv;
 
-<div class="demo" style="clear:both;width:70%">
+<div class="demo" style="clear:both;width:60%">
   <a href="javascript: void(0)" onclick="demo(0, this)">Click to open/close the WebGL2 demo</a>
 </div>
 
-<div class="shader" id="shader0" js="" fn="" style="width: 70%; display: none">
+<div class="shader" id="shader0" js="" fn="" style="width: 60%; display: none">
 <ul><li class="canvas">Canvas</li><li class="vs">VS</li><li class="ps">PS</li></ul>
 <canvas class="canvas"></canvas>
 <textarea class="vs" spellcheck="false">
