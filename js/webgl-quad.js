@@ -77,7 +77,7 @@ function webgl_quad( opts ) {
       var dt = (t - time_log) / 1000.0;
       if( dt >= opts.time_log ) {
         var fps = frame / dt;
-        console.log( "shader", opts.id, "fps", fps.toFixed(2) ); 
+        console.log( "webgl", opts.id, ", fps =", fps.toFixed(2) ); 
         frame = 0;
         time_log = t;
       }
