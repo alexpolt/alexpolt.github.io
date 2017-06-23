@@ -52,7 +52,7 @@ function loadjs(js,fn) {
 
 var shader_runs = 0;
 
-function run_shader( div ) {
+function run_shader( div, args ) {
 
   var D = document;
   var d = D.querySelector("#" + div);
@@ -63,6 +63,8 @@ function run_shader( div ) {
 
   if( !d || !c || !r || !p || !l ) throw "failed to get canvas with control buttons";
   
+  args = args || {};
+
   if( d.shader_opts ) d.shader_opts.finish = true;
 
   var opts = d.shader_opts = { 
@@ -91,15 +93,19 @@ function run_shader( div ) {
   if( ta ) ta.forEach( function(e) { e.style.height = hpx; } );
 
   if( ! d.windowresize ) {
-    d.windowresize = function() { console.log("resize"); run_shader( div ); };
+    d.windowresize = function() { console.log("resize"); run_shader( div, {resize: true} ); };
     window.addEventListener( "resize", d.windowresize );
     d.contextlost  = function() { console.log("context lost"); run_shader( div ); };
     c.addEventListener( "webglcontextlost", d.contextlost );
   }
 
-
-  p.classList.remove("active");
-  l.classList.remove("active");
+  if( !args.resize ) {
+    p.classList.remove("active");
+    l.classList.remove("active");
+  } else {
+    opts.pause = p.classList.contains("active");
+    opts.log = l.classList.contains("active");
+  }
 
   p.onclick = function() { opts.pause = this.classList.toggle("active"); };
   l.onclick = function() { opts.log = this.classList.toggle("active"); };
