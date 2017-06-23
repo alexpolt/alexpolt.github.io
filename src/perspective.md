@@ -90,9 +90,6 @@ void main() {
 <button class="pause">Pause</button>
 </div>
 
-TEST
-<div>test</div>
-
 <script src="js/webgl-quad.js"></script>
 <script src="js/webgl.js"></script>
 

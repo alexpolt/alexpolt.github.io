@@ -30,7 +30,8 @@
   And finding the inverse of a 2x2 matrix is really easy. Now, because it just happens that
   barycentric coordinates are equal to normalized triangle areas (picture below), we can use that
   fact to find a distance to edge ([trilinear coordinates][t]): <b>d = 2 * u * A / |B - C|</b>,
-  where A - the triangle area. This can be used for antialiasing as in [DFAA][d].
+  where A - the triangle area. This can be used for [locating the primitive][s] in screen space in 
+  pixel shader or for antialiasing as in [DFAA][d].
 
   <center>![][img2]</center>
 
@@ -230,6 +231,7 @@
   [b]: https://en.wikipedia.org/wiki/Barycentric_coordinate_system "Barycentric Coordinate System"
   [t]: https://en.wikipedia.org/wiki/Trilinear_coordinates "Trilinear Coordinate System"
   [d]: dfaa.html "DFAA Antialiasing Algorithm"
+  [s]: shader.html "Shader Tricks: Retrieving Triangle Location and Edges in Pixel Shader and More"
   [i]: http://gpuopen.com/gaming-product/barycentrics12-dx12-gcnshader-ext-sample/ "GCN Barycentrics extension"
   [img0]: images/barycentric.png "Barycentric Coordynate System"
   [img1]: images/barycentric-math.png "Finding Barycentric Coordinates Math"

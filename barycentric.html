@@ -82,7 +82,8 @@
 <p>And finding the inverse of a 2x2 matrix is really easy. Now, because it just happens that
   barycentric coordinates are equal to normalized triangle areas (picture below), we can use that
   fact to find a distance to edge (<a href="https://en.wikipedia.org/wiki/Trilinear_coordinates" title="Trilinear Coordinate System">trilinear coordinates</a>): <b>d = 2 * u * A / |B - C|</b>,
-  where A - the triangle area. This can be used for antialiasing as in <a href="dfaa.html" title="DFAA Antialiasing Algorithm">DFAA</a>.</p>
+  where A - the triangle area. This can be used for <a href="shader.html" title="Shader Tricks: Retrieving Triangle Location and Edges in Pixel Shader and More">locating the primitive</a> in screen space in 
+  pixel shader or for antialiasing as in <a href="dfaa.html" title="DFAA Antialiasing Algorithm">DFAA</a>.</p>
 
 <p><center><img src="images/trilinear.png" alt="" title="Finding Distance to Edge" /></center></p>
 
