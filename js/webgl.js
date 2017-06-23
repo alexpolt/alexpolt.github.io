@@ -66,7 +66,7 @@ function run_shader( div ) {
   if( d.shader_opts ) d.shader_opts.finish = true;
 
   var opts = d.shader_opts = { 
-    id: shader_runs++, canvas: c, finish: false, pause: false, log: true, time_log: 2 
+    id: shader_runs++, canvas: c, finish: false, pause: false, log: false, time_log: 2 
   };
 
   console.log("run shader", opts.id, "on div id", div);

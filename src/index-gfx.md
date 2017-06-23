@@ -1,11 +1,11 @@
 
-
+<!--
 * [Shader Tricks: Retrieving Triangle Location and Edges in Pixel Shader and More](shader.html)
 
   There are cases when we need full triangle info in a pixel shader and I describe the easy and
   cheap way of getting it. Also talk about using partial derivatives for peeking into another
   shader. And lastly, using primitive id to do lighting.
-
+-->
 
 * [Barycentric Coordinates](barycentric.html)
 
