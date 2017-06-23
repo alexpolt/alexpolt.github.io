@@ -71,7 +71,7 @@ function run_shader( div, args ) {
     id: shader_runs++, canvas: c, finish: false, pause: false, log: false, time_log: 2 
   };
 
-  console.log("run shader", opts.id, "on div id", div);
+  console.log("run webgl", opts.id, "on div id", div);
 
   d.onclick( { target: d.querySelector("li.canvas") } );
 
@@ -93,9 +93,9 @@ function run_shader( div, args ) {
   if( ta ) ta.forEach( function(e) { e.style.height = hpx; } );
 
   if( ! d.windowresize ) {
-    d.windowresize = function() { console.log("resize"); run_shader( div, {resize: true} ); };
+    d.windowresize = function() { console.log("webgl resize"); run_shader( div, {resize: true} ); };
     window.addEventListener( "resize", d.windowresize );
-    d.contextlost  = function() { console.log("context lost"); run_shader( div ); };
+    d.contextlost  = function() { console.log("webgl context lost"); run_shader( div ); };
     c.addEventListener( "webglcontextlost", d.contextlost );
   }
 
