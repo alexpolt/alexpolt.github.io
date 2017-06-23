@@ -53,6 +53,8 @@
 
 <!-- close list md bug -->
 
+  Also remember that we want *noperspective* (flat) interpolation for them.
+
   And to finish, here is a JavaScript demo. Drag the points to see how the barycentrics change.
 
 

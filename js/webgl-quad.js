@@ -6,9 +6,9 @@ function webgl_quad( opts ) {
     
   var gl = webgl_context( opts.canvas );
 
-  var is_pause = opts.pause || function() { return false; };
+  gl.viewport( 0, 0, opts.canvas.width, opts.canvas.height );
 
-  var time_start, dt_pause, frame = 0;
+  var time_start, time_log, dt_pause, frame = 0;
 
   var program0 = gl.createProgram();
 
@@ -51,15 +51,16 @@ function webgl_quad( opts ) {
 
   function loop(t) {
 
-    if( typeof time_start === 'undefined' ) time_start = t; 
+    if( opts.finish ) return;
 
-    var dt = ( t - time_start ) / 1000.0;
-
-    //if( dt > 20 ) return;
-    
     requestAnimationFrame( loop );
 
-    if( is_pause() ) { if( dt_pause === undefined ) dt_pause = dt; return; }
+    if( time_start === undefined ) time_start = t; 
+    if( time_log === undefined ) time_log = t;
+
+    var dt = ( t - time_start ) / 1000.0;
+   
+    if( opts.pause ) { if( dt_pause === undefined ) dt_pause = dt; return; }
 
     if( dt_pause !== undefined ) { time_start = t - dt_pause*1000.0; dt = dt_pause; dt_pause = undefined; }
     
@@ -68,8 +69,21 @@ function webgl_quad( opts ) {
     gl.clear( gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT );
     gl.useProgram( program0 );
     gl.uniform1f( uniform0, dt );
-    gl.drawArrays( gl.TRIANGLES, 0, 6 ); 
-  };
+    gl.drawArrays( gl.TRIANGLES, 0, opts.draw_one_primitive ? 3 : 6 ); 
+
+    frame++;
+
+    if( opts.log ) { 
+      var dt = (t - time_log) / 1000.0;
+      if( dt >= opts.time_log ) {
+        var fps = frame / dt;
+        console.log( "shader", opts.id, "fps", fps.toFixed(2) ); 
+        frame = 0;
+        time_log = t;
+      }
+    }
+
+   };
 
   requestAnimationFrame( loop );
 

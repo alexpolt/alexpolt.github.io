@@ -17,18 +17,6 @@ function init_shader_menus() {
 
       if( !c ) throw "no canvas";
 
-      var pr = window.devicePixelRatio || 1.0;
-
-      var h = Math.round( 3.0/4.0 * ( parseInt( c.clientWidth ) + 2.0*pr ) );
-
-      c.width = Math.round( c.clientWidth * pr );
-      
-      c.height = Math.round( h * pr );
-
-      var ta = el.querySelectorAll("textarea");
-
-      if( ta ) ta.forEach( function(e) { e.style.height = h + "px"; } );
-
       el.onclick = function(e) {
 
         if( e.target.nodeName !== "LI" ) return;
@@ -55,38 +43,68 @@ function init_shader_menus() {
 init_shader_menus();
 
 function loadjs(js,fn) {
+
   var s = document.createElement("script");
   document.head.appendChild(s);
   s.onload = function() { fn(); };
   s.src = js;
 }
 
+var shader_runs = 0;
+
 function run_shader( div ) {
+
   var D = document;
   var d = D.querySelector("#" + div);
   var c = D.querySelector("#" + div + " canvas");
   var r = D.querySelector("#" + div + " button.reload");
   var p = D.querySelector("#" + div + " button.pause");
+  var l = D.querySelector("#" + div + " button.log");
 
-  if( !d || !c || !r || !p ) throw "failed to get canvas with control buttons";
+  if( !d || !c || !r || !p || !l ) throw "failed to get canvas with control buttons";
+  
+  if( d.shader_opts ) d.shader_opts.finish = true;
 
-  p.onclick = function() {
-    if( this.paused ) { this.innerHTML = "Pause"; this.paused = false; }
-    else { this.innerHTML = "Play"; this.paused = true; }
+  var opts = d.shader_opts = { 
+    id: shader_runs++, canvas: c, finish: false, pause: false, log: true, time_log: 2 
   };
 
-  r.onclick = function() { run_shader( div ); };
-
-  var pfn = function() { return p.paused; }
+  console.log("run shader", opts.id, "on div id", div);
 
   d.onclick( { target: d.querySelector("li.canvas") } );
+
+  var pr = window.devicePixelRatio || 1.0;
+  var h = Math.round( parseInt( c.clientWidth ) );
+  c.width = Math.round( c.clientWidth * pr );
+  c.height = Math.round( h * pr );
+  var ta = d.querySelectorAll("textarea");
+  if( ta ) ta.forEach( function(e) { e.style.height = h + "px"; } );
+
+  if( ! d.windowresize ) {
+    d.windowresize = function() { console.log("resize"); run_shader( div ); };
+    window.addEventListener( "resize", d.windowresize );
+    d.contextlost  = function() { console.log("context lost"); run_shader( div ); };
+    c.addEventListener( "webglcontextlost", d.contextlost );
+  }
+
+
+  p.classList.remove("active");
+  l.classList.remove("active");
+
+  p.onclick = function() { opts.pause = this.classList.toggle("active"); };
+  l.onclick = function() { opts.log = this.classList.toggle("active"); };
+
+  r.onclick = function() { run_shader( div ); };
 
   var vs = D.querySelector("#" + div + " textarea.vs");
   var ps = D.querySelector("#" + div + " textarea.ps");
 
   if( vs && ps ) {
 
-    webgl_quad( { canvas: c, pause: pfn, vs: vs.value, ps: ps.value } );
+    opts.vs = vs.value;
+    opts.ps = ps.value;
+
+    webgl_quad( opts );
 
   } else {
 
@@ -97,14 +115,22 @@ function run_shader( div ) {
 
     if( js ) loadjs( js, function() {
 
-      window[ fn ]( { canvas: c, pause: pfn } );
+      window[ fn ]( opts );
 
     } );
   }
 
 }
 
+function stop_shader( div ) {
 
+  var D = document;
+  var d = D.querySelector("#" + div);
+
+  if( d.shader_opts ) {
+    d.shader_opts.finish = true;
+  } else throw "no shader running";
+}
 
 function add_tabs() {
   var textareas = document.getElementsByTagName('textarea');

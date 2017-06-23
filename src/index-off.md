@@ -29,6 +29,10 @@
   A deep question of the nature of our Universe.
 
 
+* [Physics](universe.html)
+
+  One possible explanation of quantum entanglement and some other things.
+
 > Learning to learn is of paramount importance.
 
 

@@ -215,11 +215,19 @@ div.shader button {
   margin-right: 1px;
   outline: none;
   min-width: 5em;
+  cursor: pointer;
+}
+
+div.shader button.active {
+  background-color: #e5b7b7;
 }
 
 div.shader button:hover {
-  background-color: #f2dcdc;
-  cursor: pointer;
+  background-color: #ccdefc;
+}
+
+div.shader button.active:hover {
+  background-color: #e5b7b7;
 }
 
 div.shader ul {
