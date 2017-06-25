@@ -106,7 +106,9 @@ derivatives (on a flag) to decide what mapping is correct.</p></li>
 
 <!-- close list md bug -->
 
-<p>Also remember that we want <em>noperspective</em> (flat) interpolation for them.</p>
+<p>Also remember that we want <em>noperspective</em> interpolation for them. In WebGL they decided that
+  no one needs noperspective, so there is not support for it. But we can still do 
+  <a href="shader.html#noperspective" title="Non-perspective Interpolation in WebGL">non-perspective interpolation</a> ourselves.</p>
 
 <p>And to finish, here is a JavaScript demo. Drag the points to see how the barycentrics change.</p>
 
@@ -116,10 +118,12 @@ derivatives (on a flag) to decide what mapping is correct.</p></li>
     try{
 
     var c = document.getElementById("bar");
+
+    var woff = c.offsetWidth;
+    c.style.height = woff + "px";
     var pr = window.devicePixelRatio || 1.0;
-    var h = Math.round( parseInt( c.clientWidth ) );
-    c.width = Math.round( c.clientWidth * pr );   
-    c.height = Math.round( h * pr );
+    c.width = c.clientWidth * pr;
+    c.height = c.clientHeight * pr;
 
     var mx, my;
     var points=[[-0.8,-0.8], [0.5,-0.75], [-0.5,0.8]];
@@ -129,9 +133,11 @@ derivatives (on a flag) to decide what mapping is correct.</p></li>
 
     window.onresize = function(e) {
       console.log("resize");
-      h = Math.round( parseInt( c.clientWidth ) );
-      c.width = Math.round( c.clientWidth * pr );   
-      c.height = Math.round( h * pr );
+      var woff = c.offsetWidth;
+      c.style.height = woff + "px";
+      var pr = window.devicePixelRatio || 1.0;
+      c.width = c.clientWidth * pr;
+      c.height = c.clientHeight * pr;
       w = c.width, h = c.height, wh = w/2, hh = h/2;
     }
 

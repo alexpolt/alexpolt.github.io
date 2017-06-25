@@ -5,7 +5,7 @@
 
   * [Getting triangle (primitive) location in screen space and its edge vectors.][a]
 
-  * [Non-perspective shading in WebGL][d]
+  * [Non-perspective interpolation in WebGL][d]
 
   * [Using partial derivatives for peeking into another shader.][b]
 
@@ -58,32 +58,17 @@
 <div class="shader" id="shader0" js="" fn="" style="width: 60%; display: none">
 <ul><li class="canvas">Canvas</li><li class="vs">VS</li><li class="ps">PS</li></ul>
 <canvas class="canvas"></canvas>
-<textarea class="vs" spellcheck="false">
-#version 300 es
-layout(location=0) in vec2 v_in;
-layout(location=1) in vec2 uv_in;
-out vec2 uv;
-uniform float t;
-void main() {
-  uv = v_in;
-  gl_Position = vec4( vec2( 2.0 * v_in - 1.0 ), 0, 1 );
-}
-</textarea>
-<textarea class="ps" spellcheck="false">
-#version 300 es
-precision highp float;
-in vec2 uv;
-uniform float t;
-layout(location=0) out vec4 C;
-void main() {
-  C = vec4( uv.x, uv.y, 1.-uv.x-uv.y, 1 );
-}
-</textarea>
+<textarea class="vs" spellcheck="false" fromid="shader0vs"> </textarea>
+<textarea class="ps" spellcheck="false" fromid="shader0ps"> </textarea>
 <button class="reload">Reload</button>
 <button class="log">Log</button>
 <button class="pause">Pause</button>
 </div>
 
+
+  <a name="noperspective"></a>
+
+  Non-perspective interpolation.
 
   <a name="derivatives"></a>
 
@@ -93,12 +78,14 @@ void main() {
 
   Lights.
 
+
 <div>
+
   <script src="js/webgl-quad.js"></script>
   <script src="js/webgl.js"></script>
+
   <script>
     var demo_flag = [0,0,0];
-    var demo_js = ["webgl/shader-tricks0.js","",""];
     var demo_div = ["shader0","shader1","shader3"];
 
     function demo(n) {
@@ -107,7 +94,7 @@ void main() {
         demo_flag[n] = 1;
         var c = document.querySelector( "div#" + demo_div[n] );
         c.style.display = 'block';
-        run_shader( demo_div[n] );
+        run_shader( { div: demo_div[n], uniforms: { "t": "time" } } );
       } else {
         demo_flag[n] = 0;
         stop_shader( demo_div[n] );
@@ -117,6 +104,24 @@ void main() {
 
       return undefined;
     }
+
+    document.addEventListener( "DOMContentLoaded", function() {
+
+      var tas = document.querySelectorAll("div.shader textarea");
+
+      if( tas ) tas.forEach( function( e ) {
+
+        var fromid = e.getAttribute( "fromid" );
+
+        if( fromid ) {
+          var from = document.getElementById( fromid );
+          if( !from || from.nodeName !== "TEXTAREA" ) throw "id " + fromid +" not found";
+          e.value = from.value;
+        }
+
+      } );
+
+    } );
   </script>
 
   <style>
@@ -129,7 +134,35 @@ void main() {
       font-weight: bold;
     }
   </style>
+
+<textarea class="hidden" id="shader0vs">
+#version 300 es
+layout(location=0) in vec2 v_in;
+layout(location=1) in vec2 uv_in;
+out vec2 uv;
+uniform float t;
+void main() {
+  uv = v_in;
+  gl_Position = vec4( vec2( 2.0 * v_in - 1.0 ), 0, 1 );
+}
+</textarea>
+<textarea class="hidden" id="shader0ps">
+#version 300 es
+precision highp float;
+in vec2 uv;
+uniform float t;
+layout(location=0) out vec4 C;
+void main() {
+  float tt = fract( t / 10. );
+  vec4 c = vec4(  cos( ( uv.x*uv.y + uv.y + 5.*tt ) * 3.), 
+                  cos( ( 3.*uv.y*uv.x + 7.*tt ) * 2.0 ), 
+                  cos( tt*(1.-uv.x-uv.y)*3. ), 1 );
+  C = c*vec4( .5, .5, .5, 1 ) + vec4( .5, .5, .5, 0 );
+}
+</textarea>
+
 </div>
+
 
   [a]: #triangle
   [b]: #derivatives

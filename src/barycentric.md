@@ -54,7 +54,9 @@
 
 <!-- close list md bug -->
 
-  Also remember that we want *noperspective* (flat) interpolation for them.
+  Also remember that we want *noperspective* interpolation for them. In WebGL they decided that
+  no one needs noperspective, so there is not support for it. But we can still do 
+  [non-perspective interpolation][n] ourselves.
 
   And to finish, here is a JavaScript demo. Drag the points to see how the barycentrics change.
 
@@ -65,10 +67,12 @@
     try{
 
     var c = document.getElementById("bar");
+
+    var woff = c.offsetWidth;
+    c.style.height = woff + "px";
     var pr = window.devicePixelRatio || 1.0;
-    var h = Math.round( parseInt( c.clientWidth ) );
-    c.width = Math.round( c.clientWidth * pr );   
-    c.height = Math.round( h * pr );
+    c.width = c.clientWidth * pr;
+    c.height = c.clientHeight * pr;
 
     var mx, my;
     var points=[[-0.8,-0.8], [0.5,-0.75], [-0.5,0.8]];
@@ -78,9 +82,11 @@
 
     window.onresize = function(e) {
       console.log("resize");
-      h = Math.round( parseInt( c.clientWidth ) );
-      c.width = Math.round( c.clientWidth * pr );   
-      c.height = Math.round( h * pr );
+      var woff = c.offsetWidth;
+      c.style.height = woff + "px";
+      var pr = window.devicePixelRatio || 1.0;
+      c.width = c.clientWidth * pr;
+      c.height = c.clientHeight * pr;
       w = c.width, h = c.height, wh = w/2, hh = h/2;
     }
 
@@ -232,6 +238,7 @@
   [t]: https://en.wikipedia.org/wiki/Trilinear_coordinates "Trilinear Coordinate System"
   [d]: dfaa.html "DFAA Antialiasing Algorithm"
   [s]: shader.html "Shader Tricks: Retrieving Triangle Location and Edges in Pixel Shader and More"
+  [n]: shader.html#noperspective "Non-perspective Interpolation in WebGL"
   [i]: http://gpuopen.com/gaming-product/barycentrics12-dx12-gcnshader-ext-sample/ "GCN Barycentrics extension"
   [img0]: images/barycentric.png "Barycentric Coordynate System"
   [img1]: images/barycentric-math.png "Finding Barycentric Coordinates Math"

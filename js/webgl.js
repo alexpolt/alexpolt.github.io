@@ -52,26 +52,26 @@ function loadjs(js,fn) {
 
 var shader_runs = 0;
 
-function run_shader( div, args ) {
+function run_shader( args ) {
 
   var D = document;
-  var d = D.querySelector("#" + div);
-  var c = D.querySelector("#" + div + " canvas");
-  var r = D.querySelector("#" + div + " button.reload");
-  var p = D.querySelector("#" + div + " button.pause");
-  var l = D.querySelector("#" + div + " button.log");
+  var d = D.querySelector("#" + args.div);
+  var c = D.querySelector("#" + args.div + " canvas");
+  var r = D.querySelector("#" + args.div + " button.reload");
+  var p = D.querySelector("#" + args.div + " button.pause");
+  var l = D.querySelector("#" + args.div + " button.log");
 
   if( !d || !c || !r || !p || !l ) throw "failed to get canvas with control buttons";
   
-  args = args || {};
-
   if( d.shader_opts ) d.shader_opts.finish = true;
 
   var opts = d.shader_opts = { 
-    id: shader_runs++, canvas: c, finish: false, pause: false, log: false, time_log: 2 
+    id: shader_runs++, canvas: c, finish: false, pause: false, log: false, time_log: 3 
   };
 
-  console.log("run webgl", opts.id, "on div id", div);
+  for( var prop in args ) opts[ prop ] = args[ prop ];
+
+  console.log( "run webgl", opts.id, "with args", args );
 
   d.onclick( { target: d.querySelector("li.canvas") } );
 
@@ -93,9 +93,16 @@ function run_shader( div, args ) {
   if( ta ) ta.forEach( function(e) { e.style.height = hpx; } );
 
   if( ! d.windowresize ) {
-    d.windowresize = function() { console.log("webgl resize"); run_shader( div, {resize: true} ); };
+    d.windowresize = function() { 
+      console.log( "webgl %d resize",opts.id ); 
+      args.resize = true; 
+      run_shader( args ); 
+    };
     window.addEventListener( "resize", d.windowresize );
-    d.contextlost  = function() { console.log("webgl context lost"); run_shader( div ); };
+    d.contextlost  = function() { 
+      console.log( "webgl %d context lost", otps.id ); 
+      run_shader( args ); 
+    };
     c.addEventListener( "webglcontextlost", d.contextlost );
   }
 
@@ -105,36 +112,44 @@ function run_shader( div, args ) {
   } else {
     opts.pause = p.classList.contains("active");
     opts.log = l.classList.contains("active");
+    args.resize = false;
   }
 
   p.onclick = function() { opts.pause = this.classList.toggle("active"); };
   l.onclick = function() { opts.log = this.classList.toggle("active"); };
+  r.onclick = function() { run_shader( args ); };
 
-  r.onclick = function() { run_shader( div ); };
+  var vs = D.querySelector("#" + args.div + " textarea.vs");
+  var ps = D.querySelector("#" + args.div + " textarea.ps");
+  var js = d.getAttribute("js");
+  var fn = d.getAttribute("fn");
 
-  var vs = D.querySelector("#" + div + " textarea.vs");
-  var ps = D.querySelector("#" + div + " textarea.ps");
+  if( args.js && args.fn ) {
 
-  if( vs && ps ) {
+    loadjs( args.js, function() {
+
+      if( ! window[ args.fn ] ) throw args.fn + " not found";
+
+      window[ args.fn ]( opts );
+    } );
+
+  } else if( js && fn ) {
+
+    loadjs( js, function() {
+
+      if( ! window[ fn ] ) throw fn + " not found";
+
+      window[ fn ]( opts );
+    } );
+
+  } else if( vs && ps ) {
 
     opts.vs = vs.value;
     opts.ps = ps.value;
 
     webgl_quad( opts );
 
-  } else {
-
-    var js = d.getAttribute("js");
-    var fn = d.getAttribute("fn");
-
-    if( js === null || fn === null ) throw "no js or fn attribute in shader div";
-
-    if( js ) loadjs( js, function() {
-
-      window[ fn ]( opts );
-
-    } );
-  }
+  } else throw "nothing to run";
 
 }
 

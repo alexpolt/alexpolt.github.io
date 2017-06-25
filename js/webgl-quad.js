@@ -31,11 +31,26 @@ function webgl_quad( opts ) {
   gl.linkProgram( program0 );
   if( ! gl.getProgramParameter( program0, gl.LINK_STATUS ) ) throw gl.getProgramInfoLog( program0 );
 
+  var uniforms_s = [], uniforms_p = [], uniforms_d = [];
+  
+  if( opts.uniforms ) {
+    for( var u in opts.uniforms ) {
+      var ul = gl.getUniformLocation( program0, u );
+      if( ul === null ) { console.warn( "uniform %s not found", u ); continue; }
+      var uo = { name: u, value: opts.uniforms[u], loc: ul };
+      if( typeof opts.uniforms[u] == "function" ) uniforms_d.push( uo );
+      else if( typeof opts.uniforms[u] == "string" ) uniforms_p.push( uo );
+      else if( Array.isArray( opts.uniforms[u] ) ) uniforms_s.push( uo );
+      else throw "uniform type "+(typeof opts.uniforms[u])+
+                  " not supported, only an 1 to 4 array, predefined string or function";
+    }
+  }
+
   var uniform0 = gl.getUniformLocation( program0, "t" );
 
   var vb0data = new Float32Array( [
-    0.0,0.0, 0.0,1.0, 1.0,0.0, 1.0,0.0, 0.0,1.0, 1.0,1.0, 
-    0.0,0.0, 0,1, 1,0, 1,0, 0,1, 0,0, 
+    0.0,0.0, 0.0,1.0, 1.0,0.0, 1.0,0.0, 0.0,1.0, 1.0,1.0,
+    0,0,     0,1,     1,0,     1,0,     0,1,     0,0,
   ] );
 
   var vb0 = gl.createBuffer();
@@ -55,29 +70,40 @@ function webgl_quad( opts ) {
 
     requestAnimationFrame( loop );
 
+    t = t / 1000.0;
+
     if( time_start === undefined ) time_start = t; 
     if( time_log === undefined ) time_log = t;
 
-    var dt = ( t - time_start ) / 1000.0;
+    var dt = t - time_start;
    
     if( opts.pause ) { if( dt_pause === undefined ) dt_pause = dt; return; }
 
-    if( dt_pause !== undefined ) { time_start = t - dt_pause*1000.0; dt = dt_pause; dt_pause = undefined; }
+    if( dt_pause !== undefined ) { time_start = t - dt_pause; dt = dt_pause; dt_pause = undefined; }
     
     gl.clearColor( 0, 0, 0, 0 );
     gl.clearDepth( 1 );
     gl.clear( gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT );
     gl.useProgram( program0 );
-    gl.uniform1f( uniform0, dt );
-    gl.drawArrays( gl.TRIANGLES, 0, opts.draw_one_primitive ? 3 : 6 ); 
+
+    uniforms_s.forEach( function( u ) { set_uniform( gl, u.loc, u.value ); } );
+    uniforms_p.forEach( function( u ) { 
+      if( u.value === "time" ) { set_uniform( gl, u.loc, [dt] ); }
+    } );
+    uniforms_d.forEach( function( u ) { set_uniform( gl, u.loc, u.value() ); } );
+
+    gl.drawArrays( gl.TRIANGLES, 0, 6 ); 
 
     frame++;
 
     if( opts.log ) { 
-      var dt = (t - time_log) / 1000.0;
+      var dt = t - time_log;
       if( dt >= opts.time_log ) {
         var fps = frame / dt;
-        console.log( "webgl", opts.id, ", fps =", fps.toFixed(2) ); 
+        console.log( "webgl %d, time = %s, fps = %s", opts.id, t.toFixed(3), fps.toFixed(2) ); 
+        if( uniforms_s.length ) console.log( "static uniforms %o", uniforms_s );
+        if( uniforms_p.length ) console.log( "predefined uniforms %o", uniforms_p );
+        if( uniforms_d.length ) console.log( "dynamic uniforms %o", uniforms_d );
         frame = 0;
         time_log = t;
       }
@@ -87,8 +113,21 @@ function webgl_quad( opts ) {
 
   requestAnimationFrame( loop );
 
-}catch(e){alert(e);}  
+  }catch(e){alert(e);}  
 
 }
+
+
+function set_uniform( gl, loc, value ) {
+
+  switch( value.length ) {
+    case 1: gl.uniform1fv( loc, value ); break;
+    case 2: gl.uniform2fv( loc, value ); break;
+    case 3: gl.uniform3fv( loc, value ); break;
+    case 4: gl.uniform4fv( loc, value ); break;
+    default: throw "uniform " + u.name + " size not supported";
+  } 
+}
+
 
 

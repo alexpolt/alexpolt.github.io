@@ -18,6 +18,10 @@ a:hover {
   color: darkred;
 }
 
+.hidden {
+  display: none;
+}
+
 #wrap {
   width: 80%;
   min-height: 100%;
@@ -253,6 +257,5 @@ div.shader li:hover {
   background-color: #38777c;
   cursor: pointer;
 }
-
 
 

@@ -10,7 +10,7 @@
   ![](images/solid-angle.png "Perspective Difference in a Digital Camera and Human Eye")
 
   In the drawing above on the left is how light is registered in an image sensor of a digital
-  camera. On the right is a human eye. The striped bar is an object at a constant distance.
+  camera. On the right is a human eye. The striped bar is an object at a constant z distance.
   The rays are being cast at regular angles simulating the solid angle. 
   
   Because the form of the image sensor and retina is different the rays on the left cut increasing
@@ -29,59 +29,37 @@
 <canvas class="canvas"></canvas>
 <textarea class="vs" spellcheck="false">
 #version 300 es
-
 layout(location=0) in vec2 v_in;
 layout(location=1) in vec2 uv_in;
-
 out vec2 uv;
-
 uniform float t;
-
 void main() {
-
   uv = v_in;
-
   gl_Position = vec4( vec2( 2.0 * v_in - 1.0 ), 0, 1 );
 }
 </textarea>
 <textarea class="ps" spellcheck="false">
 #version 300 es
-
 precision highp float;
-
 in vec2 uv;
-
 uniform float t;
-
 layout(location=0) out vec4 C;
-
 const float pi14 = 3.14159265/4.0;
-
 void main() {
-
   vec4 uvn = vec4( uv * 2.0 - 1.0, 1, 0 );
-
   vec4 ray;
-  
-  if( fract( t / 2.0 ) > 0.5 ) 
-
-    ray = vec4( sin( abs(uvn.x) * pi14 ), uvn.y, cos( uvn.x * pi14 ), 0 );
-
-  else
-    
+  if( fract( t / 2.0 ) > 0.5 ) {
+    ray = vec4( sin( abs(uvn.x) * pi14 ), 0, cos( uvn.x * pi14 ), 0 );
+    ray = ray / ray.z;
+    ray.y = uvn.y;
+  } else
     ray = vec4( uvn.x, uvn.y, 1, 0 );
-
   vec4 color = vec4( 14, 29, 25, 255 ) / 255.0;
-
   vec4 p = ray * ( 100.0 / ray.z );
-
   if( p.y >= .0 && p.y <= 50. ) {
-   
     float k = cos( p.x )*0.25+0.75;
-
     color = vec4(k,k,k,1);
   }
-
   C = color;
 }
 </textarea>
@@ -94,7 +72,7 @@ void main() {
 <script src="js/webgl.js"></script>
 
 <script>
-  run_shader('shader0');
+  run_shader( { div: "shader0", uniforms: { "t": "time" } } );
 </script>
 
   
