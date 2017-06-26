@@ -1,6 +1,15 @@
 
+function foreach( arr, fn ) {
+  var l = arr.length;
+  for( var i=0; i < l; i++) fn( arr[ i ], i );
+}
+
 function webgl_context( canvas, opts ) {
+  
   var ctx = canvas.getContext( "webgl2", opts || { alpha: false } );
+
+  if( !ctx ) throw "Failed to get a WebGL2 context. A modern browser is required.";
+
   return ctx;
 }
 
@@ -11,7 +20,7 @@ function init_shader_menus() {
 
   if(elems) {
     
-    elems.forEach( function(el) {
+    foreach( elems, function( el ) {
 
       var c = el.querySelector("canvas");
 
@@ -21,17 +30,17 @@ function init_shader_menus() {
 
         if( e.target.nodeName !== "LI" ) return;
 
-        var attr = e.target.getAttribute("class");
+        var attr = e.target.className;
 
         for( let i = 0; i < this.children.length; i++ ) {
 
           var child = this.children[i];
 
           if( child.nodeName === "CANVAS" || child.nodeName === "TEXTAREA" ) {
-
-            if( child.className !== attr ) 
-                  child.style.display = "none";
-            else  child.style.display = "block";
+            if( child.classList.contains( attr ) ) 
+              child.classList.remove( "hidden" );
+            else
+              child.classList.add( "hidden" );
           }
         }
 
@@ -52,6 +61,27 @@ function loadjs(js,fn) {
 
 var shader_runs = 0;
 
+function resize_shader(d,c,vs,ps) {
+   var offw, offw;
+
+  d.onclick( { target: d.querySelector("li.canvas") } );
+
+  if( is_fscreen() ) {
+    offw = window.innerWidth + "px";
+    offh = window.innerHeight + "px";
+    c.style.width = offw;
+    console.log("webgl fullscreen", offw, offh);
+  } else {
+    c.style.width = '100%';
+    offw = Math.round( c.offsetWidth );
+    offh = offw + "px";
+  }
+
+  c.style.height = offh;
+  if( vs ) vs.style.height = offh;
+  if( ps ) ps.style.height = offh;
+}
+
 function run_shader( args ) {
 
   var D = document;
@@ -60,77 +90,115 @@ function run_shader( args ) {
   var r = D.querySelector("#" + args.div + " button.reload");
   var p = D.querySelector("#" + args.div + " button.pause");
   var l = D.querySelector("#" + args.div + " button.log");
+  var fs = D.querySelector("#" + args.div + " button.fscreen");
+  var vs = D.querySelector("#" + args.div + " textarea.vs");
+  var ps = D.querySelector("#" + args.div + " textarea.ps");
+  var close = D.querySelector("#" + args.div + " li.close");
 
-  if( !d || !c || !r || !p || !l ) throw "failed to get canvas with control buttons";
+  if( !d || !c ) throw "failed to get canvas with control buttons";
   
   if( d.shader_opts ) d.shader_opts.finish = true;
 
   var opts = d.shader_opts = { 
-    id: shader_runs++, canvas: c, finish: false, pause: false, log: false, time_log: 3 
+    id: shader_runs, canvas: c, pause: false, log: false, time_log: 3 
   };
 
   for( var prop in args ) opts[ prop ] = args[ prop ];
 
-  console.log( "run webgl", opts.id, "with args", args );
+  if( !opts.resize ) shader_runs++;
 
-  d.onclick( { target: d.querySelector("li.canvas") } );
+  opts.finish = false;
 
-  if( d.windowresize ) {
-    window.removeEventListener( "resize", d.windowresize );
-    c.removeEventListener( "webglcontextlost", d.contextlost );
-    d.windowresize = null;
-    d.contextlost = null;
-  }
+  console.log( "run webgl", opts.id, "with args", opts );
 
-  var woff = c.offsetWidth;
-  var hpx = c.style.height = woff + "px";
+  resize_shader( d, c, vs, ps );
 
   var pr = window.devicePixelRatio || 1.0;
-  c.width = c.clientWidth * pr;
-  c.height = c.clientHeight * pr;
+  var cw = c.clientWidth, ch = c.clientHeight;
+  c.width = cw * pr;
+  c.height = ch * pr;
 
-  var ta = d.querySelectorAll("textarea");
-  if( ta ) ta.forEach( function(e) { e.style.height = hpx; } );
+  opts.width = c.width;
+  opts.height = c.height;
 
-  if( ! d.windowresize ) {
-    d.windowresize = function() { 
-      console.log( "webgl %d resize",opts.id ); 
-      args.resize = true; 
-      run_shader( args ); 
+  console.log("webgl canvas width = %d, height = %d", c.width, c.height );
+
+  if( opts.pause ) 
+        p.classList.add("active");
+  else  p.classList.remove("active");
+
+  if( opts.log ) 
+        l.classList.add("active");
+  else  l.classList.remove("active");
+ 
+
+  if( opts.resize ) {
+
+  }
+
+  if( p ) p.onclick = function() { opts.pause = this.classList.toggle("active"); };
+  if( l ) l.onclick = function() { opts.log = this.classList.toggle("active"); };
+  if( r ) r.onclick = function() { run_shader( args ); };
+
+  if( fs && support_fscreen() ) {
+
+    fs.onclick = function() { request_fscreen( c ); };
+  }
+
+  if( !d.windowresize ) {
+
+    d.windowresize = function() {
+      resize_shader( d, c, vs, ps );
+      var opts = d.shader_opts;
+      if( opts && ! opts.resizing ) {
+        console.log( "webgl %d resize", opts.id );
+        opts.resizing = true;
+        setTimeout( function() { 
+          opts.resizing = false; 
+          opts.resize = true; 
+          run_shader( opts ) 
+        }, 500 );
+      }
     };
+
     window.addEventListener( "resize", d.windowresize );
+  }
+
+  if( !d.contextlost ) {
+
     d.contextlost  = function() { 
-      console.log( "webgl %d context lost", otps.id ); 
-      run_shader( args ); 
+      var opts = d.shader_opts;
+      console.log( "webgl %d context lost", opts.id );
+      stop_shader( opts.div );
+      setTimeout( function() {
+        opts.resize = true;
+        run_shader( opts );
+      }, 500 );
     };
+
     c.addEventListener( "webglcontextlost", d.contextlost );
   }
 
-  if( !args.resize ) {
-    p.classList.remove("active");
-    l.classList.remove("active");
-  } else {
-    opts.pause = p.classList.contains("active");
-    opts.log = l.classList.contains("active");
-    args.resize = false;
-  }
+  if( close ) 
+    if( opts.close ) 
+      close.onclick = opts.close;
+    else
+      close.onclick = function( e ) { 
+        e.stopPropagation(); 
+        stop_shader( opts.div ); 
+        d.classList.toggle( "hidden" );
+      };
 
-  p.onclick = function() { opts.pause = this.classList.toggle("active"); };
-  l.onclick = function() { opts.log = this.classList.toggle("active"); };
-  r.onclick = function() { run_shader( args ); };
-
-  var vs = D.querySelector("#" + args.div + " textarea.vs");
-  var ps = D.querySelector("#" + args.div + " textarea.ps");
   var js = d.getAttribute("js");
   var fn = d.getAttribute("fn");
 
-  if( args.js && args.fn ) {
+  if( opts.js && opts.fn ) {
 
-    loadjs( args.js, function() {
+    loadjs( opts.js, function() {
 
-      if( ! window[ args.fn ] ) throw args.fn + " not found";
+      if( ! window[ opts.fn ] ) throw opts.fn + " not found";
 
-      window[ args.fn ]( opts );
+      window[ opts.fn ]( opts );
     } );
 
   } else if( js && fn ) {
@@ -157,11 +225,53 @@ function stop_shader( div ) {
 
   var D = document;
   var d = D.querySelector("#" + div);
+  var c = D.querySelector("#" + div + " canvas");
+
+  if( d.windowresize ) window.removeEventListener( "resize", d.windowresize );
+  if( d.contextlost ) c.removeEventListener( "webglcontextlost", d.contextlost );
+  if( d.fschange ) remove_fchange( d.fschange );
+
+  d.windowresize = d.contextlost = d.fschange = null;
 
   if( d.shader_opts ) {
+    console.log( "finish webgl", d.shader_opts.id );
     d.shader_opts.finish = true;
   } else throw "no shader running";
 }
+
+function support_fscreen() {
+  return document.webkitFullscreenEnabled || 
+          document.mozFullScreenEnabled || 
+            document.msFullscreenEnabled;
+}
+
+function request_fscreen( el ) {
+  if( el.webkitRequestFullscreen ) el.webkitRequestFullscreen();
+  else if( el.mozRequestFullScreen ) el.mozRequestFullScreen();
+  else if( el.msRequestFullscreen ) el.msRequestFullscreen();
+  else throw "fullscreen not supported";
+}
+
+function is_fscreen() {
+  return document.webkitFullscreenElement ||
+          document.mozFullScreenElement ||
+            document.msFullscreenElement;
+}
+
+function add_fchange( fn ) {
+  if( el.webkitRequestFullscreen ) document.addEventListener( "webkitfullscreenchange", fn );
+  else if( el.mozRequestFullScreen ) document.addEventListener( "mozfullscreenchange", fn );
+  else if( el.msRequestFullscreen ) document.addEventListener( "MSFullscreenChange", fn );
+  else throw "fullscreen not supported";
+}
+
+function remove_fchange( fn ) {
+  if( el.webkitRequestFullscreen ) document.removeEventListener( "webkitfullscreenchange", fn );
+  else if( el.mozRequestFullScreen ) document.removeEventListener( "mozfullscreenchange", fn );
+  else if( el.msRequestFullscreen ) document.removeEventListener( "MSFullscreenChange", fn );
+  else throw "fullscreen not supported";
+}
+
 
 function add_tabs() {
   var textareas = document.getElementsByTagName('textarea');
@@ -209,4 +319,5 @@ function setCaretPosition(ctrl, pos)
 }
 
 add_tabs();
+
 

@@ -77,9 +77,10 @@
   <a href="https://www.amazon.com/Sensation-Perception-CourseMate-Printed-Access/dp/1133958494" title="Sensation and Perception">Sensation and Perception</a> by E. Bruce Goldstein.</p>
 
 <div class="shader" id="shader0" js="" fn="" style="width: 60%">
+<ul class="close"><li class="close">Close</li></ul>
 <ul><li class="canvas">Canvas</li><li class="vs">VS</li><li class="ps">PS</li></ul>
 <canvas class="canvas"></canvas>
-<textarea class="vs" spellcheck="false">
+<textarea class="vs hidden" spellcheck="false">
 #version 300 es
 layout(location=0) in vec2 v_in;
 layout(location=1) in vec2 uv_in;
@@ -90,7 +91,7 @@ void main() {
   gl_Position = vec4( vec2( 2.0 * v_in - 1.0 ), 0, 1 );
 }
 </textarea>
-<textarea class="ps" spellcheck="false">
+<textarea class="ps hidden" spellcheck="false">
 #version 300 es
 precision highp float;
 in vec2 uv;
@@ -115,10 +116,14 @@ void main() {
   C = color;
 }
 </textarea>
-<button class="reload">Reload</button>
-<button class="log">Log</button>
-<button class="pause">Pause</button>
+<div class="buttons clear">
+<button title="Reload Shaders" class="reload">Reload</button>
+<button title="Output WebGL Info in Console" class="log">Log</button>
+<button title="Pause Rendering" class="pause">Pause</button>
+<button title="Go Fullscreen" class="fscreen">FS</button>
 </div>
+
+<p></div></p>
 
 <script src="js/webgl-quad.js"></script>
 <script src="js/webgl.js"></script>

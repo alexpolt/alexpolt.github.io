@@ -19,7 +19,20 @@ a:hover {
 }
 
 .hidden {
-  display: none;
+  display: none !important;
+}
+
+.clear {
+  clear: both;
+}
+
+.fullscreen {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+ipre {
+  background-color: #1d1f21;
 }
 
 #wrap {
@@ -193,20 +206,21 @@ div.shader {
 }
 
 div.shader canvas {
-  display: block;
-  border: 0px solid #79a9ad;
   width: 100%;
-  height: 100%;
+  display: block;
+  clear: both;
+  border: 0px solid #79a9ad;
   box-sizing: border-box;
   outline: none;
 }
 
+
 div.shader textarea {
+  display: block;
+  clear: both;
   width: 100%;
-  height: 100%;
   border: 0px solid #79a9ad;
   outline: none;
-  display: none;
   margin: 0px;
   padding: 2px 4px;
   box-sizing: border-box;
@@ -214,14 +228,19 @@ div.shader textarea {
   white-space: pre;
   font-weight: bold;
 }
-
+div.shader div.buttons {
+  white-space: nowrap;
+  width: 100%;
+}
 div.shader button {
   border: 0;
-  padding: 5px;
+  padding: 4px;
   margin-right: 1px;
   outline: none;
   min-width: 5em;
   cursor: pointer;
+  background-color: #CCCCCC;
+  font-size: 80%;
 }
 
 div.shader button.active {
@@ -241,6 +260,11 @@ div.shader ul {
   padding: 0px;
   margin: 0px;
   text-align: left;
+}
+
+div.shader ul.close {
+  float: right;
+  margin-right: 1px;
 }
 
 div.shader li {

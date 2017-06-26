@@ -17,6 +17,10 @@
 
 ###Triangle Info
 
+  <a href="barycentric.html">
+  <img src="images/barycentric-screenspace.png" style="display:block;float:right"/>
+  </a>
+
   Every once in while there is a need to get full info about the rasterized primitive in a pixel
   shader: location in screen space and edge vectors. And it's an easy thing with the help of 
   barycentrics. Check out a [blog post][bar] I made on them with a Javascript interactive demo.
@@ -24,11 +28,12 @@
   So the first step is to take partial derivatives (I use GLSL syntax but it's easy to translate
   to HLSL):
 
+<div class="clear">
+</div>
+
     vec2 uvdx = dFdx( uv );
     vec2 uvdy = dFdy( uv );
     mat2 scr2uv = mat2( uvdx, uvdy );
-
-  <img src="images/barycentric-small.png" align="right"/>
 
   uv - is interpolated barycentrics, uvdx and uvdy form a 2x2 matrix that takes from screen space
   to barycentric space. Taking the inverse of that matrix produces a matrix that transforms uv
@@ -52,17 +57,21 @@
     vec2 pos_tri = gl\_Position.xy - uv2scr*uv;
 
 <div class="demo" style="clear:both;width:60%">
-  <a href="javascript: void(0)" onclick="demo(0)">Click to open/close the WebGL2 demo</a>
+  <a href="javascript: void(0)" onclick="demo('shader0')">Click to open/close the WebGL2 demo</a>
 </div>
 
-<div class="shader" id="shader0" js="" fn="" style="width: 60%; display: none">
+<div class="shader hidden" id="shader0" js="" fn="" style="width: 60%">
+<ul class="close"><li class="close">Close</li></ul>
 <ul><li class="canvas">Canvas</li><li class="vs">VS</li><li class="ps">PS</li></ul>
 <canvas class="canvas"></canvas>
-<textarea class="vs" spellcheck="false" fromid="shader0vs"> </textarea>
-<textarea class="ps" spellcheck="false" fromid="shader0ps"> </textarea>
-<button class="reload">Reload</button>
-<button class="log">Log</button>
-<button class="pause">Pause</button>
+<textarea class="vs hidden" spellcheck="false" fromid="shader0vs"> </textarea>
+<textarea class="ps hidden" spellcheck="false" fromid="shader0ps"> </textarea>
+<div class="buttons clear">
+<button title="Reload Shaders" class="reload">Reload</button>
+<button title="Output WebGL Info in Console" class="log">Log</button>
+<button title="Pause Rendering" class="pause">Pause</button>
+<button title="Go Fullscreen" class="fscreen">FS</button>
+</div>
 </div>
 
 
@@ -81,25 +90,28 @@
 
 <div>
 
-  <script src="js/webgl-quad.js"></script>
   <script src="js/webgl.js"></script>
+  <script src="js/webgl-quad.js"></script>
 
   <script>
-    var demo_flag = [0,0,0];
-    var demo_div = ["shader0","shader1","shader3"];
 
-    function demo(n) {
+    function demo( div ) {
 
-      if( ! demo_flag[n] ) {
-        demo_flag[n] = 1;
-        var c = document.querySelector( "div#" + demo_div[n] );
-        c.style.display = 'block';
-        run_shader( { div: demo_div[n], uniforms: { "t": "time" } } );
+     var c = document.querySelector( "div#" + div );
+
+     if( !c ) throw "div " + div + " not found";
+
+     if( c.classList.contains( "hidden" ) ) {
+
+        var img0 = new Image();
+        img0.src = "images/barycentric-small.png";
+        c.classList.remove( "hidden" );
+        run_shader( { div: div, uniforms: { "t": "time" }, textures: { tex0 : img0 } } );
+        
       } else {
-        demo_flag[n] = 0;
-        stop_shader( demo_div[n] );
-        var c = document.querySelector( "div#" + demo_div[n] );
-        c.style.display = 'none';
+
+        stop_shader( div );
+        c.classList.add( "hidden" );
       }
 
       return undefined;
@@ -109,7 +121,7 @@
 
       var tas = document.querySelectorAll("div.shader textarea");
 
-      if( tas ) tas.forEach( function( e ) {
+      if( tas ) foreach( tas, function( e ) {
 
         var fromid = e.getAttribute( "fromid" );
 
