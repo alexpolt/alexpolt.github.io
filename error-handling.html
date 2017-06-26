@@ -3,7 +3,7 @@
 
 <HEAD>
 
-  <title>Alexandr Poltavsky, software developer</title>
+  <title>Lets Talk About Error Handling... - Alexandr Poltavsky, software developer</title>
 
   <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
   <meta http-equiv="Cache-Control" content="no-store" />
@@ -52,111 +52,57 @@
   </ul>
 
 
-<div id="contents">
+<h2>Lets Talk About Error Handling...</h2>
 
-<ul>
-<li><p><a href="undefined.html">Undefined behaviour and optimizations: GCC vs Clang vs MSC</a></p>
+<p>Lets consider a simple example of filling a std::vector:</p>
 
-<p>Was thinking the other day about undefined behaviour and optimizations it allows and came up
-with a couple interesting short samples.</p></li>
-<li><p><a href="move-noexcept.html">When should One Use r-value References and noexcept</a></p>
+<pre><code>std::vector&lt;int&gt; data;
 
-<p>Some thoughts on when to use move semantics and exception specifiers.</p></li>
-<li><p><a href="alloc.html">Memory Allocation Wisdom</a></p>
+for( int i = 0; i &lt; 10; i++ ) data.push_back( i );
+</code></pre>
 
-<p>What lessons can we learn from garbage collectors.</p></li>
-<li><p><a href="error-handling.html">Lets Talk About Error Handling...</a></p>
+<p>What could possibly go wrong? Well, apart from "out of memory"? Nothing. Computers are such
+  marvellous machines that never fail (to execute some bug-free code like above). Except for
+  hardware errors but that is out of a developer control. That puts the question what is an 
+  error really and when do they happen.</p>
 
-<p>What's really the right way to handle program errors? I have some ideas.</p></li>
-<li><p><a href="fp-round.html">Floating Point Rounding</a></p>
+<p>So to say we can divide all possible errors into two broad categories: <strong>pseudo errors and
+  real errors</strong>. Pseudo errors are the ones introduced by the developer: logic errors, API abuse,
+  erroneous syntax, incorrect initialization. Real errors are not subject to programmer control:
+  file reading errors, network failure, any other device malfunction.</p>
 
-<p>How to properly round a floating point number?</p></li>
-<li><p><a href="member-init.html">C++ Templates and Static Initialization <del>Order</del> Hell</a></p>
+<p>The majority of problems in software actually comes from pseudo errors. An example:</p>
 
-<p>Ran into a nasty problem with how the global static objects are initialized in templates.</p></li>
-<li><p><a href="color-throne.html">Color Throne - Brain Gymnastics</a></p>
+<pre><code>  void memcopy( void* dest, void* src, size_t size );
+</code></pre>
 
-<p>Released my first Android application on Google Play. It's a color puzzle-arcade game.
-Any installs and positive reviews are much welcome.</p></li>
-<li><p><a href="atomic-data.html">atomic_data: A Multibyte General Purpose Lock-Free Data Structure</a></p>
+<p>Piece of cake, very clean and simple API, but it can misused in numerous ways. Well, we can
+  just open <a href="https://www.amazon.com/Exceptional-Engineering-Programming-Problems-Solutions/dp/0201615622">Exceptional C++</a> or <a href="https://www.amazon.com/Effective-Modern-Specific-Ways-Improve/dp/1491903996">Effective Modern C++</a>. Real question is what can we
+  do about it. One can use a tool like <a href="https://www.viva64.com" title="PVS-Studio analyzer">PVS Studio</a> to fight some fraction of bugs but no 
+  silver bullet, an open and important problem. Robust testing actually shows good results and 
+  maybe this is the way to go forward.</p>
 
-<p>My <strong>greatest</strong> work so far. I am writing about lock-free programming gotchas and also present
-a hopefully novel design: <strong>atomic_data</strong>.</p></li>
-<li><p><a href="macros-checking.html">Using Macro Kung Fu to Easier Check Function Return Values</a></p>
+<p>Now to the second source of program errors. Anytime we call some API, be it a <em>syscall</em> or some 
+  <em>middleware</em> there usually are some ways of communicating back the success state. And we have 
+  a choice what to do with it. If we state that some error (file not found, network timeout, etc.) 
+  is <strong>expected</strong> then we handle it right there in the code. Otherwise the error is <strong>unexpected</strong> 
+  and we just don't do anything about it: we throw an exception.</p>
 
-<p>Checking multiple function calls with one macro.</p></li>
-</ul>
+<p>A couple words about tools like <em>assert</em>. We can see that it's usually used to solve the pseudo 
+  error problem, verify preconditions. So their primary purpose is to assist the type system but 
+  keep the code efficient. Take vector subscript as an example: should we be checking out of bounds 
+  access every time or just assert it? Asserting is the only valid option because we don't write 
+  buggy soft (at least we do our best). And buggy soft is not something we should accept as a 
+  new normal.</p>
 
-<blockquote>
-  <p>Program execution could be viewed as data flowing across scopes.</p>
-</blockquote>
+<p>Another important aspect is <strong>exception safety in C++</strong>. Again, if we rule out API calls and out 
+  of memory then ideally we have no point of failure (we can't fight pseudo errors so I ignore it). 
+  Then what's the value of creating that insane layer of complexity? New jobs? A simple rule, that 
+  should've gone into C++ standard, of not calling into OS or other APIs in object constructors 
+  (destructors are already special cased) solves most exception safety issues.</p>
 
-<ul>
-<li><p><a href="empty-value.html">Some Problems with C++ Move Semantics</a></p>
-
-<p>The C++ brings joy, but problems too.</p></li>
-<li><p><a href="perfect-hashing.html">Free Variables Perfect Hashing Algorithm</a></p>
-
-<p>A generalization and simplification of the CHM Perfect Hashing Algorithm.</p></li>
-<li><p><a href="random-probing.html">Consistent Hashing Revisited</a></p>
-
-<p>Consistent hashing is used to balance load in case a bucket (server) goes bad.</p></li>
-<li><p><a href="cpp-property.html">C++ Properties</a></p>
-
-<p>One more nugget from C++.</p></li>
-</ul>
-
-<blockquote>
-  <p>When serializing data into a file, developers often make a dry run to calculate
-the size for the header. One possible workaround: add a size data member as the
-last field in the header struct, then just write the header at the end of the file.</p>
-</blockquote>
-
-<ul>
-<li><p><a href="values.html">Value Semantics</a></p>
-
-<p>Some thoughts on using values vs pointers/references.</p></li>
-<li><p><a href="polymorphism.html">Polymorphism</a></p>
-
-<p>A couple notes on polymorphic behaviour.</p></li>
-<li><p><a href="exceptions.html">C++ Exceptions</a></p>
-
-<p>Neverending struggle to work out the rules of using C++ exceptions, my thoughts on that. <br />
-TLDR. Use them almost always.</p></li>
-</ul>
-
-<blockquote>
-  <p>#define that (*this)  </p>
-
-<p>that.value = ...</p>
-</blockquote>
-
-<ul>
-<li><a href="vector-push.html">The Way <em>operator&lt;&lt;</em> and <em>operator&gt;&gt;</em> Should Have Been Overloaded</a></li>
-</ul>
-
-<blockquote>
-  <p><em>std::vector&lt;int&gt; v{}; int i{};</em> <br />
-<em>v &lt;&lt; 1 &lt;&lt; 2;</em> <br />
-<em>v >> i;</em></p>
-</blockquote>
-
-<ul>
-<li><p><a href="print-fp.html">Print-format a Float in Base-10</a></p>
-
-<p>A hack for quick and easy printing of a floating point number in base-10.</p></li>
-</ul>
-
-<div>
-<style type="text/css">
-  #main-menu-0 {
-    background-color: #d3e4ff;
-  }
-</style>
-</div>
-
-</div>
-
+<p>Before I had written a post about <a href="exceptions.html">when to use exceptions</a>. It's still worth
+  taking a look and becomes even more clear with above description.</p>
 
 
 <script src="highlight/highlight.pack.js"></script>

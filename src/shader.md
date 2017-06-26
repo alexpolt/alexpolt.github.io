@@ -106,7 +106,7 @@
         var img0 = new Image();
         img0.src = "images/barycentric-small.png";
         c.classList.remove( "hidden" );
-        run_shader( { div: div, uniforms: { "t": "time" }, textures: { tex0 : img0 } } );
+        run_shader( { div: div, uniforms: { "t": "time", "screen": "screen" }, textures: { tex0 : img0 } } );
         
       } else {
 

@@ -15,7 +15,7 @@
   What lessons can we learn from garbage collectors.
 
 
-* [Lets Talk About Error Handling...](return-codes.html)
+* [Lets Talk About Error Handling...](error-handling.html)
 
   What's really the right way to handle program errors? I have some ideas.
 
