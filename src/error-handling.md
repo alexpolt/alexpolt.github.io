@@ -35,10 +35,10 @@
 
   A couple words about tools like *assert*. We can see that it's usually used to solve the pseudo 
   error problem, verify preconditions. So their primary purpose is to assist the type system but 
-  keep the code efficient. Take vector subscript as an example: should we be checking out of bounds 
-  access every time or just assert it? Asserting is the only valid option because we don't write 
-  buggy soft (at least we do our best). And buggy soft is not something we should accept as a 
-  new normal.
+  keep the code efficient (it seems that *assert* is more part of a testing system). 
+  Take vector subscript as an example: should we be checking out of bounds access every time or 
+  just assert it? Asserting is the only valid option because we don't write buggy soft (at least 
+  we do our best). And buggy soft is not something we should accept as a new normal.
 
   Another important aspect is **exception safety in C++**. Again, if we rule out API calls and out 
   of memory then ideally we have no point of failure (we can't fight pseudo errors so I ignore it). 
