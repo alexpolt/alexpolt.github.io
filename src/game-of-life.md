@@ -1,7 +1,10 @@
 
-##Convey's Game of Life in One Pixel Shader
+##Conway's Game of Life in One Pixel Shader
 
-  Got my little hacky WebGL framework working and wrote a Game of Life shader.
+  Got my little hacky WebGL framework working and wrote a [Game of Life][g] shader.
+  It uses previous frame as a source to compute current one. You can hack on the shader yourself
+  by clicking a "PS" (Pixel Shader) button. To start try adjusting the _cell_ variable - it controls
+  the field scale, _fstep_ variable is a frame divider - use it to slow down the processing.
 
 
 <div class="webgl" webgl_version="1" webgl_div="shader0">
@@ -43,8 +46,9 @@ float life();
 float round(float x) { return floor(x+.5); }
 
 const float cell = 80.;
-vec2 cells = vec2( cell, cell );
 const float fstep = 2.;
+
+vec2 cells = vec2( cell, cell );
 vec2 px;
 vec2 uv2;
 
@@ -100,4 +104,6 @@ float life() {
 
 </div>
 
+  [g]: https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life "Conways Game of Life"  
 
+  
