@@ -387,7 +387,7 @@ function activate_webgl() {
       var offw = Math.round( 100 * img.offsetWidth / cw );
       if( offw ) e.style.width = offw + "%";
       img.onload = function() {
-        var cw = document.getElementById( "#content" ).offsetWidth;
+        var cw = document.getElementById( "content" ).offsetWidth;
         var offw = Math.round( 100 * img.offsetWidth / cw );
         if( offw ) e.style.width = offw + "%";
       };
