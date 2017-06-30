@@ -31,12 +31,14 @@
 </div>
 
 <div class="shader hidden" id="shader0" js="" fn="" style="width: 60%">
-  <ul class="close"><li title="Close Demo" class="close">Close</li></ul>
+  <ul class="close">
+    <li title="Info" class="help">?</li>
+    <li title="Close Demo" class="close">Close</li>
+  </ul>
   <ul class="menu">
     <li title="WebGL Canvas" class="canvas">Canvas</li>
     <li title="Vertex Shader" class="vs">VS</li>
     <li title="Pixel Shader" class="ps">PS</li>
-    <li title="Info" class="help">?</li>
   </ul>
   <canvas hide class="canvas"></canvas>
   <textarea hide class="vs hidden" spellcheck="false">

@@ -14,12 +14,14 @@
 </div>
 
 <div class="shader hidden" id="shader0" js="" fn="" style="width: 60%">
-  <ul class="close"><li title="Close Demo" class="close">Close</li></ul>
+  <ul class="close">
+    <li title="Info" class="help">?</li>
+    <li title="Close Demo" class="close">Close</li>
+  </ul>
   <ul class="menu">
     <li title="WebGL Canvas" class="canvas">Canvas</li>
     <li title="Vertex Shader" class="vs">VS</li>
     <li title="Pixel Shader" class="ps">PS</li>
-    <li title="Info" class="help">?</li>
   </ul>
   <canvas hide class="canvas"></canvas>
   <textarea hide class="vs hidden" spellcheck="false" fromid="shader0vs">
@@ -36,7 +38,6 @@ void main() {
   <textarea hide class="ps hidden" spellcheck="false" fromid="shader0ps">
 precision highp float;
 varying vec2 uv;
-uniform float t;
 uniform float frame;
 uniform sampler2D prevtex;
 uniform vec2 screen;
@@ -57,7 +58,6 @@ void main() {
   cells = floor( ar * cells );
   px = vec2(1.,1.)/cells;
   uv2 = floor(cells*uv)/cells+.5*px;
-  float tt = fract( t / 10. );
   float k = 0.;
   if( frame == .0 )
     k = step( 1.-density, sin( 1000.*cos( 700.*( 700.*uv2.x + uv2.y + 100.*seed ) ) ) );

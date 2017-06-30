@@ -410,10 +410,7 @@ function activate_webgl() {
       "<u>Help</u> - this, <u>Close</u> - close demo;",
       "<b>Bottom buttons:</b> <u>Reload</u> - reloads shader, <u>Log</u> - outputs FPS to " +
       "console every 3 seconds, <u>Pause</u> - pauses rendering, <u>FS</u> - activate fullscreen mode;",
-      "<b>Vertex Shader Inputs</b>: <u>attr #0, vec2</u> - verticies of a screen aligned quad, " +
-      "<u>attr #1, vec2</u> - barycentric coordinates ([0,0],[1,0],[0,1]), not texture coordinates " +
-      "(use vertex coordinates for that), <u>attr #2, float</u> - vertex id;",
-    ].map( function( e ) { return "<li>"+e+"</li>"; } ).join("") + "</ul>" +
+   ].map( function( e ) { return "<li>"+e+"</li>"; } ).join("") + "</ul>" +
       "<i>This is a Javscript helper written by me (Alexandr Poltavsky) for WebGL demos.</i>" 
   } );
 }
