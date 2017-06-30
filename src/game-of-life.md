@@ -46,6 +46,7 @@ float life();
 
 const float cell = 80.;
 const float fstep = 2.;
+const float density = 0.05;
 
 vec2 cells = vec2( cell, cell );
 vec2 px;
@@ -59,7 +60,7 @@ void main() {
   float tt = fract( t / 10. );
   float k = 0.;
   if( frame == .0 )
-    k = step( .8, sin( 1000.*cos( 700.*( 700.*uv2.x + uv2.y + 100.*seed ) ) ) );
+    k = step( 1.-density, sin( 1000.*cos( 700.*( 700.*uv2.x + uv2.y + 100.*seed ) ) ) );
   else if( fract(frame/fstep) == .0 ) k = life();
   else k = texture2D( prevtex, uv2 ).x;
   gl_FragData[0] = vec4( k, k, k, 1 );
