@@ -76,7 +76,7 @@ void main() {
 <script src="js/webgl.js"></script>
 
 <script>
-  run_shader( { div: "shader0", uniforms: { "t": "time" } } );
+  run_shader( { div: "shader0", version: 2, uniforms: { "t": "time" } } );
 </script>
 
   

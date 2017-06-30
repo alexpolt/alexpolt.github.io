@@ -56,22 +56,24 @@
 
     vec2 pos_tri = gl\_Position.xy - uv2scr*uv;
 
-<div class="demo" style="clear:both;width:60%">
-  <a href="javascript: void(0)" onclick="demo('shader0')">Click to open/close the WebGL2 demo</a>
+<div class="webgl" webgl_version="1" webgl_div="shader0">
+  <img src="images/webgl300.png" title="Click to show WebGL demo" alt="Click to show WebGL demo"/><br/>
+  <span>Click to show WebGL demo</span>
 </div>
 
 <div class="shader hidden" id="shader0" js="" fn="" style="width: 60%">
-<ul class="close"><li class="close">Close</li></ul>
-<ul><li class="canvas">Canvas</li><li class="vs">VS</li><li class="ps">PS</li></ul>
-<canvas class="canvas"></canvas>
-<textarea class="vs hidden" spellcheck="false" fromid="shader0vs"> </textarea>
-<textarea class="ps hidden" spellcheck="false" fromid="shader0ps"> </textarea>
-<div class="buttons clear">
-<button title="Reload Shaders" class="reload">Reload</button>
-<button title="Output WebGL Info in Console" class="log">Log</button>
-<button title="Pause Rendering" class="pause">Pause</button>
-<button title="Go Fullscreen" class="fscreen">FS</button>
-</div>
+  <ul class="close"><li class="close">Close</li></ul>
+  <ul><li class="canvas">Canvas</li><li class="vs">VS</li><li class="ps">PS</li></ul>
+  <canvas class="canvas"></canvas>
+  <textarea class="vs hidden" spellcheck="false" fromid="shader0vs"></textarea>
+  <textarea class="ps hidden" spellcheck="false" fromid="shader0ps"></textarea>
+  <div class="buttons clear">
+  <button title="Reload Shaders" class="reload">Reload</button>
+  <button title="Output WebGL Info in Console" class="log">Log</button>
+  <button title="Pause Rendering" class="pause">Pause</button>
+  <button title="Go Fullscreen" class="fscreen">FS</button>
+  </div>
+  <div class="clear"></div>
 </div>
 
 
@@ -95,28 +97,6 @@
 
   <script>
 
-    function demo( div ) {
-
-     var c = document.querySelector( "div#" + div );
-
-     if( !c ) throw "div " + div + " not found";
-
-     if( c.classList.contains( "hidden" ) ) {
-
-        var img0 = new Image();
-        img0.src = "images/barycentric-small.png";
-        c.classList.remove( "hidden" );
-        run_shader( { div: div, uniforms: { "t": "time", "screen": "screen" }, textures: { tex0 : img0 } } );
-        
-      } else {
-
-        stop_shader( div );
-        c.classList.add( "hidden" );
-      }
-
-      return undefined;
-    }
-
     document.addEventListener( "DOMContentLoaded", function() {
 
       var tas = document.querySelectorAll("div.shader textarea");
@@ -134,24 +114,14 @@
       } );
 
     } );
+
   </script>
 
-  <style>
-    div.demo {
-      text-align: center;
-      border:1px solid black;
-      margin: 10px auto;
-      background-color: #ede1e1;
-      font-size: 90%;
-      font-weight: bold;
-    }
-  </style>
-
 <textarea class="hidden" id="shader0vs">
-#version 300 es
-layout(location=0) in vec2 v_in;
-layout(location=1) in vec2 uv_in;
-out vec2 uv;
+attribute vec2 v_in;
+attribute vec2 uv_in;
+attribute float vid_in;
+varying vec2 uv;
 uniform float t;
 void main() {
   uv = v_in;
@@ -159,22 +129,20 @@ void main() {
 }
 </textarea>
 <textarea class="hidden" id="shader0ps">
-#version 300 es
 precision highp float;
-in vec2 uv;
+varying vec2 uv;
 uniform float t;
-layout(location=0) out vec4 C;
 void main() {
   float tt = fract( t / 10. );
   vec4 c = vec4(  cos( ( uv.x*uv.y + uv.y + 5.*tt ) * 3.), 
                   cos( ( 3.*uv.y*uv.x + 7.*tt ) * 2.0 ), 
                   cos( tt*(1.-uv.x-uv.y)*3. ), 1 );
-  C = c*vec4( .5, .5, .5, 1 ) + vec4( .5, .5, .5, 0 );
+  gl_FragData[0] = c*vec4( .5, .5, .5, 1 ) + vec4( .5, .5, .5, 0 );
 }
 </textarea>
 
-</div>
 
+</div>
 
   [a]: #triangle
   [b]: #derivatives

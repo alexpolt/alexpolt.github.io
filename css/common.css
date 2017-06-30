@@ -226,6 +226,8 @@ div.shader textarea {
   box-sizing: border-box;
   background-color: #fcfdff;
   white-space: pre;
+  word-wrap: normal;
+  overflow: auto;
   font-weight: bold;
 }
 div.shader div.buttons {
@@ -233,14 +235,17 @@ div.shader div.buttons {
   width: 100%;
 }
 div.shader button {
-  border: 0;
-  padding: 4px;
-  margin-right: 1px;
+  display: block;
+  float: left;
+  border: 1px solid #AAAAAA;
+  padding: 2px 5px;
+  margin: 0px;
   outline: none;
-  min-width: 5em;
+  min-width: 3em;
   cursor: pointer;
   background-color: #CCCCCC;
   font-size: 80%;
+  text-align: center;
 }
 
 div.shader button.active {
@@ -264,22 +269,39 @@ div.shader ul {
 
 div.shader ul.close {
   float: right;
-  margin-right: 1px;
 }
 
 div.shader li {
   display: inline-block;
-  padding: 0px 10px;
+  padding: 2px 5px;
+  min-width: 2em;
   margin: 0px;
   border: 1px solid #79a9ad;
   border-bottom: none;
   background-color: #275e63;
   color: white;
+  text-align: center;
 }
 
 div.shader li:hover {
   background-color: #38777c;
   cursor: pointer;
 }
+
+div.webgl {
+  text-align: center;
+}
+
+div.webgl span {
+  font-weight: bold;
+  font-size: 80%;
+  color: darkred;
+  cursor: pointer;
+}
+
+div.webgl img {
+  cursor: pointer;
+}
+
 
 

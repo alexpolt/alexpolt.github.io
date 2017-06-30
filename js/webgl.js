@@ -5,14 +5,26 @@ function foreach( arr, fn ) {
 }
 
 function webgl_context( canvas, opts ) {
-  
-  var ctx = canvas.getContext( "webgl2", opts || { alpha: false } );
-
-  if( !ctx ) throw "Failed to get a WebGL2 context. A modern browser is required.";
-
+  console.info("Request for a WebGL context.");  
+  var ctx = canvas.getContext( "webgl", opts || { } );
+  if( !ctx ) ctx = canvas.getContext( "experimental-webgl", opts || { } );
+  if( !ctx ) throw "Failed to get a WebGL context. A modern browser is required.";
+  var ver = ctx.getParameter( ctx.VERSION );
+  if( !ver ) throw "Something wrong with the WebGL context. Try closing the browser and try again.";
+  console.log( "WebGL context", ver, "Renderer", ctx.getParameter( ctx.RENDERER ) );
   return ctx;
 }
 
+function webgl2_context( canvas, opts ) {
+  console.info("Request for a WebGL2 context.");  
+  var ctx = canvas.getContext( "webgl2", opts || { } );
+  if( !ctx ) ctx = canvas.getContext( "experimental-webgl2", opts || { } );
+  if( !ctx ) throw "Failed to get a WebGL2 context. A modern browser is required.";
+  var ver = ctx.getParameter( ctx.VERSION );
+  if( !ver ) throw "Something wrong with the WebGL context. Try closing the browser and try again.";
+  console.log( "WebGL context", ver, "Renderer", ctx.getParameter( ctx.RENDERER ) );
+  return ctx;
+}
 
 function init_shader_menus() {
 
@@ -138,7 +150,7 @@ function run_shader( args ) {
 
   if( p ) p.onclick = function() { opts.pause = this.classList.toggle("active"); };
   if( l ) l.onclick = function() { opts.log = this.classList.toggle("active"); };
-  if( r ) r.onclick = function() { run_shader( args ); };
+  if( r ) r.onclick = function() { run_shader( opts ); };
 
   if( fs && support_fscreen() ) {
 
@@ -170,20 +182,23 @@ function run_shader( args ) {
       var opts = d.shader_opts;
       console.log( "webgl %d context lost", opts.id );
       stop_shader( opts.div );
-      setTimeout( function() {
-        opts.resize = true;
-        run_shader( opts );
-      }, 500 );
+      var r = confirm("WebGL context was lost. Try again?");
+      if( r ) 
+        setTimeout( function() {
+          opts.resize = true;
+          run_shader( opts );
+        }, 100 );
+      else 
+        opts.close();
     };
 
     c.addEventListener( "webglcontextlost", d.contextlost );
   }
 
   if( close ) 
-    if( opts.close ) 
-      close.onclick = opts.close;
+    if( opts.close ) close.onclick = opts.close;
     else
-      close.onclick = function( e ) { 
+      opts.close = close.onclick = function( e ) { 
         e.stopPropagation(); 
         stop_shader( opts.div ); 
         d.classList.toggle( "hidden" );
@@ -319,5 +334,71 @@ function setCaretPosition(ctrl, pos)
 }
 
 add_tabs();
+
+function activate_webgl() {
+
+  var els = document.querySelectorAll( "div.webgl" );
+  var canvas = document.createElement( "canvas" );
+
+  foreach( els, function( e ) {
+
+    var ver = e.getAttribute("webgl_version") || 1;
+    var div = e.getAttribute("webgl_div");
+    var ctx;
+
+    try {
+      if( ver == 1 ) ctx = canvas.getContext( "webgl" ) || canvas.getContext( "experimental-webgl" );
+      else if( ver == 2 ) ctx = canvas.getContext( "webgl2" ) || canvas.getContext( "experimental-webgl2" );
+      else throw "wrong webgl version in div.demo";
+    } catch(e) { console.error( e ); }
+
+    var span = e.querySelector( "span" );
+    if( !span ) throw "Span not found in div.webgl element";
+
+    if( !ctx ) { 
+      span.innerHTML = "no WebGL support";
+      e.onclick = function(e) { 
+        if( e.target && e.target.nodeName != "SPAN" && e.target.nodeName != "IMG" ) return;
+        alert("Need WebGL "+ver+" support. Please update your browser."); 
+      };
+    } else if( div ) {
+      e.onclick = function(e) { 
+        if( e.target && e.target.nodeName != "SPAN" && e.target.nodeName != "IMG" ) return;
+        demo_open( div, this );
+      };
+    }
+
+  } );
+}
+
+activate_webgl();
+
+function demo_open( div, ctrl ) {
+
+  var d = document.querySelector( "div#" + div );
+  if( !d ) throw "div " + div + " not found";
+  d.classList.remove( "hidden" );
+  if( ctrl ) ctrl.classList.add( "hidden" );
+
+  var img0 = new Image();
+  img0.src = "images/barycentric-small.png";
+
+  run_shader( { 
+    div: div,
+    version: ctrl && ctrl.getAttribute( "webgl_version" ) || 1,
+    close: function() { demo_close( div, ctrl ); },
+    textures: { tex0 : img0 },
+    uniforms: { "t": "time", "screen": "screen", "frame" : "frame" },
+  } );
+}
+
+function demo_close( div, ctrl ) {
+
+  var d = document.querySelector( "div#" + div );
+  if( !d ) throw "div " + div + " not found";
+  stop_shader( div );
+  d.classList.add( "hidden" );
+  if( ctrl ) ctrl.classList.remove( "hidden" );
+}
 
 

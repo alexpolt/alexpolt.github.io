@@ -47,7 +47,8 @@
 > What will make you to be a happy person?
 
   If you've went through all of the above and still struggling with finding a reason to live, then
-  try hard to realize your purpose in this world. Family, kids, business? Why not.
+  try hard to realize your purpose in this world. Family, kids, business? Why not. Another good
+  thoughtful experiment is to mentally exclude some thing and see if that makes a difference.
 
   Personally, I have given a lot time to thinking about the primary motives in life. For me money
   means not that much, I have no ambitions either. I love science, I am curious about physics and 
@@ -65,7 +66,17 @@
 
   Actually, without people creating things, the life on Earth would be just surviving and fucking.
   So we need people creating stuff, making gadgets, getting into space to make the life of a 
-  human more enjoyable and fulfilled! So please, do stuff! :)
+  human more enjoyable and fulfilled.
+
+  Also such thing as a [work-life balance][w] is not an empty phrase. As I said above we are very
+  rational and we never work just for the sake of work (unless you are emotionally driven, as I
+  said above, like ambitions or passion). We know that doing the our best is going to bring some
+  benefits in the future. Therefore it's important to find harmony between working and enjoing
+  the results of your work.
+
+
+  [w]: https://en.wikipedia.org/wiki/Work%E2%80%93life_balance "Work-Life Balance"
+
 
 
 

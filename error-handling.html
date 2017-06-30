@@ -6,7 +6,8 @@
   <title>Lets Talk About Error Handling... - Alexandr Poltavsky, software developer</title>
 
   <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
-  <meta http-equiv="Cache-Control" content="no-store" />
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
 
   <link rel="stylesheet" type="text/css" href="css/common.css" />
   <link rel="stylesheet" href="highlight/styles/hybrid.css">
@@ -73,10 +74,10 @@ for( int i = 0; i &lt; 10; i++ ) data.push_back( i );
 
 <p>The majority of problems in software actually comes from pseudo errors. An example:</p>
 
-<pre><code>  void memcopy( void* dest, void* src, size_t size );
+<pre><code>void memcopy( void* dest, void* src, size_t size );
 </code></pre>
 
-<p>Piece of cake, very clean and simple API, but it can misused in numerous ways. Well, we can
+<p>Piece of cake, very clean and simple API, but it can be misused in numerous ways. Well, we can
   just open <a href="https://www.amazon.com/Exceptional-Engineering-Programming-Problems-Solutions/dp/0201615622">Exceptional C++</a> or <a href="https://www.amazon.com/Effective-Modern-Specific-Ways-Improve/dp/1491903996">Effective Modern C++</a>. Real question is what can we
   do about it. One can use a tool like <a href="https://www.viva64.com" title="PVS-Studio analyzer">PVS Studio</a> to fight some fraction of bugs but no 
   silver bullet, an open and important problem. Robust testing actually shows good results and 

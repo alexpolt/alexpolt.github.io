@@ -19,9 +19,9 @@
 
   The majority of problems in software actually comes from pseudo errors. An example:
 
-      void memcopy( void* dest, void* src, size_t size );
+    void memcopy( void* dest, void* src, size_t size );
 
-  Piece of cake, very clean and simple API, but it can misused in numerous ways. Well, we can
+  Piece of cake, very clean and simple API, but it can be misused in numerous ways. Well, we can
   just open [Exceptional C++][b0] or [Effective Modern C++][b1]. Real question is what can we
   do about it. One can use a tool like [PVS Studio][p] to fight some fraction of bugs but no 
   silver bullet, an open and important problem. Robust testing actually shows good results and 
