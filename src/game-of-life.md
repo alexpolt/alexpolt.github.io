@@ -43,7 +43,6 @@ uniform vec2 screen;
 uniform float seed;
 
 float life();
-float round(float x) { return floor(x+.5); }
 
 const float cell = 80.;
 const float fstep = 2.;
@@ -62,20 +61,19 @@ void main() {
   if( frame == .0 )
     k = step( .8, sin( 1000.*cos( 700.*( 700.*uv2.x + uv2.y + 100.*seed ) ) ) );
   else if( fract(frame/fstep) == .0 ) k = life();
-  else k = round( texture2D( prevtex, uv2 ).x );
+  else k = texture2D( prevtex, uv2 ).x;
   gl_FragData[0] = vec4( k, k, k, 1 );
 }
 
 float life() {
-  //return texture2D( prevtex, uv ).x;
 
   float alive = .0;
-  float c = round( texture2D( prevtex, uv2 ).x );
+  float c = texture2D( prevtex, uv2 ).x;
   for( float y = -1.; y <= 1.; y++ ) {
   for( float x = -1.; x <= 1.; x++ ) {
     vec2 o = px * vec2( x, y );
     float k = abs(x)+abs(y);
-    float v = round(texture2D( prevtex, uv2+o ).x);
+    float v = texture2D( prevtex, uv2+o ).x;
     alive += k == .0 ? .0 : v;
   }
   }
