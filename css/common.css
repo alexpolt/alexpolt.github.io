@@ -297,6 +297,10 @@ div.shader ul.menu li:hover, div.shader ul.close li:hover {
   cursor: pointer;
 }
 
+div.shader div.help ul li {
+  margin: 10px 0px;
+}
+
 div.webgl {
   text-align: center;
   position: relative;
