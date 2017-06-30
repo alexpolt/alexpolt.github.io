@@ -7,6 +7,12 @@
   shader. And lastly, using primitive id to do lighting.
 -->
 
+
+* [Convey's Game of Life in One Pixel Shader][game-of-life.html]
+
+  Got my little hacky WebGL framework working and wrote a Game of Life shader.
+
+
 * [Barycentric Coordinates](barycentric.html)
 
   It's important to understand barycentric coordinates for graphics programmers. JavaScript demo.
@@ -20,6 +26,7 @@
 * [Introducing DFAA Antialiasing Algorithm](dfaa.html)
 
   I've come up with a an intresting method for doing antialiasing.
+
 
 <div>
 <style type="text/css">
