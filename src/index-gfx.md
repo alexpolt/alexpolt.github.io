@@ -8,7 +8,7 @@
 -->
 
 
-* [Convey's Game of Life in One Pixel Shader][game-of-life.html]
+* [Convey's Game of Life in One Pixel Shader](game-of-life.html)
 
   Got my little hacky WebGL framework working and wrote a Game of Life shader.
 
