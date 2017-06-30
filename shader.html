@@ -112,17 +112,24 @@ mat2 uv2scr = mat2( xydu, xydv );
 </code></pre>
 
 <div class="webgl" webgl_version="1" webgl_div="shader0">
+  <h1>WebGL</h1>
   <img src="images/webgl300.png" title="Click to show WebGL demo" alt="Click to show WebGL demo"/><br/>
   <span>Click to show WebGL demo</span>
 </div>
 
 <div class="shader hidden" id="shader0" js="" fn="" style="width: 60%">
-  <ul class="close"><li class="close">Close</li></ul>
-  <ul><li class="canvas">Canvas</li><li class="vs">VS</li><li class="ps">PS</li></ul>
-  <canvas class="canvas"></canvas>
-  <textarea class="vs hidden" spellcheck="false" fromid="shader0vs"></textarea>
-  <textarea class="ps hidden" spellcheck="false" fromid="shader0ps"></textarea>
-  <div class="buttons clear">
+  <ul class="close"><li title="Close Demo" class="close">Close</li></ul>
+  <ul class="menu">
+    <li title="WebGL Canvas" class="canvas">Canvas</li>
+    <li title="Vertex Shader" class="vs">VS</li>
+    <li title="Pixel Shader" class="ps">PS</li>
+    <li title="Info" class="help">?</li>
+  </ul>
+  <canvas hide class="canvas"></canvas>
+  <textarea hide class="vs hidden" spellcheck="false" fromid="shader0vs"></textarea>
+  <textarea hide class="ps hidden" spellcheck="false" fromid="shader0ps"></textarea>
+  <div hide class="help hidden"></div>
+  <div class="buttons">
   <button title="Reload Shaders" class="reload">Reload</button>
   <button title="Output WebGL Info in Console" class="log">Log</button>
   <button title="Pause Rendering" class="pause">Pause</button>

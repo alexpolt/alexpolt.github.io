@@ -48,15 +48,15 @@ function init_shader_menus() {
 
           var child = this.children[i];
 
-          if( child.nodeName === "CANVAS" || child.nodeName === "TEXTAREA" ) {
-            if( child.classList.contains( attr ) ) 
-              child.classList.remove( "hidden" );
-            else
-              child.classList.add( "hidden" );
-          }
-        }
+          if( child.getAttribute( "hide" ) === null ) continue;
 
+          if( child.classList.contains( attr ) ) 
+              child.classList.remove( "hidden" );
+          else
+              child.classList.add( "hidden" );
+        }
       }; 
+
     } );
   }
 }
@@ -73,7 +73,7 @@ function loadjs(js,fn) {
 
 var shader_runs = 0;
 
-function resize_shader(d,c,vs,ps) {
+function resize_shader(d,c,vs,ps,hp) {
    var offw, offw;
 
   d.onclick( { target: d.querySelector("li.canvas") } );
@@ -92,6 +92,7 @@ function resize_shader(d,c,vs,ps) {
   c.style.height = offh;
   if( vs ) vs.style.height = offh;
   if( ps ) ps.style.height = offh;
+  if( hp ) hp.style.height = offh;
 }
 
 function run_shader( args ) {
@@ -105,6 +106,7 @@ function run_shader( args ) {
   var fs = D.querySelector("#" + args.div + " button.fscreen");
   var vs = D.querySelector("#" + args.div + " textarea.vs");
   var ps = D.querySelector("#" + args.div + " textarea.ps");
+  var hp = D.querySelector("#" + args.div + " div.help");
   var close = D.querySelector("#" + args.div + " li.close");
 
   if( !d || !c ) throw "failed to get canvas with control buttons";
@@ -123,7 +125,7 @@ function run_shader( args ) {
 
   console.log( "run webgl", opts.id, "with args", opts );
 
-  resize_shader( d, c, vs, ps );
+  resize_shader( d, c, vs, ps, hp );
 
   var pr = window.devicePixelRatio || 1.0;
   var cw = c.clientWidth, ch = c.clientHeight;
@@ -150,7 +152,17 @@ function run_shader( args ) {
 
   if( p ) p.onclick = function() { opts.pause = this.classList.toggle("active"); };
   if( l ) l.onclick = function() { opts.log = this.classList.toggle("active"); };
-  if( r ) r.onclick = function() { run_shader( opts ); };
+  if( r ) r.onclick = function() { delete opts.seed; run_shader( opts ); };
+
+  if( !d.keyhandler ) {
+    d.keyhandler = function(e) {
+      //32-space,82-r,65-a,83-s,68-d,87-w,37,38,39,40-left,up,right,down,27-esc,16-shift,17-ctrl
+      if( e.keyCode == 32 ) if( p ) p.onclick();
+      if( e.keyCode == 82 ) if( r ) r.onclick();
+      if( e.target && e.target.nodeName == "BUTTON" ) e.preventDefault();
+    };
+    D.addEventListener( "keydown", d.keyhandler );
+  }
 
   if( fs && support_fscreen() ) {
 
@@ -160,7 +172,7 @@ function run_shader( args ) {
   if( !d.windowresize ) {
 
     d.windowresize = function() {
-      resize_shader( d, c, vs, ps );
+      resize_shader( d, c, vs, ps, hp );
       var opts = d.shader_opts;
       if( opts && ! opts.resizing ) {
         console.log( "webgl %d resize", opts.id );
@@ -245,8 +257,9 @@ function stop_shader( div ) {
   if( d.windowresize ) window.removeEventListener( "resize", d.windowresize );
   if( d.contextlost ) c.removeEventListener( "webglcontextlost", d.contextlost );
   if( d.fschange ) remove_fchange( d.fschange );
+  if( d.keyhandler ) D.removeEventListener( "keydown", d.keyhandler );
 
-  d.windowresize = d.contextlost = d.fschange = null;
+  d.keyhandler = d.windowresize = d.contextlost = d.fschange = null;
 
   if( d.shader_opts ) {
     console.log( "finish webgl", d.shader_opts.id );
@@ -368,10 +381,38 @@ function activate_webgl() {
       };
     }
 
+    var img = e.querySelector( "img" );
+    if( img ) {
+       var offw = img.offsetWidth;
+       e.style.width = offw + "px";
+       img.onload = function() {
+        var offw = img.offsetWidth;
+        e.style.width = offw + "px";
+      };
+    }
+
+  } );
+
+  var tas = document.querySelectorAll( "div.shader div.help" );
+
+  foreach( tas, function( e ) {
+    e.innerHTML = "<strong>WebGL Demo Helper</strong><ul class='help'>" + [
+      "<b>Keys:</b> <u>space</u> - pause, <u>r</u> - reload;",
+      "<b>Predefined uniforms:</b> <u>t</u> - time, <u>screen.xy</u> - screen dimensions, " +
+      "<u>frame</u> - frame counter, <u>seed</u> - random number from 0 to 1, " +
+      "<u>pass</u> - 2 pass rendering, pass = 0 or 1;",
+      "<b>Predefined samplers:</b> <u>prevtex</u> - previous rendered frame, " +
+      "<u>fbtex</u> - together with <u>pass</u> uniform allows 2 pass rendering;",
+      "<b>Upper buttons:</b> <u>VS</u> - vertex shader, <u>PS</u> - pixel shader, " +
+      "<u>Help</u> - this, <u>Close</u> - close demo;",
+      "<b>Bottom buttons:</b> <u>Reload</u> - reloads shader, <u>Log</u> - outputs FPS to " +
+      "console every 3 seconds, <u>Pause</u> - pauses rendering, <u>FS</u> - activate fullscreen mode;",
+    ].map( function( e ) { return "<li>"+e+"</li>"; } ).join("") + "</ul>" +
+      "<i>This is a Javscript helper written by me (Alexandr Poltavsky) for WebGL demos.</i>" 
   } );
 }
 
-activate_webgl();
+document.addEventListener( "DOMContentLoaded", function() { activate_webgl(); } );
 
 function demo_open( div, ctrl ) {
 
@@ -388,7 +429,6 @@ function demo_open( div, ctrl ) {
     version: ctrl && ctrl.getAttribute( "webgl_version" ) || 1,
     close: function() { demo_close( div, ctrl ); },
     textures: { tex0 : img0 },
-    uniforms: { "t": "time", "screen": "screen", "frame" : "frame" },
   } );
 }
 

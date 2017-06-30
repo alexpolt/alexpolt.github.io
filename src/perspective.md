@@ -24,27 +24,36 @@
   [Sensation and Perception][book2] by E. Bruce Goldstein.
 
 
-<div class="shader" id="shader0" js="" fn="" style="width: 60%">
-<ul class="close"><li class="close">Close</li></ul>
-<ul><li class="canvas">Canvas</li><li class="vs">VS</li><li class="ps">PS</li></ul>
-<canvas class="canvas"></canvas>
-<textarea class="vs hidden" spellcheck="false">
-#version 300 es
-layout(location=0) in vec2 v_in;
-layout(location=1) in vec2 uv_in;
-out vec2 uv;
+<div class="webgl" webgl_version="1" webgl_div="shader0">
+  <h1>WebGL</h1>
+  <img src="images/perspective.png" title="Click to show WebGL demo" alt="Click to show WebGL demo"/><br/>
+  <span>Click to show WebGL demo</span>
+</div>
+
+<div class="shader hidden" id="shader0" js="" fn="" style="width: 60%">
+  <ul class="close"><li title="Close Demo" class="close">Close</li></ul>
+  <ul class="menu">
+    <li title="WebGL Canvas" class="canvas">Canvas</li>
+    <li title="Vertex Shader" class="vs">VS</li>
+    <li title="Pixel Shader" class="ps">PS</li>
+    <li title="Info" class="help">?</li>
+  </ul>
+  <canvas hide class="canvas"></canvas>
+  <textarea hide class="vs hidden" spellcheck="false">
+attribute vec2 v_in;
+attribute vec2 uv_in;
+attribute float vid_in;
+varying vec2 uv;
 uniform float t;
 void main() {
   uv = v_in;
   gl_Position = vec4( vec2( 2.0 * v_in - 1.0 ), 0, 1 );
 }
-</textarea>
-<textarea class="ps hidden" spellcheck="false">
-#version 300 es
+  </textarea>
+  <textarea hide class="ps hidden" spellcheck="false">
 precision highp float;
-in vec2 uv;
+varying vec2 uv;
 uniform float t;
-layout(location=0) out vec4 C;
 const float pi14 = 3.14159265/4.0;
 void main() {
   vec4 uvn = vec4( uv * 2.0 - 1.0, 1, 0 );
@@ -61,23 +70,21 @@ void main() {
     float k = cos( p.x )*0.25+0.75;
     color = vec4(k,k,k,1);
   }
-  C = color;
+  gl_FragData[0] = color;
 }
 </textarea>
-<div class="buttons clear">
-<button title="Reload Shaders" class="reload">Reload</button>
-<button title="Output WebGL Info in Console" class="log">Log</button>
-<button title="Pause Rendering" class="pause">Pause</button>
-<button title="Go Fullscreen" class="fscreen">FS</button>
-</div>
+  <div hide class="help hidden"></div>
+  <div class="buttons">
+  <button title="Reload Shaders" class="reload">Reload</button>
+  <button title="Output WebGL Info in Console" class="log">Log</button>
+  <button title="Pause Rendering" class="pause">Pause</button>
+  <button title="Go Fullscreen" class="fscreen">FS</button>
+  </div>
+  <div class="clear"></div>
 </div>
 
 <script src="js/webgl-quad.js"></script>
 <script src="js/webgl.js"></script>
-
-<script>
-  run_shader( { div: "shader0", version: 2, uniforms: { "t": "time" } } );
-</script>
 
   
   [sa]: https://en.wikipedia.org/wiki/Solid_angle "Solid Angle"

@@ -31,19 +31,32 @@ function webgl_quad( opts ) {
     opts.canvas.dispatchEvent( event );
   }
 
+  if( opts.seed === undefined ) opts.seed = Math.random();
+
   var uniforms_s = [], uniforms_p = [], uniforms_d = [];
-  
-  if( opts.uniforms ) {
-    for( var u in opts.uniforms ) {
-      var ul = gl.getUniformLocation( program0, u );
-      if( ul === null ) { console.warn( "uniform %s not found", u ); continue; }
-      var uo = { name: u, value: opts.uniforms[u], loc: ul };
-      if( typeof opts.uniforms[u] == "function" ) uniforms_d.push( uo );
-      else if( typeof opts.uniforms[u] == "string" ) uniforms_p.push( uo );
-      else if( Array.isArray( opts.uniforms[u] ) ) uniforms_s.push( uo );
-      else throw "uniform type "+(typeof opts.uniforms[u])+
-                  " not supported, only an 1 to 4 array, predefined string or function";
+  var predefined = { t : "time", screen : "screen", frame: "frame", seed: "seed" };
+
+  opts.uniforms = opts.uniforms || {};
+
+  for( var n in predefined ) 
+    if( ! opts.uniforms[ n ] ) opts.uniforms[ n ] = predefined[ n ];
+
+  for( var u in opts.uniforms ) {
+    
+    var ul = gl.getUniformLocation( program0, u );
+
+    if( ul === null && typeof opts.uniforms[u] !== "string" ) { 
+      console.warn( "uniform %s not found", u ); 
+      continue; 
     }
+
+    var uo = { name: u, value: opts.uniforms[u], loc: ul };
+
+    if( typeof opts.uniforms[u] == "function" ) uniforms_d.push( uo );
+    else if( typeof opts.uniforms[u] == "string" ) uniforms_p.push( uo );
+    else if( Array.isArray( opts.uniforms[u] ) ) uniforms_s.push( uo );
+    else throw "uniform type "+(typeof opts.uniforms[u])+
+                " not supported, only an 1 to 4 array, predefined string or function";
   }
 
   var fb, fbtex;
@@ -168,6 +181,7 @@ function webgl_quad( opts ) {
       if( u.value === "time" ) { set_uniform( gl, u, [dt] ); } 
       else if( u.value === "screen" ) { set_uniform( gl, u, [opts.width, opts.height] ); } 
       else if( u.value === "frame" ) { set_uniform( gl, u, [frame] ); } 
+      else if( u.value === "seed" ) { set_uniform( gl, u, [opts.seed] ); } 
     } );
     foreach( uniforms_d, function( u ) { set_uniform( gl, u, u.value() ); } );
 
@@ -260,6 +274,8 @@ function set_tex_parameters( gl, filter ) {
 
   gl.texParameteri( gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, filter );
   gl.texParameteri( gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, filter );
+  //gl.texParameteri( gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.REPEAT );
+  //gl.texParameteri( gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.REPEAT );
   gl.texParameteri( gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE );
   gl.texParameteri( gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE );
 }
