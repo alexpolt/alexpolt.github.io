@@ -324,6 +324,7 @@ div.webgl h1 {
   color: green;
   font-family: tahoma;
   font-weight: bold;
+  cursor: pointer;
 }
 
 div.webgl img {

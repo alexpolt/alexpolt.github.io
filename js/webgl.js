@@ -150,23 +150,23 @@ function run_shader( args ) {
 
   }
 
-  if( p ) p.onclick = function() { opts.pause = this.classList.toggle("active"); };
-  if( l ) l.onclick = function() { opts.log = this.classList.toggle("active"); };
-  if( r ) r.onclick = function() { delete opts.seed; run_shader( opts ); };
+  if( p ) p.onclick = function() { opts.pause = this.classList.toggle("active"); this.blur(); };
+  if( l ) l.onclick = function() { opts.log = this.classList.toggle("active"); this.blur(); };
+  if( r ) r.onclick = function() { delete opts.seed; run_shader( opts ); this.blur(); };
 
   if( !d.keyhandler ) {
     d.keyhandler = function(e) {
       //32-space,82-r,65-a,83-s,68-d,87-w,37,38,39,40-left,up,right,down,27-esc,16-shift,17-ctrl
-      if( e.keyCode == 32 ) if( p ) p.onclick();
-      if( e.keyCode == 82 ) if( r ) r.onclick();
-      if( e.target && e.target.nodeName == "BUTTON" ) e.preventDefault();
+      if( e.target && e.target.nodeName == "TEXTAREA" ) return;
+      if( e.keyCode == 32 ) { if( p ) p.onclick(); e.preventDefault(); }
+      if( e.keyCode == 82 ) { if( r ) r.onclick(); e.preventDefault(); }
     };
     D.addEventListener( "keydown", d.keyhandler );
   }
 
   if( fs && support_fscreen() ) {
 
-    fs.onclick = function() { request_fscreen( c ); };
+    fs.onclick = function() { request_fscreen( c ); this.blur(); };
   }
 
   if( !d.windowresize ) {
@@ -376,7 +376,7 @@ function activate_webgl() {
       };
     } else if( div ) {
       e.onclick = function(e) { 
-        if( e.target && e.target.nodeName != "SPAN" && e.target.nodeName != "IMG" ) return;
+        if( e.target && e.target.nodeName == "DIV" ) return;
         demo_open( div, this );
       };
     }
@@ -421,18 +421,30 @@ function demo_open( div, ctrl ) {
 
   var d = document.querySelector( "div#" + div );
   if( !d ) throw "div " + div + " not found";
+
   d.classList.remove( "hidden" );
-  if( ctrl ) ctrl.classList.add( "hidden" );
+  ctrl.classList.add( "hidden" );
 
-  var img0 = new Image();
-  img0.src = "images/barycentric-small.png";
+  var r = function( args ) {
 
-  run_shader( { 
-    div: div,
-    version: ctrl && ctrl.getAttribute( "webgl_version" ) || 1,
-    close: function() { demo_close( div, ctrl ); },
-    textures: { tex0 : img0 },
-  } );
+    var opts = { 
+      div: div,
+      version: ctrl && ctrl.getAttribute( "webgl_version" ) || 1,
+      close: function() { demo_close( div, ctrl ); },
+    };
+
+    for( var n in args ) opts[ n ] = args[ n ];
+
+    run_shader( opts );
+  };
+
+  var fn = ctrl.getAttribute( "init" );
+
+  if( fn ) {
+    ( function( cb ) {
+        eval( fn );
+    } )( r );
+  } else r( {} );
 }
 
 function demo_close( div, ctrl ) {

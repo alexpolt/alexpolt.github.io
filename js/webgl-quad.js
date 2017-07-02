@@ -93,17 +93,40 @@ function webgl_quad( opts ) {
     var t = e.name;
 
     var texloc = gl.getUniformLocation( program0, t );
+
     if( !texloc ) {
       console.warn( "sampler %s not found", t );
       return;
     }
-    var tex = gl.createTexture();
-    e.texture = tex;
+
+    var tex = e.texture = gl.createTexture();
+
     gl.bindTexture( gl.TEXTURE_2D, tex );
     gl.pixelStorei( gl.UNPACK_FLIP_Y_WEBGL, true );
-    gl.texImage2D( gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, e.value );
-    set_tex_parameters( gl, gl.LINEAR );
-    gl.generateMipmap( gl.TEXTURE_2D );
+
+    if( typeof e.value === "object" && e.value.tex2d ) {
+      var o = e.value;
+      if( ! o.format ) throw "format in teximage2d textures is required";
+      if( ! o.data ) throw "data in teximage2d textures is required";
+      var ifmt = o.iformat || o.format;
+      var type = o.type || "UNSIGNED_BYTE";
+      var filter = o.filter || "LINEAR";
+      if( o.width )
+        gl.texImage2D( gl.TEXTURE_2D, 0, gl[ifmt], o.width, o.height, 0, gl[o.format], gl[type], o.data );
+      else
+        gl.texImage2D( gl.TEXTURE_2D, 0, gl[ifmt], gl[o.format], gl[type], o.data );
+
+      set_tex_parameters( gl, gl[filter] );
+
+      if( o.genmipmap ) gl.generateMipmap( gl.TEXTURE_2D );
+
+     } else {
+
+      gl.texImage2D( gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, e.value );
+      set_tex_parameters( gl, gl.LINEAR );
+      gl.generateMipmap( gl.TEXTURE_2D );
+    }
+    
     uniforms_s.push( { integer: true, name: t, loc: texloc, value: [sampler] } );
   } );
 
@@ -134,6 +157,8 @@ function webgl_quad( opts ) {
   gl.enableVertexAttribArray(0);
   gl.enableVertexAttribArray(1);
   gl.enableVertexAttribArray(2);
+
+  var bgc = opts.bgcolor || [0,0,0,1];
 
   var presented = false, frame = 0, frame_log = 0;
 
@@ -189,7 +214,7 @@ function webgl_quad( opts ) {
       if( passloc ) set_uniform( gl, { loc: passloc }, [0] );
 
       gl.bindFramebuffer( gl.FRAMEBUFFER, fb );
-      gl.clearColor( 0, 0, 0, 0 );
+      gl.clearColor( bgc[0], bgc[1], bgc[2], bgc[3] );
       gl.clear( gl.COLOR_BUFFER_BIT );
       gl.drawArrays( gl.TRIANGLES, 0, 6 );
 
@@ -200,7 +225,7 @@ function webgl_quad( opts ) {
       set_uniform( gl, { integer: true, loc: fbtexloc }, [0] );
     }
 
-    gl.clearColor( 0, 0, 0, 0 );
+    gl.clearColor( bgc[0], bgc[1], bgc[2], bgc[3] );
     gl.clearDepth( 1 );
     gl.clear( gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT );
 

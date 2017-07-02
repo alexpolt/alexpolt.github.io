@@ -56,7 +56,7 @@
 
     vec2 pos_tri = gl\_Position.xy - uv2scr*uv;
 
-<div class="webgl" webgl_version="1" webgl_div="shader0">
+<div class="webgl" webgl_version="1" webgl_div="shader0" init="run_demo(cb);">
   <h1>WebGL</h1>
   <img src="images/webgl300.png" title="Click to show WebGL demo" alt="Click to show WebGL demo"/><br/>
   <span>Click to show WebGL demo</span>
@@ -106,6 +106,18 @@
 
   <script>
 
+    function run_demo( cb ) {
+      var img = new Image();
+      img.onload = function() {
+        cb( { bgcolor: [ 1, 1, 1, 1 ], 
+              textures: { 
+                font: { tex2d: 1, format: "RGB", filter: "LINEAR", genmimmap: 1, data: img } 
+              } 
+            } );
+      };
+      img.src = "images/fixedfont.bmp";
+    }
+
     document.addEventListener( "DOMContentLoaded", function() {
 
       var tas = document.querySelectorAll("div.shader textarea");
@@ -130,24 +142,60 @@
 attribute vec2 v_in;
 attribute vec2 uv_in;
 attribute float vid_in;
-varying vec2 uv;
+varying vec2 uvt;
+varying vec2 uvb;
 uniform float t;
 void main() {
-  uv = v_in;
-  gl_Position = vec4( vec2( 2.0 * v_in - 1.0 ), 0, 1 );
+  uvt = v_in;
+  uvb = uv_in;
+  vec4 p = vec4(0,0,0,1);
+  float tt = fract(t/8.);
+  float a = 2.*3.14159265*tt;
+  mat2 m = mat2( vec2(cos(a),sin(a)), vec2(-sin(a),cos(a)) );
+  if( vid_in < 3. ) 
+    p = vec4( m*vec2( 1.0*v_in-.5 ), 0, 1 );
+  gl_Position = p;
 }
 </textarea>
 <textarea class="hidden" id="shader0ps">
 precision highp float;
-varying vec2 uv;
+varying vec2 uvt;
+varying vec2 uvb;
 uniform float t;
+uniform sampler2D font;
+
+float digit( float d, vec2 uv );
+bool inbox( inout vec2 uv, vec4 box );
+
 void main() {
-  float tt = fract( t / 10. );
-  vec4 c = vec4(  cos( ( uv.x*uv.y + uv.y + 5.*tt ) * 3.), 
-                  cos( ( 3.*uv.y*uv.x + 7.*tt ) * 2.0 ), 
-                  cos( tt*(1.-uv.x-uv.y)*3. ), 1 );
-  gl_FragData[0] = c*vec4( .5, .5, .5, 1 ) + vec4( .5, .5, .5, 0 );
+  float tt = fract(t);
+  vec4 box = vec4( tt, tt+0.1, .0, .1 );
+  float k = .0;
+  vec2 uv = uvb;
+  if( inbox( uv, box ) ) {
+    k = digit( 1., uv );
+  }
+  gl_FragData[0] = vec4(k,k,k,1);
 }
+
+float digit( float d, vec2 uv ) {
+  float line = 4.;
+  vec2 luv = vec2( fract(d/line), floor(d/line)/line );
+  luv = luv+uv/line;
+  return texture2D( font, luv ).r;
+}
+
+bool inbox( inout vec2 uv, vec4 box ) {
+  float s0 = sign(uv.x-box.x)+sign(box.y-uv.x);
+  float s1 = sign(uv.y-box.z)+sign(box.w-uv.y);
+  if( s0*s1 > .0 ) {
+    uv.x = (uv.x-box.x)/(box.y-box.x);
+    uv.y = (uv.y-box.z)/(box.w-box.z);
+    return true;
+  } 
+  return false;
+}
+
 </textarea>
 
 
