@@ -100,7 +100,7 @@ vec2 xydu = vec2( uvdy.x, -uvdx.y ) * D;
 vec2 xydv = vec2( -uvdy.x, uvdx.y ) * D;
 mat2 uv2scr = mat2( xydu, xydv );
 
-//In GLSL you can just use inverse( scr2uv )
+//starting with OpenGL 3.1 (GLSL 1.4) there is inverse(...) intrinsic
 </code></pre>
 
 <p>Okay. The first step is done. Now we need to find the location of uv=[0,0] on screen. Remember
@@ -164,7 +164,8 @@ mat2 uv2scr = mat2( xydu, xydv );
         cb( { bgcolor: [ 1, 1, 1, 1 ], 
               textures: { 
                 font: { tex2d: 1, format: "RGB", filter: "LINEAR", genmimmap: 1, data: img } 
-              } 
+              },
+              extensions: [ "OES_standard_derivatives" ]
             } );
       };
       var fonttex = "images/fixedfont.png";
@@ -203,7 +204,7 @@ void main() {
   uvt = v_in;
   uvb = uv_in;
   vec4 p = vec4(0,0,0,1);
-  float tt = fract(t/8.);
+  float tt = fract(t/32.);
   float a = 2.*3.14159265*tt;
   mat2 m = mat2( vec2(cos(a),sin(a)), vec2(-sin(a),cos(a)) );
   if( vid_in < 3. ) 
@@ -212,27 +213,63 @@ void main() {
 }
 </textarea>
 <textarea class="hidden" id="shader0ps">
+#extension GL_OES_standard_derivatives : enable
 precision highp float;
 varying vec2 uvt;
 varying vec2 uvb;
 uniform float t;
+uniform vec2 screen;
 uniform sampler2D font;
 
-float digit( float d, vec2 uv );
-bool inbox( inout vec2 uv, vec4 box );
+const float numd = 5.;
+
+float compute_digit( vec2, vec2 );
+float load_digit( float, vec2 );
+bool inbox( inout vec2, vec4 );
+mat2 inverse( mat2 );
 
 void main() {
-  float tt = fract(t);
-  vec4 box = vec4( tt, tt+0.1, .0, .1 );
-  float k = .0;
-  vec2 uv = uvb;
-  if( inbox( uv, box ) ) {
-    k = digit( 1., uv );
+  vec2 uvdx = dFdx( uvb );
+  vec2 uvdy = dFdy( uvb );
+  mat2 scr2uv = mat2( uvdx, uvdy );
+  mat2 uv2scr = inverse( scr2uv );
+
+  vec4 boxu = vec4( 0.5, 0.85, .0, .1 );
+  vec4 boxv = vec4( 0., 0.1, .5, .85 );
+  vec2 uv;
+  float c = .0;
+
+  uv = uvb;
+  if( inbox( uv, boxu ) ) {
+    c = compute_digit( uv2scr[0], uv );
   }
-  gl_FragData[0] = vec4(k,k,k,1);
+
+  uv = uvb;
+  if( inbox( uv, boxv ) ) {
+    uv.xy = uv.yx;
+    uv.y = 1.-uv.y;
+    c = compute_digit( uv2scr[1], uv );
+  }
+
+  gl_FragData[0] = vec4(c,c,c,1);
 }
 
-float digit( float d, vec2 uv ) {
+float compute_digit( vec2 scr, vec2 uv ) {
+  float digit = floor(numd*uv.x);
+  uv.x = fract(numd*uv.x);
+  if( digit == .0 ) return load_digit( .0, uv );
+  if( digit == 1. ) return load_digit( 10., uv );  
+  digit = digit - 2.;
+  vec2 scrn = scr/screen;
+  float d = abs(scrn.x);
+  for( float n = .0; n < numd-2.; n++ ) {
+    if(n <= digit) d = 10.*fract(d);
+    else break;
+  }
+  return load_digit( floor(d), uv );
+}
+
+float load_digit( float d, vec2 uv ) {
   float line = 4.;
   vec2 luv = vec2( fract(d/line), floor(d/line)/line );
   luv = luv+uv/line;
@@ -250,6 +287,14 @@ bool inbox( inout vec2 uv, vec4 box ) {
   return false;
 }
 
+mat2 inverse( mat2 m ) {
+  vec2 uvdx = m[0];
+  vec2 uvdy = m[1];
+  float D = 1.0 / ( uvdx.x*uvdy.y - uvdx.y*uvdy.x );
+  vec2 xydu = vec2( uvdy.y, -uvdy.x ) * D;
+  vec2 xydv = vec2( -uvdx.y, uvdx.x ) * D;
+  return mat2( xydu, xydv );
+}
 </textarea>
 
 

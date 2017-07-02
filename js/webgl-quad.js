@@ -10,6 +10,13 @@ function webgl_quad( opts ) {
 
   var width = gl.drawingBufferWidth, height = gl.drawingBufferHeight;
 
+  if( opts.extensions ) {
+    foreach( opts.extensions, function(ext) {
+      if( ! gl.getExtension( ext ) ) 
+        throw "extension " + ext + " not supported";
+    } );
+  }
+
   gl.viewport( 0, 0, width, height );
 
   var time_start, time_log, dt_pause, frame = 0;
