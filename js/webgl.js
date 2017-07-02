@@ -74,7 +74,8 @@ function loadjs(js,fn) {
 var shader_runs = 0;
 
 function resize_shader(d,c,vs,ps,hp) {
-   var offw, offw;
+
+  var offw, offw;
 
   d.onclick( { target: d.querySelector("li.canvas") } );
 
@@ -90,9 +91,10 @@ function resize_shader(d,c,vs,ps,hp) {
   }
 
   c.style.height = offh;
-  if( vs ) vs.style.height = offh;
-  if( ps ) ps.style.height = offh;
-  if( hp ) hp.style.height = offh;
+  if( vs ) { vs.style.height = offh; vs.style.width = "100%"; }
+  if( ps ) { ps.style.height = offh; ps.style.width = "100%"; }
+  if( hp ) { hp.style.height = offh; hp.style.width = "100%"; }
+
 }
 
 function run_shader( args ) {
