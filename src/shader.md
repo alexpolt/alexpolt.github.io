@@ -114,7 +114,9 @@
               } 
             } );
       };
-      img.src = "images/fixedfont.png";
+      var fonttex = "images/fixedfont.png";
+      img.onerror = function() { alert( "Failed to load '"+fonttex+"' texture" ); };
+      img.src = fonttex;
     }
 
     document.addEventListener( "DOMContentLoaded", function() {
