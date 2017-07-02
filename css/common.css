@@ -315,24 +315,24 @@ div.webgl span {
   cursor: pointer;
 }
 
-div.webgl h1 {
-  position: absolute;
-  left: 0px;
-  top: 0px;
-  margin: 0px;
-  padding: 0px;
-  color: green;
-  font-family: tahoma;
-  font-weight: bold;
-  cursor: pointer;
+div.webgl span.nowebgl {
+  color: #888888;
 }
 
-div.webgl img {
+div.webgl img.link {
   cursor: pointer;
   border: 2px solid silver;
 }
 
-div.webgl img:hover {
+div.webgl img.logo  {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  cursor: pointer;
+}
+
+
+div.webgl img.link:hover {
   cursor: pointer;
   border: 2px solid darkred;
 }

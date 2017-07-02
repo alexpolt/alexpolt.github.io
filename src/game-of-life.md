@@ -8,8 +8,7 @@
 
 
 <div class="webgl" webgl_version="1" webgl_div="shader0">
-  <h1>WebGL</h1>
-  <img src="images/game-of-life.png" title="Click to show WebGL demo" alt="Click to show WebGL demo"/><br/>
+  <img class="link" src="images/game-of-life.png" title="Click to show WebGL demo" alt="WebGL demo"/><br/>
   <span>Click to show WebGL demo</span>
 </div>
 

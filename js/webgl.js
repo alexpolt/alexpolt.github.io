@@ -350,26 +350,33 @@ add_tabs();
 
 function activate_webgl() {
 
+  var ver1 = 0, ver2 = 0, canvas;
+
+  try {
+    canvas = document.createElement( "canvas" );
+    if( canvas.getContext( "webgl" ) || canvas.getContext( "experimental-webgl" ) ) ver1 = 1;
+  } catch(e) { console.error( e ); }
+
+  try {
+    canvas = document.createElement( "canvas" );
+    if( canvas.getContext( "webgl2" ) || canvas.getContext( "experimental-webgl2" ) ) ver2 = 2;
+  } catch(e) { console.error( e ); }
+
+  canvas = null;
+
   var els = document.querySelectorAll( "div.webgl" );
-  var canvas = document.createElement( "canvas" );
 
   foreach( els, function( e ) {
 
     var ver = e.getAttribute("webgl_version") || 1;
+
     var div = e.getAttribute("webgl_div");
-    var ctx;
-
-    try {
-      if( ver == 1 ) ctx = canvas.getContext( "webgl" ) || canvas.getContext( "experimental-webgl" );
-      else if( ver == 2 ) ctx = canvas.getContext( "webgl2" ) || canvas.getContext( "experimental-webgl2" );
-      else throw "wrong webgl version in div.demo";
-    } catch(e) { console.error( e ); }
-
     var span = e.querySelector( "span" );
     if( !span ) throw "Span not found in div.webgl element";
 
-    if( !ctx ) { 
-      span.innerHTML = "no WebGL support";
+    if( ver != ver1 && ver != ver2 ) { 
+      span.innerHTML = "no WebGL"+ver+" support";
+      span.classList.add("nowebgl");
       e.onclick = function(e) { 
         if( e.target && e.target.nodeName != "SPAN" && e.target.nodeName != "IMG" ) return;
         alert("Need WebGL "+ver+" support. Please update your browser."); 
@@ -381,18 +388,50 @@ function activate_webgl() {
       };
     }
 
-    var img = e.querySelector( "img" );
-    if( img ) {
+    var logo = new Image();
+    logo.classList.add( "logo" );
+    logo.alt = "WebGL Logo";
+    logo.title = "WebGL Demo";
+    logo.onload = function() {
+      if( ! this.width_orig ) this.width_orig = this.width;
+      if( ! this.height_orig ) this.height_orig = this.height;
+      var img = e.querySelector( "img.link" );
+      var ar0 = this.height_orig / this.width_orig;
+      var ar1 = img.offsetHeight / img.offsetWidth;
+      var k = ar0 / ar1;
+      if( k < 1 ) {
+        var scale  = 0.75 - ( Math.min( 1, Math.max( k, 0.5 )) - 0.5 );
+        this.style.height = "auto";
+        this.style.width = Math.round( scale * img.offsetWidth ) + "px";
+      } else {
+        var scale = 0.5;
+        this.style.width = "auto";
+        this.style.height = Math.round( scale * img.offsetHeight ) + "px";
+      }
+      this.classList.remove( "hide" );
+    };
+    
+    var onload = function() {
       var cw = document.getElementById( "content" ).offsetWidth;
-      var offw = Math.round( 100 * img.offsetWidth / cw );
-      if( offw ) e.style.width = offw + "%";
-      img.onload = function() {
-        var cw = document.getElementById( "content" ).offsetWidth;
-        e.style.width = "auto";
-        var offw = Math.round( 100 * img.offsetWidth / cw );
-        if( offw ) e.style.width = offw + "%";
-      };
-    }
+      if( ! this.width_orig ) this.width_orig = this.offsetWidth;
+      if( ! this.height_orig ) this.height_orig = this.offsetHeight;
+      var w = this.width_orig;
+      var width = Math.min( 80, Math.ceil(100*w/cw) );
+      e.style.width = width + "%";
+      if( ! logo.added ) {
+        logo.src = "images/webgl300.png";
+        logo.classList.add( "hide" );
+        e.appendChild( logo );
+        logo.added = true;
+      } else
+        logo.onload();
+    };
+
+    var img = e.querySelector( "img.link" );
+    if( img.width && img.height ) onload.call( img );
+    else img.onload = onload;
+
+    window.addEventListener( "resize", function() { onload.call(img); } );
 
   } );
 
