@@ -55,22 +55,30 @@ void main() {
 precision highp float;
 varying vec2 uv;
 uniform float t;
+uniform vec2 screen;
 const float pi14 = 3.14159265/4.0;
+
 void main() {
+
   vec4 uvn = vec4( uv * 2.0 - 1.0, 1, 0 );
+  
   vec4 ray;
+  
   if( fract( t / 2.0 ) > 0.5 ) {
     ray = vec4( sin( abs(uvn.x) * pi14 ), 0, cos( uvn.x * pi14 ), 0 );
     ray = ray / ray.z;
-    ray.y = uvn.y;
   } else
-    ray = vec4( uvn.x, uvn.y, 1, 0 );
-  vec4 color = vec4( 14, 29, 25, 255 ) / 255.0;
-  vec4 p = ray * ( 100.0 / ray.z );
-  if( p.y >= .0 && p.y <= 50. ) {
-    float k = cos( p.x )*0.25+0.75;
+    ray = vec4( uvn.x, uvn.y, 0, 0 );
+    
+  vec4 color = vec4( 222, 222, 222, 255 ) / 255.0;
+  float f = screen.x / 8.;
+  
+  if( uv.y >= .35 && uv.y < .65 ) {
+    float k = step( .25, cos( ray.x*f ) );
+    k = 0.25 + 0.4*k;
     color = vec4(k,k,k,1);
   }
+  
   gl_FragData[0] = color;
 }
 </textarea>
