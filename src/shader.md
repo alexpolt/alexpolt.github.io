@@ -114,7 +114,7 @@
               } 
             } );
       };
-      img.src = "images/fixedfont.bmp";
+      img.src = "images/fixedfont.png";
     }
 
     document.addEventListener( "DOMContentLoaded", function() {

@@ -458,13 +458,13 @@ document.addEventListener( "DOMContentLoaded", function() { activate_webgl(); } 
 
 function demo_open( div, ctrl ) {
 
-  var d = document.querySelector( "div#" + div );
-  if( !d ) throw "div " + div + " not found";
-
-  d.classList.remove( "hidden" );
-  ctrl.classList.add( "hidden" );
-
   var r = function( args ) {
+
+    var d = document.querySelector( "div#" + div );
+    if( !d ) throw "div " + div + " not found";
+
+    d.classList.remove( "hidden" );
+    ctrl.classList.add( "hidden" );
 
     var opts = { 
       div: div,
