@@ -3,17 +3,17 @@
 
   In this post I'm going to talk about:
 
-  * [Getting triangle (primitive) location in screen space and its edge vectors.][a]
+  * [Getting triangle (primitive) location in screen space and its edge vectors][a]
 
   * [Non-perspective interpolation in WebGL][d]
 
-  * [Using partial derivatives for peeking into another shader.][b]
+  * [Using partial derivatives for peeking into another shader][b]
 
   * [Many lights with the help of a primitive id][c]
 
 <!-- end list -->
 
-  <a name="triangle"></a>
+<a name="triangle"></a>
 
 ###Triangle Info
 
@@ -90,17 +90,45 @@
 </div>
 
 
-  <a name="noperspective"></a>
+<a name="noperspective"></a>
 
-  Non-perspective interpolation.
+###Non-perspective interpolation in WebGL
 
-  <a name="derivatives"></a>
+  In WebGL (both 1 and 2) there is no _noperspective_ qualifier and that's a problem because our
+  barycentric coordinates need to be interpolated in screen space linearly. No worries, it can be 
+  done by hand: we need to multiply by gl\_Position.w in the vertex shader and then divide by 
+  1\gl\_FragCoord.w in the pixel shader (if the z is constant then we don't need to do anything).
+  This effectively has the same effect as _noperspective_ interpolation.
 
-  Derivatives.
 
-  <a name="lights"></a>
+<a name="derivatives"></a>
 
-  Lights.
+###Using partial derivatives for peeking into another shader
+
+  Derivatives can be exploited to peek into what's happening in a neighbor fragment.
+
+    float value;
+    float value_in_right_fragment = value + dFdx( value );
+    float value_in_up_fragment = value + dFdy( value ); 
+    //up in OpenGL, down in DirectX
+
+  While this looks alluring it has a number of problems. First, it's limited to right and up 
+  fragments. Second, derivatives are calculated for a quad of fragments ( 2x2 ), so it essentially 
+  halves the resolution. If you have linear data then it is all, obviously, no problem. 
+  Another problem we have to check for out-of-primitive fragments and it can be done with 
+  barycentrics (by checking for u&gt;=0, v&gt;=0, u+v &lt;=1 in neighbor fragments).
+
+
+<a name="lights"></a>
+
+###Many lights with the help of a primitive id
+
+  Never thought of using gl\_PrimitiveID (Sv\_PrimitiveID) for anything but recently realized that
+  lights can be grouped for a primitive and iterated over in the pixel shader. I decided to cook up
+  a WebGL Demo showing this (in WebGL1 I have to supply primitive id in a buffer and use float 
+  textures for light parameters).
+
+
 
 
 <div>
@@ -182,8 +210,6 @@ void main() {
 precision highp float;
 varying vec2 uvt;
 varying vec2 uvb;
-uniform float t;
-uniform vec2 screen;
 uniform sampler2D font;
 uniform sampler2D bg;
 
