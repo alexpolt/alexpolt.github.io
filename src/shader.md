@@ -89,6 +89,9 @@
   <div class="clear"></div>
 </div>
 
+  Retrieving tri info is helpful in [DFAA][e] antialiasing: the edge vectors are used to determine
+  sampling direction.
+
 
 <a name="noperspective"></a>
 
@@ -344,6 +347,7 @@ mat2 inverse( mat2 m ) {
   [b]: #derivatives
   [c]: #lights
   [d]: #noperspective
+  [e]: dfaa.html "DFAA Antialiasing Algorithm"
   [bar]: barycentric.html "Barycentric Coordinates"
 
 
