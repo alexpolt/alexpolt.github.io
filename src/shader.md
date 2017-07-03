@@ -43,8 +43,8 @@
 
 
     float D = 1.0 / ( uvdx.x*uvdy.y - uvdx.y*uvdy.x );
-    vec2 xydu = vec2( uvdy.x, -uvdx.y ) * D;
-    vec2 xydv = vec2( -uvdy.x, uvdx.y ) * D;
+    vec2 xydu = vec2( uvdy.y, -uvdx.y ) * D;
+    vec2 xydv = vec2( -uvdy.x, uvdx.x ) * D;
     mat2 uv2scr = mat2( xydu, xydv );
 
     //starting with OpenGL 3.1 (GLSL 1.4) there is inverse(...) intrinsic
