@@ -74,7 +74,7 @@ function webgl_quad( opts ) {
     fbtex = gl.createTexture();
     gl.bindTexture( gl.TEXTURE_2D, fbtex );
     gl.texImage2D( gl.TEXTURE_2D, 0, gl.RGBA, width, height, 0, gl.RGBA, gl.UNSIGNED_BYTE, null );  
-    set_tex_parameters( gl, gl.NEAREST );
+    set_tex_parameters( gl, gl.NEAREST, gl.NEAREST );
     fb = gl.createFramebuffer();
     gl.bindFramebuffer( gl.FRAMEBUFFER, fb );
     gl.framebufferTexture2D( gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, fbtex, 0 );
@@ -117,20 +117,19 @@ function webgl_quad( opts ) {
       if( ! o.data ) throw "data in teximage2d textures is required";
       var ifmt = o.iformat || o.format;
       var type = o.type || "UNSIGNED_BYTE";
-      var filter = o.filter || "LINEAR";
+      var magf = o.magf || "LINEAR";
+      var minf = o.minf || "LINEAR";
       if( o.width )
         gl.texImage2D( gl.TEXTURE_2D, 0, gl[ifmt], o.width, o.height, 0, gl[o.format], gl[type], o.data );
       else
         gl.texImage2D( gl.TEXTURE_2D, 0, gl[ifmt], gl[o.format], gl[type], o.data );
-
-      set_tex_parameters( gl, gl[filter] );
-
+      set_tex_parameters( gl, gl[magf], gl[minf] );
       if( o.genmipmap ) gl.generateMipmap( gl.TEXTURE_2D );
 
      } else {
 
       gl.texImage2D( gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, e.value );
-      set_tex_parameters( gl, gl.LINEAR );
+      set_tex_parameters( gl, gl.LINEAR, gl.LINEAR_MIPMAP_LINEAR );
       gl.generateMipmap( gl.TEXTURE_2D );
     }
     
@@ -143,7 +142,7 @@ function webgl_quad( opts ) {
     prevtex = gl.createTexture();
     gl.bindTexture( gl.TEXTURE_2D, prevtex );
     gl.texImage2D( gl.TEXTURE_2D, 0, gl.RGBA, width, height, 0, gl.RGBA, gl.UNSIGNED_BYTE, null );  
-    set_tex_parameters( gl, gl.NEAREST );
+    set_tex_parameters( gl, gl.NEAREST, gl.NEAREST );
     uniforms_s.push( { integer: true, name: "prevtex", loc: prevtexloc, value: [ textures.length ] } );
     textures.push( { name: "prevtex", texture: prevtex } );
   }
@@ -302,10 +301,10 @@ function set_uniform( gl, u, value ) {
     } 
 }
 
-function set_tex_parameters( gl, filter ) {
+function set_tex_parameters( gl, magfilter, minfilter ) {
 
-  gl.texParameteri( gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, filter );
-  gl.texParameteri( gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, filter );
+  gl.texParameteri( gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, magfilter );
+  gl.texParameteri( gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, minfilter );
   //gl.texParameteri( gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.REPEAT );
   //gl.texParameteri( gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.REPEAT );
   gl.texParameteri( gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE );

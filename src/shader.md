@@ -57,7 +57,7 @@
     vec2 pos_tri = gl\_Position.xy - uv2scr*uv;
 
 <div class="webgl" webgl_version="1" webgl_div="shader0" init="run_demo(cb);">
-  <img class="link" src="images/game-of-life.png" title="Click to show WebGL demo" alt="WebGL demo"/><br/>
+  <img class="link" src="images/triangle-info.png" title="Click to show WebGL demo" alt="WebGL demo"/><br/>
   <span>Click to show WebGL demo</span>
 </div>
 
@@ -110,7 +110,8 @@
       img.onload = function() {
         cb( { bgcolor: [ 1, 1, 1, 1 ], 
               textures: { 
-                font: { tex2d: 1, format: "RGB", filter: "LINEAR", genmimmap: 1, data: img } 
+                font: { tex2d: 1, format: "RGB", magf: "NEAREST", minf: "NEAREST", 
+                        genmipmap: 0, data: img }
               },
               extensions: [ "OES_standard_derivatives" ]
             } );
@@ -147,15 +148,19 @@ attribute float vid_in;
 varying vec2 uvt;
 varying vec2 uvb;
 uniform float t;
+uniform vec2 screen;
 void main() {
   uvt = v_in;
   uvb = uv_in;
+  float ar = screen.y/screen.x;
   vec4 p = vec4(0,0,0,1);
   float tt = fract(t/32.);
   float a = 2.*3.14159265*tt;
   mat2 m = mat2( vec2(cos(a),sin(a)), vec2(-sin(a),cos(a)) );
-  if( vid_in < 3. ) 
-    p = vec4( m*vec2( 1.0*v_in-.5 ), 0, 1 );
+  if( vid_in < 3. ) {
+    p = vec4( m*vec2( 1.4*v_in-.7 ), 0, 1 );
+    p.x = p.x * ar;
+  }
   gl_Position = p;
 }
 </textarea>
@@ -168,48 +173,70 @@ uniform float t;
 uniform vec2 screen;
 uniform sampler2D font;
 
-const float numd = 5.;
+const float numd = 4.;
 
-float compute_digit( vec2, vec2 );
+float print_coords( vec2, vec2 );
+float compute_digit( float, vec2 );
 float load_digit( float, vec2 );
 bool inbox( inout vec2, vec4 );
 mat2 inverse( mat2 );
 
 void main() {
+
   vec2 uvdx = dFdx( uvb );
   vec2 uvdy = dFdy( uvb );
   mat2 scr2uv = mat2( uvdx, uvdy );
   mat2 uv2scr = inverse( scr2uv );
+  vec2 pos_tri = gl_FragCoord.xy - uv2scr*uvb;
   
-  vec4 boxu = vec4( 0.5, 0.85, .0, .1 );
-  vec4 boxv = vec4( 0., 0.1, .5, .85 );
   vec2 uv;
   float c = .0;
   
   uv = uvb;
+  vec4 boxu = vec4( 0.5, 0.9, .0, .1 );
   if( inbox( uv, boxu ) ) {
-    c = compute_digit( uv2scr[0], uv );
+    c = print_coords( uv2scr[0], uv );
   }
-  
+
   uv = uvb;
+  vec4 boxv = vec4( 0., 0.1, .5, .9 );
   if( inbox( uv, boxv ) ) {
     uv.xy = uv.yx;
     uv.y = 1.-uv.y;
-    c = compute_digit( uv2scr[1], uv );
+    c = print_coords( uv2scr[1], uv );
   }
 
-  gl_FragData[0] = vec4(c,c,c,1);
+  uv = uvb;
+  vec4 boxcx = vec4( 0, 0.2, .0, .1 );
+  if( inbox( uv, boxcx ) ) {
+    c = compute_digit( pos_tri.x, uv );
+  }
+
+  uv = uvb;
+  vec4 boxcy = vec4( 0., 0.1, .11, .31 );
+  if( inbox( uv, boxcy ) ) {
+    uv.xy = uv.yx;
+    uv.y = 1.-uv.y;
+    c = compute_digit( pos_tri.y, uv );
+  }
+
+  
+  vec4 color = vec4(0,.2,0,1);
+  if( c > .0 )
+    color = vec4(1,1,1,1);
+  gl_FragData[0] = color;
 }
 
-float compute_digit( vec2 scr, vec2 uv ) {
+float compute_digit( float n, vec2 uv ) {
   float digit = floor(numd*uv.x);
   uv.x = fract(numd*uv.x);
-  if( digit == .0 ) return load_digit( .0, uv );
-  if( digit == 1. ) return load_digit( 10., uv );  
-  digit = digit - 2.;
-  vec2 scrn = scr/screen;
-  float d = abs(scrn.x);
-  for( float n = .0; n < numd-2.; n++ ) {
+  if( digit == .0 ) {
+    if( n < .0 ) return load_digit( 15., uv );
+    else return load_digit( 14., uv );
+  }
+  digit = digit - 1.;
+  float d = abs(n)/pow(10.,numd-1.);
+  for( float n = .0; n < numd-1.; n++ ) {
     if(n <= digit) d = 10.*fract(d);
     else break;
   }
@@ -234,12 +261,29 @@ bool inbox( inout vec2 uv, vec4 box ) {
   return false;
 }
 
+float print_coords( vec2 coords, vec2 uv ) {
+  float dd = 2.*numd + 1.;
+  float d = floor(dd*uv.x);
+  float c = .0;
+  if( d < numd ) {
+    vec2 uv2 = vec2( fract(dd*uv.x/numd), uv.y );
+    c = compute_digit( coords.x, uv2 );
+  } else if( d == numd ) {
+    vec2 uv2 = vec2( fract(dd*uv.x), uv.y );
+    c = load_digit( 11., uv2 );
+  } else {
+    vec2 uv2 = vec2( fract((dd*uv.x-1.-numd)/numd), uv.y );
+    c = compute_digit( coords.y, uv2 );
+  }
+  return c;
+}
+
 mat2 inverse( mat2 m ) {
   vec2 uvdx = m[0];
   vec2 uvdy = m[1];
   float D = 1.0 / ( uvdx.x*uvdy.y - uvdx.y*uvdy.x );
-  vec2 xydu = vec2( uvdy.y, -uvdy.x ) * D;
-  vec2 xydv = vec2( -uvdx.y, uvdx.x ) * D;
+  vec2 xydu = vec2( uvdy.y, -uvdx.y ) * D;
+  vec2 xydv = vec2( -uvdy.x, uvdx.x ) * D;
   return mat2( xydu, xydv );
 }
 </textarea>
