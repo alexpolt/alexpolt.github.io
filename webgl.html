@@ -100,7 +100,7 @@ const float pi = 3.14159265;
 
 void main() {
   vec2 ar = vec2(screen.x/screen.y, 1);
-  float c = step(.0, cos( 4.*t+10.*pi*length(ar*uvt-ar*.5) ));
+  float c = smoothstep(.0, .2, cos( 4.*t+10.*pi*length(ar*uvt-ar*.5) ));
   gl_FragColor = vec4(c, c, c, 1);
 }
   </textarea>
