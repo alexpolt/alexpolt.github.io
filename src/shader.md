@@ -54,7 +54,7 @@
   position of the shaded fragment within the primitive. Then we subtract that from the global 
   screen space fragment position (gl\_FragCoord or SV\_POSITION) to get the desired result:
 
-    vec2 pos_tri = gl\_FragCoord.xy - uv2scr*uv;
+    vec2 pos_tri = gl_FragCoord.xy - uv2scr*uv;
 
   Below is a WebGL demonstration. On the sides of the triangle are screen dimensions of its edges
   together with screen position of the origin point. Three digits are printed so make sure your
@@ -190,18 +190,25 @@ varying vec2 uvt;
 varying vec2 uvb;
 uniform float t;
 uniform vec2 screen;
+
 void main() {
+
   uvt = v_in;
   uvb = uv_in;
-  float ar = screen.y/screen.x;
+
   vec4 p = vec4(0,0,0,1);
+  float ar = screen.y/screen.x;
   float tt = fract(t/32.);
   float a = 2.*3.14159265*tt;
+
   mat2 m = mat2( vec2(cos(a),sin(a)), vec2(-sin(a),cos(a)) );
+
   if( vid_in < 3. ) {
+
     p = vec4( m*vec2( 1.4*v_in-.7 ), 0, 1 );
     p.x = p.x * ar;
   }
+
   gl_Position = p;
 }
 </textarea>
@@ -213,22 +220,24 @@ varying vec2 uvb;
 uniform sampler2D font;
 uniform sampler2D bg;
 
-const float numd = 4.;
-
 float print_coords( vec2, vec2 );
 float compute_digit( float, vec2 );
 float load_digit( float, vec2 );
 bool inbox( inout vec2, vec4 );
 mat2 inverse( mat2 );
 
+const float numd = 4.;
+
 void main() {
 
+  //getting tri info
   vec2 uvdx = dFdx( uvb );
   vec2 uvdy = dFdy( uvb );
   mat2 scr2uv = mat2( uvdx, uvdy );
   mat2 uv2scr = inverse( scr2uv );
   vec2 pos_tri = gl_FragCoord.xy - uv2scr*uvb;
-  
+
+  //the rest is printing digits
   vec2 uv;
   float c = .0;
   
