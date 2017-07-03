@@ -52,9 +52,14 @@
   Okay. The first step is done. Now we need to find the location of uv=[0,0] on screen. Remember
   that uv is an interpolated barycentric, so we can use the above uv2scr to find the screen space
   position of the shaded fragment within the primitive. Then we subtract that from the global 
-  screen space fragment position (gl\_Position or SV\_POSITION) to get the desired result:
+  screen space fragment position (gl\_FragCoord or SV\_POSITION) to get the desired result:
 
-    vec2 pos_tri = gl\_Position.xy - uv2scr*uv;
+    vec2 pos_tri = gl\_FragCoord.xy - uv2scr*uv;
+
+  Below is a WebGL demonstration. On the sides of the triangle are screen dimensions of its edges
+  together with screen position of the origin point. Three digits are printed so make sure your
+  browser window is reasonable in size. Most of the code in pixel shader is for outputting the 
+  text in the right place. To pause rotation just hit space bar.
 
 <div class="webgl" webgl_version="1" webgl_div="shader0" init="run_demo(cb);">
   <img class="link" src="images/triangle-info.png" title="Click to show WebGL demo" alt="WebGL demo"/><br/>
@@ -106,19 +111,27 @@
   <script>
 
     function run_demo( cb ) {
-      var img = new Image();
-      img.onload = function() {
-        cb( { bgcolor: [ 1, 1, 1, 1 ], 
-              textures: { 
-                font: { tex2d: 1, format: "RGB", magf: "NEAREST", minf: "NEAREST", 
-                        genmipmap: 0, data: img }
-              },
-              extensions: [ "OES_standard_derivatives" ]
-            } );
+      var imgfont = new Image();
+      imgfont.onload = function() {
+        var imgbg = new Image();
+        var bgtex = "images/triangle-info-bg.png";
+        imgbg.onerror = function() { alert( "Failed to load '"+bgtex+"' texture" ); };
+        imgbg.onload = function() {
+          cb( { bgcolor: [ 1, 1, 1, 1 ], 
+                textures: { 
+                  font: { tex2d: 1, format: "RGB", magf: "NEAREST", minf: "NEAREST", 
+                          genmipmap: 0, data: imgfont },
+                  bg: { tex2d: 1, format: "RGB", magf: "LINEAR", minf: "LINEAR_MIPMAP_LINEAR",
+                        genmipmap: 1, data: imgbg },
+                },
+                extensions: [ "OES_standard_derivatives" ]
+              } );
+          };
+        imgbg.src = bgtex;
       };
       var fonttex = "images/fixedfont.png";
-      img.onerror = function() { alert( "Failed to load '"+fonttex+"' texture" ); };
-      img.src = fonttex;
+      imgfont.onerror = function() { alert( "Failed to load '"+fonttex+"' texture" ); };
+      imgfont.src = fonttex;
     }
 
     document.addEventListener( "DOMContentLoaded", function() {
@@ -172,6 +185,7 @@ varying vec2 uvb;
 uniform float t;
 uniform vec2 screen;
 uniform sampler2D font;
+uniform sampler2D bg;
 
 const float numd = 4.;
 
@@ -221,7 +235,7 @@ void main() {
   }
 
   
-  vec4 color = vec4(0,.2,0,1);
+  vec4 color = texture2D( bg, uvb );
   if( c > .0 )
     color = vec4(1,1,1,1);
   gl_FragData[0] = color;
