@@ -4,7 +4,8 @@
   Got my little hacky WebGL framework working and wrote a [Game of Life][g] shader.
   It uses previous frame as a source to compute current one. You can hack on the shader yourself
   by clicking a "PS" (Pixel Shader) button. To start try adjusting the _cell_ variable - it controls
-  the field scale, _fstep_ variable is a frame divider - use it to slow down the processing.
+  the field scale, _fstep_ variable is a frame divider - use it to slow down the processing, then
+  click reload button (or press r key) to apply changes..
 
 
 <div class="webgl" webgl_version="1" webgl_div="shader0">
