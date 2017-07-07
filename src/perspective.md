@@ -17,7 +17,7 @@
   areas of the sensor while on the right the resulting intervals are approximately equal. As a 
   result we should expect different final perceived image. Note that we don't really notice this 
   because we only have 100% of visual acuity at a small window in the center - [foveal system][f] - 
-  that is only 2&deg; in size. Here is a *WebGl2* demo that tries to simulate the behaviour. 
+  that is only 2&deg; in size. Here is a *WebGl* demo that tries to simulate the behaviour. 
 
   Also this is a good place to recommend two books on visual perception: 
   [Sensation and Perception: An Integrated Approach][book1] by Harvey Richard Schiffman and
@@ -92,6 +92,7 @@ void main() {
   <div class="clear"></div>
 </div>
 
+<script src="js/common.js"></script>
 <script src="js/webgl-quad.js"></script>
 <script src="js/webgl.js"></script>
 

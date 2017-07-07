@@ -1,5 +1,5 @@
 
-##The meaning of life.
+##The Meaning of Life.
 
   The ultimate question of our existence. There is even a 
   [Wikipedia article](https://en.wikipedia.org/wiki/Meaning_of_life). Sure you have your own idea

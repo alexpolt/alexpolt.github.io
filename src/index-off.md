@@ -1,4 +1,10 @@
 
+
+* [Procrastination](procrastination.html)
+
+  Some thoughts on what's causing procrastination and the way out.
+
+
 * [Some Thoughts About Consciousness](mind.html)
 
   What is consciousness, how we think, etc. Just personal speculation.

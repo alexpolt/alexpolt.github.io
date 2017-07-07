@@ -98,6 +98,7 @@ float life() {
 
 <div>
 
+  <script src="js/common.js"></script>
   <script src="js/webgl.js"></script>
   <script src="js/webgl-quad.js"></script>
 

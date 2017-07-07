@@ -3,7 +3,7 @@
 
 <HEAD>
 
-  <title>Conway's Game of Life in One Pixel Shader - Alexandr Poltavsky, software developer</title>
+  <title>Procrastination - Alexandr Poltavsky, software developer</title>
 
   <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
@@ -53,16 +53,34 @@
   </ul>
 
 
-<h2>Conway's Game of Life in One Pixel Shader</h2>
+<h2>Procrastination</h2>
 
-<p>Got my little hacky WebGL framework working and wrote a <a href="https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life" title="Conways Game of Life">Game of Life</a> shader.
-  It uses previous frame as a source to compute current one. You can hack on the shader yourself
-  by clicking a "PS" (Pixel Shader) button. To start try adjusting the <em>cell</em> variable - it controls
-  the field scale, <em>fstep</em> variable is a frame divider - use it to slow down the processing, then
-  click reload button (or press r key) to apply changes..</p>
+<p>Who hasn't experienced procrastination? <a href="https://en.wikipedia.org/wiki/Procrastination" title="Procrastination">Wikipedia page</a> says that 90% of college students
+  suffer from it and it greatly impacts their performances. Some software developers can't even 
+  continue doing their daily duties and even a vacation doesn't help. It's a very serious problem.</p>
+
+<p>As I note in my blog post on <a href="motivation.html" title="The Meaning of Life">motivation and meaning of life</a> we are extremely emotional 
+  beings. Almost all we do in everyday life is driven by emotions. You love something, hate, you're
+  passionate, or you have ambitions, envy someone, angry about something - all that are emotions.
+  Sure, some are less driven by emotions than others, and those more rational tend to be more
+  effective in life.</p>
+
+<p>Lately I've been experiencing procrastination and I was like, "What the hell! How do I deal
+  with it? How do I get back to normal functioning"? And one day I got the answer: emotions!
+  More precisely the shortage of it. It's just my own theory but I really believe that's what
+  prevents us from getting to work. Compare it to listening to a song again and again, the
+  experiences are pretty similar. The key to fight procrastinations is to realize that the
+  emotions are still there, we just have to look more carefully.</p>
+
+<p>Also I just realized that one good way to add emotions into work is to have a partner. Working
+  together, either in a pair or in a team, could be the key to greater productivity. It is not
+  surprising that the vast majority of successful sturtups are founded by two or more people.
+  Might also be a good idea for students.</p>
+
+<p>Here is also a shader I wrote to help procrastinate. :)</p>
 
 <div class="webgl" webgl_version="1" webgl_div="shader0">
-  <img class="link" src="images/game-of-life.png" title="Click to show WebGL demo" alt="WebGL demo"/><br/>
+  <img class="link" src="images/webgl-blank.png" title="Click to show WebGL demo" alt="WebGL demo"/><br/>
   <span>Click to show WebGL demo</span>
 </div>
 
@@ -77,65 +95,37 @@
     <li title="Pixel Shader" class="ps">PS</li>
   </ul>
   <canvas hide class="canvas"></canvas>
-  <textarea hide class="vs hidden" spellcheck="false" fromid="shader0vs">
+  <textarea hide class="vs hidden" spellcheck="false">
 attribute vec2 v_in;
 attribute vec2 uv_in;
 attribute float vid_in;
-varying vec2 uv;
+varying vec2 uvt;
+varying vec2 uvb;
 uniform float t;
+uniform vec2 screen;
+
 void main() {
-  uv = v_in;
-  gl_Position = vec4( vec2( 2.0 * v_in - 1.0 ), 0, 1 );
+
+  uvt = v_in;
+  uvb = uv_in;
+
+  vec4 p = vec4( (2.*v_in-1. ), 0, 1 );
+
+  gl_Position = p;
 }
   </textarea>
-  <textarea hide class="ps hidden" spellcheck="false" fromid="shader0ps">
+  <textarea hide class="ps hidden" spellcheck="false">
 precision highp float;
-varying vec2 uv;
-uniform float frame;
-uniform sampler2D prevtex;
+varying vec2 uvt;
+varying vec2 uvb;
+uniform float t;
 uniform vec2 screen;
-uniform float seed;
-
-float life();
-
-const float cell = 80.;
-const float fstep = 4.;
-const float density = 0.1;
-
-vec2 cells = vec2( cell, cell );
-vec2 px;
-vec2 uv2;
+const float pi = 3.14159265;
 
 void main() {
-  vec2 ar = vec2( screen.x/screen.y, 1 );
-  cells = floor( ar * cells );
-  px = vec2(1.,1.)/cells;
-  uv2 = floor(cells*uv)/cells+.5*px;
-  float k = 0.;
-  if( frame == .0 )
-    k = step( 1.-density, sin( 1000.*cos( 700.*( 700.*uv2.x + uv2.y + 100.*seed ) ) ) );
-  else if( fract(frame/fstep) == .0 ) k = life();
-  else k = texture2D( prevtex, uv2 ).x;
-  gl_FragData[0] = vec4( k, k, k, 1 );
-}
-
-float life() {
-
-  float alive = .0;
-  float c = texture2D( prevtex, uv2 ).x;
-  for( float y = -1.; y <= 1.; y++ ) {
-  for( float x = -1.; x <= 1.; x++ ) {
-    vec2 o = px * vec2( x, y );
-    float k = abs(x)+abs(y);
-    float v = texture2D( prevtex, uv2+o ).x;
-    alive += k == .0 ? .0 : v;
-  }
-  }
-  if( c == .0 && alive == 3. ) return 1.;
-  if( c == 1. && alive < 2. ) return .0;
-  if( c == 1. && alive > 3. ) return .0;
-  if( c == 1. ) return 1.;
-  return .0;
+  vec2 ar = vec2(screen.x/screen.y, 1);
+  float c = smoothstep(.0, .2, cos( 4.*t+10.*pi*length(ar*uvt-ar*.5) ));
+  gl_FragColor = vec4(c, c, c, 1);
 }
   </textarea>
   <div hide class="help hidden"></div>
@@ -148,13 +138,11 @@ float life() {
   <div class="clear"></div>
 </div>
 
-<div>
+<script src="js/common.js"></script>
 
-  <script src="js/common.js"></script>
-  <script src="js/webgl.js"></script>
-  <script src="js/webgl-quad.js"></script>
+<script src="js/webgl-quad.js"></script>
 
-</div>
+<script src="js/webgl.js"></script>
 
 
 <script src="highlight/highlight.pack.js"></script>

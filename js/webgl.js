@@ -1,9 +1,4 @@
 
-function foreach( arr, fn ) {
-  var l = arr.length;
-  for( var i=0; i < l; i++) fn( arr[ i ], i );
-}
-
 function webgl_context( canvas, opts ) {
   console.info("Request for a WebGL context.");  
   var ctx = canvas.getContext( "webgl", opts || { } );

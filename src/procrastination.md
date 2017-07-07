@@ -1,5 +1,30 @@
 
-##WebGL Blank Template
+##Procrastination
+
+  Who hasn't experienced procrastination? [Wikipedia page][p] says that 90% of college students
+  suffer from it and it greatly impacts their performances. Some software developers can't even 
+  continue doing their daily duties and even a vacation doesn't help. It's a very serious problem.
+
+  As I note in my blog post on [motivation and meaning of life][m] we are extremely emotional 
+  beings. Almost all we do in everyday life is driven by emotions. You love something, hate, you're
+  passionate, or you have ambitions, envy someone, angry about something - all that are emotions.
+  Sure, some are less driven by emotions than others, and those more rational tend to be more
+  effective in life.
+
+  Lately I've been experiencing procrastination and I was like, "What the hell! How do I deal
+  with it? How do I get back to normal functioning"? And one day I got the answer: emotions!
+  More precisely the shortage of it. It's just my own theory but I really believe that's what
+  prevents us from getting to work. Compare it to listening to a song again and again, the
+  experiences are pretty similar. The key to fight procrastinations is to realize that the
+  emotions are still there, we just have to look more carefully.
+
+  Also I just realized that one good way to add emotions into work is to have a partner. Working
+  together, either in a pair or in a team, could be the key to greater productivity. It is not
+  surprising that the vast majority of successful sturtups are founded by two or more people.
+  Might also be a good idea for students.
+
+  Here is also a shader I wrote to help procrastinate. :)
+
 
 <div class="webgl" webgl_version="1" webgl_div="shader0">
   <img class="link" src="images/webgl-blank.png" title="Click to show WebGL demo" alt="WebGL demo"/><br/>
@@ -63,5 +88,8 @@ void main() {
 <script src="js/common.js"></script>
 <script src="js/webgl-quad.js"></script>
 <script src="js/webgl.js"></script>
+
+  [p]: https://en.wikipedia.org/wiki/Procrastination "Procrastination"
+  [m]: motivation.html "The Meaning of Life"
 
 

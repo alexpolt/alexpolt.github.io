@@ -136,33 +136,32 @@
 
 <div>
 
+  <script src="js/common.js"></script>
+  <script src="js/loader.js"></script>
   <script src="js/webgl.js"></script>
   <script src="js/webgl-quad.js"></script>
 
   <script>
+    var images = ["images/fixedfont.png", "images/triangle-info-bg.png"];
+
+    var r = load_images( images );
 
     function run_demo( cb ) {
-      var imgfont = new Image();
-      imgfont.onload = function() {
-        var imgbg = new Image();
-        var bgtex = "images/triangle-info-bg.png";
-        imgbg.onerror = function() { alert( "Failed to load '"+bgtex+"' texture" ); };
-        imgbg.onload = function() {
-          cb( { bgcolor: [ 1, 1, 1, 1 ], 
-                textures: { 
-                  font: { tex2d: 1, format: "RGB", magf: "NEAREST", minf: "NEAREST", 
-                          genmipmap: 0, data: imgfont },
-                  bg: { tex2d: 1, format: "RGB", magf: "LINEAR", minf: "LINEAR_MIPMAP_LINEAR",
-                        genmipmap: 1, data: imgbg },
-                },
-                extensions: [ "OES_standard_derivatives" ]
-              } );
-          };
-        imgbg.src = bgtex;
-      };
-      var fonttex = "images/fixedfont.png";
-      imgfont.onerror = function() { alert( "Failed to load '"+fonttex+"' texture" ); };
-      imgfont.src = fonttex;
+      if( r.failed ) 
+        alert( "Loading texture " + r.failed_src + " failed. Try realoading the page." );
+      else if( ! r.loaded ) 
+        alert( "Textures not loaded. Check console output (ctrl+shift+j or F12) and try reloading the page." );
+      else {
+        cb( { bgcolor: [ 1, 1, 1, 1 ], 
+              textures: { 
+                font: { tex2d: 1, format: "RGB", magf: "NEAREST", minf: "NEAREST", 
+                        genmipmap: 0, data: r.images[0] },
+                bg: { tex2d: 1, format: "RGB", magf: "LINEAR", minf: "LINEAR_MIPMAP_LINEAR",
+                      genmipmap: 1, data: r.images[1] },
+              },
+              extensions: [ "OES_standard_derivatives" ]
+            } );
+      }
     }
 
     document.addEventListener( "DOMContentLoaded", function() {
