@@ -148,7 +148,6 @@
 
     function run_demo (cb) {
       var opts = {
-            log: true,
             bgcolor: [ 1, 1, 1, 1 ], 
             textures: { 
               font: { tex2d: 1, format: "RGB", magf: "NEAREST", minf: "NEAREST", 
