@@ -114,7 +114,7 @@ function run_shader( args ) {
     id: shader_runs, canvas: c, pause: false, log: false, time_log: 3 
   };
 
-  for( var prop in args ) opts[ prop ] = args[ prop ];
+  Object.assign (opts, args);
 
   if( !opts.resize ) shader_runs++;
 
@@ -381,7 +381,7 @@ function activate_webgl() {
     } else if( div ) {
       e.onclick = function(e) { 
         if( e.target && e.target.nodeName == "DIV" ) return;
-        demo_open( div, this );
+        demo_open.call( this, div );
       };
     }
 
@@ -453,7 +453,9 @@ function activate_webgl() {
 
 document.addEventListener( "DOMContentLoaded", function() { activate_webgl(); } );
 
-function demo_open( div, ctrl ) {
+function demo_open( div ) {
+
+  var ctrl = this;
 
   var r = function( args ) {
 
@@ -465,31 +467,29 @@ function demo_open( div, ctrl ) {
 
     var opts = { 
       div: div,
-      version: ctrl && ctrl.getAttribute( "webgl_version" ) || 1,
-      close: function() { demo_close( div, ctrl ); },
+      version: ctrl.getAttribute( "webgl_version" ) || 1,
+      close: function() { demo_close.call( ctrl, div ); },
     };
 
-    for( var n in args ) opts[ n ] = args[ n ];
+    Object.assign (opts, args);
 
     run_shader( opts );
   };
 
-  var fn = ctrl.getAttribute( "init" );
+  var fn = this.getAttribute( "init" );
 
-  if( fn ) {
-    ( function( cb ) {
-        eval( fn );
-    } )( r );
-  } else r( {} );
+  if( fn && window[fn] ) 
+       window[fn].call( this, r );
+  else r( {} );
 }
 
-function demo_close( div, ctrl ) {
+function demo_close( div ) {
 
   var d = document.querySelector( "div#" + div );
   if( !d ) throw "div " + div + " not found";
   stop_shader( div );
   d.classList.add( "hidden" );
-  if( ctrl ) ctrl.classList.remove( "hidden" );
+  this.classList.remove( "hidden" );
 }
 
 

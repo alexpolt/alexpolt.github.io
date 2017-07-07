@@ -61,7 +61,7 @@
   browser window is reasonable in size. Most of the code in pixel shader is for outputting the 
   text in the right place. To pause rotation just hit space bar.
 
-<div class="webgl" webgl_version="1" webgl_div="shader0" init="run_demo(cb);">
+<div class="webgl" webgl_version="1" webgl_div="shader0" init="load_demo">
   <img class="link" src="images/triangle-info.png" title="Click to show WebGL demo" alt="WebGL demo"/><br/>
   <span>Click to show WebGL demo</span>
 </div>
@@ -146,22 +146,37 @@
 
     var r = load_images( images );
 
-    function run_demo( cb ) {
-      if( r.failed ) 
-        alert( "Loading texture " + r.failed_src + " failed. Try realoading the page." );
-      else if( ! r.loaded ) 
-        alert( "Textures not loaded. Check console output (ctrl+shift+j or F12) and try reloading the page." );
-      else {
-        cb( { bgcolor: [ 1, 1, 1, 1 ], 
-              textures: { 
-                font: { tex2d: 1, format: "RGB", magf: "NEAREST", minf: "NEAREST", 
-                        genmipmap: 0, data: r.images[0] },
-                bg: { tex2d: 1, format: "RGB", magf: "LINEAR", minf: "LINEAR_MIPMAP_LINEAR",
-                      genmipmap: 1, data: r.images[1] },
-              },
-              extensions: [ "OES_standard_derivatives" ]
-            } );
-      }
+    function run_demo (cb) {
+      var opts = {
+            log: true,
+            bgcolor: [ 1, 1, 1, 1 ], 
+            textures: { 
+              font: { tex2d: 1, format: "RGB", magf: "NEAREST", minf: "NEAREST", 
+                      genmipmap: 0, data: r.data[0] },
+              bg: { tex2d: 1, format: "RGB", magf: "LINEAR", minf: "LINEAR_MIPMAP_LINEAR",
+                    genmipmap: 1, data: r.data[1] },
+            },
+            extensions: [ "OES_standard_derivatives" ]
+          };
+      cb (opts);
+    }
+
+    function load_demo (cb) {
+      var span = this.querySelector("span");
+      var div = this;
+      var fn = function(){ 
+        if( r.failed ) 
+          alert("Loading texture " + r.failed_src + " failed. Try realoading the page.");
+        else if( ! r.loaded ) 
+          alert("Textures not loaded. Check console output (ctrl+shift+j or F12) and try reloading the page.");
+        else {
+          div.load_animation = true;
+          run_demo (cb);
+        }
+      };
+      if( ! this.load_animation )
+        load_animation (r, span, fn);
+      else fn ();
     }
 
     document.addEventListener( "DOMContentLoaded", function() {
