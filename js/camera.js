@@ -27,8 +27,17 @@ var camera_imp = {
   },
   contextmenu: function(e) {
     e.preventDefault();
+    console.log( "Camera position", this.pos );
   },
   keydown: function(e) {
+    //32-space,82-r,65-a,83-s,68-d,87-w,37,38,39,40-left,up,right,down,27-esc,16-shift,17-ctrl
+    switch( e.keyCode ) {
+      case 87: this.move(vec3(0,0, this.speed)); break;
+      case 83: this.move(vec3(0,0,-this.speed)); break;
+      case 65: this.move(vec3(-this.speed,0,0)); break;
+      case 68: this.move(vec3( this.speed,0,0)); break;
+      default:;
+    }
   },
   keyup: function(e) {
   },
@@ -42,6 +51,17 @@ var camera_imp = {
   rotate_y: function(delta) {
     var d = clamp( delta+this.delta_max, 0, this.delta_max*2 );
     this.m = mul( this.m_rot_y[d], this.m );
+  },
+  move: function(v) { this.pos = add(this.pos,v); },
+  get_m: function() {
+    return this.m.reduce( function(r,e) { return r.concat(e); } );
+  },
+  get_pos: function() { return this.pos;  },
+  reset_m: function() {
+      this.m = mat3(vec3(1,0,0),vec3(0,1,0),vec3(0,0,1));
+  },
+  reset_pos: function() {
+      this.pos = this.pos_orig; 
   }
 };
 
@@ -54,7 +74,15 @@ function camera_create( opts ) {
 
   var o = Object.assign( opts, camera_imp );
 
-  o.m = mat4(vec4(1,0,0,0),vec4(0,1,0,0),vec4(0,0,1,0),vec4(0,0,0,1));
+  if( !o.m ) o.reset_m();
+
+  if( opts.pos ) 
+        opts.pos_orig = opts.pos;
+  else  opts.pos_orig = vec3(0, 0, opts.personal ? -1 : 1);
+
+  if( !o.pos ) o.reset_pos();
+
+  if( !o.speed ) o.speed = 0.125;
 
   o.m_rot_x = [];
   o.m_rot_y = []; 
@@ -63,17 +91,19 @@ function camera_create( opts ) {
   for(var i=.0; i<=o.delta_max*2.0; i++) {
     var a = (i-o.delta_max)/o.delta_max*Math.PI/32.0;
     var c = Math.cos(a), s = Math.sin(a);
-    o.m_rot_x.push( mat4(vec4(1,0,0,0), vec4(0,c,-s,0), vec4(0,s,c,0), vec4(0,0,0,1)) );
-    o.m_rot_y.push( mat4(vec4(c,0,s,0), vec4(0,1,0,0), vec4(-s,0,c,0), vec4(0,0,0,1)) );
+    o.m_rot_x.push( mat3(vec3(1,0,0), vec3(0,c,-s), vec3(0,s,c), vec3(0,0,0)) );
+    o.m_rot_y.push( mat3(vec3(c,0,s), vec3(0,1,0), vec3(-s,0,c), vec3(0,0,0)) );
   }
 
   if( !o.nobind ) {
-    document.addEventListener( "mousemove", delegate( o, o.mousemove ) );
-    document.addEventListener( "keydown", delegate( o, o.keydown ) );
-    document.addEventListener( "mouseup", delegate( o, o.mouseup ) );
+    o.delegates = [ delegate(o,o.mousemove), delegate(o,o.keydown), delegate(o,o.mouseup),
+                    delegate(o, o.mousedown),delegate(o, o.contextmenu) ];
+    document.addEventListener( "mousemove", o.delegates[0] );
+    document.addEventListener( "keydown", o.delegates[1] );
+    document.addEventListener( "mouseup", o.delegates[2] );
     if( o.canvas ) {
-      o.canvas.addEventListener( "mousedown", delegate( o, o.mousedown ) );
-      o.canvas.addEventListener( "contextmenu", delegate( o, o.contextmenu ) );
+      o.canvas.addEventListener( "mousedown", o.delegates[3] );
+      o.canvas.addEventListener( "contextmenu", o.delegates[4] );
     }
   }
 
@@ -83,12 +113,12 @@ function camera_create( opts ) {
 function camera_remove( cam ) {
   var o = cam;
   if( !o.nobind ) {
-    document.removeEventListener( "mousemove", delegate( o, o.mousemove ) );
-    document.removeEventListener( "keydown", delegate( o, o.keydown ) );
-    document.removeEventListener( "mouseup", delegate( o, o.mouseup ) );
+    document.removeEventListener( "mousemove", o.delegates[0] );
+    document.removeEventListener( "keydown", o.delegates[1] );
+    document.removeEventListener( "mouseup", o.delegates[2] );
     if( o.canvas ) {
-      o.canvas.removeEventListener( "mousedown", delegate( o, o.mousedown ) );
-      o.canvas.removeEventListener( "contextmenu", delegate( o, o.contextmenu ) );
+      o.canvas.removeEventListener( "mousedown", o.delegates[3] );
+      o.canvas.removeEventListener( "contextmenu", o.delegates[4] );
     }
   }
 }

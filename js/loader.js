@@ -1,24 +1,30 @@
 
 
-function load_images (list, cb_loading, cb_loaded) {
+function load_images (list, cb) {
 
   var o = { list: list, data: array(list.length, null), loaded: false, failed: false, failed_src: null };
 
+  cb = cb || {};
+  
   foreach( list, function(src,i) {
     console.info( "Image "+src+" loading begin." );
-    if( cb_loading ) cb_loading( src );
+    if( cb.loading ) cb.loading.call(o, src, i);
     var img = new Image();
     img.onerror = function() { 
       console.info( "Image "+src+" loading failed." );
       o.failed = true; o.failed_src = src; 
+      if( cb.error ) cb.error.call(o, src, i);
     };
     img.onload = function() { 
       console.info( "Image "+src+" loading done." );
-      if( cb_loaded ) cb_loaded( src );
       o.data[i] = img;
+      if( cb.loaded ) cb.loaded.call(o, src, i);
       var loaded = true;
       for( var n=0; n<o.data.length; n++ ) loaded = loaded && !!o.data[n];
-      if( loaded ) o.loaded = true;
+      if( loaded ) {
+        o.loaded = true;
+        if( cb.success ) cb.success.call(o);
+      }
     };
     img.src = src;
   } );
@@ -26,34 +32,42 @@ function load_images (list, cb_loading, cb_loaded) {
   return o;
 }
 
-function load_obj (list, cb_loading, cb_loaded) {
+function load_resources (list, cb) {
 
   var o = { list: list, data: array(list.length, null), loaded: false, failed: false, failed_src: null };
 
+  cb = cb || {};
+
   foreach( list, function(src,i) {
     console.info( "Resource "+src+" loading begin." );
-    if( cb_loading ) cb_loading( src );
     var req = new XMLHttpRequest();
-    req.responeType = "text";
+    req.responseType = "text";
     req.open( "GET", src );
     req.timeout = 2000;
     req.ontimeout = function() {
       console.info( "Resource "+src+" loading timout of 2 seconds." );
       o.failed = true; o.failed_src = src; 
+      if( cb.error ) cb.error.call(o, src, i);
     };
     req.onerror = function() { 
-      var status = req.statusText;
-      console.info( "Resource "+src+" loading error with status: " + status );
-      o.failed = true; o.failed_src = src; 
+      var s = req.statusText;
+      console.info( "Resource "+src+" loading error with status: " + s );
+      o.failed = true; o.failed_src = src;
+      if( cb.error ) cb.error.call(o, src, i);
     };
     req.onload = function() { 
-      cionsole.info( "Resource "+src+" loading done." );
-      if( cb_loaded ) cb_loaded( src );
+      console.info( "Resource "+src+" loading done." );
       o.data[i] = req.response;
+      if( cb.loaded ) cb.loaded.call(o, src, i);
       var loaded = true;
       for( var n=0; n<o.data.length; n++ ) loaded = loaded && !!o.data[n];
-      if( loaded ) o.loaded = true;
+      if( loaded ) {
+        o.loaded = true;
+        if( cb.success ) cb.success.call(o);
+      }
     };
+    if( cb.loading ) cb.loading.call(o, src, i);
+    req.send();
   } );
 
   return o;

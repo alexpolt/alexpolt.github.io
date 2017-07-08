@@ -20,10 +20,9 @@ function array(size,defval){
 }
 
 function delegate( o, fn ) {
-  return fn._delegate ? fn._delegate : 
-    fn._delegate = function() {
+  return function() {
       return fn.apply( o, arguments );
-    };
+  };
 }
 
 if( !Array.prototype.forEach )
@@ -32,4 +31,7 @@ if( !Array.prototype.forEach )
 if( !Object.assign ) 
   Object.prototype.assign = assign;
 
+function dump( o ) {
+  return JSON.stringify( o, null, 2 );
+}
 

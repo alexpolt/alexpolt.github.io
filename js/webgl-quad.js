@@ -18,6 +18,8 @@ function webgl_quad( opts ) {
   }
 
   gl.viewport( 0, 0, width, height );
+  gl.enable( gl.DEPTH_TEST );
+  gl.disable( gl.CULL_FACE );
 
   var time_start, time_log, dt_pause, frame = 0;
 
@@ -25,9 +27,10 @@ function webgl_quad( opts ) {
 
   compile_program( gl, program0, opts.vs, opts.ps );
 
-  gl.bindAttribLocation( program0, 0, "v_in" );
-  gl.bindAttribLocation( program0, 1, "uv_in" );
-  gl.bindAttribLocation( program0, 2, "vid_in" );
+  var attribs = { "v_in": 0, "uv_n": 1, "vid_in": 2, "vn_in": 3 };
+  
+  for( var n in attribs )
+    gl.bindAttribLocation( program0, attribs[n], n );
 
   gl.linkProgram( program0 );
   if( ! gl.getProgramParameter( program0, gl.LINK_STATUS ) ) throw gl.getProgramInfoLog( program0 );
@@ -59,8 +62,10 @@ function webgl_quad( opts ) {
 
     var uo = { name: u, value: opts.uniforms[u], loc: ul };
 
-    if( typeof opts.uniforms[u] == "function" ) uniforms_d.push( uo );
-    else if( typeof opts.uniforms[u] == "string" ) uniforms_p.push( uo );
+    if( typeof opts.uniforms[u] == "function" ) { 
+      if( opts.uniforms[u].matrix_size ) uo.matrix_size = opts.uniforms[u].matrix_size;
+      uniforms_d.push( uo );
+    } else if( typeof opts.uniforms[u] == "string" ) uniforms_p.push( uo );
     else if( Array.isArray( opts.uniforms[u] ) ) uniforms_s.push( uo );
     else throw "uniform type "+(typeof opts.uniforms[u])+
                 " not supported, only an 1 to 4 array, predefined string or function";
@@ -146,23 +151,49 @@ function webgl_quad( opts ) {
     uniforms_s.push( { integer: true, name: "prevtex", loc: prevtexloc, value: [ textures.length ] } );
     textures.push( { name: "prevtex", texture: prevtex } );
   }
+  
+  if( opts.buffers ) {
 
-  var vb0data = new Float32Array( [
-    0.0,0.0, 0.0,1.0, 1.0,0.0, 1.0,0.0, 0.0,1.0, 1.0,1.0,
-    0,0,     0,1,     1,0,     1,0,     0,1,     0,0,
-    0,       1,       2,       3,       4,       5
-  ] );
+    for( var n in opts.buffers ) {
 
-  var vb0 = gl.createBuffer();
-  gl.bindBuffer( gl.ARRAY_BUFFER, vb0 );
-  gl.bufferData( gl.ARRAY_BUFFER, vb0data, gl.STATIC_DRAW );
+      var b = opts.buffers[n];
 
-  gl.vertexAttribPointer( 0, 2, gl.FLOAT, false, 0, 0 );
-  gl.vertexAttribPointer( 1, 2, gl.FLOAT, false, 0, 12*4 );
-  gl.vertexAttribPointer( 2, 1, gl.FLOAT, false, 0, 24*4 );
-  gl.enableVertexAttribArray(0);
-  gl.enableVertexAttribArray(1);
-  gl.enableVertexAttribArray(2);
+      if( !b || !b.length ) {
+        console.warn ("buffer",n,"is not valid",b);
+        continue;
+      }
+
+      if( attribs[n] === undefined ) {
+        console.warn ("attribute",n,"is not standard, should be one of",attribs);
+        continue;
+      }
+
+      var vb = gl.createBuffer ();
+      gl.bindBuffer (gl.ARRAY_BUFFER, vb);
+      gl.bufferData (gl.ARRAY_BUFFER, b, gl.STATIC_DRAW);
+      gl.vertexAttribPointer (attribs[n], b.attrib_size ? b.attrib_size : 3, gl.FLOAT, false, 0, 0);
+      gl.enableVertexAttribArray (attribs[n]);
+    }
+
+  } else {
+
+    var vb0data = new Float32Array( [
+      0.0,0.0, 0.0,1.0, 1.0,0.0, 1.0,0.0, 0.0,1.0, 1.0,1.0,
+      0,0,     0,1,     1,0,     1,0,     0,1,     0,0,
+      0,       1,       2,       3,       4,       5
+    ] );
+
+    var vb0 = gl.createBuffer();
+    gl.bindBuffer( gl.ARRAY_BUFFER, vb0 );
+    gl.bufferData( gl.ARRAY_BUFFER, vb0data, gl.STATIC_DRAW );
+
+    gl.vertexAttribPointer( 0, 2, gl.FLOAT, false, 0, 0 );
+    gl.vertexAttribPointer( 1, 2, gl.FLOAT, false, 0, 12*4 );
+    gl.vertexAttribPointer( 2, 1, gl.FLOAT, false, 0, 24*4 );
+    gl.enableVertexAttribArray(0);
+    gl.enableVertexAttribArray(1);
+    gl.enableVertexAttribArray(2);
+  }
 
   var bgc = opts.bgcolor || [0,0,0,1];
 
@@ -180,6 +211,8 @@ function webgl_quad( opts ) {
     if( time_log === undefined ) time_log = t;
 
     var dt = t - time_start;
+
+    if( opts.onframe ) opts.onframe( dt );
 
     if( opts.pause && presented ) { if( dt_pause === undefined ) dt_pause = dt; return; }
 
@@ -222,7 +255,8 @@ function webgl_quad( opts ) {
       gl.bindFramebuffer( gl.FRAMEBUFFER, fb );
       gl.clearColor( bgc[0], bgc[1], bgc[2], bgc[3] );
       gl.clear( gl.COLOR_BUFFER_BIT );
-      gl.drawArrays( gl.TRIANGLES, 0, 6 );
+
+      gl.drawArrays( gl.TRIANGLES, 0, opts.draw_size ? opts.draw_size : 6 );
 
       if( passloc ) set_uniform( gl, { loc: passloc }, [1] );
       gl.bindFramebuffer( gl.FRAMEBUFFER, null );
@@ -242,7 +276,7 @@ function webgl_quad( opts ) {
       gl.bindTexture( gl.TEXTURE_2D, prevbind );
     }
 
-    gl.drawArrays( gl.TRIANGLES, 0, 6 );
+    gl.drawArrays( gl.TRIANGLES, 0, opts.draw_size ? opts.draw_size : 6 );
 
     if( prevtexloc ) {
       gl.bindTexture( gl.TEXTURE_2D, prevtex );
@@ -289,7 +323,14 @@ function set_uniform( gl, u, value ) {
       case 2: gl.uniform2iv( u.loc, value ); break;
       case 3: gl.uniform3iv( u.loc, value ); break;
       case 4: gl.uniform4iv( u.loc, value ); break;
-      default: throw "uniform " + u.name + " value array length not supported";
+      default: throw "uniformi " + u.name + " value array length not supported";
+    } 
+  else if( u.matrix_size )
+    switch( u.matrix_size ) {
+      case 2: gl.uniformMatrix2fv( u.loc, false, value ); break;
+      case 3: gl.uniformMatrix3fv( u.loc, false, value ); break;
+      case 4: gl.uniformMatrix4fv( u.loc, false, value ); break;
+      default: throw "uniformMatrix " + u.name + " value array length not supported";
     } 
   else
     switch( value.length ) {
@@ -297,7 +338,7 @@ function set_uniform( gl, u, value ) {
       case 2: gl.uniform2fv( u.loc, value ); break;
       case 3: gl.uniform3fv( u.loc, value ); break;
       case 4: gl.uniform4fv( u.loc, value ); break;
-      default: throw "uniform " + u.name + " value array length not supported";
+      default: throw "uniformf " + u.name + " value array length not supported";
     } 
 }
 

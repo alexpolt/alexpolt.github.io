@@ -149,7 +149,13 @@ function run_shader( args ) {
 
   if( p ) p.onclick = function() { opts.pause = this.classList.toggle("active"); this.blur(); };
   if( l ) l.onclick = function() { opts.log = this.classList.toggle("active"); this.blur(); };
-  if( r ) r.onclick = function() { delete opts.seed; run_shader( opts ); this.blur(); };
+  if( r ) r.onclick = function() { 
+    delete opts.seed; 
+    if( opts.onreload ) 
+      opts.onreload();
+    run_shader( opts ); 
+    this.blur(); 
+  };
 
   if( !d.keyhandler ) {
     d.keyhandler = function(e) {
@@ -211,6 +217,7 @@ function run_shader( args ) {
         e.stopPropagation(); 
         stop_shader( opts.div ); 
         d.classList.toggle( "hidden" );
+        if( opts.onclose ) opts.onclose();
       };
 
   var js = d.getAttribute("js");
@@ -468,7 +475,10 @@ function demo_open( div ) {
     var opts = { 
       div: div,
       version: ctrl.getAttribute( "webgl_version" ) || 1,
-      close: function() { demo_close.call( ctrl, div ); },
+      close: function() { 
+        demo_close.call( ctrl, div ); 
+        if( opts.onclose ) opts.onclose();
+      },
     };
 
     Object.assign (opts, args);

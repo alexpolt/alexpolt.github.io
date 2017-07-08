@@ -26,13 +26,20 @@
   <script src="js/common.js"></script>
   <script src="js/math.js"></script>
   <script src="js/camera.js"></script>
+  <script src="js/loader.js"></script>
   <script>
-  
+  /*
+    load_resources (["webgl/lenin2dec.obj"],
+      function(o,src,i){console.log("loading",src,i,dump(o));},
+      function(o,src,i){console.log("loaded",src,i,dump(o));}
+    );
+  */
+
     var canvas = document.getElementById( "demo" );
     var w = canvas.width, h = canvas.height, wc = w/2, hc = h/2, len = 100;
     var ctx = canvas.getContext("2d");
 
-    var cam = camera_create( { canvas: canvas, nobind: false, personal: false } );
+    var cam = camera_create( { canvas: canvas, nobind: false, personal: false, pos: vec3(0,0,-1) } );
 
     requestAnimationFrame(draw);
 

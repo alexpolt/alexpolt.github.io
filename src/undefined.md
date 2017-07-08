@@ -1,6 +1,6 @@
 
 
-##Undefined behaviour and optimizations: GCC vs Clang vs MSC
+##Undefined Behaviour and Optimizations: GCC vs Clang vs MSC
 
   It's a well known fact that compiler optimizers sometimes exploit undefined behaviour to
   optimize code. As a classic example:
