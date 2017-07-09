@@ -17,7 +17,7 @@
     <li title="Pixel Shader" class="ps">PS</li>
   </ul>
   <canvas hide class="canvas"></canvas>
-  <textarea hide class="vs hidden" spellcheck="false">
+  <textarea hide class="vs hidden" spellcheck="false">//<!--
 attribute vec3 v_in;
 attribute vec3 vn_in;
 varying vec3 vn;
@@ -28,7 +28,7 @@ uniform vec2 screen;
 
 void main() {
 
-  float a = t/4., c = cos(-a), s = sin(-a);
+  float a = t/8., c = cos(-a), s = sin(-a);
   mat3 m = mat3( vec3(c, 0, s), vec3(0, 1, 0), vec3(s, 0, -c) );
 
   vn = cam*m*vn_in;
@@ -41,8 +41,9 @@ void main() {
   p.z = far*(p.z-near)/(far-near);
   gl_Position = vec4(p,z);
 }
+//-->
   </textarea>
-  <textarea hide class="ps hidden" spellcheck="false">
+  <textarea hide class="ps hidden" spellcheck="false">//<!--
 precision highp float;
 varying vec3 vn;
 uniform float t;
@@ -59,6 +60,7 @@ void main() {
   gl_FragColor = vec4( c*ks+c*kd, 1);
 }
   
+//-->
   </textarea>
   <div hide class="help hidden"></div>
   <div class="buttons">

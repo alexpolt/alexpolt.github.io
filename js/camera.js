@@ -29,7 +29,7 @@ var camera_imp = {
     this.rotate = true;
   },
   contextmenu: function(e) {
-    e.preventDefault();
+    if( this.nocontextmenu ) e.preventDefault();
     console.log( "Camera position", this.pos );
   },
   keydown: function(e) {
@@ -56,7 +56,7 @@ var camera_imp = {
     this.m = mul( this.m_rot_y[d], this.m );
   },
   move: function(v) { 
-    if( ! this.pause ) 
+    if( !this.paused ) 
       this.pos = add(this.pos,v); 
   },
   get_m: function() {
