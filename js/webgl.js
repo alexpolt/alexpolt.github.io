@@ -147,12 +147,14 @@ function run_shader( args ) {
 
   }
 
-  if( p ) p.onclick = function() { opts.pause = this.classList.toggle("active"); this.blur(); };
+  if( p ) p.onclick = function() { 
+    opts.pause = this.classList.toggle("active"); this.blur(); 
+    if( opts.onpause ) opts.onpause( opts.pause );
+  };
   if( l ) l.onclick = function() { opts.log = this.classList.toggle("active"); this.blur(); };
   if( r ) r.onclick = function() { 
     delete opts.seed; 
-    if( opts.onreload ) 
-      opts.onreload();
+    if( opts.onreload ) opts.onreload();
     run_shader( opts ); 
     this.blur(); 
   };

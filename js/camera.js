@@ -2,16 +2,19 @@
 
 var camera_imp = {
   mousemove: function(e) {
+
     if( ! this.mx_prev ) {
       this.mx_prev = e.clientX;
       this.my_prev = e.clientY;
     }
+
     this.movex = e.clientX - this.mx_prev;
     this.movey = e.clientY - this.my_prev;
+
     this.mx_prev = e.clientX;
     this.my_prev = e.clientY;
 
-    if( this.rotate ) {
+    if( !this.paused && this.rotate ) {
       if( this.movex != 0 ) this.rotate_y( this.movex );
       if( this.movey != 0 ) this.rotate_x( this.movey );
     }
@@ -52,7 +55,10 @@ var camera_imp = {
     var d = clamp( delta+this.delta_max, 0, this.delta_max*2 );
     this.m = mul( this.m_rot_y[d], this.m );
   },
-  move: function(v) { this.pos = add(this.pos,v); },
+  move: function(v) { 
+    if( ! this.pause ) 
+      this.pos = add(this.pos,v); 
+  },
   get_m: function() {
     return this.m.reduce( function(r,e) { return r.concat(e); } );
   },
@@ -62,7 +68,8 @@ var camera_imp = {
   },
   reset_pos: function() {
       this.pos = this.pos_orig; 
-  }
+  },
+  pause: function(s) { this.paused = s; }
 };
 
 function camera_create( opts ) {
@@ -81,8 +88,9 @@ function camera_create( opts ) {
   else  opts.pos_orig = vec3(0, 0, opts.personal ? -1 : 1);
 
   if( !o.pos ) o.reset_pos();
-
   if( !o.speed ) o.speed = 0.125;
+
+  o.paused = false;
 
   o.m_rot_x = [];
   o.m_rot_y = []; 
