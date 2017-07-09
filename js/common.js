@@ -25,12 +25,6 @@ function delegate( o, fn ) {
   };
 }
 
-if( !Array.prototype.forEach )
-  Array.prototype.forEach = foreach;
-
-if( !Object.assign ) 
-  Object.prototype.assign = assign;
-
 function dump( o ) {
   return JSON.stringify( o, null, 2 );
 }

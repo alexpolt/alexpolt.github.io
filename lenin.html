@@ -55,8 +55,8 @@
 
 <h2>Lenin</h2>
 
-<div class="webgl" webgl_version="1" webgl_div="shader0" init="lenin">
-  <img class="link" src="images/webgl-blank.png" title="Click to show WebGL demo" alt="WebGL demo"/><br/>
+<div class="webgl" webgl_version="1" webgl_div="shader0" init="load_demo">
+  <img class="link" src="images/lenin.png" title="Click to show WebGL demo" alt="WebGL demo"/><br/>
   <span>Click to show WebGL demo</span>
 </div>
 
@@ -134,20 +134,27 @@ void main() {
 <script src="js/webgl.js"></script>
 
 <script>
-/*
-  var b0 = new Float32Array([-0.5,-0.5,0, 0.5,-0.5,0, 0,0.5,0]);
-  b0.attrib_size = 3;
-  var b1 = new Float32Array([0,0,-1, 0,0,-1, 0,0,-1]);
-  b1.attrib_size = 3;
-*/
 
   var r = load_resources( ["webgl/lenin2dec2.obj"], {} );
 
-  function test() {
-    console.log( "loded", this.loaded );
-   var reg = /^v\s+([-.\d]+)\s+([-.\d]+)\s+([-.\d]+)/gm;
-   var m = reg.exec( r.data[0] );
-   console.log(m,m[0],m[1],m[2],m[3]);
+  r.delay = 500;
+
+  function load_demo (cb) {
+    var span = this.querySelector("span");
+    var div = this;
+    var fn = function(){ 
+      if( r.failed ) 
+        alert("Loading " + r.failed_src + " failed. Try realoading the page.");
+      else if( ! r.loaded ) 
+        alert("Resources not loaded. Check console output (ctrl+shift+j or F12) and try reloading the page.");
+      else {
+        div.load_animation = true;
+        lenin.call ( div, cb );
+      }
+    };
+    if( ! this.load_animation )
+      load_animation (r, span, fn);
+    else fn ();
   }
 
   function lenin (cb) {
@@ -156,8 +163,8 @@ void main() {
     var canvas = document.querySelector( "div#"+div+" canvas" );
     var cam = camera_create( { canvas: canvas, nobind: false, personal: false, pos: vec3(0,0,450), speed: 10 } );
     var opts = {
-      bgcolor: [ .95, .95, .95, 1 ],
-      buffers: { v_in: b[0], vn_in: b[1] },
+      bgcolor: [.95, .95, .95, 1],
+      buffers: {v_in: b[0], vn_in: b[1]},
       draw_size: b[0].length/3,
       uniforms: { cam: function(){ return cam.get_m(); }, campos: function(){ return cam.get_pos(); } },
       onreload: function() { cam.reset_m(); },

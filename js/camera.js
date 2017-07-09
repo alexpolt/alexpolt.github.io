@@ -79,7 +79,7 @@ function camera_create( opts ) {
   if( typeof opts.canvas == "string" )
     opts.canvas = document.getElementById( opts.canvas );
 
-  var o = Object.assign( opts, camera_imp );
+  var o = assign( opts, camera_imp );
 
   if( !o.m ) o.reset_m();
 

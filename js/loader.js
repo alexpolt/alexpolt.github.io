@@ -41,7 +41,10 @@ function load_resources (list, cb) {
   foreach( list, function(src,i) {
     console.info( "Resource "+src+" loading begin." );
     var req = new XMLHttpRequest();
-    req.responseType = "text";
+    if( req.responseType )
+      req.responseType = "text";
+    else
+      req.overrideMimeType("text/plain");
     req.open( "GET", src );
     req.timeout = 2000;
     req.ontimeout = function() {
@@ -76,11 +79,11 @@ function load_resources (list, cb) {
 function load_animation (loader, span, cb) {
   var o = { 
     text: span.innerHTML,
-    delay: 250,
+    delay: loader.delay || 250,
     step: 0,
     item: 0,
     tries: 0,
-    tries_max: 8,
+    tries_max: loader.tries_max || 8,
   };
   fn = function() {
     if( o.step == 0 ) {

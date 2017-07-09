@@ -114,7 +114,7 @@ function run_shader( args ) {
     id: shader_runs, canvas: c, pause: false, log: false, time_log: 3 
   };
 
-  Object.assign (opts, args);
+  assign (opts, args);
 
   if( !opts.resize ) shader_runs++;
 
@@ -483,7 +483,7 @@ function demo_open( div ) {
       },
     };
 
-    Object.assign (opts, args);
+    assign (opts, args);
 
     run_shader( opts );
   };

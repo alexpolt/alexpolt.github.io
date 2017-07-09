@@ -198,7 +198,7 @@
 
   </script>
 
-<textarea class="hidden" id="shader0vs">
+<textarea class="hidden" id="shader0vs">//<!--
 attribute vec2 v_in;
 attribute vec2 uv_in;
 attribute float vid_in;
@@ -227,8 +227,9 @@ void main() {
 
   gl_Position = p;
 }
+//-->
 </textarea>
-<textarea class="hidden" id="shader0ps">
+<textarea class="hidden" id="shader0ps">//<!--
 #extension GL_OES_standard_derivatives : enable
 precision highp float;
 varying vec2 uvt;
@@ -351,6 +352,7 @@ mat2 inverse( mat2 m ) {
   vec2 xydv = vec2( -uvdy.x, uvdx.x ) * D;
   return mat2( xydu, xydv );
 }
+//-->
 </textarea>
 
 
