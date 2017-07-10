@@ -134,7 +134,7 @@
   <script>
     var images = ["images/fixedfont.png", "images/triangle-info-bg.png"];
 
-    var r = load_images( images );
+    var loader_img = load_images( images );
 
     function run_demo_tri (cb) {
       var opts = {
@@ -154,9 +154,9 @@
       var span = this.querySelector("span");
       var div = this;
       var fn = function(){ 
-        if( r.failed ) 
-          alert("Loading texture " + r.failed_src + " failed. Try realoading the page.");
-        else if( ! r.loaded ) 
+        if( loader_img.failed ) 
+          alert("Loading texture " + loader_img.failed_src + " failed. Try realoading the page.");
+        else if( ! loader_img.loaded ) 
           alert("Textures not loaded. Check console output (ctrl+shift+j or F12) and try reloading the page.");
         else {
           div.load_animation = true;
@@ -164,7 +164,7 @@
         }
       };
       if( ! this.load_animation )
-        load_animation (r, span, fn);
+        load_animation (loader_img, span, fn);
       else fn ();
     }
 
@@ -482,22 +482,25 @@ void main() {
 
 <script>
 
-  var r;
+  var loader_lenin;
 
   function load_demo_lenin (cb) {
 
     var span = this.querySelector("span");
     var div = this;
 
-    if( !r || r.failed ) 
-      r = load_resources( ["webgl/lenin2dec2.obj"], {} );
+    if( !loader_lenin || 
+          loader_lenin.failed || 
+            !loader_lenin.loaded )
 
-    r.delay = 500;
+      loader_lenin = load_resources( ["webgl/lenin2dec2.obj"], {} );
+
+    loader_lenin.delay = 500;
 
     var fn = function(){ 
-      if( r.failed ) 
-        alert("Loading " + r.failed_src + " failed. Try realoading the page.");
-      else if( ! r.loaded ) 
+      if( loader_lenin.failed ) 
+        alert("Loading " + loader_lenin.failed_src + " failed. Try realoading the page.");
+      else if( ! loader_lenin.loaded ) 
         alert("Resources not loaded. Check console output (ctrl+shift+j or F12) and try reloading the page.");
       else {
         div.load_animation = true;
@@ -506,7 +509,7 @@ void main() {
     };
 
     if( ! this.load_animation )
-      load_animation (r, span, fn);
+      load_animation (loader_lenin, span, fn);
     else fn ();
   }
 
@@ -562,15 +565,15 @@ void main() {
   function load_buffers() {
     var m, v=[], vn=[], f=[];
     var reg = /^v\s+([-.\d]+)\s+([-.\d]+)\s+([-.\d]+)/gm;
-    while( (m = reg.exec( r.data[0])) !== null )
+    while( (m = reg.exec( loader_lenin.data[0])) !== null )
       v.push( parseFloat(m[1]), parseFloat(m[2]), parseFloat(m[3]) );
 
     reg = /^vn\s+([-.\d]+)\s+([-.\d]+)\s+([-.\d]+)/gm;
-    while( (m = reg.exec( r.data[0])) !== null )
+    while( (m = reg.exec( loader_lenin.data[0])) !== null )
       vn.push( parseFloat(m[1]), parseFloat(m[2]), parseFloat(m[3]) );
 
     reg = /^f\s+(\d+)\/\/\d+\s+(\d+)\/\/\d+\s+(\d+)\/\/\d+/gm;
-    while( (m = reg.exec( r.data[0])) !== null )
+    while( (m = reg.exec( loader_lenin.data[0])) !== null )
       f.push( parseFloat(m[1]), parseFloat(m[2]), parseFloat(m[3]) );
 
     vb = new Float32Array( f.length*3 );

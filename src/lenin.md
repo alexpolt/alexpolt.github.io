@@ -99,7 +99,8 @@ void main() {
     var span = this.querySelector("span");
     var div = this;
 
-    if( !r || r.failed ) 
+    if( !r || r.failed || !r.loaded )
+      
       r = load_resources( ["webgl/lenin2dec2.obj"], {} );
       
     r.delay = 500;
