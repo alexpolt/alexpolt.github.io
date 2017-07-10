@@ -28,8 +28,8 @@ uniform vec2 screen;
 
 void main() {
 
-  float a = t/8., c = cos(-a), s = sin(-a);
-  mat3 m = mat3( vec3(c, 0, s), vec3(0, 1, 0), vec3(s, 0, -c) );
+  float a = t/16., c = cos(-a), s = sin(-a);
+  mat3 m = mat3( vec3(c, 0, s), vec3(0, 1, 0), vec3(-s, 0, c) );
 
   vn = cam*m*vn_in;
 

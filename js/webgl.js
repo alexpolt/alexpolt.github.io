@@ -56,7 +56,6 @@ function init_shader_menus() {
   }
 }
 
-init_shader_menus();
 
 function loadjs(js,fn) {
 
@@ -419,9 +418,9 @@ function activate_webgl() {
     
     var onload = function() {
       var cw = document.getElementById( "content" ).offsetWidth;
-      if( ! this.width_orig ) this.width_orig = this.offsetWidth;
-      if( ! this.height_orig ) this.height_orig = this.offsetHeight;
-      var w = this.width_orig;
+      if( ! this.width_orig ) this.width_orig = this.width;
+      if( ! this.height_orig ) this.height_orig = this.height;
+      var w = this.width_orig+4;
       var width = Math.min( 80, Math.ceil(100*w/cw) );
       e.style.width = width + "%";
       if( ! logo.added ) {
@@ -460,7 +459,6 @@ function activate_webgl() {
   } );
 }
 
-document.addEventListener( "DOMContentLoaded", function() { activate_webgl(); } );
 
 function demo_open( div ) {
 
@@ -503,5 +501,14 @@ function demo_close( div ) {
   d.classList.add( "hidden" );
   this.classList.remove( "hidden" );
 }
+
+
+document.addEventListener( "DOMContentLoaded", function() { 
+  
+  init_shader_menus();
+
+  activate_webgl(); 
+
+} );
 
 

@@ -19,6 +19,10 @@ function array(size,defval){
   return a;
 }
 
+function clear(arr,defval) {
+  for(var i=0; i<arr.length; i++) arr[i]=defval;
+}
+
 function delegate( o, fn ) {
   return function() {
       return fn.apply( o, arguments );
