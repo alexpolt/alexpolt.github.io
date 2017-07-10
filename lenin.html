@@ -3,7 +3,7 @@
 
 <HEAD>
 
-  <title>Lenin - Alexandr Poltavsky, software developer</title>
+  <title>Vladimir Ilyich - Alexandr Poltavsky, software developer</title>
 
   <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
@@ -53,10 +53,18 @@
   </ul>
 
 
-<h2>Lenin</h2>
+<h2>Vladimir Ilyich</h2>
+
+<p>Vladimir Ilyich is often used in Russia to refer to [Vladimir Lenin][v], a great russian 
+  revolutionary, who had an immence impact on the course of history. Today <a href="https://en.wikipedia.org/wiki/Communism" title="Communism">communism</a> is 
+  mostly view in negative light, but, truth to be told, it is the socialists (bolsheviks) in the 
+  previous century who raised the questions of equality and social justice.</p>
+
+<p>I was doing a <a href="http://alexpolt.github.io/shader.html#lights" title="Lighting using gl_PrimitiveID">lights demo</a> and as a result made a WebGL rotating statue of Valimir Lenin.
+  Best viewed in fullscreen.</p>
 
 <div class="webgl" webgl_version="1" webgl_div="shader0" init="load_demo">
-  <img class="link" src="images/lenin.png" title="Click to show WebGL demo" alt="WebGL demo"/><br/>
+  <img class="link" src="images/lenin-bronze.png" title="Click to show WebGL demo" alt="WebGL demo"/><br/>
   <span>Click to show WebGL demo</span>
 </div>
 
@@ -126,6 +134,8 @@ void main() {
   <div class="clear"></div>
 </div>
 
+<div>
+
 <script src="js/common.js"></script>
 <script src="js/loader.js"></script>
 <script src="js/math.js"></script>
@@ -135,13 +145,16 @@ void main() {
 
 <script>
 
-  var r = load_resources( ["webgl/lenin2dec2.obj"], {} );
-
-  r.delay = 500;
+  var r;
 
   function load_demo (cb) {
+
     var span = this.querySelector("span");
     var div = this;
+
+    r = load_resources( ["webgl/lenin2dec2.obj"], {} );
+    r.delay = 500;
+
     var fn = function(){ 
       if( r.failed ) 
         alert("Loading " + r.failed_src + " failed. Try realoading the page.");
@@ -152,6 +165,7 @@ void main() {
         lenin.call ( div, cb );
       }
     };
+
     if( ! this.load_animation )
       load_animation (r, span, fn);
     else fn ();
@@ -197,6 +211,8 @@ void main() {
     return [b0,b1];
   }
 </script>
+
+</div>
 
 
 <script src="highlight/highlight.pack.js"></script>

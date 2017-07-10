@@ -475,6 +475,7 @@ void main() {
   <div class="clear"></div>
 </div>
 
+  By the way, do you recognize who's statue is in the demo? If not then follow [this link][l].
 
 
 <div>
@@ -674,5 +675,6 @@ void main() {
   [d]: #noperspective
   [e]: dfaa.html "DFAA Antialiasing Algorithm"
   [bar]: barycentric.html "Barycentric Coordinates"
+  [l]: lenin.html "Vladymir Lenin"
 
 

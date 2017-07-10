@@ -1,8 +1,17 @@
 
-##Lenin
+##Vladimir Ilyich
+
+  Vladimir Ilyich is often used in Russia to refer to [Vladimir Lenin][v], a great russian 
+  revolutionary, who had an immence impact on the course of history. Today [communism][c] is 
+  mostly view in negative light, but, truth to be told, it is the socialists (bolsheviks) in the 
+  previous century who raised the questions of equality and social justice.
+
+  I was doing a [lights demo][d] and as a result made a WebGL rotating statue of Valimir Lenin.
+  Best viewed in fullscreen.
+
 
 <div class="webgl" webgl_version="1" webgl_div="shader0" init="load_demo">
-  <img class="link" src="images/lenin.png" title="Click to show WebGL demo" alt="WebGL demo"/><br/>
+  <img class="link" src="images/lenin-bronze.png" title="Click to show WebGL demo" alt="WebGL demo"/><br/>
   <span>Click to show WebGL demo</span>
 </div>
 
@@ -72,6 +81,8 @@ void main() {
   <div class="clear"></div>
 </div>
 
+<div>
+
 <script src="js/common.js"></script>
 <script src="js/loader.js"></script>
 <script src="js/math.js"></script>
@@ -81,13 +92,16 @@ void main() {
 
 <script>
 
-  var r = load_resources( ["webgl/lenin2dec2.obj"], {} );
-
-  r.delay = 500;
+  var r;
 
   function load_demo (cb) {
+
     var span = this.querySelector("span");
     var div = this;
+
+    r = load_resources( ["webgl/lenin2dec2.obj"], {} );
+    r.delay = 500;
+
     var fn = function(){ 
       if( r.failed ) 
         alert("Loading " + r.failed_src + " failed. Try realoading the page.");
@@ -98,6 +112,7 @@ void main() {
         lenin.call ( div, cb );
       }
     };
+    
     if( ! this.load_animation )
       load_animation (r, span, fn);
     else fn ();
@@ -143,5 +158,13 @@ void main() {
     return [b0,b1];
   }
 </script>
+
+</div>
+
+
+  [l]: https://en.wikipedia.org/wiki/Vladimir_Lenin "Vladimir Lenin"
+  [b]: https://en.wikipedia.org/wiki/Bolsheviks "Bolsheviks"
+  [d]: http://alexpolt.github.io/shader.html#lights "Lighting using gl_PrimitiveID"
+  [c]: https://en.wikipedia.org/wiki/Communism "Communism"
 
 
