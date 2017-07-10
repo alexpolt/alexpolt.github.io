@@ -3,8 +3,8 @@
 
   Vladimir Ilyich is often used in Russia to refer to [Vladimir Lenin][v], a great russian 
   revolutionary, who had an immence impact on the course of history. Today [communism][c] is 
-  mostly view in negative light, but, truth to be told, it is the socialists (bolsheviks) in the 
-  previous century who raised the questions of equality and social justice.
+  mostly view in negative light, but, truth to be told, it is the socialists ([bolsheviks][b]) 
+  in the previous century who raised the questions of equality and social justice.
 
   I was doing a [lights demo][d] and as a result made a WebGL rotating statue of Valimir Lenin.
   Best viewed in fullscreen.
