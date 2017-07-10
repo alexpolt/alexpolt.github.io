@@ -162,7 +162,7 @@ void main() {
 </div>
 
 
-  [l]: https://en.wikipedia.org/wiki/Vladimir_Lenin "Vladimir Lenin"
+  [v]: https://en.wikipedia.org/wiki/Vladimir_Lenin "Vladimir Lenin"
   [b]: https://en.wikipedia.org/wiki/Bolsheviks "Bolsheviks"
   [d]: http://alexpolt.github.io/shader.html#lights "Lighting using gl_PrimitiveID"
   [c]: https://en.wikipedia.org/wiki/Communism "Communism"
