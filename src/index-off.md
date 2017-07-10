@@ -2,7 +2,7 @@
 
 * [Vladimir Ilyich](lenin.html)
 
-  Was doing a WebGL [lighting demo](http://alexpolt.github.io/shader.html#lights) and also created
+  Was doing a [lighting demo](http://alexpolt.github.io/shader.html#lights) and also created
   this WebGL rotating statue of a great russian revolutionary Vladimir Lenin.
 
 
