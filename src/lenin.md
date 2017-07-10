@@ -7,7 +7,7 @@
   in the previous century (and others before, but no the global scale) who raised the questions 
   of equality and social justice.
 
-  I was doing a [lights demo][d] and as a result made a WebGL rotating statue of Valimir Lenin.
+  I was doing a [lights demo][d] and as a result made a WebGL rotating statue of Vladimir Lenin.
   Best viewed in fullscreen.
 
 
