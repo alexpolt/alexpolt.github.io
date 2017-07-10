@@ -141,9 +141,9 @@
             bgcolor: [ 1, 1, 1, 1 ], 
             textures: { 
               font: { tex2d: 1, format: "RGB", magf: "NEAREST", minf: "NEAREST", 
-                      genmipmap: 0, flip: 1, data: r.data[0] },
+                      genmipmap: 0, flip: 1, data: loader_img.data[0] },
               bg: { tex2d: 1, format: "RGB", magf: "LINEAR", minf: "LINEAR_MIPMAP_LINEAR",
-                    genmipmap: 1, flip: 1, data: r.data[1] },
+                    genmipmap: 1, flip: 1, data: loader_img.data[1] },
             },
             extensions: [ "OES_standard_derivatives" ]
           };
