@@ -485,6 +485,9 @@ void main() {
 </div>
 
 
+  By the way, have you recognized who's that statue rotating? If not then here is some [info][l].
+
+
 <div>
 
 <script>
