@@ -421,9 +421,12 @@ precision highp float;
 varying vec3 pos;
 varying vec3 vn;
 varying float pid;
-uniform float t;
+
 const float pi = 3.14159265;
 const float lperface = 16.;
+
+uniform float t;
+uniform float lsort;
 uniform vec2 ltexsize;
 uniform sampler2D ltex;
 
@@ -457,7 +460,11 @@ void main() {
     n++;
     vec3 ldir = l.xyz-pos;
     float d = 1.+length(ldir);
-    float kd = 1./(0.75*d+0.25*n*d*d);
+    float kd = 0.;
+    if( lsort == 0. ) 
+      kd = 1./(1.5*d+1.5*d*d);
+    else 
+      kd = 1./(0.75*d+0.25*n*d*d);
     kd = kd * abs(dot(normalize(ldir),norm));
     vec3 col = getc(l.x);
     c = c+col*kd;
@@ -472,13 +479,13 @@ void main() {
   <button title="Output WebGL Info in Console" class="log">Log</button>
   <button title="Pause Rendering" class="pause">Pause</button>
   <button title="Go Fullscreen" class="fscreen">FS</button>
+  <button title="Sort/Not Sort Lights" id="lsort" class="active">Sort</button>
   </div>
   <div class="clear"></div>
 </div>
 
 
 <div>
-
 
 <script>
   var loader_lenin;
@@ -513,9 +520,10 @@ void main() {
   }
 
   var vb, nb, fcb, idb;
-  var d_max=1; cells=8, lights_max=400;
+  var d_max=1; cells=8, lights_max=500;
   var lights=array(Math.pow(cells,3), null).map( function(){ return []; } );
-  var lperface=16, lsorted=50, per_frame=5, ltexw, ltexh, ltex;
+  var lperface=16, lsorted=lperface*3, lsort=true;
+  var per_frame=5, ltexw, ltexh, ltex;
 
   function lenin (cb) {
 
@@ -525,10 +533,17 @@ void main() {
     var div = this.getAttribute("webgl_div");
     var canvas = document.querySelector( "div#"+div+" canvas" );
 
+    var but_lsort = document.getElementById( "lsort" );
+    but_lsort.onclick = function() { 
+      lsort = this.classList.toggle("active"); this.blur(); 
+    };
+
     var cam = camera_create( { canvas: canvas, nobind: false, personal: false, pos: vec3(0,0,400), speed: 10 } );
-    var a=-Math.PI/4096., c=Math.cos(a), s=Math.sin(a);
+    var a=-Math.PI/1024., c=Math.cos(a), s=Math.sin(a);
     var mrot = mat3(vec3(c,0,s),vec3(0,1,0),vec3(-s,0,c));
 
+    compute_lights(cam);
+    
     var opts = {
       bgcolor : [.95, .95, .95, 1],
       buffers : {v_in: vb, vn_in: nb, vid_in: idb},
@@ -538,6 +553,7 @@ void main() {
         cam: function(){ return cam.get_m(); }, 
         campos: function(){ return cam.get_pos(); },
         dmax: [d_max],
+        lsort: function() { return [lsort]; },
       },
       textures : { 
         ltex: { tex2d: 1, width: ltexw, height: ltexh, format: "RGBA", type: "FLOAT",
@@ -552,7 +568,7 @@ void main() {
       onreload : function() { cam.reset_m(); },
       onclose : function() { camera_remove(cam); },
       onpause : function(s) { cam.pause(s); },
-      onframe : function(frame,dt) {
+      onpresent : function(frame,dt) {
         if( !cam.paused ) {
           cam.m = mul( cam.m, mrot );
           if(frame%per_frame == 0) compute_lights(cam);
@@ -650,14 +666,17 @@ void main() {
         for(var t=0; t<ls.length; t++ ) {
           var l = ls[t];
           if( asize < lmin.length ) {
-            l.dmin = len(sub(v,l));
+            if( lsort ) 
+              l.dmin = len(sub(v,l));
             lmin[ asize++ ] = l;
           }
         }
       }
       if(asize) {
-        lmin.length = asize;
-        lmin.sort( function(a,b) { return a.dmin-b.dmin; } );
+        if( lsort ) {
+          lmin.length = asize;
+          lmin.sort( function(a,b) { return a.dmin-b.dmin; } );
+        }
         for(var n=0; n<Math.min(asize,lperface); n++) {
           ltex[i*4*lperface+n*4+0] = lmin[n][0];
           ltex[i*4*lperface+n*4+1] = lmin[n][1];

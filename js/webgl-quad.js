@@ -288,6 +288,8 @@ function webgl_quad( opts ) {
 
     presented = true;
 
+    if( opts.onpresent ) opts.onpresent( frame, dt );
+
     frame++;
 
     if( opts.log ) { 
