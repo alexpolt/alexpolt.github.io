@@ -480,17 +480,19 @@ uniform sampler2D ltex;
 
 
 vec3 getc(float x) {
-  vec3 colors[4];
-  colors[0]=vec3(1,.5,0);
-  colors[1]=vec3(.3,1,.5);
-  colors[2]=vec3(.1,.3,1);
-  colors[3]=vec3(.5,.5,.5);
+  vec3 colors[5];
+  colors[0]=vec3(155, 55, 55)/255.;
+  colors[1]=vec3(70, 60, 80)/255.;
+  colors[2]=vec3(120, 60, 80)/255.;
+  colors[3]=vec3(80, 60, 80)/255.;
+  colors[4]=vec3(122, 101, 64)/255.;
 
-  float v = floor( fract(abs(x)*7.)*3. );
-  if(v==.0) return colors[0];
+  float v = floor( fract(abs(x)*7.)*5. );
+  if(v==0.) return colors[0];
   if(v==1.) return colors[1];
   if(v==2.) return colors[2];
-  return colors[3];
+  if(v==3.) return colors[3];
+  return colors[4];
 }
 
 void main() {
@@ -505,15 +507,13 @@ void main() {
     if( l.w == .0 ) continue;
     n++;
     vec3 ldir = l.xyz-pos;
-    float d = length(ldir);
-    float kd = 1./(1.+2.5*d+8.*d*d);
+    float d = 1.+length(ldir);
+    float kd = 1./(1.0*d + 0.2*n*n*d*d);
     vec3 col = getc(l.x);
     c = c+col*kd;
   }
-  gl_FragColor = vec4(c/pow(n,0.55), 1);
+  gl_FragColor = vec4(c, 1);
 }
-
-
 //-->
   </textarea>
   <div hide class="help hidden"></div>
@@ -526,12 +526,10 @@ void main() {
   <div class="clear"></div>
 </div>
 
-<p>By the way, do you recognize who's statue is in the demo? If not then follow <a href="lenin.html" title="Vladymir Lenin">this link</a>.</p>
-
 <div>
 
-<script>
 
+<script>
   var loader_lenin;
 
   function load_demo_lenin (cb) {
@@ -564,9 +562,9 @@ void main() {
   }
 
   var vb, nb, fcb, idb;
-  var d_max=1; cells=10, lights_max=2*Math.pow(cells,3);
+  var d_max=1; cells=10, lights_max=600;
   var lights=array(Math.pow(cells,3), null).map( function(){ return []; } );
-  var lperface=8, ltexw, ltexh, ltex;
+  var lperface=8, lsorted=20, per_frame=10, ltexw, ltexh, ltex;
 
   function lenin (cb) {
 
@@ -594,7 +592,7 @@ void main() {
         ltex: { tex2d: 1, width: ltexw, height: ltexh, format: "RGBA", type: "FLOAT",
                   minf:"NEAREST", magf:"NEAREST", genmipmap: 0, 
                   data: function(frame,dt) { 
-                          if( frame%5 == 0 ) return ltex;
+                          if( frame%per_frame == 0 ) return ltex;
                           return null;
                         },
                },
@@ -603,9 +601,11 @@ void main() {
       onreload : function() { cam.reset_m(); },
       onclose : function() { camera_remove(cam); },
       onpause : function(s) { cam.pause(s); },
-      onframe : function(frame,dt) { 
-        cam.m = mul( cam.m, mrot );
-        if(frame%5 == 0) compute_lights(cam); 
+      onframe : function(frame,dt) {
+        if( !cam.paused ) {
+          cam.m = mul( cam.m, mrot );
+          if(frame%per_frame == 0) compute_lights(cam);
+        }
       },
     };
     opts.uniforms.cam.matrix_size = 3;
@@ -660,9 +660,9 @@ void main() {
 
     for(var n=0; n<lights_max; n++) {
 
-      var z = Math.pow(Math.abs(Math.random()*2.-1.),.75), 
-          y = Math.pow(Math.abs(Math.random()*2.-1.),.75), 
-          x = Math.pow(Math.abs(Math.random()*2.-1.),.75), 
+      var z = Math.random(), 
+          y = Math.random(), 
+          x = Math.random(), 
           w = 1.;//Math.random();
 
       var idx = Math.floor(z*cells)*cells*cells + 
@@ -681,40 +681,38 @@ void main() {
   }
 
   function compute_lights(cam) {
-    var v = vec3(), c = cells-1;
-    var dummyl = []; dummyl.dmin = 1000.0;
-    var dmin=array(lperface,100), lmin=array(lperface,dummyl);
+    var v = vec3(), logged = 0, lmin=[];
     clear(ltex,.0);
     for(var i=0; i<fcb.length/3; i++) {
       v[0] = fcb[i*3]; v[1] = fcb[i*3+1]; v[2] = fcb[i*3+2];
       v = mul( cam.m, v );
-      var x = Math.floor( c*(.5+.5*v[0]) ), 
-          y = Math.floor( c*(.5+.5*v[1]) ), 
-          z = Math.floor( c*(.5+.5*v[2]) );
+      var x = Math.floor( cells*(.5+.5*v[0]) ), 
+          y = Math.floor( cells*(.5+.5*v[1]) ), 
+          z = Math.floor( cells*(.5+.5*v[2]) );
       var asize = 0;
-      clear(dmin,100);
-      dummyl.dmin = 1000.0;
-      clear(lmin,dummyl);
-      for(var zz=Math.max(0,z-1); zz<=Math.min(c,z+1); zz++)
-      for(var yy=Math.max(0,y-1); yy<=Math.min(c,y+1); yy++)
-      for(var xx=Math.max(0,x-1); xx<=Math.min(c,x+1); xx++) {
+      lmin.length = lsorted;
+      clear( lmin, null );
+      for(var zz=Math.max(0,z-1); zz<=Math.min(cells-1,z+1); zz++)
+      for(var yy=Math.max(0,y-1); yy<=Math.min(cells-1,y+1); yy++)
+      for(var xx=Math.max(0,x-1); xx<=Math.min(cells-1,x+1); xx++) {
         var ls = lights[ zz*cells*cells+yy*cells+xx ];
         for(var t=0; t<ls.length; t++ ) {
           var l = ls[t];
-          if( asize < dmin.length ) {
-            //l.dmin = len(sub(v,l));
+          if( asize < lmin.length ) {
+            l.dmin = len(sub(v,l));
             lmin[ asize++ ] = l;
           }
         }
       }
-      //lmin.length = asize;
-      //lmin.sort( function(a,b) { return a.dmin-b.dmin; } );
-
-      for(var n=0; n<Math.min(asize,lperface); n++) {
-        ltex[i*4*lperface+n*4+0] = lmin[n][0];
-        ltex[i*4*lperface+n*4+1] = lmin[n][1];
-        ltex[i*4*lperface+n*4+2] = lmin[n][2];
-        ltex[i*4*lperface+n*4+3] = lmin[n][3];
+      if(asize) {
+        lmin.length = asize;
+        lmin.sort( function(a,b) { return a.dmin-b.dmin; } );
+        for(var n=0; n<Math.min(asize,lperface); n++) {
+          ltex[i*4*lperface+n*4+0] = lmin[n][0];
+          ltex[i*4*lperface+n*4+1] = lmin[n][1];
+          ltex[i*4*lperface+n*4+2] = lmin[n][2];
+          ltex[i*4*lperface+n*4+3] = lmin[n][3];
+        }
       }
     }
   }
