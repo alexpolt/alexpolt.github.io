@@ -80,10 +80,12 @@ function load_animation (loader, span, cb) {
   var o = { 
     text: span.innerHTML,
     delay: loader.delay || 250,
-    step: 0,
+    step: loader.step || 0,
     item: 0,
     tries: 0,
     tries_max: loader.tries_max || 8,
+    span_text: loader.span_text || undefined,
+    span_title: loader.span_title || undefined,
   };
   fn = function() {
     if( o.step == 0 ) {
@@ -98,6 +100,7 @@ function load_animation (loader, span, cb) {
         o.item++;
         if( o.item == loader.list.length ) {
           o.step = 2;
+          o.delay = 100;
           span.innerHTML = "Loading done";
           span.title = "Ready to run";
         } else o.step = 0;
@@ -111,11 +114,18 @@ function load_animation (loader, span, cb) {
           o.tries++;
         } else {
           o.step = 2;
+          o.delay = 0;
         }
       }
     } else if( o.step == 2 ) {
-      span.innerHTML = o.text;
+      o.step = 3;
+      if( o.span_text ) {
+        span.innerHTML = o.span_text;
+        span.title = o.span_title;
+      }
+    } else if( o.step == 3 ) {
       cb();
+      span.innerHTML = o.text;
       return;
     }
 

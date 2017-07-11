@@ -117,7 +117,13 @@ function webgl_quad( opts ) {
 
     if( typeof e.value === "object" && e.value.tex2d ) {
 
-      if( typeof e.value.data !== "function" ) set_texture( gl, e.value, e.value.data );
+      var data;
+
+      if( typeof e.value.data === "function" ) 
+            data = e.value.data(0,0);
+      else  data = e.value.data;
+
+      set_texture( gl, e.value, data );
 
     } else {
 
@@ -230,7 +236,7 @@ function webgl_quad( opts ) {
       if( typeof t.value === "object" && t.value.tex2d ) {
         if( typeof t.value.data === "function" ) {
           var data = t.value.data(frame,dt);
-          if( data ) set_texture( gl, t.value, data );
+          if( data ) set_texture_subdata( gl, t.value, data );
         }
       }
      } );
@@ -344,7 +350,7 @@ function set_uniform( gl, u, value ) {
 function set_texture(gl,o,data) {
   gl.pixelStorei( gl.UNPACK_FLIP_Y_WEBGL, !!o.flip );
   if( ! o.format ) throw "format in teximage2d textures is required";
-  if( ! o.data ) throw "data in teximage2d textures is required";
+  if( ! data ) throw "data in teximage2d textures is required";
   var ifmt = o.iformat || o.format;
   var type = o.type || "UNSIGNED_BYTE";
   var magf = o.magf || "LINEAR";
@@ -355,6 +361,18 @@ function set_texture(gl,o,data) {
     gl.texImage2D( gl.TEXTURE_2D, 0, gl[ifmt], gl[o.format], gl[type], data );
   set_tex_parameters( gl, gl[magf], gl[minf] );
   if( o.genmipmap ) gl.generateMipmap( gl.TEXTURE_2D );
+}
+
+function set_texture_subdata(gl,o,data) {
+
+  var ifmt = o.iformat || o.format;
+  var type = o.type || "UNSIGNED_BYTE";
+  var magf = o.magf || "LINEAR";
+  var minf = o.minf || "LINEAR";
+  if( o.width )
+    gl.texSubImage2D( gl.TEXTURE_2D, 0, 0, 0, o.width, o.height, gl[o.format], gl[type], data );
+  else
+    gl.texSubImage2D( gl.TEXTURE_2D, 0, 0, 0, gl[o.format], gl[type], data );
 }
 
 function set_tex_parameters( gl, magfilter, minfilter ) {

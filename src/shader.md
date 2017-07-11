@@ -358,17 +358,21 @@ mat2 inverse( mat2 m ) {
   a WebGL Demo showing this (in WebGL1 I have to supply primitive id in a buffer and use float 
   textures for light parameters). 
   
-  Below is the result. Well, before you click on the demo let me tell you that the experiment was 
-  a fiasco. Good lighting is hard, good dynamic lighting is a sign of great expertise. So I have
-  created a 3D array of lights and during rendering I go through each face and fill a float
-  texture with light positions. In the shader I reference those by a face id. The trouble is, 
-  you probably guess, to get seamless light coverage. It is a great problem by itself but here it
-  is inherent in the technique. You can see that very clearly in the demo.
+  The lights are clustered into a 3D array depending on distance. Then during a frame a dynamic
+  float texture is updated: for every face we load the lights from the precomputed array (based
+  on the face's center point) and write them into the texture. In the shader we compute the
+  uv using the primitive id and sample it for each light. 
+  
+  While it sounds quite simple, it actually was problematic to fight popping. It is really hard
+  to find the best combination of the number of lights per cluster and the number of lights in
+  the shader. Also difficult is to find parameters for the lighting equation so it looks good.
+  I don't think it is possible to do completely physically correct because you'd have to iterate
+  over too many lights.  
 
-  So here is the summary: you can't really do dynamic primitive based lighting using primitive id. 
-  May be it's just my crappy coding skill and you can point me to a good demo. I'd be thankful.
-  Still you can use primitive id to do the [tri info trick][a] above: use it to reference into 
-  index/vertex buffers and do all the transformations by hand.
+  So here is the summary: it is certainly possible to do dynamic lighting using primitive id but 
+  benefits are questionable. If not for lighting then primitive id can also be used to do the 
+  [tri info trick][a] above: we ca use it to reference into index/vertex buffers and do all the 
+  transformations by hand in the shader.
 
 
 <div class="webgl" webgl_version="1" webgl_div="shader1" init="load_demo_lenin">
@@ -423,23 +427,23 @@ varying vec3 vn;
 varying float pid;
 
 const float pi = 3.14159265;
-const float lperface = 16.;
+const float lperface = 46.;
 
 uniform float t;
-uniform float lsort;
 uniform vec2 ltexsize;
 uniform sampler2D ltex;
 
+float round(float v){ return floor(v+.5); }
 
 vec3 getc(float x) {
   vec3 colors[5];
-  colors[0]=vec3(155, 55, 55)/255.;
-  colors[1]=vec3(70, 60, 80)/255.;
+  colors[0]=vec3(200, 25, 25)/255.;
+  colors[1]=vec3(70, 40, 90)/255.;
   colors[2]=vec3(120, 60, 80)/255.;
-  colors[3]=vec3(80, 60, 30)/255.;
-  colors[4]=vec3(122, 101, 64)/255.;
+  colors[3]=vec3(90, 60, 40)/255.;
+  colors[4]=vec3(132, 105, 23)/255.;
 
-  float v = floor( fract(abs(x)*7.)*5. );
+  float v = floor( fract(abs(x)*113.)*5. );
   if(v==0.) return colors[0];
   if(v==1.) return colors[1];
   if(v==2.) return colors[2];
@@ -450,22 +454,18 @@ vec3 getc(float x) {
 void main() {
   vec3 norm = normalize(vn);
   vec2 px = 1./ltexsize;
-  vec2 uv = vec2( fract(lperface*pid/ltexsize.x)+.5*px.x,
-            floor(lperface*pid/ltexsize.x)/ltexsize.y+.5*px.y);
-  float ka = .0, n = .0;
+  vec2 uv = vec2( fract(lperface*round(pid)/ltexsize.x)+.5*px.x,
+            floor(lperface*round(pid)/ltexsize.x)/ltexsize.y+.5*px.y);
+  float kd = 1., n = .0;
   vec3 c = vec3(0,0,0);
   for(float i=.0; i<lperface; i++ ) {
     vec4 l = texture2D( ltex, uv+i*vec2(px.x,0) );
     if( l.w == .0 ) continue;
     n++;
     vec3 ldir = l.xyz-pos;
-    float d = 1.+length(ldir);
-    float kd = 0.;
-    if( lsort == 0. ) 
-      kd = 1./(1.5*d+1.5*d*d);
-    else 
-      kd = 1./(0.75*d+0.25*n*d*d);
-    kd = kd * abs(dot(normalize(ldir),norm));
+    float d = clamp(0.,1.,1.-length(ldir));
+    kd = abs(dot(normalize(ldir),norm));
+    kd = 3.0 * pow(kd, 2.5) * pow(d, 6.5);
     vec3 col = getc(l.x);
     c = c+col*kd;
   }
@@ -479,7 +479,6 @@ void main() {
   <button title="Output WebGL Info in Console" class="log">Log</button>
   <button title="Pause Rendering" class="pause">Pause</button>
   <button title="Go Fullscreen" class="fscreen">FS</button>
-  <button title="Sort/Not Sort Lights" id="lsort" class="active">Sort</button>
   <button title="Rotate/Dont Rotate" id="rot" class="active">Rotate</button>
   </div>
   <div class="clear"></div>
@@ -492,6 +491,7 @@ void main() {
 <div>
 
 <script>
+
   var loader_lenin;
 
   function load_demo_lenin (cb) {
@@ -506,6 +506,8 @@ void main() {
       loader_lenin = load_resources( ["webgl/lenin2dec2.obj"], {} );
 
     loader_lenin.delay = 500;
+    loader_lenin.span_text = "Computing lights, please wait...";
+    loader_lenin.span_title = "Please wait";
 
     var fn = function(){ 
       if( loader_lenin.failed ) 
@@ -513,41 +515,34 @@ void main() {
       else if( ! loader_lenin.loaded ) 
         alert("Resources not loaded. Check console output (ctrl+shift+j or F12) and try reloading the page.");
       else {
-        div.load_animation = true;
+        loader_lenin.step=2;
         lenin.call ( div, cb );
       }
     };
 
-    if( ! this.load_animation )
-      load_animation (loader_lenin, span, fn);
-    else fn ();
+    load_animation (loader_lenin, span, fn);
   }
 
   var vb, nb, fcb, idb;
-  var d_max=0.0; cells=8, lights_max=500, rotate=true;
-  var lights;
-  var lperface=16, lsorted=lperface*3, lsort=true;
-  var per_frame=5, ltexw, ltexh, ltex;
+  var d_max=0.0; cells=25, lights_max=200, rotate = true;
+  var lights, lradius = 1.0/cells*12;
+  var lperface=46, lsort=true;
+  var per_frame=8, ltexw, ltexh, ltex;
 
   function lenin (cb) {
+
 
     if( vb === undefined ) {
 
       load_buffers();
     }
 
-    load_lights();
+    load_lights.call(this);
 
     var div = this.getAttribute("webgl_div");
     var canvas = document.querySelector( "div#"+div+" canvas" );
 
-    lsort = rotate = true;
-
-    var but_lsort = document.getElementById( "lsort" );
-    but_lsort.classList.add("active");
-    but_lsort.onclick = function() { 
-      lsort = this.classList.toggle("active"); this.blur(); 
-    };
+    rotate = true;
     
     var but_rot = document.getElementById( "rot" );
     but_rot.classList.add("active");
@@ -556,7 +551,7 @@ void main() {
     };
 
     var cam = camera_create( { canvas: canvas, nobind: false, personal: false, pos: vec3(0,0,400), speed: 10 } );
-    var a=-Math.PI/1024., c=Math.cos(a), s=Math.sin(a);
+    var a=-Math.PI/4096., c=Math.cos(a), s=Math.sin(a);
     var mrot = mat3(vec3(c,0,s),vec3(0,1,0),vec3(-s,0,c));
 
     compute_lights(cam);
@@ -570,7 +565,6 @@ void main() {
         cam: function(){ return cam.get_m(); }, 
         campos: function(){ return cam.get_pos(); },
         dmax: [d_max],
-        lsort: function() { return [lsort]; },
       },
       textures : { 
         ltex: { tex2d: 1, width: ltexw, height: ltexh, format: "RGBA", type: "FLOAT",
@@ -649,21 +643,52 @@ void main() {
 
   function load_lights() {
 
+    var span = this.querySelector("span");
+
     lights = array( Math.pow(cells,3), null ).map( function(){ return []; } );
-    
-    for(var n=0; n<lights_max; n++) {
-      
-      var z = Math.random(), 
-          y = Math.random(), 
-          x = Math.random(), 
-          w = 1.;
 
-      var idx = Math.floor(z*cells)*cells*cells + 
-                Math.floor(y*cells)*cells + 
-                Math.floor(x*cells);
+    var v = vec3(), cell_max=0;
 
-      lights[idx].push( vec4(x*2.-1.,y*2.-1.,z*2.-1.,w) );
+    console.info( "computing lights clusters: ", lights.length*lights_max, "loop iterations" );
+  
+    span.innerHTML = "Computing lights";
+
+    for(var n=0; n<lights_max; n++) {    
+
+      var lz = Math.random(), 
+          ly = Math.random(), 
+          lx = Math.random(), 
+          lw = 1.;
+
+
+      for(var z=0.; z<cells; z++)
+      for(var y=0.; y<cells; y++)
+      for(var x=0.; x<cells; x++) {
+        v[0] = lx-x/cells; v[1] = ly-y/cells; v[2] = lz-z/cells;
+        var d = len(v);
+        if( d > lradius ) continue;
+        var l = vec4( lx*2.-1., ly*2.-1., lz*2.-1., lw );
+        l.dist_to_cell = d;
+        var idx = z*cells*cells+y*cells+x;
+        lights[idx].push( l );
+        if( lights[idx].length > cell_max ) cell_max = lights[idx].length;
+      }
       
+    }
+
+    console.info( "max lights per cell = ", cell_max );
+
+    if( lsort ) {
+
+      console.info( "sorting lights in cells" );
+      span.innerHTML = "Sorting lights";
+
+      for(var z=0.; z<cells; z++) {
+      for(var y=0.; y<cells; y++) {
+      for(var x=0.; x<cells; x++) {
+        var idx = z*cells*cells+y*cells+x;
+        lights[idx].sort( function(a,b) { return a.dist_to_cell - b.dist_to_cell; } );
+      }}}
     }
 
   }
@@ -677,33 +702,18 @@ void main() {
       var x = Math.floor( cells*(.5+.5*v[0]) ), 
           y = Math.floor( cells*(.5+.5*v[1]) ), 
           z = Math.floor( cells*(.5+.5*v[2]) );
-      var asize = 0;
-      lmin.length = lsorted;
-      clear( lmin, null );
-      for(var zz=Math.max(0,z-1); zz<=Math.min(cells-1,z+1); zz++)
-      for(var yy=Math.max(0,y-1); yy<=Math.min(cells-1,y+1); yy++)
-      for(var xx=Math.max(0,x-1); xx<=Math.min(cells-1,x+1); xx++) {
-        var ls = lights[ zz*cells*cells+yy*cells+xx ];
-        for(var t=0; t<ls.length; t++ ) {
-          var l = ls[t];
-          if( asize < lmin.length ) {
-            if( lsort ) 
-              l.dmin = len(sub(v,l));
-            lmin[ asize++ ] = l;
-          }
-        }
-      }
-      if(asize) {
-        if( lsort ) {
-          lmin.length = asize;
-          lmin.sort( function(a,b) { return a.dmin-b.dmin; } );
-        }
-        for(var n=0; n<Math.min(asize,lperface); n++) {
-          ltex[i*4*lperface+n*4+0] = lmin[n][0];
-          ltex[i*4*lperface+n*4+1] = lmin[n][1];
-          ltex[i*4*lperface+n*4+2] = lmin[n][2];
-          ltex[i*4*lperface+n*4+3] = lmin[n][3];
-        }
+      if( x >= cells ) x = cells-1;
+      if( y >= cells ) x = cells-1;
+      if( x >= cells ) x = cells-1;
+
+      var idx = z*cells*cells+y*cells+x;
+      var l = lights[idx];
+      var size = Math.min(lperface,l.length);
+      for(var n=0; n<size; n++) {
+        ltex[i*4*lperface+n*4+0] = l[n][0];
+        ltex[i*4*lperface+n*4+1] = l[n][1];
+        ltex[i*4*lperface+n*4+2] = l[n][2];
+        ltex[i*4*lperface+n*4+3] = l[n][3];
       }
     }
   }
