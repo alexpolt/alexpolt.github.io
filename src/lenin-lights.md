@@ -110,6 +110,7 @@ void main() {
   <button title="Pause Rendering" class="pause">Pause</button>
   <button title="Go Fullscreen" class="fscreen">FS</button>
   <button title="Sort/Not Sort Lights" id="lsort" class="active">Sort</button>
+  <button title="Rotate/Dont Rotate" id="rot" class="active">Rotate</button>
   </div>
   <div class="clear"></div>
 </div>
@@ -158,7 +159,7 @@ void main() {
   }
 
   var vb, nb, fcb, idb;
-  var d_max=1; cells=8, lights_max=500;
+  var d_max=1; cells=8, lights_max=500, rotate = true;
   var lights=array(Math.pow(cells,3), null).map( function(){ return []; } );
   var lperface=16, lsorted=lperface*3, lsort=true;
   var per_frame=5, ltexw, ltexh, ltex;
@@ -174,6 +175,11 @@ void main() {
     var but_lsort = document.getElementById( "lsort" );
     but_lsort.onclick = function() { 
       lsort = this.classList.toggle("active"); this.blur(); 
+    };
+
+    var but_rot = document.getElementById( "rot" );
+    but_rot.onclick = function() { 
+      rotate = this.classList.toggle("active"); this.blur(); 
     };
 
     var cam = camera_create( { canvas: canvas, nobind: false, personal: false, pos: vec3(0,0,400), speed: 10 } );
@@ -208,7 +214,7 @@ void main() {
       onpause : function(s) { cam.pause(s); },
       onpresent : function(frame,dt) {
         if( !cam.paused ) {
-          cam.m = mul( cam.m, mrot );
+          if( rotate ) cam.m = mul( cam.m, mrot );
           if(frame%per_frame == 0) compute_lights(cam);
         }
       },
