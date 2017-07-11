@@ -423,7 +423,7 @@ varying vec3 vn;
 varying float pid;
 uniform float t;
 const float pi = 3.14159265;
-const float lperface = 8.;
+const float lperface = 16.;
 uniform vec2 ltexsize;
 uniform sampler2D ltex;
 
@@ -433,7 +433,7 @@ vec3 getc(float x) {
   colors[0]=vec3(155, 55, 55)/255.;
   colors[1]=vec3(70, 60, 80)/255.;
   colors[2]=vec3(120, 60, 80)/255.;
-  colors[3]=vec3(80, 60, 80)/255.;
+  colors[3]=vec3(80, 60, 30)/255.;
   colors[4]=vec3(122, 101, 64)/255.;
 
   float v = floor( fract(abs(x)*7.)*5. );
@@ -457,7 +457,8 @@ void main() {
     n++;
     vec3 ldir = l.xyz-pos;
     float d = 1.+length(ldir);
-    float kd = 1./(1.0*d + 0.2*n*n*d*d);
+    float kd = 1./(0.75*d+0.25*n*d*d);
+    kd = kd * abs(dot(normalize(ldir),norm));
     vec3 col = getc(l.x);
     c = c+col*kd;
   }
@@ -512,9 +513,9 @@ void main() {
   }
 
   var vb, nb, fcb, idb;
-  var d_max=1; cells=10, lights_max=600;
+  var d_max=1; cells=8, lights_max=500;
   var lights=array(Math.pow(cells,3), null).map( function(){ return []; } );
-  var lperface=8, lsorted=20, per_frame=10, ltexw, ltexh, ltex;
+  var lperface=16, lsorted=50, per_frame=20, ltexw, ltexh, ltex;
 
   function lenin (cb) {
 
