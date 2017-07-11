@@ -23,33 +23,50 @@ function mat (size) {
   });
 }
 
-function mat4 () {
+function mat4() {
   return mat.apply (null, [4].concat (Array.prototype.slice.call (arguments))); }
-function mat3 () {
+function mat3() {
   return mat.apply (null, [3].concat (Array.prototype.slice.call (arguments))); }
-function mat2 () {
+function mat2() {
   return mat.apply (null, [2].concat (Array.prototype.slice.call (arguments))); }
 
-function sub (p0,p1) { return p0.map( function(e,i){ return e-p1[i]; } ); }
-function add (p0,p1) { return p0.map( function(e,i){ return e+p1[i]; } ); }
-function mul (p0,v) { 
+function sub(p0,p1) { 
+  var r = new Array(p0.length);
+  for(var i=0; i<p0.length; i++) r[i] = p0[i] - p1[i];
+  return r;
+}
+function add(p0,p1) { 
+  var r = new Array(p0.length);
+  for(var i=0; i<p0.length; i++) r[i] = p0[i] + p1[i];
+  return r;
+}
+function mul(p0,v) { 
   if( Array.isArray(p0) && Array.isArray(p0[0]) && Array.isArray(v) ) return mmul(p0,v);
   if( typeof p0 === "number" && Array.isArray(v) ) 
     return mul(v,p0);
-  else
-    return p0.map( function(e) { return e*v; } ); 
+  else {
+    var r = new Array(p0.length);
+    for(var i=0; i<p0.length; i++) r[i] = p0[i]*v;
+    return r;
+  }
 }
-function dot (p0,p1) { 
-  return p0.map( function(e,i){ return e*p1[i]; } ).reduce( function(s,e){ return s+e; } ); 
+function dot(p0,p1) { 
+  var s=0.;
+  for(var i=0; i<p0.length; i++) s += p0[i]*p1[i];
+  return s;
 }
-function norm (v0) { return mul(v0, 1.0/Math.sqrt( dot( v0, v0 ) ) ); }
+function norm ( v0 ) { return mul(v0, 1.0/Math.sqrt( dot( v0, v0 ) ) ); }
 function len (v0) { return Math.sqrt( dot( v0, v0 ) ); }
 
 function abs (v) { return doop(v, function(e){ return Math.abs(e); }); }
 function neg (v) { return doop(v, function(e){ return -e; }); }
 function clamp (v,min,max) { return doop(v, function(e) { return Math.max(min,Math.min(max, e)); }); }
 function doop (v, op) {
-  if( Array.isArray(v) ) return v.map(op);
+  if( Array.isArray(v) ) {
+    var r = new Array(v.length);
+    for(var i=0; i<v.length; i++) r[i] = op( v[i] );
+    return r;
+  }
   return op(v); 
 }
 
