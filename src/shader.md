@@ -537,6 +537,8 @@ void main() {
     var div = this.getAttribute("webgl_div");
     var canvas = document.querySelector( "div#"+div+" canvas" );
 
+    lsort = rotate = true;
+
     var but_lsort = document.getElementById( "lsort" );
     but_lsort.onclick = function() { 
       lsort = this.classList.toggle("active"); this.blur(); 
