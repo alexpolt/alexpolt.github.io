@@ -159,27 +159,35 @@ void main() {
   }
 
   var vb, nb, fcb, idb;
-  var d_max=1; cells=8, lights_max=500, rotate = true;
-  var lights=array(Math.pow(cells,3), null).map( function(){ return []; } );
+  var d_max=0.0; cells=8, lights_max=500, rotate = true;
+  var lights;
   var lperface=16, lsorted=lperface*3, lsort=true;
   var per_frame=5, ltexw, ltexh, ltex;
 
   function lenin (cb) {
 
-    load_buffers();
+
+    if( vb === undefined ) {
+
+      load_buffers();
+    }
+
     load_lights();
 
     var div = this.getAttribute("webgl_div");
     var canvas = document.querySelector( "div#"+div+" canvas" );
 
+
     lsort = rotate = true;
     
     var but_lsort = document.getElementById( "lsort" );
+    but_lsort.classList.add("active");
     but_lsort.onclick = function() { 
       lsort = this.classList.toggle("active"); this.blur(); 
     };
 
     var but_rot = document.getElementById( "rot" );
+    but_rot.classList.add("active");
     but_rot.onclick = function() { 
       rotate = this.classList.toggle("active"); this.blur(); 
     };
@@ -257,7 +265,16 @@ void main() {
       }
       idb[i] = i;
     }
+
     face_center( i-3, fc );
+
+    for(var i=0;i<fcb.length;i++) fcb[i] = fcb[i]/d_max;
+
+    var s = Math.ceil( Math.sqrt( fcb.length/3 ) );
+    ltexw = lperface * s;
+    ltexh = s;
+
+    ltex = new Float32Array( ltexw * ltexh * 4 );
   }
 
   function face_center ( f, fc ) {
@@ -269,14 +286,14 @@ void main() {
 
   function load_lights() {
 
-    for(var i=0;i<fcb.length;i++) fcb[i] = fcb[i]/d_max;
+    lights = array( Math.pow(cells,3), null ).map( function(){ return []; } );
 
     for(var n=0; n<lights_max; n++) {
       
       var z = Math.random(), 
           y = Math.random(), 
           x = Math.random(), 
-          w = 1.;//Math.random();
+          w = 1.;
 
       var idx = Math.floor(z*cells)*cells*cells + 
                 Math.floor(y*cells)*cells + 
@@ -286,11 +303,6 @@ void main() {
       
     }
 
-    var s = Math.ceil( Math.sqrt( fcb.length/3 ) );
-    ltexw = lperface * s;
-    ltexh = s;
-
-    ltex = new Float32Array( ltexw * ltexh * 4 );
   }
 
   function compute_lights(cam) {
