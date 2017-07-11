@@ -356,7 +356,8 @@ mat2 inverse( mat2 m ) {
   Never thought of using gl\_PrimitiveID (SV\_PrimitiveID) for anything but recently realized that
   lights can be grouped for a primitive and iterated over in the pixel shader. I decided to cook up
   a WebGL Demo showing this (in WebGL1 I have to supply primitive id in a buffer and use float 
-  textures for light parameters). 
+  textures for light parameters). **Warning:** for some bizarre reason there are artifacts in 
+  Internet Explorer 11.
   
   The lights are clustered into a 3D array depending on distance. Then during a frame a dynamic
   float texture is updated: for every face we load the lights from the precomputed array (based
@@ -367,7 +368,7 @@ mat2 inverse( mat2 m ) {
   to find the best combination of the number of lights per cluster and the number of lights in
   the shader. Also difficult is to find parameters for the lighting equation so it looks good.
   I don't think it is possible to do completely physically correct because you'd have to iterate
-  over too many lights.  
+  over too many lights.
 
   So here is the summary: it is certainly possible to do dynamic lighting using primitive id but 
   benefits are questionable. If not for lighting then primitive id can also be used to do the 
@@ -551,7 +552,7 @@ void main() {
     };
 
     var cam = camera_create( { canvas: canvas, nobind: false, personal: false, pos: vec3(0,0,400), speed: 10 } );
-    var a=-Math.PI/4096., c=Math.cos(a), s=Math.sin(a);
+    var a=-Math.PI/2048., c=Math.cos(a), s=Math.sin(a);
     var mrot = mat3(vec3(c,0,s),vec3(0,1,0),vec3(-s,0,c));
 
     compute_lights(cam);

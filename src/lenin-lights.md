@@ -182,7 +182,7 @@ void main() {
     };
 
     var cam = camera_create( { canvas: canvas, nobind: false, personal: false, pos: vec3(0,0,400), speed: 10 } );
-    var a=-Math.PI/4096., c=Math.cos(a), s=Math.sin(a);
+    var a=-Math.PI/2048., c=Math.cos(a), s=Math.sin(a);
     var mrot = mat3(vec3(c,0,s),vec3(0,1,0),vec3(-s,0,c));
 
     compute_lights(cam);
