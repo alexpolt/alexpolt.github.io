@@ -215,6 +215,7 @@ div.shader canvas {
   border: 0px solid #79a9ad;
   box-sizing: border-box;
   outline: none;
+  cursor: pointer;
 }
 
 
