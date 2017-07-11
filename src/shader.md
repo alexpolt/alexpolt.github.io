@@ -515,7 +515,7 @@ void main() {
   var vb, nb, fcb, idb;
   var d_max=1; cells=8, lights_max=500;
   var lights=array(Math.pow(cells,3), null).map( function(){ return []; } );
-  var lperface=16, lsorted=50, per_frame=10, ltexw, ltexh, ltex;
+  var lperface=16, lsorted=50, per_frame=25, ltexw, ltexh, ltex;
 
   function lenin (cb) {
 
