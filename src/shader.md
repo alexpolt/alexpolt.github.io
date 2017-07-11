@@ -544,11 +544,13 @@ void main() {
     lsort = rotate = true;
 
     var but_lsort = document.getElementById( "lsort" );
+    but_lsort.classList.add("active");
     but_lsort.onclick = function() { 
       lsort = this.classList.toggle("active"); this.blur(); 
     };
     
     var but_rot = document.getElementById( "rot" );
+    but_rot.classList.add("active");
     but_rot.onclick = function() { 
       rotate = this.classList.toggle("active"); this.blur(); 
     };
