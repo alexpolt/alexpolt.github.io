@@ -46,7 +46,7 @@ function load_resources (list, cb) {
     else
       req.overrideMimeType("text/plain");
     req.open( "GET", src );
-    req.timeout = 2000;
+    req.timeout = 3000;
     req.ontimeout = function() {
       console.info( "Resource "+src+" loading timout of 2 seconds." );
       o.failed = true; o.failed_src = src; 
