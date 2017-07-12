@@ -88,11 +88,11 @@ vec3 getc(float x) {
   
   vec3 colors[5];
 
-  colors[0]=vec3(70, 80, 70)/255.;
+  colors[0]=vec3(70, 90, 70)/255.;
   colors[1]=vec3(80, 60, 100)/255.;
-  colors[2]=vec3(100, 50, 60)/255.;
-  colors[3]=vec3(60, 30, 80)/255.;
-  colors[4]=vec3(150, 40, 40)/255.;
+  colors[2]=vec3(180, 50, 80)/255.;
+  colors[3]=vec3(70, 80, 100)/255.;
+  colors[4]=vec3(180, 60, 40)/255.;
 
   float v = floor( fract(abs(x)*333.)*5. );
 
@@ -117,11 +117,11 @@ void main() {
     vec3 ldir = l.xyz-pos;
     float d = clamp(0.,1.,1.-length(ldir));
     kd = abs(dot(normalize(ldir),norm));
-    kd = 6.0 * pow(kd, 1.75) * pow(d, 16.);
+    kd = 6.0 * pow(kd, 1.5) * pow(d, 14.);
     vec3 col = getc(l.x);
     c = c+col*kd;
   }
-  float gamma = 1./2.5;
+  float gamma = 1./2.4;
   c = pow(c, vec3(gamma));
   gl_FragColor = vec4(c, 1);
 }
@@ -165,7 +165,7 @@ void main() {
           loader_lenin.failed || 
             !loader_lenin.loaded )
 
-      loader_lenin = load_resources( ["webgl/lenin2dec2.obj"], {} );
+      loader_lenin = load_resources( ["webgl/lenin2dec4k.obj"], {} );
 
     loader_lenin.delay = 500;
     loader_lenin.span_text = "Computing lights, please wait...";
