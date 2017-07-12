@@ -18,6 +18,9 @@
   And I want to note that I'm not doing physically correct lighting here, just something that
   works, very hacky.
 
+  Also the lighting can be done **per vertex** instead of **per face**. To see the difference 
+  I have added a button at the bottom (there also buttons for rotation and fullscreen). 
+
   So here is the summary: it is certainly possible to do dynamic lighting using primitive ID but 
   benefits are questionable: too many lights are needed to be provided per face to eliminate 
   popping (in the pixel shader I use a maximum of 32 lights per face). If not for lighting then 
@@ -250,7 +253,6 @@ void main() {
   }
 
   var vb, nb, fcb, idb;
-  //var d_max=0.0; cells=25, lights_max=400, rotate = true;
   var d_max=0.0; cells=25, lights_max=300, rotate = true;
   var lights, lradius = 1.0/cells*9;
   var lperface=32, lsort=true, vmode=false;
