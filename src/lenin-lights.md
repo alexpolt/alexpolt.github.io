@@ -118,11 +118,11 @@ void main() {
     vec3 ldir = l.xyz-pos;
     float d = clamp(0.,1.,1.-length(ldir));
     kd = abs(dot(normalize(ldir),norm));
-    kd = 8.0 * pow(kd, 1.75) * pow(d, 16.);
+    kd = 6.0 * pow(kd, 1.75) * pow(d, 16.);
     vec3 col = getc(l.x);
     c = c+col*kd;
   }
-  float gamma = 1./2.4;
+  float gamma = 1./2.5;
   c = pow(c, vec3(gamma));
   gl_FragColor = vec4(c, 1);
 }

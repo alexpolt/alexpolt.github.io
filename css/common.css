@@ -78,6 +78,10 @@ div.resume h3 {
   margin-top: 30px;
 }
 
+span.note {
+  color: silver;
+  font-size: 90%;
+}
 
 #content {
   border-top: 1px solid silver;
