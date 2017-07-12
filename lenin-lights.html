@@ -70,7 +70,9 @@
 
 <p>While it sounds quite simple, it actually was problematic to fight popping. It is really hard
   to find the best combination of the number of lights per cluster and the number of lights in
-  the shader. Also difficult is to find parameters for the lighting equation so it looks good.</p>
+  the shader. Also difficult is to find parameters for the lighting equation so it looks good.
+  And I want to note that I'm not doing physically correct lighting here, just something that
+  works, very hacky.</p>
 
 <p>So here is the summary: it is certainly possible to do dynamic lighting using primitive ID but 
   benefits are questionable: too many lights are needed to be provided per face to eliminate 
@@ -102,6 +104,7 @@ attribute float vid_in;
 
 varying vec3 pos;
 varying vec3 vn;
+varying vec3 color;
 varying float pid;
 
 uniform mat3 cam;
@@ -109,31 +112,10 @@ uniform vec3 campos;
 uniform vec2 screen;
 uniform float dmax;
 
-void main() {
-
-  vn = cam*vn_in;
-  pid = floor( vid_in/3. );
-  vec3 p = cam*v_in;
-  pos = p/dmax;
-  p = p+campos;
-  float far = 10000.0;
-  float near = 1.0;
-  float z = p.z;
-  p.x = p.x * screen.y/screen.x;
-  p.z = far*(z-near)/(far-near);
-  gl_Position = vec4(p,z);
-}
-//-->
-  </textarea>
-  <textarea hide class="ps hidden" spellcheck="false">//<!--
-precision highp float;
-varying vec3 pos;
-varying vec3 vn;
-varying float pid;
-
 const float pi = 3.14159265;
 const float lperface = 32.;
 
+uniform float vmode;
 uniform vec2 ltexsize;
 uniform sampler2D ltex;
 
@@ -159,6 +141,87 @@ vec3 getc(float x) {
 }
 
 void main() {
+
+  vn = cam*vn_in;
+  pid = floor( vid_in/3. );
+  vec3 p = cam*v_in;
+  pos = p/dmax;
+  p = p+campos;
+  float far = 10000.0;
+  float near = 1.0;
+  float z = p.z;
+  p.x = p.x * screen.y/screen.x;
+  p.z = far*(z-near)/(far-near);
+  gl_Position = vec4(p,z);
+
+
+  if( vmode == 1. ) {
+
+    vec3 norm = normalize(vn);
+    vec2 px = 1./ltexsize;
+    vec2 uv = vec2( fract(lperface*round(vid_in)/ltexsize.x)+.5*px.x,
+              floor(lperface*round(vid_in)/ltexsize.x)/ltexsize.y+.5*px.y);
+    float kd = 1., n = .0;
+    vec3 c = vec3(0,0,0);
+    for(float i=.0; i<lperface; i++ ) {
+      vec4 l = texture2DLod( ltex, uv+i*vec2(px.x,0), 0. );
+      if( l.w == .0 ) continue;
+      n++;
+      vec3 ldir = l.xyz-pos;
+      float d = clamp(0.,1.,1.-length(ldir));
+      kd = abs(dot(normalize(ldir),norm));
+      kd = 6.0 * pow(kd, 1.5) * pow(d, 14.);
+      vec3 col = getc(l.x);
+      c = c+col*kd;
+    }
+    float gamma = 1./2.4;
+    color = pow(c, vec3(gamma));
+  }
+}
+//-->
+  </textarea>
+  <textarea hide class="ps hidden" spellcheck="false">//<!--
+precision highp float;
+varying vec3 pos;
+varying vec3 vn;
+varying vec3 color;
+varying float pid;
+
+const float pi = 3.14159265;
+const float lperface = 32.;
+
+uniform float vmode;
+uniform vec2 ltexsize;
+uniform sampler2D ltex;
+
+float round(float v){ return floor(v+.5); }
+
+vec3 getc(float x) {
+
+  vec3 colors[5];
+
+  colors[0]=vec3(70, 90, 70)/255.;
+  colors[1]=vec3(80, 60, 100)/255.;
+  colors[2]=vec3(180, 50, 80)/255.;
+  colors[3]=vec3(70, 80, 100)/255.;
+  colors[4]=vec3(180, 60, 40)/255.;
+
+  float v = floor( fract(abs(x)*333.)*5. );
+
+  if(v==0.) return colors[0];
+  if(v==1.) return colors[1];
+  if(v==2.) return colors[2];
+  if(v==3.) return colors[3];
+  return colors[4];
+}
+
+void main() {
+
+  if( vmode == 1. ) {
+    gl_FragColor = vec4(color,1);
+    return;
+  }
+
   vec3 norm = normalize(vn);
   vec2 px = 1./ltexsize;
   vec2 uv = vec2( fract(lperface*round(pid)/ltexsize.x)+.5*px.x,
@@ -189,6 +252,7 @@ void main() {
   <button title="Pause Rendering" class="pause">Pause</button>
   <button title="Go Fullscreen" class="fscreen">FS</button>
   <button title="Rotate/Dont Rotate" id="rot" class="active">Rotate</button>
+  <button title="Lighting Per Face/Per Vertex" id="vmode">Per face</button>
   </div>
   <div class="clear"></div>
 </div>
@@ -239,9 +303,10 @@ void main() {
   }
 
   var vb, nb, fcb, idb;
-  var d_max=0.0; cells=25, lights_max=400, rotate = true;
-  var lights, lradius = 1.0/cells*13;
-  var lperface=32, lsort=true;
+  //var d_max=0.0; cells=25, lights_max=400, rotate = true;
+  var d_max=0.0; cells=20, lights_max=300, rotate = true;
+  var lights, lradius = 1.0/cells*9;
+  var lperface=32, lsort=true, vmode=false;
   var per_frame=10, ltexw, ltexh, ltex, ltexupdate=false;
 
   function lenin (cb) {
@@ -269,6 +334,21 @@ void main() {
     var a=-Math.PI/2048.0, c=Math.cos(a), s=Math.sin(a);
     var mrot = mat3(vec3(c,0,s),vec3(0,1,0),vec3(-s,0,c));
 
+    var but_vmode = document.getElementById( "vmode" );
+    but_vmode.onclick = function() { 
+      if( !this.vmode ) {
+        this.innerHTML = "Per vertex";
+        vmode = this.vmode = true;
+      } else {
+        this.innerHTML = "Per face";
+        vmode = this.vmode = false;
+      }
+      this.blur();
+      this.disabled = true;
+      setTimeout( function() { but_vmode.disabled = false; }, 1000 );
+      compute_lights(cam);
+      ltexupdate = true;
+    };
 
     var opts = {
       bgcolor : [.95, .95, .95, 1],
@@ -278,6 +358,7 @@ void main() {
         ltexsize: [ltexw,ltexh],
         cam: function(){ return cam.get_m(); }, 
         campos: function(){ return cam.get_pos(); },
+        vmode: function(){ return [vmode]; },
         dmax: [d_max],
       },
       textures : { 
@@ -329,26 +410,30 @@ void main() {
     fcb = new Float32Array( f.length );
     var fc = array(9,.0);
     var i;
+
     for(i=0; i<f.length; i++) {
+
       var fci = i%3;
+
       for(var t=0; t<3; t++) {
         fc[fci*3+t] = vb[i*3+t] = v[ (f[i]-1)*3+t ];
         nb[i*3+t] = vn[ (f[i]-1)*3+t ];
       }
-      if( i > 0 && fci == 0 ) {
-        face_center( i-3, fc );
-      }
+
+      d_max = Math.max( d_max, len([vb[i*3],vb[i*3+1],vb[i*3+2]]) );
+
+      if( i > 0 && fci == 0 ) face_center( i-3, fc );
+
       idb[i] = i;
     }
 
     face_center( i-3, fc );
 
-    for(var i=0;i<fcb.length;i++) fcb[i] = fcb[i]/d_max;
+    d_max += 1.;
 
-    var s = Math.ceil( Math.sqrt( fcb.length/3 ) );
-    ltexw = lperface * s;
+    var s = Math.ceil( Math.sqrt( fcb.length * lperface ) );
+    ltexw = Math.floor( (s+lperface-1)/lperface ) * lperface;
     ltexh = s;
-
     ltex = new Float32Array( ltexw * ltexh * 4 );
   }
 
@@ -356,7 +441,6 @@ void main() {
     for(var i=0; i<3; i++) {
       fcb[f+i] = (fc[i] + fc[i+3] + fc[i+6])/3.;
     }
-    d_max = Math.max ( d_max, len([fcb[f],fcb[f+1],fcb[f+2]]) );
   }
 
   function load_lights() {
@@ -412,21 +496,38 @@ void main() {
   }
 
   function compute_lights(cam) {
+
     var v = vec3(), logged = 0, lmin=[];
+
     clear(ltex,.0);
-    for(var i=0; i<fcb.length/3; i++) {
-      v[0] = fcb[i*3]; v[1] = fcb[i*3+1]; v[2] = fcb[i*3+2];
+
+    var sz = vmode ? idb.length : fcb.length/3;
+
+    for(var i=0; i<sz; i++) {
+      if( vmode ) {
+        v[0] = vb[i*3]; v[1] = vb[i*3+1]; v[2] = vb[i*3+2];
+      } else {
+        v[0] = fcb[i*3]; v[1] = fcb[i*3+1]; v[2] = fcb[i*3+2];
+      }
+
       v = mul( cam.m, v );
+
+      v[0] /= d_max;
+      v[1] /= d_max;
+      v[2] /= d_max;
+
       var x = Math.floor( cells*(.5+.5*v[0]) ), 
           y = Math.floor( cells*(.5+.5*v[1]) ), 
           z = Math.floor( cells*(.5+.5*v[2]) );
-      if( x >= cells ) x = cells-1;
-      if( y >= cells ) x = cells-1;
-      if( x >= cells ) x = cells-1;
+
+      x = clamp( x, 0, cells-1 );
+      y = clamp( y, 0, cells-1 );
+      z = clamp( z, 0, cells-1 );
 
       var idx = z*cells*cells+y*cells+x;
       var l = lights[idx];
       var size = Math.min(lperface,l.length);
+
       for(var n=0; n<size; n++) {
         ltex[i*4*lperface+n*4+0] = l[n][0];
         ltex[i*4*lperface+n*4+1] = l[n][1];
