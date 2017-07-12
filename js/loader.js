@@ -83,7 +83,7 @@ function load_animation (loader, span, cb) {
     step: loader.step || 0,
     item: 0,
     tries: 0,
-    tries_max: loader.tries_max || 8,
+    tries_max: loader.tries_max || 20,
     span_text: loader.span_text || undefined,
     span_title: loader.span_title || undefined,
   };
