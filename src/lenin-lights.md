@@ -378,8 +378,6 @@ void main() {
     }
 
     face_center( i-3, fc );
-    
-    d_max += 2.;
 
     for(var i=0; i<vb.length; i++) vv[i] = vb[i]/d_max;
     for(var i=0; i<fcb.length; i++) fcb[i] = fcb[i]/d_max;
@@ -470,11 +468,11 @@ void main() {
           z = Math.floor( cells*(.5+.5*v[2]) );
 
       if( x < 0 ) x = 0;
-      if( y < 0 ) x = 0;
-      if( z < 0 ) x = 0;
+      if( y < 0 ) y = 0;
+      if( z < 0 ) z = 0;
       if( x >= cells ) x = cells-1;
-      if( y >= cells ) x = cells-1;
-      if( z >= cells ) x = cells-1;
+      if( y >= cells ) y = cells-1;
+      if( z >= cells ) z = cells-1;
 
       var idx = z*cells*cells+y*cells+x;
       var l = lights[idx];
