@@ -4,8 +4,7 @@
   Never thought of using gl\_PrimitiveID (SV\_PrimitiveID) for anything but recently realized that
   lights can be grouped for a primitive and iterated over in the pixel shader. I decided to cook up
   a WebGL Demo showing this (in WebGL1 I have to supply primitive id in a buffer and use float 
-  textures for light parameters). **Warning: for some bizarre reason there are ugly artifacts in 
-  Internet Explorer 11**.
+  textures for light parameters). 
   
   The lights are clustered into a 3D array of 25x25x25 depending on the distance from a cell. 
   The total number of lights is 400. During a frame a dynamic float texture is updated: for 
