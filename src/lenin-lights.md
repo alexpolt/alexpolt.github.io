@@ -117,10 +117,12 @@ void main() {
     vec3 ldir = l.xyz-pos;
     float d = clamp(0.,1.,1.-length(ldir));
     kd = abs(dot(normalize(ldir),norm));
-    kd = 2.0 * pow(kd, 1.25) * pow(d, 8.);
+    kd = 2.0 * pow(kd, 1.5) * pow(d, 8.);
     vec3 col = getc(l.x);
     c = c+col*kd;
   }
+  float gamma = 1./2.2;
+  c = pow(c,vec3(1.5*gamma) );
   gl_FragColor = vec4(c, 1);
 }
 //-->
@@ -185,7 +187,7 @@ void main() {
 
   var vb, nb, fcb, idb;
   var d_max=0.0; cells=25, lights_max=500, rotate = true;
-  var lights, lradius = 1.0/cells*14;
+  var lights, lradius = 1.0/cells*16;
   var lperface=64, lsort=true;
   var per_frame=5, ltexw, ltexh, ltex;
 

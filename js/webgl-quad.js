@@ -27,7 +27,7 @@ function webgl_quad( opts ) {
 
   compile_program( gl, program0, opts.vs, opts.ps );
 
-  var attribs = { "v_in": 0, "uv_n": 1, "vid_in": 2, "vn_in": 3 };
+  var attribs = { "v_in": 0, "uv_in": 1, "vid_in": 2, "vn_in": 3 };
   
   for( var n in attribs )
     gl.bindAttribLocation( program0, attribs[n], n );
@@ -71,18 +71,25 @@ function webgl_quad( opts ) {
                 " not supported, only an 1 to 4 array, predefined string or function";
   }
 
-  var fb, fbtex;
+  var fb, fbtex, rb;
   var fbtexloc = gl.getUniformLocation( program0, "fbtex" );
   var passloc = gl.getUniformLocation( program0, "pass" );
 
   if( fbtexloc ) {
     fbtex = gl.createTexture();
     gl.bindTexture( gl.TEXTURE_2D, fbtex );
-    gl.texImage2D( gl.TEXTURE_2D, 0, gl.RGBA, width, height, 0, gl.RGBA, gl.UNSIGNED_BYTE, null );  
+    if( opts.hdr )
+      gl.texImage2D( gl.TEXTURE_2D, 0, gl.RGBA32F_EXT, width, height, 0, gl.RGBA, gl.FLOAT, null );  
+    else 
+      gl.texImage2D( gl.TEXTURE_2D, 0, gl.RGBA, width, height, 0, gl.RGBA, gl.UNSIGNED_BYTE, null );  
     set_tex_parameters( gl, gl.NEAREST, gl.NEAREST );
+    rb = gl.createRenderbuffer();
+    gl.bindRenderbuffer( gl.RENDERBUFFER, rb );
+    gl.renderbufferStorage( gl.RENDERBUFFER, gl.DEPTH_STENCIL, width, height );
     fb = gl.createFramebuffer();
     gl.bindFramebuffer( gl.FRAMEBUFFER, fb );
     gl.framebufferTexture2D( gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, fbtex, 0 );
+    gl.framebufferRenderbuffer( gl.FRAMEBUFFER, gl.DEPTH_STENCIL_ATTACHMENT, gl.RENDERBUFFER, rb );
     if ( gl.checkFramebufferStatus( gl.FRAMEBUFFER ) != gl.FRAMEBUFFER_COMPLETE ) 
       throw "framebuffer incomplete";
     gl.bindFramebuffer( gl.FRAMEBUFFER, null );
@@ -146,49 +153,19 @@ function webgl_quad( opts ) {
     uniforms_s.push( { integer: true, name: "prevtex", loc: prevtexloc, value: [ textures.length ] } );
     textures.push( { name: "prevtex", texture: prevtex } );
   }
-  
-  if( opts.buffers ) {
 
-    for( var n in opts.buffers ) {
+  opts.buffers_quad = {
+    v_in: new Float32Array( [ 0.0,0.0, 0.0,1.0, 1.0,0.0, 1.0,0.0, 0.0,1.0, 1.0,1.0, ] ),
+    uv_in: new Float32Array( [    0,0,     0,1,     1,0,     1,0,     0,1,     0,0, ] ),
+    vid_in: new Float32Array( [     0,       1,       2,       3,       4,       5 ] ),
+  };
 
-      var b = opts.buffers[n];
+  opts.buffers_quad.v_in.attrib_size = 2;
+  opts.buffers_quad.uv_in.attrib_size = 2;
+  opts.buffers_quad.vid_in.attrib_size = 1;
 
-      if( !b || !b.length ) {
-        console.warn ("buffer",n,"is not valid",b);
-        continue;
-      }
-
-      if( attribs[n] === undefined ) {
-        console.warn ("attribute",n,"is not standard, should be one of",attribs);
-        continue;
-      }
-
-      var vb = gl.createBuffer ();
-      gl.bindBuffer (gl.ARRAY_BUFFER, vb);
-      gl.bufferData (gl.ARRAY_BUFFER, b, gl.STATIC_DRAW);
-      gl.vertexAttribPointer (attribs[n], b.attrib_size ? b.attrib_size : 3, gl.FLOAT, false, 0, 0);
-      gl.enableVertexAttribArray (attribs[n]);
-    }
-
-  } else {
-
-    var vb0data = new Float32Array( [
-      0.0,0.0, 0.0,1.0, 1.0,0.0, 1.0,0.0, 0.0,1.0, 1.0,1.0,
-      0,0,     0,1,     1,0,     1,0,     0,1,     0,0,
-      0,       1,       2,       3,       4,       5
-    ] );
-
-    var vb0 = gl.createBuffer();
-    gl.bindBuffer( gl.ARRAY_BUFFER, vb0 );
-    gl.bufferData( gl.ARRAY_BUFFER, vb0data, gl.STATIC_DRAW );
-
-    gl.vertexAttribPointer( 0, 2, gl.FLOAT, false, 0, 0 );
-    gl.vertexAttribPointer( 1, 2, gl.FLOAT, false, 0, 12*4 );
-    gl.vertexAttribPointer( 2, 1, gl.FLOAT, false, 0, 24*4 );
-    gl.enableVertexAttribArray(0);
-    gl.enableVertexAttribArray(1);
-    gl.enableVertexAttribArray(2);
-  }
+  opts.draw_size = opts.draw_size || 6;
+  opts.draw_type = gl[opts.draw_type] || gl.TRIANGLES;
 
   var bgc = opts.bgcolor || [0,0,0,1];
 
@@ -255,10 +232,12 @@ function webgl_quad( opts ) {
 
       gl.bindFramebuffer( gl.FRAMEBUFFER, fb );
       gl.clearColor( bgc[0], bgc[1], bgc[2], bgc[3] );
-      gl.clear( gl.COLOR_BUFFER_BIT );
+      gl.clearDepth( 1 );
+      gl.clear( gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT );
 
-      gl.drawArrays( opts.draw_type ? gl[opts.draw_type] : gl.TRIANGLES, 
-                        0, opts.draw_size ? opts.draw_size : 6 );
+      set_buffers( gl, opts.buffers || opts.buffers_quad, attribs );
+
+      gl.drawArrays( opts.draw_type, 0, opts.draw_size );
 
       if( passloc ) set_uniform( gl, { loc: passloc }, [1] );
       gl.bindFramebuffer( gl.FRAMEBUFFER, null );
@@ -278,8 +257,13 @@ function webgl_quad( opts ) {
       gl.bindTexture( gl.TEXTURE_2D, prevbind );
     }
 
-    gl.drawArrays( opts.draw_type ? gl[opts.draw_type] : gl.TRIANGLES, 
-                      0, opts.draw_size ? opts.draw_size : 6 );
+    if( fb ) {
+      set_buffers( gl, opts.buffers_quad, attribs );
+      gl.drawArrays( gl.TRIANGLES, 0, 6 );
+    } else {
+      set_buffers( gl, opts.buffers || opts.buffers_quad, attribs );
+      gl.drawArrays( opts.draw_type, 0, opts.draw_size );
+    }
 
     if( prevtexloc ) {
       gl.bindTexture( gl.TEXTURE_2D, prevtex );
@@ -400,6 +384,35 @@ function compile_program( gl, program0, shader0str, shader1str ) {
   gl.attachShader( program0, shader1 )
 }
 
+
+function set_buffers(gl, buffers, attribs) {
+
+  for( var n in buffers ) {
+
+    var b = buffers[n];
+
+    if( !b || !b.length ) {
+      console.warn ("buffer",n,"is not valid",b);
+      continue;
+    }
+
+    if( attribs[n] === undefined ) {
+      console.warn ("attribute",n,"is not standard, should be one of",attribs);
+      continue;
+    }
+    
+    if( ! b.gl_buffer ) {
+      b.gl_buffer = gl.createBuffer ();
+      gl.bindBuffer (gl.ARRAY_BUFFER, b.gl_buffer);
+      gl.bufferData (gl.ARRAY_BUFFER, b, gl.STATIC_DRAW);
+    } else {
+      gl.bindBuffer (gl.ARRAY_BUFFER, b.gl_buffer);
+    }
+
+    gl.vertexAttribPointer (attribs[n], b.attrib_size ? b.attrib_size : 3, gl.FLOAT, false, 0, 0);
+    gl.enableVertexAttribArray (attribs[n]);
+  }
+}
 
 
 
