@@ -242,7 +242,7 @@ void main() {
   var d_max=0.0; cells=25, lights_max=400, rotate = true;
   var lights, lradius = 1.0/cells*13;
   var lperface=32, lsort=true;
-  var per_frame=20, ltexw, ltexh, ltex;
+  var per_frame=20, ltexw, ltexh, ltex, ltexupdate=false;
 
   function lenin (cb) {
 
@@ -265,11 +265,10 @@ void main() {
       rotate = this.classList.toggle("active"); this.blur(); 
     };
 
-    var cam = camera_create( { canvas: canvas, nobind: false, personal: false, pos: vec3(0,0,400), speed: 10 } );
+    var cam = camera_create( { canvas: canvas, nobind: false, personal: false, pos: vec3(0,0,420), speed: 10 } );
     var a=-Math.PI/2048., c=Math.cos(a), s=Math.sin(a);
     var mrot = mat3(vec3(c,0,s),vec3(0,1,0),vec3(-s,0,c));
 
-    compute_lights(cam);
 
     var opts = {
       bgcolor : [.95, .95, .95, 1],
@@ -285,7 +284,10 @@ void main() {
         ltex: { tex2d: 1, width: ltexw, height: ltexh, format: "RGBA", type: "FLOAT",
                   minf:"NEAREST", magf:"NEAREST", genmipmap: 0, 
                   data: function(frame,dt) { 
-                          if( cam.rotate || frame%per_frame == 0 ) return ltex;
+                          if( frame === undefined || ltexupdate ) { 
+                            ltexupdate = false;
+                            return ltex;
+                          }
                           return null;
                         },
                },
@@ -294,10 +296,16 @@ void main() {
       onreload : function() { cam.reset_m(); },
       onclose : function() { camera_remove(cam); },
       onpause : function(s) { cam.pause(s); },
-      onpresent : function(frame,dt) {
+      onframe : function(frame,dt) {
         if( !cam.paused ) {
           if( rotate ) cam.m = mul( cam.m, mrot );
-          if( cam.rotate || frame%per_frame == 0 ) compute_lights(cam);
+          if( cam.rotate || frame%per_frame == 0 ) {
+            compute_lights(cam);
+            ltexupdate = true;
+          }
+        } else if( frame%per_frame == 0 ) { 
+          compute_lights(cam);
+          ltexupdate = true;
         }
       },
     };

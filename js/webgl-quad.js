@@ -127,7 +127,7 @@ function webgl_quad( opts ) {
       var data;
 
       if( typeof e.value.data === "function" ) 
-            data = e.value.data(0,0);
+            data = e.value.data();
       else  data = e.value.data;
 
       set_texture( gl, e.value, data );
