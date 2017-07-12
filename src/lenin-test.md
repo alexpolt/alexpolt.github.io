@@ -252,7 +252,7 @@ void main() {
     load_animation (loader_lenin, span, fn);
   }
 
-  var vb, nb, fcb, idb;
+  var vv, vb, nb, fcb, idb;
   var d_max=0.0; cells=25, lights_max=300, rotate = true;
   var lights, lradius = 1.0/cells*9;
   var lperface=32, lsort=true, vmode=false;
@@ -353,6 +353,7 @@ void main() {
       f.push( parseFloat(m[1]), parseFloat(m[2]), parseFloat(m[3]) );
 
     vb = new Float32Array( f.length*3 );
+    vv = new Float32Array( f.length*3 );
     nb = new Float32Array( f.length*3 );
     idb = new Float32Array( f.length );
     idb.attrib_size = 1;
@@ -379,6 +380,9 @@ void main() {
     face_center( i-3, fc );
     
     d_max += 1.;
+
+    for(var i=0; i<vb.length; i++) vv[i] = vb[i]/d_max;
+    for(var i=0; i<fcb.length; i++) fcb[i] = fcb[i]/d_max;
 
     var s = Math.ceil( Math.sqrt( fcb.length * lperface ) );
     ltexw = Math.floor( (s+lperface-1)/lperface ) * lperface;
@@ -454,16 +458,12 @@ void main() {
 
     for(var i=0; i<sz; i++) {
       if( vmode ) {
-        v[0] = vb[i*3]; v[1] = vb[i*3+1]; v[2] = vb[i*3+2];
+        v[0] = vv[i*3]; v[1] = vv[i*3+1]; v[2] = vv[i*3+2];
       } else {
         v[0] = fcb[i*3]; v[1] = fcb[i*3+1]; v[2] = fcb[i*3+2];
       }
 
       v = mul( cam.m, v );
-
-      v[0] /= d_max;
-      v[1] /= d_max;
-      v[2] /= d_max;
 
       var x = Math.floor( cells*(.5+.5*v[0]) ), 
           y = Math.floor( cells*(.5+.5*v[1]) ), 
