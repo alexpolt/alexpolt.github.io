@@ -3,6 +3,8 @@
 var camera_imp = {
   mousemove: function(e) {
 
+    if( this.prerotate ) this.rotate = true;
+
     if( ! this.mx_prev ) {
       this.mx_prev = e.clientX;
       this.my_prev = e.clientY;
@@ -14,19 +16,20 @@ var camera_imp = {
     this.mx_prev = e.clientX;
     this.my_prev = e.clientY;
 
-    if( !this.paused && this.rotate ) {
+    if( this.rotate ) {
       if( this.movex != 0 ) this.rotate_y( this.movex );
       if( this.movey != 0 ) this.rotate_x( this.movey );
     }
   },
   mouseup: function(e) {
     this.rotate = false;
+    this.prerotate = false;
   },
   mousedown: function(e) {
     this.clickx = e.pageX - e.target.offsetLeft;
     this.clicky = e.pageY - e.target.offsetTop;
     this.mbutton = e.button;
-    this.rotate = true;
+    if( !this.paused ) this.prerotate = true;
   },
   contextmenu: function(e) {
     if( this.nocontextmenu ) e.preventDefault();
@@ -91,7 +94,9 @@ function camera_create( opts ) {
   if( !o.speed ) o.speed = 0.125;
 
   o.paused = false;
-
+  o.rotate = false;
+  o.prerotate = false;
+  
   o.m_rot_x = [];
   o.m_rot_y = []; 
   o.delta_max = 5.0;
