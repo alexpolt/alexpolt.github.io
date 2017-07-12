@@ -20,8 +20,8 @@
 
   So here is the summary: it is certainly possible to do dynamic lighting using primitive id but 
   benefits are questionable. If not for lighting then primitive id can also be used to do the 
-  [tri info trick][a] above: we ca use it to reference into index/vertex buffers and do all the 
-  transformations by hand in the shader.
+  [tri info trick][a] without using barycentrics: we can use it to reference into index/vertex 
+  buffers and do all the transformations by hand in the shader.
 
 
 <div class="webgl" webgl_version="1" webgl_div="shader0" init="load_demo">
@@ -380,6 +380,7 @@ void main() {
 </div>
 
 
+[a]: shader.html
 [l]: lenin.html "Vladymir Lenin"
 
 
