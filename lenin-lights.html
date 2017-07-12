@@ -145,7 +145,7 @@ vec3 getc(float x) {
   colors[0]=vec3(70, 80, 70)/255.;
   colors[1]=vec3(80, 60, 100)/255.;
   colors[2]=vec3(100, 50, 60)/255.;
-  colors[3]=vec3(60, 30, 100)/255.;
+  colors[3]=vec3(60, 30, 80)/255.;
   colors[4]=vec3(150, 40, 40)/255.;
 
   float v = floor( fract(abs(x)*333.)*5. );
@@ -171,11 +171,11 @@ void main() {
     vec3 ldir = l.xyz-pos;
     float d = clamp(0.,1.,1.-length(ldir));
     kd = abs(dot(normalize(ldir),norm));
-    kd = 5.0 * pow(kd, 1.5) * pow(d, 16.);
+    kd = 8.0 * pow(kd, 1.75) * pow(d, 16.);
     vec3 col = getc(l.x);
     c = c+col*kd;
   }
-  float gamma = 1./2.2;
+  float gamma = 1./2.4;
   c = pow(c, vec3(gamma));
   gl_FragColor = vec4(c, 1);
 }
