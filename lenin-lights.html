@@ -137,10 +137,6 @@ const float lperface = 32.;
 uniform vec2 ltexsize;
 uniform sampler2D ltex;
 
-uniform sampler2D prevtex;
-uniform float frame;
-uniform vec2 screen;
-
 float round(float v){ return floor(v+.5); }
 
 vec3 getc(float x) {
@@ -182,11 +178,7 @@ void main() {
   }
   float gamma = 1./2.4;
   c = pow(c, vec3(gamma));
-  vec2 scruv = gl_FragCoord.xy/screen;
-  if(frame==0.)
-    gl_FragColor = vec4(c, 1);
-  else
-    gl_FragColor = 0.8*texture2D(prevtex,scruv) + 0.2*vec4(c, 1);
+  gl_FragColor = vec4(c, 1);
 }
 //-->
   </textarea>
