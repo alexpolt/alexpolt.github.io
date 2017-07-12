@@ -243,7 +243,7 @@ void main() {
   var d_max=0.0; cells=25, lights_max=400, rotate = true;
   var lights, lradius = 1.0/cells*13;
   var lperface=32, lsort=true;
-  var per_frame=4, ltexw, ltexh, ltex;
+  var per_frame=20, ltexw, ltexh, ltex;
 
   function lenin (cb) {
 
@@ -286,7 +286,7 @@ void main() {
         ltex: { tex2d: 1, width: ltexw, height: ltexh, format: "RGBA", type: "FLOAT",
                   minf:"NEAREST", magf:"NEAREST", genmipmap: 0, 
                   data: function(frame,dt) { 
-                          if( frame%per_frame == 0 ) return ltex;
+                          if( cam.rotate || frame%per_frame == 0 ) return ltex;
                           return null;
                         },
                },
@@ -298,7 +298,7 @@ void main() {
       onpresent : function(frame,dt) {
         if( !cam.paused ) {
           if( rotate ) cam.m = mul( cam.m, mrot );
-          if(frame%per_frame == 0) compute_lights(cam);
+          if( cam.rotate || frame%per_frame == 0 ) compute_lights(cam);
         }
       },
     };
