@@ -19,7 +19,7 @@
   works, very hacky.
 
   Also the lighting can be done **per vertex** instead of **per face**. To see the difference 
-  I have added a button at the bottom (there also buttons for rotation and fullscreen). 
+  I have added a button at the bottom (there are also buttons for rotation and fullscreen). 
 
   So here is the summary: it is certainly possible to do dynamic lighting using primitive ID but 
   benefits are questionable: too many lights are needed to be provided per face to eliminate 
@@ -254,7 +254,7 @@ void main() {
 
   var vv, vb, nb, fcb, idb;
   var d_max=0.0; cells=25, lights_max=300, rotate = true;
-  var lights, lradius = 1.0/cells*9;
+  var lights, lradius = 1.0/cells*12;
   var lperface=32, lsort=true, vmode=false;
   var per_frame=10, ltexw, ltexh, ltex, ltexupdate=false;
 
@@ -379,7 +379,7 @@ void main() {
 
     face_center( i-3, fc );
     
-    d_max += 1.;
+    d_max += 2.;
 
     for(var i=0; i<vb.length; i++) vv[i] = vb[i]/d_max;
     for(var i=0; i<fcb.length; i++) fcb[i] = fcb[i]/d_max;
