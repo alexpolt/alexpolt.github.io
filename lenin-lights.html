@@ -99,12 +99,13 @@
 attribute vec3 v_in;
 attribute vec3 vn_in;
 attribute float vid_in;
+
 varying vec3 pos;
 varying vec3 vn;
 varying float pid;
+
 uniform mat3 cam;
 uniform vec3 campos;
-uniform float t;
 uniform vec2 screen;
 uniform float dmax;
 
@@ -133,9 +134,12 @@ varying float pid;
 const float pi = 3.14159265;
 const float lperface = 32.;
 
-uniform float t;
 uniform vec2 ltexsize;
 uniform sampler2D ltex;
+
+uniform sampler2D prevtex;
+uniform float frame;
+uniform vec2 screen;
 
 float round(float v){ return floor(v+.5); }
 
@@ -178,7 +182,11 @@ void main() {
   }
   float gamma = 1./2.4;
   c = pow(c, vec3(gamma));
-  gl_FragColor = vec4(c, 1);
+  vec2 scruv = gl_FragCoord.xy/screen;
+  if(frame==0.)
+    gl_FragColor = vec4(c, 1);
+  else
+    gl_FragColor = 0.8*texture2D(prevtex,scruv) + 0.2*vec4(c, 1);
 }
 //-->
   </textarea>
