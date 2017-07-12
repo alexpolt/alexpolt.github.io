@@ -86,14 +86,17 @@ uniform sampler2D ltex;
 float round(float v){ return floor(v+.5); }
 
 vec3 getc(float x) {
+  
   vec3 colors[5];
-  colors[0]=vec3(200, 60, 25)/255.;
+
+  colors[0]=vec3(70, 80, 70)/255.;
   colors[1]=vec3(80, 60, 100)/255.;
   colors[2]=vec3(100, 50, 60)/255.;
-  colors[3]=vec3(120, 90, 40)/255.;
-  colors[4]=vec3(150, 50, 70)/255.;
+  colors[3]=vec3(60, 30, 100)/255.;
+  colors[4]=vec3(150, 40, 40)/255.;
 
   float v = floor( fract(abs(x)*333.)*5. );
+
   if(v==0.) return colors[0];
   if(v==1.) return colors[1];
   if(v==2.) return colors[2];
