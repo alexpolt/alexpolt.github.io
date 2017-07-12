@@ -1,5 +1,28 @@
 
-##Lenin
+##Dynamic Lighting using Primitive ID
+
+  Never thought of using gl\_PrimitiveID (SV\_PrimitiveID) for anything but recently realized that
+  lights can be grouped for a primitive and iterated over in the pixel shader. I decided to cook up
+  a WebGL Demo showing this (in WebGL1 I have to supply primitive id in a buffer and use float 
+  textures for light parameters). **Warning:** for some bizarre reason there are artifacts in 
+  *Internet Explorer 11*.
+  
+  The lights are clustered into a 3D array depending on distance. Then during a frame a dynamic
+  float texture is updated: for every face we load the lights from the precomputed array (based
+  on the face's center point) and write them into the texture. In the shader we compute the
+  uv using the primitive id and sample it for each light. 
+  
+  While it sounds quite simple, it actually was problematic to fight popping. It is really hard
+  to find the best combination of the number of lights per cluster and the number of lights in
+  the shader. Also difficult is to find parameters for the lighting equation so it looks good.
+  I don't think it is possible to do completely physically correct because you'd have to iterate
+  over too many lights.
+
+  So here is the summary: it is certainly possible to do dynamic lighting using primitive id but 
+  benefits are questionable. If not for lighting then primitive id can also be used to do the 
+  [tri info trick][a] above: we ca use it to reference into index/vertex buffers and do all the 
+  transformations by hand in the shader.
+
 
 <div class="webgl" webgl_version="1" webgl_div="shader0" init="load_demo">
   <img class="link" src="images/lenin.png" title="Click to show WebGL demo" alt="WebGL demo"/><br/>
@@ -109,6 +132,9 @@ void main() {
   </div>
   <div class="clear"></div>
 </div>
+
+
+  By the way, have you recognized who's that statue rotating? If not then here is some [info][l].
 
 
 <div>
@@ -353,5 +379,7 @@ void main() {
 
 </div>
 
+
+[l]: lenin.html "Vladymir Lenin"
 
 

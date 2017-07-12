@@ -1,10 +1,16 @@
 
 
+* [Dynamic Lighting using Primitive ID](lenin-lights.html)
+
+  Had an idea that one can use gl\_PrimitiveID ( SV\_PrimitiveID ) to do dynamic lighting. 
+  Made it into a WebGL demo.
+
+
 * [Shader Tricks: Retrieving Triangle Location and Edges in Pixel Shader and More](shader.html)
 
   There are cases when we need full triangle info in a pixel shader and I describe the easy and
   cheap way of getting it. Also talk about using partial derivatives for peeking into another
-  shader. And lastly, using primitive id to do lighting.
+  shader and non perspective interpolation in WebGL.
 
 
 * [Conway's Game of Life in One Pixel Shader](game-of-life.html)
