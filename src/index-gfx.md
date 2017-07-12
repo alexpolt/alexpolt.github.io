@@ -9,8 +9,8 @@
 * [Shader Tricks: Retrieving Triangle Location and Edges in Pixel Shader and More](shader.html)
 
   There are cases when we need full triangle info in a pixel shader and I describe the easy and
-  cheap way of getting it. Also talk about using partial derivatives for peeking into another
-  shader and non perspective interpolation in WebGL.
+  cheap way of getting it (demo included). Also talk about using partial derivatives for peeking 
+  into another shader and non perspective interpolation in WebGL.
 
 
 * [Conway's Game of Life in One Pixel Shader](game-of-life.html)
