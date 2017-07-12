@@ -8,7 +8,7 @@
   *Internet Explorer 11*.
   
   The lights are clustered into a 3D array of 25x25x25 depending on the distance from a cell. 
-  The total number of lights is 400. During a frame a dynamic float texture is updated: for 
+  The total number of lights is 500. During a frame a dynamic float texture is updated: for 
   every face we load the lights from the precomputed array (based on the face's center point) 
   and write them into the texture. In the shader we compute the uv using the primitive id and 
   sample it for each light. 
