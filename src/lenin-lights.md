@@ -4,7 +4,7 @@
   Never thought of using gl\_PrimitiveID (SV\_PrimitiveID) for anything but recently realized that
   lights can be grouped for a primitive and iterated over in the pixel shader. I decided to cook up
   a WebGL Demo showing this (in WebGL1 I have to supply primitive id in a buffer and use float 
-  textures for light parameters). **Warning: for some bizarre reason there are iugly artifacts in 
+  textures for light parameters). **Warning: for some bizarre reason there are ugly artifacts in 
   Internet Explorer 11**.
   
   The lights are clustered into a 3D array of 25x25x25 depending on the distance from a cell. 
@@ -88,8 +88,8 @@ float round(float v){ return floor(v+.5); }
 vec3 getc(float x) {
   vec3 colors[5];
   colors[0]=vec3(200, 60, 25)/255.;
-  colors[1]=vec3(70, 40, 90)/255.;
-  colors[2]=vec3(80, 110, 90)/255.;
+  colors[1]=vec3(80, 60, 100)/255.;
+  colors[2]=vec3(100, 50, 60)/255.;
   colors[3]=vec3(120, 90, 40)/255.;
   colors[4]=vec3(150, 50, 70)/255.;
 
@@ -115,12 +115,12 @@ void main() {
     vec3 ldir = l.xyz-pos;
     float d = clamp(0.,1.,1.-length(ldir));
     kd = abs(dot(normalize(ldir),norm));
-    kd = 4.0 * pow(kd, 1.5) * pow(d, 16.);
+    kd = 5.0 * pow(kd, 1.5) * pow(d, 16.);
     vec3 col = getc(l.x);
     c = c+col*kd;
   }
   float gamma = 1./2.2;
-  c = pow(c, vec3(gamma) );
+  c = pow(c, vec3(gamma));
   gl_FragColor = vec4(c, 1);
 }
 //-->
