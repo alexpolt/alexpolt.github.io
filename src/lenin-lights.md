@@ -189,7 +189,7 @@ void main() {
   var d_max=0.0; cells=25, lights_max=400, rotate = true;
   var lights, lradius = 1.0/cells*13;
   var lperface=32, lsort=true;
-  var per_frame=20, ltexw, ltexh, ltex, ltexupdate=false;
+  var per_frame=10, ltexw, ltexh, ltex, ltexupdate=false;
 
   function lenin (cb) {
 
