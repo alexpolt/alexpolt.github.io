@@ -4,11 +4,11 @@
   Never thought of using gl\_PrimitiveID (SV\_PrimitiveID) for anything but recently realized that
   lights can be grouped for a primitive and iterated over in the pixel shader. I decided to cook up
   a WebGL Demo showing this (in WebGL1 I have to supply primitive id in a buffer and use float 
-  textures for light parameters). **Warning:** for some bizarre reason there are artifacts in 
-  *Internet Explorer 11*.
+  textures for light parameters). **Warning: for some bizarre reason there are iugly artifacts in 
+  Internet Explorer 11**.
   
   The lights are clustered into a 3D array of 25x25x25 depending on the distance from a cell. 
-  The total number of lights is 500. During a frame a dynamic float texture is updated: for 
+  The total number of lights is 400. During a frame a dynamic float texture is updated: for 
   every face we load the lights from the precomputed array (based on the face's center point) 
   and write them into the texture. In the shader we compute the uv using the primitive id and 
   sample it for each light. 
@@ -16,12 +16,10 @@
   While it sounds quite simple, it actually was problematic to fight popping. It is really hard
   to find the best combination of the number of lights per cluster and the number of lights in
   the shader. Also difficult is to find parameters for the lighting equation so it looks good.
-  I don't think it is possible to do completely physically correct because you'd have to iterate
-  over too many lights.
 
-  So here is the summary: it is certainly possible to do dynamic lighting using primitive id but 
+  So here is the summary: it is certainly possible to do dynamic lighting using primitive ID but 
   benefits are questionable: too many lights are needed to be provided per face to eliminate 
-  popping (in the pixel shader I use a maximum of 64 lights per face). If not for lighting then 
+  popping (in the pixel shader I use a maximum of 32 lights per face). If not for lighting then 
   primitive id can also be used to do the [tri info trick][a] without using barycentrics: we can 
   use it to reference into index/vertex buffers and do all the transformations by hand in the 
   shader.
@@ -79,7 +77,7 @@ varying vec3 vn;
 varying float pid;
 
 const float pi = 3.14159265;
-const float lperface = 64.;
+const float lperface = 32.;
 
 uniform float t;
 uniform vec2 ltexsize;
@@ -91,11 +89,11 @@ vec3 getc(float x) {
   vec3 colors[5];
   colors[0]=vec3(200, 60, 25)/255.;
   colors[1]=vec3(70, 40, 90)/255.;
-  colors[2]=vec3(150, 100, 50)/255.;
-  colors[3]=vec3(90, 60, 40)/255.;
-  colors[4]=vec3(60, 50, 90)/255.;
+  colors[2]=vec3(80, 110, 90)/255.;
+  colors[3]=vec3(120, 90, 40)/255.;
+  colors[4]=vec3(150, 50, 70)/255.;
 
-  float v = floor( fract(abs(x)*113.)*5. );
+  float v = floor( fract(abs(x)*333.)*5. );
   if(v==0.) return colors[0];
   if(v==1.) return colors[1];
   if(v==2.) return colors[2];
@@ -117,12 +115,12 @@ void main() {
     vec3 ldir = l.xyz-pos;
     float d = clamp(0.,1.,1.-length(ldir));
     kd = abs(dot(normalize(ldir),norm));
-    kd = 2.0 * pow(kd, 1.5) * pow(d, 8.);
+    kd = 4.0 * pow(kd, 1.5) * pow(d, 16.);
     vec3 col = getc(l.x);
     c = c+col*kd;
   }
   float gamma = 1./2.2;
-  c = pow(c,vec3(1.5*gamma) );
+  c = pow(c, vec3(gamma) );
   gl_FragColor = vec4(c, 1);
 }
 //-->
@@ -186,9 +184,9 @@ void main() {
   }
 
   var vb, nb, fcb, idb;
-  var d_max=0.0; cells=25, lights_max=500, rotate = true;
-  var lights, lradius = 1.0/cells*16;
-  var lperface=64, lsort=true;
+  var d_max=0.0; cells=25, lights_max=400, rotate = true;
+  var lights, lradius = 1.0/cells*13;
+  var lperface=32, lsort=true;
   var per_frame=5, ltexw, ltexh, ltex;
 
   function lenin (cb) {
