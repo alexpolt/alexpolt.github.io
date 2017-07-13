@@ -2,10 +2,10 @@
 ##Vladimir Ilyich
 
   Vladimir Ilyich is often used in Russia to refer to [Vladimir Lenin][v], a great russian 
-  revolutionary, who had an immence impact on the course of history. Today [communism][c] is 
-  mostly view in negative light, but, truth to be told, it is the socialists ([bolsheviks][b]) 
+  revolutionary, who had an immense impact on the course of history. Today [communism][c] is 
+  mostly viewed in negative light, but, truth to be told, it is the socialists ([bolsheviks][b]) 
   in the previous century (and others before, but not on the global scale) who raised the 
-  questions of equality and social justice.
+  questions of equality and social justice that later developed into [human rights][m] movement.
 
   I was doing a [lights demo][d] and as a result made a WebGL rotating statue of Vladimir Lenin.
   Best viewed in fullscreen.
@@ -170,5 +170,6 @@ void main() {
   [b]: https://en.wikipedia.org/wiki/Bolsheviks "Bolsheviks"
   [d]: http://alexpolt.github.io/shader.html#lights "Lighting using gl_PrimitiveID"
   [c]: https://en.wikipedia.org/wiki/Communism "Communism"
+  [m]: https://en.wikipedia.org/wiki/Human_rights "Human Rights"
 
 
