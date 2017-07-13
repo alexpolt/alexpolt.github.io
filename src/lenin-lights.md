@@ -498,5 +498,5 @@ void main() {
 
 [a]: shader.html
 [l]: lenin.html "Vladymir Lenin"
-[d]: https://jsfiddle.net/ed8rccow/5/ "The Division Perfomance Test"
+[d]: https://jsfiddle.net/ed8rccow/6/ "The Division Perfomance Test"
 
