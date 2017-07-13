@@ -7,10 +7,13 @@
   textures for light parameters). 
   
   The lights are clustered into a 3D array of 25x25x25 depending on the distance from a cell. 
-  The total number of lights is 400. During a frame a dynamic float texture is updated: for 
-  every face we load the lights from the precomputed array (based on the face's center point) 
-  and write them into the texture. In the shader we compute the uv using the primitive id and 
-  sample it for each light. 
+  The total number of lights is 300 randomly put into the array. During a frame a dynamic float 
+  texture is updated: for every face we load the lights from the precomputed array (based on the 
+  face's center point) and write them into the texture. In the shader we compute the uv using the 
+  primitive id and sample it for each light. The lights are not animated to minimize per frame 
+  computations. Also JavaScript performance varies between browsers, as an instance take a look
+  at [division test][d] in different browsers. I noticed that my Chrome is 2 times slower at
+  divides that Firefox.
   
   While it sounds quite simple, it actually was problematic to fight popping. It is really hard
   to find the best combination of the number of lights per cluster and the number of lights in
@@ -294,7 +297,7 @@ void main() {
       }
       this.blur();
       this.disabled = true;
-      setTimeout( function() { but_vmode.disabled = false; }, 1000 );
+      setTimeout( function() { but_vmode.disabled = false; }, 500 );
       compute_lights(cam);
       ltexupdate = true;
     };
@@ -494,5 +497,5 @@ void main() {
 
 [a]: shader.html
 [l]: lenin.html "Vladymir Lenin"
-
+[d]: https://jsfiddle.net/ed8rccow/5/ "The Division Perfomance Test"
 
