@@ -23,7 +23,9 @@
 
   Also the lighting can be done **per vertex** instead of **per face**. To see the difference 
   I have added a button at the bottom (there are also buttons for rotation and fullscreen). 
-  The great advantage of per vertex is no popping, but quality is worse.
+  The great advantage of per vertex is no popping, but at the cost of quality. And it might 
+  be surprising (at first), but performance might be worse because no rasterization can begin 
+  before the vertex is processed.
 
   So here is the summary: it is certainly possible to do dynamic lighting using primitive ID but 
   benefits are questionable: too many lights are needed to be provided per face to eliminate 
