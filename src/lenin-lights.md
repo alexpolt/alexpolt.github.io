@@ -12,8 +12,8 @@
   face's center point) and write them into the texture. In the shader we compute the uv using the 
   primitive id and sample it for each light. The lights are not animated to minimize per frame 
   computations. Also JavaScript performance varies between browsers, as an instance take a look
-  at [division test][d] in different browsers. I noticed that my Chrome is 2 times slower at
-  divides that Firefox.
+  at a [division test][d] (try it in different browsers). I noticed that my Chrome is 2 times 
+  slower at divides that Firefox.
   
   While it sounds quite simple, it actually was problematic to fight popping. It is really hard
   to find the best combination of the number of lights per cluster and the number of lights in
