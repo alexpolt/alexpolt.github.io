@@ -257,8 +257,8 @@ void main() {
   }
 
   var vv, vb, nb, fcb, idb;
-  var d_max=0.0; cells=25, lights_max=300, rotate = true;
-  var lights, lradius = 1.0/cells*13;
+  var d_max=0.0; cells=25, lights_max=400, rotate = true;
+  var lights, lradius = 1.0/cells*12;
   var lperface=32, lsort=true, vmode=false;
   var per_frame=10, ltexw, ltexh, ltex, ltexupdate=false;
 
