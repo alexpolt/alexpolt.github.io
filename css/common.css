@@ -1,12 +1,13 @@
 
 html {
-  background-color: #005580;
+  background-color: #263649;
+  bbackground-color: #005580;
   height: 100%;
 }
 
 body {
-  padding: 0px;
-  margin: 0px;
+  padding: 0;
+  margin: 0;
   height: 100%; 
 }
 
@@ -38,24 +39,34 @@ pre {
 #wrap {
   width: 80%;
   min-height: 100%;
-  margin: 0px auto;
+  margin: 0 auto;
   background-color: #F2F2F2;
 }
 
 #header {
-  padding-top: 10px;
+
+}
+
+#header div.avatar {
+  width: 15%;
+  float: left;
+  box-sizing: border-box;
 }
 
 #header img.avatar {
-  max-width: 20%;
-  margin-top: -10px;
-  margin-right: 20px;
+  max-width: 100%;
+}
+
+#header div.text {
+  width: 85%;
+  margin-left: 15%;
+  padding: .5em 1em;
+  box-sizing: border-box;
 }
 
 #header img.ad {
   max-width: 15%;
   float: right;
-  margin: 0px 20px;
 }
 
 #content img {
@@ -80,47 +91,58 @@ div.resume h3 {
   margin-top: 30px;
 }
 
+span.bio {
+  font-size: 90%;
+}
 span.note {
   color: silver;
-  font-size: 90%;
+  font-size: 80%;
 }
 
 #content {
   border-top: 1px solid silver;
-  padding: 10px 10% 1px 10%;
+  padding: 0em 4em 0.05em 4em;
 }
 
 #menu {
   list-style: none;
-  padding: 0px;
-  margin: 10px 0px;
+  padding: 0;
+  margin: .5em 0;
 }
 
 #menu li {
   display: inline-block;
-  padding-right: 10px;
+  padding-right: .5em;
 }
 
 #main-menu {
   list-style: none;
-  padding: 0px;
-  margin: 0px 0px 20px 0px;
+  padding: 0;
+  margin: 1em 0 2em 0;
   text-align: center;
 }
 
 #main-menu li {
   display: inline-block;
-  margin: 0px 5px;
+  margin: 0 .5em;
   border: 1px solid silver;
   font-weight: bold;
 }
 #main-menu li a {
   display: block;
-  padding: 5px 10px;
+  padding: .2em 1em;
+  font-size: 110%;
+  color: #646a84;
 }
 
-#main-menu li:hover {
-  background-color: #EEAAAA;
+#main-menu li a.active {
+  background-color: #556193;
+  color: #bac5f4;
+}
+
+#main-menu li a:hover {
+  background-color: #556193;
+  color: #bac5f4;
 }
 
 #contents > ul {
@@ -129,7 +151,7 @@ span.note {
 }
 
 #contents > ul > li {
-  margin-bottom: 25px;
+  margin-bottom: 2em;
 }
 
 #contents > ul > li > p > a > strong {
@@ -142,13 +164,17 @@ span.note {
   font-size: 110%;
 }
 
+#content > h2 {
+  color: darkred;
+}
+
 #disqus_thread {
   margin: 0px auto;
-  margin-top: 70px;
+  margin-top: 2em;
 }
 
 #content blockquote {
-  padding: 5px 20px;
+  padding: .5em 1em;
   width: 80%;
   margin: 0px auto;
   color: #4D3300;
@@ -157,8 +183,8 @@ span.note {
 }
 
 #content blockquote > p {
-  padding: 0px;
-  margin: 5px 0px;
+  padding: 0;
+  margin: .5em 0;
 }
 
 table {
@@ -172,7 +198,7 @@ td, th {
 
 table.atomic td, table.atomic th {
   margin: 0px;
-  padding: 10px;
+  padding: 1em;
   text-align: center;
   vertical-align: middle;
 }
@@ -200,7 +226,7 @@ td.green {
 
 
 #disqus_comments {
-  margin-top: 1em;
+  margin-top: 2em;
   text-align: center;
   font-weight: bold;
   font-size: 120%;
@@ -210,7 +236,7 @@ td.green {
 div.shader {
   width: 60%;
   border: 0px solid black;
-  margin: 20px auto;
+  margin: 1em auto;
   padding: 0px;
 }
 

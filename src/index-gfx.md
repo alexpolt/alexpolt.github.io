@@ -34,11 +34,9 @@
 
 
 <div>
-<style type="text/css">
-  #main-menu-1 {
-    background-color: #bcd6ff;
-  }
-</style>
+<script>
+  document.getElementById("main-menu-1").classList.add("active");
+</script>
 </div>
 
 

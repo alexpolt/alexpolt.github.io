@@ -55,11 +55,10 @@
 
 > Being the best or being better than others is the dumbest choice for a goal in life.
 
+
 <div>
-<style type="text/css">
-  #main-menu-2 {
-    background-color: #d3e4ff;
-  }
-</style>
+<script>
+  document.getElementById("main-menu-2").classList.add("active");
+</script>
 </div>
 

@@ -108,12 +108,10 @@
   A hack for quick and easy printing of a floating point number in base-10.
 
 
-<div>
-<style type="text/css">
-  #main-menu-0 {
-    background-color: #d3e4ff;
-  }
-</style>
-</div>
 
+<div>
+<script>
+  document.getElementById("main-menu-0").classList.add("active");
+</script>
+</div>
 
