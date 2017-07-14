@@ -31,7 +31,7 @@ a:hover {
   height: 100% !important;
 }
 
-ipre {
+pre {
   background-color: #1d1f21;
 }
 
@@ -47,11 +47,13 @@ ipre {
 }
 
 #header img.avatar {
+  max-width: 20%;
   margin-top: -10px;
   margin-right: 20px;
 }
 
 #header img.ad {
+  max-width: 15%;
   float: right;
   margin: 0px 20px;
 }
