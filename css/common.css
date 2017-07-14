@@ -97,7 +97,13 @@ span.bio {
 }
 span.note {
   color: silver;
-  font-size: 80%;
+  font-size: 70%;
+}
+span.links {
+  line-height: 2em;
+}
+span.links a {
+  padding: 0 0.5em 0 0;
 }
 
 #content {
