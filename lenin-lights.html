@@ -94,7 +94,7 @@
   <span>Click to show WebGL demo</span>
 </div>
 
-<div class="shader hidden" id="shader0" js="" fn="" style="width: 80%">
+<div class="shader hidden" id="shader0" js="" fn="" style="width: 70%">
   <ul class="close">
     <li title="Info" class="help">?</li>
     <li title="Close Demo" class="close">Close</li>
@@ -121,7 +121,7 @@ uniform vec2 screen;
 uniform float dmax;
 
 const float pi = 3.14159265;
-const float lperface = 32.;
+const float lperface = 50.;
 
 uniform float vmode;
 uniform vec2 ltexsize;
@@ -173,16 +173,16 @@ void main() {
     vec3 c = vec3(0,0,0);
     for(float i=.0; i<lperface; i++ ) {
       vec4 l = texture2DLod( ltex, uv+i*vec2(px.x,0), 0. );
-      if( l.w == .0 ) continue;
+      if( l.w == .0 ) break;
       n++;
       vec3 ldir = l.xyz-pos;
-      float d = clamp(0.,1.,1.-length(ldir));
+      float d = 1.+length(ldir);
       kd = abs(dot(normalize(ldir),norm));
-      kd = 6.0 * pow(kd, 1.5) * pow(d, 14.);
+      kd = 6.0 * pow(kd, 1.75) / pow( d, 18.);
       vec3 col = getc(l.x);
       c = c+col*kd;
     }
-    float gamma = 1./2.4;
+    float gamma = 1./2.2;
     color = pow(c, vec3(gamma));
   }
 }
@@ -196,7 +196,7 @@ varying vec3 color;
 varying float pid;
 
 const float pi = 3.14159265;
-const float lperface = 32.;
+const float lperface = 50.;
 
 uniform float vmode;
 uniform vec2 ltexsize;
@@ -238,16 +238,16 @@ void main() {
   vec3 c = vec3(0,0,0);
   for(float i=.0; i<lperface; i++ ) {
     vec4 l = texture2D( ltex, uv+i*vec2(px.x,0) );
-    if( l.w == .0 ) continue;
+    if( l.w == .0 ) break;
     n++;
     vec3 ldir = l.xyz-pos;
-    float d = clamp(0.,1.,1.-length(ldir));
+    float d = 1.+length(ldir);
     kd = abs(dot(normalize(ldir),norm));
-    kd = 6.0 * pow(kd, 1.5) * pow(d, 14.);
+    kd = 6.0 * pow(kd, 1.75) / pow( d, 18.);
     vec3 col = getc(l.x);
     c = c+col*kd;
   }
-  float gamma = 1./2.4;
+  float gamma = 1./2.2;
   c = pow(c, vec3(gamma));
   gl_FragColor = vec4(c, 1);
 }
@@ -311,9 +311,9 @@ void main() {
   }
 
   var vv, vb, nb, fcb, idb;
-  var d_max=0.0; cells=25, lights_max=400, rotate = true;
-  var lights, lradius = 1.0/cells*12;
-  var lperface=32, lsort=true, vmode=false;
+  var d_max=0.0; cells=28, lights_max=400, rotate = true;
+  var lights, lradius = 1.0/cells*8;
+  var lperface=50, lsort=true, vmode=false;
   var per_frame=10, ltexw, ltexh, ltex, ltexupdate=false;
 
   function lenin (cb) {
@@ -337,7 +337,7 @@ void main() {
       rotate = this.classList.toggle("active"); this.blur(); 
     };
 
-    var cam = camera_create( { canvas: canvas, nobind: false, personal: false, pos: vec3(0,0,420), speed: 10 } );
+    var cam = camera_create( { canvas: canvas, nobind: false, personal: false, pos: vec3(0,0,500), speed: 10 } );
     var a=-Math.PI/2048.0, c=Math.cos(a), s=Math.sin(a);
     var mrot = mat3(vec3(c,0,s),vec3(0,1,0),vec3(-s,0,c));
 
@@ -458,11 +458,13 @@ void main() {
 
     lights = array( Math.pow(cells,3), null ).map( function(){ return []; } );
 
-    var v = vec3(), cell_max=0;
+    var v = vec3(), ldir = vec3(), cell_max=0, cell_min = 10000;
 
     console.info( "computing lights clusters: ", lights.length*lights_max, "loop iterations" );
 
     span.innerHTML = "Computing lights";
+
+    var pxh = 0.5*1.0/cells;
 
     for(var n=0; n<lights_max; n++) {    
 
@@ -472,12 +474,13 @@ void main() {
           lw = 1.;
 
 
-      for(var z=0.; z<cells; z++)
-      for(var y=0.; y<cells; y++)
-      for(var x=0.; x<cells; x++) {
-        v[0] = lx-x/cells; v[1] = ly-y/cells; v[2] = lz-z/cells;
-        var d = len(v);
-        if( d > lradius ) continue;
+      for(var z=0; z<cells; z++)
+      for(var y=0; y<cells; y++)
+      for(var x=0; x<cells; x++) {
+        v[0] = lx-x/cells-pxh; v[1] = ly-y/cells-pxh; v[2] = lz-z/cells-pxh;
+        var d = 1.+len(v);
+        var kd = 4.0 * Math.pow(0.7, 1.75) / Math.pow(d, 18);
+        if( kd < 1./512. ) continue;
         var l = vec4( lx*2.-1., ly*2.-1., lz*2.-1., lw );
         l.dist_to_cell = d;
         var idx = z*cells*cells+y*cells+x;
@@ -486,8 +489,6 @@ void main() {
       }
 
     }
-
-    console.info( "max lights per cell = ", cell_max );
 
     if( lsort ) {
 
@@ -499,9 +500,11 @@ void main() {
       for(var x=0.; x<cells; x++) {
         var idx = z*cells*cells+y*cells+x;
         lights[idx].sort( function(a,b) { return a.dist_to_cell - b.dist_to_cell; } );
+        if( lights[idx].length < cell_min ) cell_min = lights[idx].length;
       }}}
     }
 
+    console.info( "max lights per cell = ", cell_max, ", min = ", cell_min );
   }
 
   function compute_lights(cam) {
