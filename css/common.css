@@ -51,6 +51,7 @@ pre {
   width: 15%;
   float: left;
   box-sizing: border-box;
+  margin: 0 0.05em 0 0;
 }
 
 #header img.avatar {
@@ -108,11 +109,13 @@ span.note {
   list-style: none;
   padding: 0;
   margin: .5em 0;
+  font-size: 1em;
 }
 
 #menu li {
   display: inline-block;
   padding-right: .5em;
+  font-weight: bold;
 }
 
 #main-menu {
@@ -124,13 +127,13 @@ span.note {
 
 #main-menu li {
   display: inline-block;
-  margin: 0 .5em;
+  margin: 0 .2em;
   border: 1px solid silver;
   font-weight: bold;
 }
 #main-menu li a {
   display: block;
-  padding: .2em 1em;
+  padding: .1em .5em;
   font-size: 110%;
   color: #646a84;
 }
