@@ -163,6 +163,14 @@ TLDR. Use them almost always.</p></li>
 </div>
 
 
+<script>
+document.addEventListener( "DOMContentLoaded", function() { 
+  if( /iPhone|iPad|iPod|Android|Windows Phone/i.test(navigator.userAgent) ) {
+    document.getElementById("wrap").classList.add("width100");
+  }
+} );
+</script>
+
 
 <script src="highlight/highlight.pack.js"></script>
 <script>

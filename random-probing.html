@@ -89,6 +89,14 @@ if( location == -1 ) throw( ... );
 ...
 </code></pre>
 
+<script>
+document.addEventListener( "DOMContentLoaded", function() { 
+  if( /iPhone|iPad|iPod|Android|Windows Phone/i.test(navigator.userAgent) ) {
+    document.getElementById("wrap").classList.add("width100");
+  }
+} );
+</script>
+
 
 <script src="highlight/highlight.pack.js"></script>
 <script>

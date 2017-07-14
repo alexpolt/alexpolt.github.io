@@ -107,6 +107,14 @@ std::string line{ allocator{ 1024 } }; //chunk size 1024
   chunks and serves memory on demand. All the copied strings will share the allocator with 
   shared_ptr responsible for deallocation using a custom deleter;</p>
 
+<script>
+document.addEventListener( "DOMContentLoaded", function() { 
+  if( /iPhone|iPad|iPod|Android|Windows Phone/i.test(navigator.userAgent) ) {
+    document.getElementById("wrap").classList.add("width100");
+  }
+} );
+</script>
+
 
 <script src="highlight/highlight.pack.js"></script>
 <script>

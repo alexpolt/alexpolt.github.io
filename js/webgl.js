@@ -123,7 +123,7 @@ function run_shader( args ) {
 
   resize_shader( d, c, vs, ps, hp );
 
-  var pr = window.devicePixelRatio || 1.0;
+  var pr = 1.0; //window.devicePixelRatio || 1.0;
   var cw = c.clientWidth, ch = c.clientHeight;
   c.width = cw * pr;
   c.height = ch * pr;
