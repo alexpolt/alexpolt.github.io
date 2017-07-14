@@ -32,9 +32,6 @@ a:hover {
   height: 100% !important;
 }
 
-pre {
-  background-color: #1d1f21;
-}
 
 #wrap {
   width: 80%;
@@ -70,7 +67,7 @@ pre {
 }
 
 #header img.ad {
-  max-width: 15%;
+  max-width: 20%;
   float: right;
 }
 
@@ -102,6 +99,10 @@ span.bio {
 span.note {
   color: silver;
   font-size: 70%;
+}
+span.email {
+  font-weight: bold;
+  font-size: 90%;
 }
 span.links {
   line-height: 2em;
@@ -394,4 +395,7 @@ div.webgl img.link:hover {
 }
 
 
+div.code {
+  overflow: auto;
+}
 
