@@ -268,7 +268,7 @@ void main() {
   function lenin (cb) {
 
     if( is_mobile() ) {
-      alert( "Best viewed on desktop" );
+      alert( "Warning! Best viewed on desktop!" );
       lights_max = 100;
       cells = 10;
       per_frame = 20;

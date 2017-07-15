@@ -118,7 +118,7 @@ span.links a {
 }
 
 .padding0 {
-  padding: 0em 1em 0.05em 1em !important;
+  padding: 0em 2em 0.05em 2em !important;
 }
 
 #menu {
@@ -190,8 +190,15 @@ span.links a {
 }
 
 #disqus_thread {
-  margin: 0px auto;
+  margin: 0 auto;
   margin-top: 2em;
+}
+
+#disqus_comments {
+  margin-top: 3em;
+  text-align: center;
+  font-weight: bold;
+  font-size: 120%;
 }
 
 #content blockquote {
@@ -244,15 +251,6 @@ td.red {
 td.green {
   background-color: #F0FFF0;
 }
-
-
-#disqus_comments {
-  margin-top: 2em;
-  text-align: center;
-  font-weight: bold;
-  font-size: 120%;
-}
-
 
 div.shader {
   width: 60%;
