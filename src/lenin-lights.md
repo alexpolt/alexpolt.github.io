@@ -7,7 +7,7 @@
   textures for light parameters). 
   
   The lights are clustered into a 3D array of 25x25x25 depending on the distance from a cell. 
-  The total number of lights is 300 randomly put into the array. During a frame a dynamic float 
+  The total number of lights is 400 randomly put into the array. During a frame a dynamic float 
   texture is updated: for every face we load the lights from the precomputed array (based on the 
   face's center point) and write them into the texture. In the shader we compute the uv using the 
   primitive id and sample it for each light. The lights are not animated to minimize per frame 
@@ -39,7 +39,7 @@
   <span>Click to show WebGL demo</span>
 </div>
 
-<div class="shader hidden" id="shader0" js="" fn="" style="width: 70%">
+<div class="shader hidden" id="shader0" js="" fn="" style="width: 60%">
   <ul class="close">
     <li title="Info" class="help">?</li>
     <li title="Close Demo" class="close">Close</li>
@@ -206,6 +206,8 @@ void main() {
   <button title="Go Fullscreen" class="fscreen">FS</button>
   <button title="Rotate/Dont Rotate" id="rot" class="active">Rotate</button>
   <button title="Lighting Per Face/Per Vertex" id="vmode">Per face</button>
+  <input type="text" size="2" title="Number of Lights" value="300" id="nlights">
+  <button title="Set the Number of Lights" id="setnlights">Ok</button>
   </div>
   <div class="clear"></div>
 </div>
@@ -258,7 +260,7 @@ void main() {
   }
 
   var vv, vb, nb, fcb, idb;
-  var d_max=0.0; cells=28, lights_max=400, rotate = true;
+  var d_max=0.0; cells=20, lights_max=400, rotate = true;
   var lights, lradius = 1.0/cells*8;
   var lperface=50, lsort=true, vmode=false;
   var per_frame=10, ltexw, ltexh, ltex, ltexupdate=false;
@@ -271,7 +273,7 @@ void main() {
       load_buffers();
     }
 
-    load_lights.call(this);
+    load_lights();
 
     var div = this.getAttribute("webgl_div");
     var canvas = document.querySelector( "div#"+div+" canvas" );
@@ -284,7 +286,7 @@ void main() {
       rotate = this.classList.toggle("active"); this.blur(); 
     };
 
-    var cam = camera_create( { canvas: canvas, nobind: false, personal: false, pos: vec3(0,0,500), speed: 10 } );
+    var cam = camera_create( { canvas: canvas, nobind: false, personal: false, pos: vec3(0,0,400), speed: 10 } );
     var a=-Math.PI/2048.0, c=Math.cos(a), s=Math.sin(a);
     var mrot = mat3(vec3(c,0,s),vec3(0,1,0),vec3(-s,0,c));
     
@@ -302,6 +304,24 @@ void main() {
       setTimeout( function() { but_vmode.disabled = false; }, 500 );
       compute_lights(cam);
       ltexupdate = true;
+    };
+
+    var but_nlights = document.getElementById( "setnlights" );
+    var nlights = document.getElementById( "nlights" );
+    nlights.value = lights_max;
+    but_nlights.onclick = function() {
+      var n = parseInt( nlights.value, 10 );
+      if( n === NaN || n < 0 || n > 1000 ) alert( "wrong value" );
+      else {
+        lights_max = n;
+        but_nlights.innerHTML = "Please wait...";
+        but_nlights.disabled = true;
+        setTimeout( function() {
+          load_lights();
+          but_nlights.innerHTML = "Ok";
+          but_nlights.disabled = false;
+        }, 100 );
+      }
     };
 
     var opts = {
@@ -401,16 +421,12 @@ void main() {
 
   function load_lights() {
 
-    var span = this.querySelector("span");
-
     lights = array( Math.pow(cells,3), null ).map( function(){ return []; } );
 
     var v = vec3(), ldir = vec3(), cell_max=0, cell_min = 10000;
 
     console.info( "computing lights clusters: ", lights.length*lights_max, "loop iterations" );
   
-    span.innerHTML = "Computing lights";
-
     var pxh = 0.5*1.0/cells;
 
     for(var n=0; n<lights_max; n++) {    
@@ -440,7 +456,6 @@ void main() {
     if( lsort ) {
 
       console.info( "sorting lights in cells" );
-      span.innerHTML = "Sorting lights";
 
       for(var z=0.; z<cells; z++) {
       for(var y=0.; y<cells; y++) {

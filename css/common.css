@@ -299,7 +299,7 @@ div.shader div.buttons {
   white-space: nowrap;
   width: 100%;
 }
-div.shader button {
+div.shader button, div.shader input {
   display: block;
   float: left;
   border: 1px solid #AAAAAA;
@@ -311,6 +311,12 @@ div.shader button {
   background-color: #CCCCCC;
   font-size: 80%;
   text-align: center;
+}
+
+div.shader input {
+  cursor: auto;
+  min-width: auto;
+  background-color: #CCCCEE;
 }
 
 div.shader button.active {
