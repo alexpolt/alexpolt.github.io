@@ -17,6 +17,7 @@ var camera_imp = {
     this.my_prev = e.clientY;
 
     if( this.rotate ) {
+      e.preventDefault();
       if( this.movex != 0 ) this.rotate_y( this.movex );
       if( this.movey != 0 ) this.rotate_x( this.movey );
     }
