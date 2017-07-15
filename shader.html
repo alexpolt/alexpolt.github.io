@@ -35,15 +35,15 @@
       Software developer <br/>
       Location: Russia, Moscow <br/>
       <span class="email">
-      <a href="mailto:poltavsky.alexandr@gmail.com">poltavsky.alexandr&#64;gmail.com</a>
+      <a href="mailto:poltavsky.alexandr@gmail.com">poltavsky.alexandr&#64;gmail.com</a><br/>
       </span>
     </span>
-    <span class="note">(also for jobs)</span><br/>
+    <div class="break"></div>
     <span class="links">
-    <a href="/">Blog</a>
-    <a href="https://github.com/alexpolt/">Github</a>
-    <a href="https://www.shadertoy.com/user/alexpolt">Shadertoy</a>
-    <a href="https://twitter.com/poltavsky_alex">Twitter</a>
+      <a href="/">Blog</a>
+      <a href="https://github.com/alexpolt/">Github</a>
+      <a href="https://www.shadertoy.com/user/alexpolt">Shadertoy</a>
+      <a href="https://twitter.com/poltavsky_alex">Twitter</a>
     </span>
   </div>
 
@@ -54,11 +54,11 @@
 
   <!-- here goes the main content -->
 
-  <ul id="main-menu">
-    <li><a id="main-menu-0" href="index.html">Programming</a></li>
-    <li><a id="main-menu-1" href="index-gfx.html">Graphics</a></li>
-    <li><a id="main-menu-2" href="index-off.html">Off-topic</a></li>
-  </ul>
+  <div id="main-menu">
+    <a id="main-menu-0" href="index.html">Programming</a>
+    <a id="main-menu-1" href="index-gfx.html">Graphics</a>
+    <a id="main-menu-2" href="index-off.html">Off-topic</a>
+  </div>
 
 
 <h2>Shader Tricks: Retrieving Triangle Location and Edges in Pixel Shader and More</h2>
@@ -411,9 +411,10 @@ mat2 inverse( mat2 m ) {
 <script>
 document.addEventListener( "DOMContentLoaded", function() { 
   if( /iPhone|iPad|iPod|Android|Windows Phone/i.test(navigator.userAgent) ) {
-    document.getElementById("wrap").classList.add("width100");
+    document.getElementById("wrap").classList.add("mobile");
     document.getElementById("content").classList.add("padding0");
     document.getElementById("main-menu").classList.add("menu0");
+    document.getElementById("header").classList.add("header0");
   }
 } );
 </script>
