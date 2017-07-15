@@ -33,3 +33,8 @@ function dump( o ) {
   return JSON.stringify( o, null, 2 );
 }
 
+function is_mobile() {
+  return  /iPhone|iPad|iPod|Android|Windows Phone/i.test(navigator.userAgent);
+}
+
+

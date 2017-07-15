@@ -267,6 +267,12 @@ void main() {
 
   function lenin (cb) {
 
+    if( is_mobile() ) {
+      alert( "Best viewed on desktop" );
+      lights_max = 100;
+      cells = 10;
+      per_frame = 20;
+    }
 
     if( vb === undefined ) {
 
