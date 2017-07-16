@@ -392,7 +392,7 @@ function activate_webgl() {
       };
     } else if( div ) {
       e.onclick = function(e) { 
-        if( e.target && e.target.nodeName == "DIV" ) return;
+        //if( e.target && e.target.nodeName == "DIV" ) return;
         demo_open.call( this, div );
       };
     }
