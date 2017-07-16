@@ -51,6 +51,7 @@
   </ul>
   <canvas hide class="canvas"></canvas>
   <textarea hide class="vs hidden" spellcheck="false">//<!--
+precision highp float;
 attribute vec3 v_in;
 attribute vec3 vn_in;
 attribute float vid_in;

@@ -71,23 +71,32 @@ function resize_shader(d,c,vs,ps,hp) {
 
   var offw, offw;
 
-  d.onclick( { target: d.querySelector("li.canvas") } );
+  var hidden = c.classList.contains("hidden");
+  if( hidden ) c.classList.remove("hidden");
 
   if( is_fscreen() ) {
     offw = window.innerWidth + "px";
     offh = window.innerHeight + "px";
-    c.style.width = offw;
     console.log("webgl fullscreen", offw, offh);
   } else {
-    c.style.width = '100%';
-    offw = Math.round( c.offsetWidth );
+    c.style.width = "100%";
+    offw = Math.floor( c.offsetWidth );
     offh = offw + "px";
+    offw = offw + "px";
   }
 
   c.style.height = offh;
-  if( vs ) { vs.style.height = offh; vs.style.width = "100%"; }
-  if( ps ) { ps.style.height = offh; ps.style.width = "100%"; }
-  if( hp ) { hp.style.height = offh; hp.style.width = "100%"; }
+  c.style.width = offw;
+  if( vs ) { vs.style.height = offh; vs.style.width = offw; }
+  if( ps ) { ps.style.height = offh; ps.style.width = offw; }
+  if( hp ) { hp.style.height = offh; hp.style.width = offw; }
+
+  var pr = 1; //window.devicePixelRatio || 1.0;
+  var cw = c.clientWidth, ch = c.clientHeight;
+  c.width = cw * pr;
+  c.height = ch * pr;
+
+  if( hidden ) c.classList.add( "hidden" );
 
 }
 
@@ -122,11 +131,6 @@ function run_shader( args ) {
   console.log( "run webgl", opts.id, "with args", opts );
 
   resize_shader( d, c, vs, ps, hp );
-
-  var pr = 1.0; //window.devicePixelRatio || 1.0;
-  var cw = c.clientWidth, ch = c.clientHeight;
-  c.width = cw * pr;
-  c.height = ch * pr;
 
   opts.width = c.width;
   opts.height = c.height;
