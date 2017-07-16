@@ -49,6 +49,7 @@
     <li title="Vertex Shader" class="vs">VS</li>
     <li title="Pixel Shader" class="ps">PS</li>
   </ul>
+  <div class="canvas">
   <canvas hide class="canvas"></canvas>
   <textarea hide class="vs hidden" spellcheck="false">//<!--
 precision highp float;
@@ -200,6 +201,7 @@ void main() {
 //-->
   </textarea>
   <div hide class="help hidden"></div>
+  </div>
   <div class="buttons">
   <button title="Reload Shaders" class="reload">Reload</button>
   <button title="Output WebGL Info in Console" class="log">Log</button>
@@ -210,9 +212,10 @@ void main() {
   <input type="text" size="2" title="Number of Lights" value="300" id="nlights">
   <button title="Set the Number of Lights" id="setnlights">Ok</button>
   </div>
-  <div class="clear"></div>
 </div>
 
+<div class="clear">
+</div>
 
   By the way, have you recognized who's that statue rotating? If not then here is some [info][l].
 
@@ -293,7 +296,7 @@ void main() {
       rotate = this.classList.toggle("active"); this.blur(); 
     };
 
-    var cam = camera_create( { canvas: canvas, nobind: false, personal: false, pos: vec3(0,0,400), speed: 10 } );
+    var cam = camera_create( { element: canvas.parentNode, nobind: false, personal: false, pos: vec3(0,0,400), speed: 10 } );
     var a=-Math.PI/2048.0, c=Math.cos(a), s=Math.sin(a);
     var mrot = mat3(vec3(c,0,s),vec3(0,1,0),vec3(-s,0,c));
     

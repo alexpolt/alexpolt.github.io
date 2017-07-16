@@ -84,9 +84,8 @@
       console.log("resize");
       var woff = c.offsetWidth;
       c.style.height = woff + "px";
-      var pr = window.devicePixelRatio || 1.0;
-      c.width = c.clientWidth * pr;
-      c.height = c.clientHeight * pr;
+      c.width = c.clientWidth;
+      c.height = c.clientHeight;
       w = c.width, h = c.height, wh = w/2, hh = h/2;
     }
 

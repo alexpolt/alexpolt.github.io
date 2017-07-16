@@ -80,8 +80,8 @@ function camera_create( opts ) {
 
   opts = opts || {};
 
-  if( typeof opts.canvas == "string" )
-    opts.canvas = document.getElementById( opts.canvas );
+  if( typeof opts.element == "string" )
+    opts.element = document.getElementById( opts.element );
 
   var o = assign( opts, camera_imp );
 
@@ -115,9 +115,9 @@ function camera_create( opts ) {
     document.addEventListener( "mousemove", o.delegates[0] );
     document.addEventListener( "keydown", o.delegates[1] );
     document.addEventListener( "mouseup", o.delegates[2] );
-    if( o.canvas ) {
-      o.canvas.addEventListener( "mousedown", o.delegates[3] );
-      o.canvas.addEventListener( "contextmenu", o.delegates[4] );
+    if( o.element ) {
+      o.element.addEventListener( "mousedown", o.delegates[3] );
+      o.element.addEventListener( "contextmenu", o.delegates[4] );
     }
   }
 
@@ -130,9 +130,9 @@ function camera_remove( cam ) {
     document.removeEventListener( "mousemove", o.delegates[0] );
     document.removeEventListener( "keydown", o.delegates[1] );
     document.removeEventListener( "mouseup", o.delegates[2] );
-    if( o.canvas ) {
-      o.canvas.removeEventListener( "mousedown", o.delegates[3] );
-      o.canvas.removeEventListener( "contextmenu", o.delegates[4] );
+    if( o.element ) {
+      o.element.removeEventListener( "mousedown", o.delegates[3] );
+      o.element.removeEventListener( "contextmenu", o.delegates[4] );
     }
   }
 }

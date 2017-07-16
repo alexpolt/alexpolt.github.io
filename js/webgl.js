@@ -35,20 +35,39 @@ function init_shader_menus() {
 
       el.onclick = function(e) {
 
-        if( e.target.nodeName !== "LI" ) return;
+        var t = e.target;
+
+        if( !t ) return;
+        if( t.nodeName !== "LI" ) return;
+        if( t.classList.contains("close") ) return;
 
         var attr = e.target.className;
+        var c = this.querySelector( "div.canvas" );
 
-        for( let i = 0; i < this.children.length; i++ ) {
+        for( let i = 0; i < c.children.length; i++ ) {
 
-          var child = this.children[i];
+          var child = c.children[i];
 
           if( child.getAttribute( "hide" ) === null ) continue;
 
-          if( child.classList.contains( attr ) ) 
+          if( child.classList.contains( attr ) ) {
               child.classList.remove( "hidden" );
-          else
+              if( child.nodeName != "CANVAS" ) {
+                var p = el.querySelector("button.pause");
+                if( p && p.onclick ) {
+                  if(!p.classList.contains("active")) {
+                    p.onclick();
+                    el.button_paused = true;
+                  }
+                }
+              } else if( el.button_paused ) {
+                el.button_paused = false;
+                var p = el.querySelector("button.pause");
+                p.onclick();
+              }
+          } else {
               child.classList.add( "hidden" );
+          }
         }
       }; 
 
@@ -67,37 +86,26 @@ function loadjs(js,fn) {
 
 var shader_runs = 0;
 
-function resize_shader(d,c,vs,ps,hp) {
+function resize_shader(d,c) {
 
   var offw, offw;
 
-  var hidden = c.classList.contains("hidden");
-  if( hidden ) c.classList.remove("hidden");
+  var divc = d.querySelector("div.canvas");
 
   if( is_fscreen() ) {
     offw = window.innerWidth + "px";
     offh = window.innerHeight + "px";
-    console.log("webgl fullscreen", offw, offh);
+    console.log("webgl fullscreen mode", offw, offh);
   } else {
-    c.style.width = "100%";
-    offw = Math.floor( c.offsetWidth );
-    offh = offw + "px";
-    offw = offw + "px";
+    offw = "100%";
+    offh = Math.floor( d.offsetWidth ) + "px";
   }
 
-  c.style.height = offh;
-  c.style.width = offw;
-  if( vs ) { vs.style.height = offh; vs.style.width = offw; }
-  if( ps ) { ps.style.height = offh; ps.style.width = offw; }
-  if( hp ) { hp.style.height = offh; hp.style.width = offw; }
+  divc.style.width = offw;
+  divc.style.height = offh;
 
-  var pr = 1; //window.devicePixelRatio || 1.0;
-  var cw = c.clientWidth, ch = c.clientHeight;
-  c.width = cw * pr;
-  c.height = ch * pr;
-
-  if( hidden ) c.classList.add( "hidden" );
-
+  c.width = divc.clientWidth;
+  c.height = divc.clientHeight;
 }
 
 function run_shader( args ) {
@@ -124,13 +132,16 @@ function run_shader( args ) {
 
   assign (opts, args);
 
-  if( !opts.resize ) shader_runs++;
+  if( !opts.resize ) {
+    shader_runs++;
+    d.onclick( { target: d.querySelector("li.canvas") } );
+  }
 
   opts.finish = false;
 
   console.log( "run webgl", opts.id, "with args", opts );
 
-  resize_shader( d, c, vs, ps, hp );
+  resize_shader( d, c );
 
   opts.width = c.width;
   opts.height = c.height;
@@ -175,10 +186,11 @@ function run_shader( args ) {
   if( !d.windowresize ) {
 
     d.windowresize = function() {
-      resize_shader( d, c, vs, ps, hp );
       var opts = d.shader_opts;
       if( opts && ! opts.resizing ) {
         console.log( "webgl %d resize", opts.id );
+        c.style.width = "100%";
+        c.height = "100%";
         opts.resizing = true;
         setTimeout( function() { 
           opts.resizing = false; 
@@ -191,9 +203,29 @@ function run_shader( args ) {
     window.addEventListener( "resize", d.windowresize );
   }
 
+  if( !d.windowscroll ) {
+    d.windowscroll = function() {
+      var opts = d.shader_opts;
+      if( opts && !opts.scrolling ) {
+        var p = opts.pause;
+        opts.pause = true;
+        opts.scrolling = true;
+        setTimeout( function() {
+          opts.pause = p;
+          opts.scrolling = false;
+        }, 200 );
+      }
+    };
+    window.addEventListener( "scroll", d.windowscroll );
+  }
+
   if( fs && support_fscreen() ) {
 
-    fs.onclick = function() { request_fscreen( c ); this.blur(); };
+    fs.onclick = function() { 
+      d.onclick( { target: d.querySelector("li.canvas") } );
+      request_fscreen( c ); 
+      this.blur(); 
+    };
     if(! d.fchange ) {
       d.fchange = function() {
         d.windowresize();
@@ -201,7 +233,6 @@ function run_shader( args ) {
       add_fchange( c, d.fchange );
     }
   }
-
 
   if( !d.contextlost ) {
 
@@ -271,6 +302,7 @@ function stop_shader( div ) {
   var c = D.querySelector("#" + div + " canvas");
 
   if( d.windowresize ) window.removeEventListener( "resize", d.windowresize );
+  if( d.windowscroll ) window.removeEventListener( "scroll", d.windowscroll );
   if( d.contextlost ) c.removeEventListener( "webglcontextlost", d.contextlost );
   if( d.fchange ) remove_fchange( c, d.fchange );
   if( d.keyhandler ) D.removeEventListener( "keydown", d.keyhandler );
@@ -428,16 +460,9 @@ function activate_webgl() {
     };
     
     var onload = function() {
-      /*
-      var cw = document.getElementById( "content" ).offsetWidth;
-      if( ! this.width_orig ) this.width_orig = this.width;
-      if( ! this.height_orig ) this.height_orig = this.height;
-      var w = this.width_orig+4;
-      var width = Math.min( 80, Math.ceil(100*w/cw) );
-      e.style.width = width + "%";
-      */
       if( ! logo.added ) {
         logo.src = "images/webgl300.png";
+        logo.classList.add( "logo" );
         logo.classList.add( "hide" );
         e.appendChild( logo );
         logo.added = true;
@@ -458,7 +483,7 @@ function activate_webgl() {
   var tas = document.querySelectorAll( "div.shader div.help" );
 
   foreach( tas, function( e ) {
-    e.innerHTML = "<strong>WebGL Demo Helper</strong><ul class='help'>" + [
+    e.innerHTML = "<b>WebGL Demo Helper</b><ul class='help'>" + [
       "<b>Keys:</b> <u>space</u> - pause, <u>r</u> - reload;",
       "<b>Predefined uniforms:</b> <u>t</u> - time, <u>screen.xy</u> - screen dimensions, " +
       "<u>frame</u> - frame counter, <u>seed</u> - random number from 0 to 1, " +
@@ -515,6 +540,7 @@ function demo_close( div ) {
   stop_shader( div );
   d.classList.add( "hidden" );
   this.classList.remove( "hidden" );
+  this.querySelector("img.logo").onload();
 }
 
 

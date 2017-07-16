@@ -138,17 +138,21 @@ mat2 uv2scr = mat2( xydu, xydv );
     <li title="Vertex Shader" class="vs">VS</li>
     <li title="Pixel Shader" class="ps">PS</li>
   </ul>
+  <div class="canvas">
   <canvas hide class="canvas"></canvas>
   <textarea hide class="vs hidden" spellcheck="false" fromid="shader0vs"></textarea>
   <textarea hide class="ps hidden" spellcheck="false" fromid="shader0ps"></textarea>
   <div hide class="help hidden"></div>
+  </div>
   <div class="buttons">
   <button title="Reload Shaders" class="reload">Reload</button>
   <button title="Output WebGL Info in Console" class="log">Log</button>
   <button title="Pause Rendering" class="pause">Pause</button>
   <button title="Go Fullscreen" class="fscreen">FS</button>
   </div>
-  <div class="clear"></div>
+</div>
+
+<div class="clear">
 </div>
 
 <p>Retrieving tri info is helpful in <a href="dfaa.html" title="DFAA Antialiasing Algorithm">DFAA</a> antialiasing: the edge vectors are used to determine

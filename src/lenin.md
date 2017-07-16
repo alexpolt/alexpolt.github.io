@@ -26,6 +26,7 @@
     <li title="Vertex Shader" class="vs">VS</li>
     <li title="Pixel Shader" class="ps">PS</li>
   </ul>
+  <div class="canvas">
   <canvas hide class="canvas"></canvas>
   <textarea hide class="vs hidden" spellcheck="false">//<!--
 attribute vec3 v_in;
@@ -73,14 +74,18 @@ void main() {
 //-->
   </textarea>
   <div hide class="help hidden"></div>
+  </div>
   <div class="buttons">
   <button title="Reload Shaders" class="reload">Reload</button>
   <button title="Output WebGL Info in Console" class="log">Log</button>
   <button title="Pause Rendering" class="pause">Pause</button>
   <button title="Go Fullscreen" class="fscreen">FS</button>
   </div>
-  <div class="clear"></div>
 </div>
+
+<div class="clear">
+</div>
+
 
 <div>
 
