@@ -267,7 +267,11 @@ void main() {
   uvb = uv_in;
 
   vec4 p = vec4(0,0,0,1);
-  float ar = screen.y/screen.x;
+  vec4 ar = vec4(1);
+  if( screen.x > screen.y ) 
+    ar = vec4(screen.y/screen.x,1,1,1);
+  else
+    ar = vec4(1,screen.x/screen.y,1,1);
   float tt = fract(t/32.);
   float a = 2.*3.14159265*tt;
 
@@ -275,8 +279,7 @@ void main() {
 
   if( vid_in < 3. ) {
 
-    p = vec4( m*vec2( 1.4*v_in-.7 ), 0, 1 );
-    p.x = p.x * ar;
+    p = ar * vec4( m*vec2( 1.4*v_in-.7 ), 0, 1 );
   }
 
   gl_Position = p;

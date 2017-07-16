@@ -97,6 +97,11 @@ vec3 getc(float x) {
 
 void main() {
 
+  vec3 ar = vec3(1);
+  if( screen.x > screen.y ) 
+    ar = vec3(screen.y/screen.x,1,1);
+  else
+    ar = vec3(1,screen.x/screen.y,1);
   vn = cam*vn_in;
   pid = floor( vid_in/3. + 0.05 );
   vec3 p = cam*v_in;
@@ -105,7 +110,7 @@ void main() {
   float far = 10000.0;
   float near = 1.0;
   float z = p.z;
-  p.x = p.x * screen.y/screen.x;
+  p = ar * p;
   p.z = far*(z-near)/(far-near);
   gl_Position = vec4(p,z);
 

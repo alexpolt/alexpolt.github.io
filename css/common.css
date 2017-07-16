@@ -441,9 +441,18 @@ div.code {
   overflow: auto;
 }
 
+.mobile code {
+  font-size: 2em;
+  overflow: auto;
+}
+
 .mobile div.code {
   font-size: 2em;
   overflow: auto;
+}
+
+.mobile .cpp {
+  font-size: .5em;
 }
 
 

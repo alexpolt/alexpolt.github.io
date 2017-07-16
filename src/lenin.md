@@ -39,6 +39,12 @@ uniform vec2 screen;
 
 void main() {
 
+  vec3 ar = vec3(1);
+  if( screen.x > screen.y ) 
+    ar = vec3(screen.y/screen.x,1,1);
+  else
+    ar = vec3(1,screen.x/screen.y,1);
+
   float a = t/16., c = cos(-a), s = sin(-a);
   mat3 m = mat3( vec3(c, 0, s), vec3(0, 1, 0), vec3(-s, 0, c) );
 
@@ -48,7 +54,7 @@ void main() {
   float far = 10000.0;
   float near = 1.0;
   float z = p.z;
-  p.x = p.x * screen.y/screen.x;
+  p = ar * p;
   p.z = far*(p.z-near)/(far-near);
   gl_Position = vec4(p,z);
 }
@@ -130,8 +136,8 @@ void main() {
   function lenin (cb) {
     var b = load_buffers();
     var div = this.getAttribute("webgl_div");
-    var canvas = document.querySelector( "div#"+div+" canvas" );
-    var cam = camera_create( { canvas: canvas, nobind: false, personal: false, pos: vec3(0,0,450), speed: 10 } );
+    var divc = document.querySelector( "div#"+div+" div.canvas" );
+    var cam = camera_create( { element: divc, nobind: false, personal: false, pos: vec3(0,0,450), speed: 10 } );
     var opts = {
       bgcolor: [.95, .95, .95, 1],
       buffers: {v_in: b[0], vn_in: b[1]},
