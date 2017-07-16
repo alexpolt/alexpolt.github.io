@@ -184,8 +184,6 @@ function webgl_quad( opts ) {
 
     var dt = t - time_start;
 
-    if( opts.onframe ) opts.onframe( frame, dt );
-
     if( opts.pause && presented ) { if( dt_pause === undefined ) dt_pause = dt; return; }
 
     if( dt_pause !== undefined ) { 
@@ -202,6 +200,8 @@ function webgl_quad( opts ) {
       dt = opts.dt; 
       time_start = t - dt; 
     }
+
+    if( opts.onframe ) opts.onframe( frame, dt );
 
     opts.dt = dt;
 

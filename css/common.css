@@ -284,6 +284,7 @@ div.shader textarea {
 }
 
 div.shader div.help {
+  float: left;
   clear: both;
   box-sizing: border-box;
   background-color: #fcfdff;
@@ -291,7 +292,7 @@ div.shader div.help {
 }
 
 .mobile div.shader div.help {
-  font-size: 0.5em !important;
+  font-size: 2em;
 }
 
 div.shader div.buttons {
@@ -386,6 +387,7 @@ div.webgl {
 }
 
 div.webgl span {
+  display: block;
   font-weight: bold;
   font-size: 0.8em;
   color: darkred;
@@ -393,7 +395,7 @@ div.webgl span {
 }
 
 .mobile div.webgl span {
-  font-size: 0.5em !important;
+  font-size: 0.8em;
 }
 
 div.webgl span.nowebgl {
