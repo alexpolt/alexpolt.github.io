@@ -205,16 +205,6 @@ function run_shader( args ) {
 
   if( !d.windowscroll ) {
     d.windowscroll = function() {
-      var opts = d.shader_opts;
-      if( opts && !opts.scrolling ) {
-        var p = opts.pause;
-        opts.pause = true;
-        opts.scrolling = true;
-        setTimeout( function() {
-          opts.pause = p;
-          opts.scrolling = false;
-        }, 200 );
-      }
     };
     window.addEventListener( "scroll", d.windowscroll );
   }
@@ -431,7 +421,6 @@ function activate_webgl() {
       };
     } else if( div ) {
       e.onclick = function(e) { 
-        //if( e.target && e.target.nodeName == "DIV" ) return;
         demo_open.call( this, div );
       };
     }
@@ -483,7 +472,7 @@ function activate_webgl() {
   var tas = document.querySelectorAll( "div.shader div.help" );
 
   foreach( tas, function( e ) {
-    e.innerHTML = "<b>WebGL Demo Helper</b><ul class='help'>" + [
+    e.innerHTML = "<h3>WebGL Demo Helper</h3><ul class='help'>" + [
       "<b>Keys:</b> <u>space</u> - pause, <u>r</u> - reload;",
       "<b>Predefined uniforms:</b> <u>t</u> - time, <u>screen.xy</u> - screen dimensions, " +
       "<u>frame</u> - frame counter, <u>seed</u> - random number from 0 to 1, " +
