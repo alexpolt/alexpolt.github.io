@@ -157,7 +157,7 @@ vec3 getc(float x) {
 void main() {
 
   vn = cam*vn_in;
-  pid = floor( vid_in/3. );
+  pid = floor( vid_in/3. + 0.05 );
   vec3 p = cam*v_in;
   pos = p/dmax;
   p = p+campos;
