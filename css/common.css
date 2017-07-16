@@ -292,7 +292,7 @@ div.shader div.help {
 }
 
 .mobile div.shader div.help {
-  font-size: 2em;
+  font-size: 1em;
 }
 
 div.shader div.buttons {
@@ -387,6 +387,8 @@ div.webgl {
 }
 
 div.webgl span {
+  float: left;
+  width: 100%;
   display: block;
   font-weight: bold;
   font-size: 0.8em;

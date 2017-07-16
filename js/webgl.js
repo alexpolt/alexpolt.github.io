@@ -172,11 +172,6 @@ function run_shader( args ) {
     D.addEventListener( "keydown", d.keyhandler );
   }
 
-  if( fs && support_fscreen() ) {
-
-    fs.onclick = function() { request_fscreen( c ); this.blur(); };
-  }
-
   if( !d.windowresize ) {
 
     d.windowresize = function() {
@@ -195,6 +190,18 @@ function run_shader( args ) {
 
     window.addEventListener( "resize", d.windowresize );
   }
+
+  if( fs && support_fscreen() ) {
+
+    fs.onclick = function() { request_fscreen( c ); this.blur(); };
+    if(! d.fchange ) {
+      d.fchange = function() {
+        d.windowresize();
+      };
+      add_fchange( c, d.fchange );
+    }
+  }
+
 
   if( !d.contextlost ) {
 
@@ -265,10 +272,10 @@ function stop_shader( div ) {
 
   if( d.windowresize ) window.removeEventListener( "resize", d.windowresize );
   if( d.contextlost ) c.removeEventListener( "webglcontextlost", d.contextlost );
-  if( d.fschange ) remove_fchange( d.fschange );
+  if( d.fchange ) remove_fchange( c, d.fchange );
   if( d.keyhandler ) D.removeEventListener( "keydown", d.keyhandler );
 
-  d.keyhandler = d.windowresize = d.contextlost = d.fschange = null;
+  d.keyhandler = d.windowresize = d.contextlost = d.fchange = null;
 
   if( d.shader_opts ) {
     console.log( "finish webgl", d.shader_opts.id );
@@ -295,14 +302,14 @@ function is_fscreen() {
             document.msFullscreenElement;
 }
 
-function add_fchange( fn ) {
+function add_fchange( el, fn ) {
   if( el.webkitRequestFullscreen ) document.addEventListener( "webkitfullscreenchange", fn );
   else if( el.mozRequestFullScreen ) document.addEventListener( "mozfullscreenchange", fn );
   else if( el.msRequestFullscreen ) document.addEventListener( "MSFullscreenChange", fn );
   else throw "fullscreen not supported";
 }
 
-function remove_fchange( fn ) {
+function remove_fchange( el, fn ) {
   if( el.webkitRequestFullscreen ) document.removeEventListener( "webkitfullscreenchange", fn );
   else if( el.mozRequestFullScreen ) document.removeEventListener( "mozfullscreenchange", fn );
   else if( el.msRequestFullscreen ) document.removeEventListener( "MSFullscreenChange", fn );
