@@ -189,14 +189,12 @@ function run_shader( args ) {
       var opts = d.shader_opts;
       if( opts && ! opts.resizing ) {
         console.log( "webgl %d resize", opts.id );
-        c.style.width = "100%";
-        c.style.height = "100%";
         opts.resizing = true;
         setTimeout( function() { 
           opts.resizing = false; 
           opts.resize = true; 
           run_shader( opts ) 
-        }, 500 );
+        }, 300 );
       }
     };
 
