@@ -115,12 +115,16 @@ vec2 px;
 vec2 uv2;
 
 void main() {
-  vec2 ar = vec2( screen.x/screen.y, 1 );
-  cells = floor( ar * cells );
-  px = vec2(1.,1.)/cells;
+  vec2 ar = vec2(1);
+  if( screen.x > screen.y )
+    ar = vec2( screen.x/screen.y, 1 );
+  else 
+    ar = vec2( 1, screen.y/screen.x );
+  cells = floor( ar*cells );
+  px = 1./cells;
   uv2 = floor(cells*uv)/cells+.5*px;
   float k = 0.;
-  if( frame == .0 )
+  if( frame < 20 )
     k = step( 1.-density, sin( 1000.*cos( 700.*( 700.*uv2.x + uv2.y + 100.*seed ) ) ) );
   else if( fract(frame/fstep) == .0 ) k = life();
   else k = texture2D( prevtex, uv2 ).x;

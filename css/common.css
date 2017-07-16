@@ -391,13 +391,12 @@ div.webgl span {
   width: 100%;
   display: block;
   font-weight: bold;
-  font-size: 0.8em;
+  font-size: 0.75em;
   color: darkred;
   cursor: pointer;
 }
 
 .mobile div.webgl span {
-  font-size: 0.8em;
 }
 
 div.webgl span.nowebgl {
