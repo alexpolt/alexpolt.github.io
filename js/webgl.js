@@ -169,7 +169,7 @@ function run_shader( args ) {
   if( r ) r.onclick = function() { 
     delete opts.seed; 
     if( opts.onreload ) opts.onreload();
-    opts.pause = false;
+    if( opts.pause && p) p.onclick();
     run_shader( opts ); 
     this.blur(); 
   };
