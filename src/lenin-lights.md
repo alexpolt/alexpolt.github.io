@@ -67,7 +67,7 @@ uniform vec2 screen;
 uniform float dmax;
 
 const float pi = 3.14159265;
-const float lperface = 50.;
+const float lperface = 48.;
 
 uniform float vmode;
 uniform vec2 ltexsize;
@@ -142,7 +142,7 @@ varying vec3 color;
 varying float pid;
 
 const float pi = 3.14159265;
-const float lperface = 50.;
+const float lperface = 48.;
 
 uniform float vmode;
 uniform vec2 ltexsize;
