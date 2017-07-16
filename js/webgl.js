@@ -63,7 +63,7 @@ function init_shader_menus() {
               } else if( el.button_paused ) {
                 el.button_paused = false;
                 var p = el.querySelector("button.pause");
-                p.onclick();
+                if( el.shader_opts.pause ) p.onclick();
               }
           } else {
               child.classList.add( "hidden" );
@@ -169,6 +169,7 @@ function run_shader( args ) {
   if( r ) r.onclick = function() { 
     delete opts.seed; 
     if( opts.onreload ) opts.onreload();
+    opts.pause = false;
     run_shader( opts ); 
     this.blur(); 
   };

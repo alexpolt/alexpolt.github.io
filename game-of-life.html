@@ -125,9 +125,9 @@ void main() {
   px = 1./cells;
   uv2 = floor(cells*uv)/cells+.5*px;
   float k = 0.;
-  if( frame < 20. )
+  if( frame == 0. )
     k = step( 1.-density, sin( 1000.*cos( 700.*( 700.*uv2.x + uv2.y + 100.*seed ) ) ) );
-  else if( fract(frame/fstep) == .0 ) k = life();
+  else if( fract(frame/fstep) == 0. ) k = life();
   else k = texture2D( prevtex, uv2 ).x;
   gl_FragData[0] = vec4( k, k, k, 1 );
 }
