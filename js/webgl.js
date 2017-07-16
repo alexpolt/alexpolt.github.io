@@ -190,7 +190,7 @@ function run_shader( args ) {
       if( opts && ! opts.resizing ) {
         console.log( "webgl %d resize", opts.id );
         c.style.width = "100%";
-        c.height = "100%";
+        c.style.height = "100%";
         opts.resizing = true;
         setTimeout( function() { 
           opts.resizing = false; 
