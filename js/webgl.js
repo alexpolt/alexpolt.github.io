@@ -417,12 +417,14 @@ function activate_webgl() {
     };
     
     var onload = function() {
+      /*
       var cw = document.getElementById( "content" ).offsetWidth;
       if( ! this.width_orig ) this.width_orig = this.width;
       if( ! this.height_orig ) this.height_orig = this.height;
       var w = this.width_orig+4;
       var width = Math.min( 80, Math.ceil(100*w/cw) );
       e.style.width = width + "%";
+      */
       if( ! logo.added ) {
         logo.src = "images/webgl300.png";
         logo.classList.add( "hide" );
@@ -433,8 +435,10 @@ function activate_webgl() {
     };
 
     var img = e.querySelector( "img.link" );
-    if( img.width && img.height ) onload.call( img );
-    else img.onload = onload;
+    img.onload = onload;
+    setTimeout( function() {
+      if( !logo.added ) img.onload( img );
+    }, 100 );
 
     window.addEventListener( "resize", function() { onload.call(img); } );
 
