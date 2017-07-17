@@ -46,9 +46,9 @@ uniform float seed;
 
 float life();
 
-const float cell = 80.;
+const float cell = 50.;
 const float fstep = 4.;
-const float density = 0.1;
+const float density = 0.2;
 
 vec2 cells = vec2( cell, cell );
 vec2 px;
