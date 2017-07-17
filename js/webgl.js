@@ -308,34 +308,49 @@ function stop_shader( div ) {
 }
 
 function support_fscreen() {
-  return document.webkitFullscreenEnabled || 
-          document.mozFullScreenEnabled || 
-            document.msFullscreenEnabled;
+  return document.fullscreenEnabled || 
+          document.webkitFullscreenEnabled || 
+            document.mozFullScreenEnabled || 
+              document.msFullscreenEnabled;
 }
 
 function request_fscreen( el ) {
-  console.info("webgl fullscreen");
-  if( el.webkitRequestFullscreen ) el.webkitRequestFullscreen();
+  console.info("webgl request fullscreen");
+  if( el.requestFullscreen ) el.requestFullscreen();
+  else if( el.webkitRequestFullscreen ) el.webkitRequestFullscreen();
   else if( el.mozRequestFullScreen ) el.mozRequestFullScreen();
   else if( el.msRequestFullscreen ) el.msRequestFullscreen();
   else throw "fullscreen not supported";
 }
 
+function exit_fscreen() {
+  console.info("webgl exit fullscreen");
+  var el = document;
+  if( el.exitFullscreen ) el.exitFullscreen();
+  else if( el.webkitExitFullscreen ) el.webkitExitFullscreen();
+  else if( el.mozExitFullScreen ) el.mozExitFullScreen();
+  else if( el.msExitFullscreen ) el.msExitFullscreen();
+  else throw "exit fullscreen not supported";
+}
+
 function is_fscreen() {
-  return document.webkitFullscreenElement ||
-          document.mozFullScreenElement ||
-            document.msFullscreenElement;
+  return document.fullscreenElement ||
+          document.webkitFullscreenElement ||
+            document.mozFullScreenElement ||
+              document.msFullscreenElement;
 }
 
 function add_fchange( el, fn ) {
-  if( el.webkitRequestFullscreen ) document.addEventListener( "webkitfullscreenchange", fn );
+  if( el.requestFullscreen ) document.addEventListener( "fullscreenchange", fn );
+  else if( el.webkitRequestFullscreen ) document.addEventListener( "webkitfullscreenchange", fn );
   else if( el.mozRequestFullScreen ) document.addEventListener( "mozfullscreenchange", fn );
   else if( el.msRequestFullscreen ) document.addEventListener( "MSFullscreenChange", fn );
   else throw "fullscreen not supported";
 }
 
 function remove_fchange( el, fn ) {
-  if( el.webkitRequestFullscreen ) document.removeEventListener( "webkitfullscreenchange", fn );
+  if( el.requestFullscreen ) document.removeEventListener( "fullscreenchange", fn );
+  else if( el.webkitRequestFullscreen ) document.removeEventListener( "webkitfullscreenchange", fn );
   else if( el.mozRequestFullScreen ) document.removeEventListener( "mozfullscreenchange", fn );
   else if( el.msRequestFullscreen ) document.removeEventListener( "MSFullscreenChange", fn );
   else throw "fullscreen not supported";
