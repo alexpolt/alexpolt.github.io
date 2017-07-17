@@ -16,7 +16,7 @@
 ###Triangle Info
 
   <a href="barycentric.html">
-  <img src="images/barycentric-screenspace.png" style="display:block;float:right"/>
+  <img src="images/barycentric-screenspace.png" style="display:block;float:right;max-width:25%;"/>
   </a>
 
   Every once in while there is a need to get full info about the rasterized primitive in a pixel
