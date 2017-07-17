@@ -105,8 +105,10 @@ function resize_shader(d,c) {
   divc.style.width = offw;
   divc.style.height = offh;
 
-  c.width = divc.clientWidth;
-  c.height = divc.clientHeight;
+  var pr = window.devicePixelRatio || 1;
+
+  c.width = pr * divc.clientWidth;
+  c.height = pr * divc.clientHeight;
 
   console.log("webgl style", offw, offh);
 }
