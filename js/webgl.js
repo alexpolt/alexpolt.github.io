@@ -93,9 +93,10 @@ function resize_shader(d,c) {
   var divc = d.querySelector("div.canvas");
 
   if( is_fscreen() ) {
-    offw = window.innerWidth + "px";
-    offh = window.innerHeight + "px";
-    console.log("webgl fullscreen mode", offw, offh);
+    //offw = window.innerWidth + "px";
+    //offh = window.innerHeight + "px";
+    offw = "100%";
+    offh = "100%";
   } else {
     offw = "100%";
     offh = Math.floor( d.offsetWidth ) + "px";
@@ -106,6 +107,8 @@ function resize_shader(d,c) {
 
   c.width = divc.clientWidth;
   c.height = divc.clientHeight;
+
+  console.log("webgl style", offw, offh);
 }
 
 function run_shader( args ) {
@@ -212,7 +215,7 @@ function run_shader( args ) {
 
     fs.onclick = function() { 
       d.onclick( { target: d.querySelector("li.canvas") } );
-      request_fscreen( c ); 
+      request_fscreen( c.parentNode ); 
       this.blur(); 
     };
     if(! d.fchange ) {
@@ -311,6 +314,7 @@ function support_fscreen() {
 }
 
 function request_fscreen( el ) {
+  console.info("webgl fullscreen");
   if( el.webkitRequestFullscreen ) el.webkitRequestFullscreen();
   else if( el.mozRequestFullScreen ) el.mozRequestFullScreen();
   else if( el.msRequestFullscreen ) el.msRequestFullscreen();
