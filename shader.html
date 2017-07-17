@@ -9,6 +9,8 @@
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
   <meta http-equiv="Pragma" content="no-cache" />
 
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <link rel="stylesheet" type="text/css" href="css/common.css" />
   <link rel="stylesheet" href="highlight/styles/hybrid.css">
 
@@ -128,7 +130,7 @@ mat2 uv2scr = mat2( xydu, xydv );
   <span>Click to show WebGL demo</span>
 </div>
 
-<div class="shader hidden" id="shader0" js="" fn="" style="width: 60%">
+<div class="shader hidden" id="shader0" js="" fn="">
   <ul class="close">
     <li title="Info" class="help">?</li>
     <li title="Close Demo" class="close">Close</li>
@@ -419,9 +421,6 @@ mat2 inverse( mat2 m ) {
 document.addEventListener( "DOMContentLoaded", function() { 
   if( /iPhone|iPad|iPod|Android|Windows Phone/i.test(navigator.userAgent) ) {
     document.getElementById("wrap").classList.add("mobile");
-    document.getElementById("content").classList.add("padding0");
-    document.getElementById("main-menu").classList.add("menu0");
-    document.getElementById("header").classList.add("header0");
   }
 } );
 </script>

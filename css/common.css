@@ -70,8 +70,8 @@ a:hover {
   box-sizing: border-box;
 }
 
-#header.header0 {
-  font-size: 1.5em;
+.mobile #header {
+  font-size: 0.8em;
 }
 
 #header img.ad {
@@ -125,8 +125,8 @@ div.text div.break {
   padding: 0em 4em 0.05em 4em;
 }
 
-.padding0 {
-  padding: 0em 2em 0.05em 2em !important;
+.mobile #content {
+  padding: 0em 1em 0.05em 1em !important;
 }
 
 div#main-menu {
@@ -137,15 +137,15 @@ div#main-menu {
 div#main-menu a {
   display: inline-block;
   padding: .1em .5em;
-  font-size: 110%;
+  font-size: 1.2em;
   color: #646a84;
   border: 1px solid silver;
   margin: 0.1em 1em 0em 0;
 }
 
-div.menu0 a {
+.mobile div#main-menu a {
   margin: 0.1em 0 0.25em 0 !important;
-  font-size: 2em !important;
+  font-size: 0.8em !important;
 }
 
 div#main-menu a.active {
@@ -161,21 +161,25 @@ div#main-menu a:hover {
 
 #contents > ul {
   list-style: none;
-  padding: 0px;
+  padding: 0;
 }
 
 #contents > ul > li {
   margin-bottom: 2em;
 }
 
+.mobile #contents > ul > li {
+  margin-bottom: 1em;
+}
+
 #contents > ul > li > p > a > strong {
-  font-size: 120%;
+  font-size: 1.2em;
 }
 
 #contents > ul > li > p:first-child {
   font-weight: bold;
   border-bottom: 1px solid silver;
-  font-size: 110%;
+  font-size: 1.1em;
 }
 
 #content > h2 {
@@ -252,6 +256,10 @@ div.shader {
   padding: 0;
 }
 
+.mobile div.shader {
+  width: 70%;
+}
+
 div.shader div.canvas {
   clear: both;
   margin: 0;
@@ -287,24 +295,39 @@ div.shader textarea {
   word-wrap: normal;
   overflow: auto;
   font-weight: bold;
+  font-size: 0.9em;
 }
 
 .mobile div.shader textarea {
-  font-size: 2em;
+  font-size: 0.7em;
 }
 
 div.shader div.help {
   width: 100%;
   height: 100%;
   float: left;
-  clear: both;
+  padding: 0.5em 1em;
   box-sizing: border-box;
   background-color: #fcfdff;
   overflow-y: scroll;
+  font-size: 0.9em;
 }
 
 .mobile div.shader div.help {
-  font-size: 1em;
+  font-size: 0.7em;
+}
+
+div.shader ul.help li {
+  margin: 0.5em 0.1em;
+}
+
+div.shader ul.help {
+  margin: 0;
+  padding-left: 2em;
+}
+
+div.shader div.help h3 {
+  margin: 0;
 }
 
 div.shader div.buttons {
@@ -323,12 +346,12 @@ div.shader button, div.shader input {
   min-width: 3em;
   cursor: pointer;
   background-color: #CCCCCC;
-  font-size: 80%;
   text-align: center;
+  font-size: 0.8em;
 }
 
 .mobile div.shader button, .mobile div.shader input {
-  font-size: 1.5em;
+  font-size: 0.7em;
 }
 
 div.shader input {
@@ -371,10 +394,11 @@ div.shader ul.menu li, div.shader ul.close li {
   background-color: #275e63;
   color: white;
   text-align: center;
+  font-size: 0.9em;
 }
 
 .mobile div.shader ul.menu li, .mobile div.shader ul.close li {
-  font-size: 1.5em;
+  font-size: 0.7em;
 }
 
 div.shader ul.menu li:hover, div.shader ul.close li:hover {
@@ -382,9 +406,6 @@ div.shader ul.menu li:hover, div.shader ul.close li:hover {
   cursor: pointer;
 }
 
-div.shader div.help ul li {
-  margin: 0.5em 0;
-}
 
 div.webgl {
   text-align: center;
@@ -403,13 +424,13 @@ div.webgl span {
   width: 100%;
   display: block;
   font-weight: bold;
-  font-size: 0.75em;
+  font-size: 0.8em;
   color: darkred;
   cursor: pointer;
 }
 
 .mobile div.webgl span {
-  font-size: 2em;
+
 }
 
 div.webgl span.nowebgl {
@@ -441,18 +462,8 @@ div.code {
   overflow: auto;
 }
 
-.mobile code {
-  font-size: 2em;
+code {
   overflow: auto;
-}
-
-.mobile div.code {
-  font-size: 2em;
-  overflow: auto;
-}
-
-.mobile .cpp {
-  font-size: .5em;
 }
 
 

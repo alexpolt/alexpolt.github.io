@@ -13,7 +13,7 @@
   <span>Click to show WebGL demo</span>
 </div>
 
-<div class="shader hidden" id="shader0" js="" fn="" style="width: 60%">
+<div class="shader hidden" id="shader0" js="" fn="">
   <ul class="close">
     <li title="Info" class="help">?</li>
     <li title="Close Demo" class="close">Close</li>
