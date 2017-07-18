@@ -193,14 +193,20 @@ function run_shader( args ) {
 
     d.windowresize = function() {
       var opts = d.shader_opts;
-      if( opts && ! opts.resizing ) {
+      opts.finish = true;
+      if( ! opts.resizing ) {
         console.log( "webgl %d resize", opts.id );
         opts.resizing = true;
-        setTimeout( function() { 
-          opts.resizing = false; 
-          opts.resize = true; 
-          run_shader( opts ) 
-        }, 300 );
+        opts.resfn = function() { 
+          opts.resizing = false;
+          opts.resize = true;
+          opts.resid = 0;
+          run_shader( opts );
+        };
+        opts.resid = setTimeout( opts.resfn, 500 );
+      } else {
+        clearTimeout( opts.resid );
+        opts.resid = setTimeout( opts.resfn, 500 );
       }
     };
 
@@ -217,14 +223,17 @@ function run_shader( args ) {
 
     fs.onclick = function() { 
       d.onclick( { target: d.querySelector("li.canvas") } );
+      d.windowresize();
       request_fscreen( c.parentNode ); 
       this.blur(); 
     };
     if(! d.fchange ) {
+      /*
       d.fchange = function() {
         d.windowresize();
       };
       add_fchange( c, d.fchange );
+      */
     }
   }
 
