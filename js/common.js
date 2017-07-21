@@ -1,4 +1,12 @@
 
+var show_error = true;
+
+window.addEventListener( "error", function( e ) {
+  var ask = "\nShow more errors?";
+  if( show_error )
+    show_error = confirm( e.message + "\nat file " + e.filename + ", line " + e.lineno + ask );
+} );
+
 function foreach( arr, fn ) {
   var l = arr.length;
   for( var i=0; i < l; i++) fn( arr[ i ], i );
