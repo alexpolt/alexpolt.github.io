@@ -44,7 +44,7 @@ function init_shader_menus() {
         var attr = e.target.className;
         var c = this.querySelector( "div.canvas" );
 
-        for( let i = 0; i < c.children.length; i++ ) {
+        for( var i = 0; i < c.children.length; i++ ) {
 
           var child = c.children[i];
 
