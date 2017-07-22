@@ -48,7 +48,6 @@ var camera_imp = {
   contextmenu: function(e) {
     if( this.nocontextmenu ) {
       e.preventDefault();
-      console.log( "Camera position", this.pos );
     }
   },
   keydown: function(e) {
