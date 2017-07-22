@@ -17,7 +17,8 @@ var camera_imp = {
     this.my_prev = e.clientY;
 
     if( this.rotate ) {
-      if( e.from_touch ) { e.preventDefault(); e.from_touch = false; }
+      if( !e.from_touch ) e.preventDefault(); 
+      else e.from_touch = false;
       if( this.movex != 0 ) this.rotate_y( this.movex );
       if( this.movey != 0 ) this.rotate_x( this.movey );
     }
