@@ -38,12 +38,9 @@ var camera_imp = {
   },
   touchend: function(e) {
     this.mouseup( e.touches[0] );
-    e.preventDefault();
   },
   touchmove: function(e) {
     this.mousemove( e.touches[0] );
-    if( this.rotate )
-      e.preventDefault();
   },
   contextmenu: function(e) {
     if( this.nocontextmenu ) {
