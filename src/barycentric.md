@@ -63,54 +63,80 @@
 
 <div style="width:60%;border:1px solid silver;margin:10px auto;">
   <canvas id="bar" style="display:block;width:100%;"></canvas>
+  <script src="js/common.js"></script>
   <script>
     try{
 
     var c = document.getElementById("bar");
 
-    var woff = c.offsetWidth;
-    c.style.height = woff + "px";
-    var pr = window.devicePixelRatio || 1.0;
-    c.width = c.clientWidth * pr;
-    c.height = c.clientHeight * pr;
-
     var mx, my;
     var points=[[-0.8,-0.8], [0.5,-0.75], [-0.5,0.8]];
-    var w = c.width, h = c.height, wh = w/2, hh = h/2;
+    var w, h, ow, oh, wh, hh, opx=[0,0];
     var P=[-0.25,-0.25];
     var CP=[];
 
+    document.addEventListener( "DOMContentLoaded", function() {
+      setTimeout( function() {
+        var woff = c.offsetWidth;
+        c.style.height = woff + "px";
+        var pr = window.devicePixelRatio || 1;
+        c.width = Math.round( c.clientWidth * pr );
+        c.height = Math.round( c.clientHeight * pr );
+        w = c.width, h = c.height, wh = w/2, hh = h/2;
+        ow = c.offsetWidth, oh = c.offsetHeight;
+        opx[0] = 1.0/ow, opx[1] = 1.0/oh;
+      }, 0 );
+    } );
+
     window.onresize = function(e) {
-      console.log("resize");
       var woff = c.offsetWidth;
       c.style.height = woff + "px";
-      c.width = c.clientWidth;
-      c.height = c.clientHeight;
+      var pr = window.devicePixelRatio || 1;
+      c.width = Math.round( c.clientWidth * pr );
+      c.height = Math.round( c.clientHeight * pr );
       w = c.width, h = c.height, wh = w/2, hh = h/2;
+      ow = c.offsetWidth, oh = c.offsetHeight;
+      opx[0] = 1.0/ow, opx[1] = 1.0/oh;
     }
 
     c.onmousemove = function(e) {
-      mx = e.pageX - e.target.offsetLeft;
-      my = e.pageY - e.target.offsetTop;
-      if( CP ) {
-        CP[0] = mx/w*2.0-1.0;
-        CP[1] = 1.0-my/h*2.0;
+      var m = TT( [ e.pageX - e.target.offsetLeft, e.pageY - e.target.offsetTop ] );
+      if( CP ) { 
+        CP[0] = m[0];
+        CP[1] = m[1];
       }
     };
 
     c.onmousedown = function(e) {
-      var mx = e.pageX - e.target.offsetLeft;
-      var my = e.pageY - e.target.offsetTop;
+      var m = TT( [ e.pageX - e.target.offsetLeft, e.pageY - e.target.offsetTop ] );
       var points_ = points.concat([P]);
-      points_.forEach( function( p_ ) {
-        var p = T(p_);
-        if( abs(p[0]-mx) < 10 && abs(p[1]-my) < 5 ) CP = p_;
+      foreach( points_, function( p ) {
+        if( abs(p[0]-m[0]) < 0.1 && abs(p[1]-m[1]) < 0.1 ) CP = p;
       } );
     };
 
     c.onmouseup = function(e) {
       CP = null;
     };
+
+    c.oncontextmenu = function(e) {
+      e.preventDefault();
+    };
+
+    c.addEventListener( "touchstart", function(e) {
+      c.onmousedown( e.touches[0] );
+      e.preventDefault();
+    } );
+
+    c.addEventListener( "touchend", function(e) {
+      c.onmouseup( e.touches[0] );
+      e.preventDefault();
+    } );
+
+    c.addEventListener( "touchmove", function(e) {
+      c.onmousemove( e.touches[0] );
+      e.preventDefault();
+    } );
 
     var ctx = c.getContext("2d");
 
@@ -156,7 +182,7 @@
       ctx.beginPath();
       ctx.moveTo( T(points[2])[0], T(points[2])[1] );
 
-      points.forEach( function( p_ ) {
+      foreach( points, function( p_ ) {
         var p = T( p_ );
         ctx.fillText( "["+p_[0].toFixed(2)+","+p_[1].toFixed(2)+"]", p[0], p[1]-4 );
         ctx.lineTo( p[0], p[1] );
@@ -175,7 +201,7 @@
       var edges = [ sub(points[2],points[0]), sub(points[1],points[0]), sub(points[2],points[1]) ];
       var d = [ dist( b[0], edges[0] ), dist( b[1], edges[1] ), dist( 1.0-b[0]-b[1], edges[2] ) ];
       var dmin, mini, dv;
-      d.forEach( function(e, i) {
+      foreach( d, function(e, i) {
         if( dmin === undefined || e < dmin ) { dmin = e; mini = i; }
       });
 
@@ -199,6 +225,7 @@
     }
 
     function T( p ) { return [ (p[0]*0.5+0.5)*w, (0.5-p[1]*0.5)*h ]; }
+    function TT( p ) { return [ p[0]/ow*2.0-1.0, 1.0-2.0*p[1]/oh ]; }
     function abs( v ) { return Math.abs( v ); }
     function sub(p0,p1) { return [ p0[0]-p1[0], p0[1]-p1[1] ]; }
     function add(p0,p1) { return [ p0[0]+p1[0], p0[1]+p1[1] ]; }

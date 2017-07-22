@@ -17,7 +17,7 @@ var camera_imp = {
     this.my_prev = e.clientY;
 
     if( this.rotate ) {
-      e.preventDefault();
+      if( ! e instanceof Touch ) e.preventDefault();
       if( this.movex != 0 ) this.rotate_y( this.movex );
       if( this.movey != 0 ) this.rotate_x( this.movey );
     }
@@ -32,9 +32,24 @@ var camera_imp = {
     this.mbutton = e.button;
     if( !this.paused ) this.prerotate = true;
   },
+  touchstart: function(e) {
+    console.log("touchstart");
+    this.mousedown( e.touches[0] );
+    e.preventDefault();
+  },
+  touchend: function(e) {
+    this.mouseup( e.touches[0] );
+    e.preventDefault();
+  },
+  touchmove: function(e) {
+    this.mousemove( e.touches[0] );
+    e.preventDefault();
+  },
   contextmenu: function(e) {
-    if( this.nocontextmenu ) e.preventDefault();
-    console.log( "Camera position", this.pos );
+    if( this.nocontextmenu ) {
+      e.preventDefault();
+      console.log( "Camera position", this.pos );
+    }
   },
   keydown: function(e) {
     //32-space,82-r,65-a,83-s,68-d,87-w,37,38,39,40-left,up,right,down,27-esc,16-shift,17-ctrl
@@ -97,6 +112,7 @@ function camera_create( opts ) {
   o.paused = false;
   o.rotate = false;
   o.prerotate = false;
+  if( !o.nocontextmenu ) o.nocontextmenu = true;
   
   o.m_rot_x = [];
   o.m_rot_y = []; 
@@ -111,13 +127,18 @@ function camera_create( opts ) {
 
   if( !o.nobind ) {
     o.delegates = [ delegate(o,o.mousemove), delegate(o,o.keydown), delegate(o,o.mouseup),
-                    delegate(o, o.mousedown),delegate(o, o.contextmenu) ];
+                    delegate(o,o.mousedown),delegate(o,o.contextmenu),
+                    delegate(o,o.touchstart), delegate(o,o.touchend), delegate(o,o.touchmove)
+                  ];
     document.addEventListener( "mousemove", o.delegates[0] );
     document.addEventListener( "keydown", o.delegates[1] );
     document.addEventListener( "mouseup", o.delegates[2] );
+    document.addEventListener( "touchend", o.delegates[6] );
+    document.addEventListener( "touchmove", o.delegates[7] );
     if( o.element ) {
       o.element.addEventListener( "mousedown", o.delegates[3] );
       o.element.addEventListener( "contextmenu", o.delegates[4] );
+      o.element.addEventListener( "touchstart", o.delegates[5] );
     }
   }
 
@@ -130,9 +151,12 @@ function camera_remove( cam ) {
     document.removeEventListener( "mousemove", o.delegates[0] );
     document.removeEventListener( "keydown", o.delegates[1] );
     document.removeEventListener( "mouseup", o.delegates[2] );
+    document.removeEventListener( "touchend", o.delegates[6] );
+    document.removeEventListener( "touchmove", o.delegates[7] );
     if( o.element ) {
       o.element.removeEventListener( "mousedown", o.delegates[3] );
       o.element.removeEventListener( "contextmenu", o.delegates[4] );
+      o.element.removeEventListener( "touchstart", o.delegates[5] );
     }
   }
 }
