@@ -33,7 +33,6 @@ var camera_imp = {
     if( !this.paused ) this.prerotate = true;
   },
   touchstart: function(e) {
-    console.log("touchstart");
     this.mousedown( e.touches[0] );
     e.preventDefault();
   },
@@ -43,7 +42,8 @@ var camera_imp = {
   },
   touchmove: function(e) {
     this.mousemove( e.touches[0] );
-    e.preventDefault();
+    if( this.rotate )
+      e.preventDefault();
   },
   contextmenu: function(e) {
     if( this.nocontextmenu ) {
