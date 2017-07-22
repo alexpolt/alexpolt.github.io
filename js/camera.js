@@ -3,9 +3,9 @@
 var camera_imp = {
   mousemove: function(e) {
 
-    if( this.prerotate ) this.rotate = true;
+    if( !this.rotate ) return;
 
-    if( ! this.mx_prev ) {
+    if( !this.mx_prev ) {
       this.mx_prev = e.clientX;
       this.my_prev = e.clientY;
     }
@@ -24,15 +24,16 @@ var camera_imp = {
   },
   mouseup: function(e) {
     this.rotate = false;
-    this.prerotate = false;
   },
   mousedown: function(e) {
+    if( this.paused ) return;
+    this.rotate = true;
     this.clickx = e.pageX - e.target.offsetLeft;
     this.clicky = e.pageY - e.target.offsetTop;
     this.mbutton = e.button;
-    if( !this.paused ) this.prerotate = true;
   },
   touchstart: function(e) {
+    if( this.paused ) return;
     this.mousedown( e.touches[0] );
     e.preventDefault();
   },
@@ -48,14 +49,16 @@ var camera_imp = {
     }
   },
   keydown: function(e) {
+    var p = 0;
     //32-space,82-r,65-a,83-s,68-d,87-w,37,38,39,40-left,up,right,down,27-esc,16-shift,17-ctrl
     switch( e.keyCode ) {
-      case 87: this.move(vec3(0,0, this.speed)); break;
-      case 83: this.move(vec3(0,0,-this.speed)); break;
-      case 65: this.move(vec3(-this.speed,0,0)); break;
-      case 68: this.move(vec3( this.speed,0,0)); break;
+      case 87: this.move(vec3(0,0, this.speed)); p=1; break;
+      case 83: this.move(vec3(0,0,-this.speed)); p=1; break;
+      case 65: this.move(vec3(-this.speed,0,0)); p=1; break;
+      case 68: this.move(vec3( this.speed,0,0)); p=1; break;
       default:;
     }
+    if( p ) e.preventDefault();
   },
   keyup: function(e) {
   },
