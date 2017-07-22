@@ -17,7 +17,7 @@ var camera_imp = {
     this.my_prev = e.clientY;
 
     if( this.rotate ) {
-      if( ! e instanceof Touch ) e.preventDefault();
+      if( e.from_touch ) { e.preventDefault(); e.from_touch = false; }
       if( this.movex != 0 ) this.rotate_y( this.movex );
       if( this.movey != 0 ) this.rotate_x( this.movey );
     }
@@ -41,6 +41,7 @@ var camera_imp = {
     this.mouseup( e.touches[0] );
   },
   touchmove: function(e) {
+    e.touches[0].from_touch = true;
     this.mousemove( e.touches[0] );
   },
   contextmenu: function(e) {
