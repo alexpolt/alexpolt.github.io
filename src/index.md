@@ -1,4 +1,10 @@
 
+
+* [String Interning in C++](intern.html)
+
+  I show how to get string interning in C++.
+
+
 * [Undefined Behaviour and Optimizations: GCC vs Clang vs MSC](undefined.html)
 
   Was thinking the other day about undefined behaviour and optimizations it allows and came up
