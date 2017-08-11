@@ -29,7 +29,7 @@
 
     printf( "%p: %s", &intern("Hellow"), intern("Hellow") );
 
-  Check it online at [Ideone](https://ideone.com/EBPVQs).
+  Check it online at [Ideone](https://ideone.com/GigbNk).
 
   Right now it is using fixed-length strings (7 in above code, increase for your needs), but using 
   some template magic it can be made variable length.
@@ -49,7 +49,7 @@
       some_method( intern_t("overload one") );
       some_method( intern_t("overload two") );
 
-  Check it online at [Ideone](https://ideone.com/qhNAmc).
+  Check it online at [Ideone](https://ideone.com/q3329k).
 
   Well, now the fun part. Because we now have the characters of a string as a parameter pack, we
   can parse it and do all sort of hacks with it. We can create a list of types for example or
@@ -60,7 +60,7 @@
 
       Output: calc(100+20-10) = 110
 
-  Check it online at [Ideone](https://ideone.com/3muhLN)
+  Check it online at [Ideone](https://ideone.com/7Y0SvG)
   ( [gist](https://gist.github.com/alexpolt/aee1b6a8ac3d229fa36ada466f079c1e) ).
 
 
