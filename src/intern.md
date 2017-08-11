@@ -37,7 +37,10 @@
   There is a [gist](https://gist.github.com/alexpolt/5481a5db94ff94647bb0d114e322f0b9) with code
   and [Ideone](https://ideone.com/4oKRMR) to see it in action.
 
-  Another nice thing is that, since we turn a string into a type, we can use it everywhere where 
+  GCC and Clang provide an extension that allows using a user defined raw literal operator template
+  for strings which makes the implementation simple and clean.
+
+  Another nice thing is that, since we turn a string into a type. We can use it everywhere where 
   a type can be used. First, let's add a macro:
 
       #define intern_t(s) interned<ch(s,0),ch(s,1),ch(s,2),ch(s,3),ch(s,4),ch(s,5),ch(s,6)>::type
