@@ -74,7 +74,7 @@
   static char const value[];
 };
 
-template&lt;char... N&gt; char const interned&lt;N...&gt;::value[]{N...};
+template&lt;char... N&gt; char const interned&lt;N...&gt;::value[]{N...,'\0'};
 
 template&lt;int N&gt;
 constexpr char ch(char const(&amp;s)[N], int i) {
@@ -92,7 +92,7 @@ constexpr char ch(char const(&amp;s)[N], int i) {
 <pre><code>printf( "%p: %s", &amp;intern("Hellow"), intern("Hellow") );
 </code></pre>
 
-<p>Check it online at <a href="https://ideone.com/AoT5EJ">Ideone</a>.</p>
+<p>Check it online at <a href="https://ideone.com/rDqOxQ">Ideone</a>.</p>
 
 <p>Right now it is using fixed-length strings (7 in above code, increase for your needs), but using 
   some template magic it can be made variable length.</p>
