@@ -70,6 +70,7 @@
   C++:</p>
 
 <pre><code>template&lt;char... N&gt; struct interned {
+  using type = interned;
   static char const value[];
 };
 
@@ -92,6 +93,29 @@ constexpr char ch(char const(&amp;s)[N], int i) {
 </code></pre>
 
 <p>Check it online at <a href="https://ideone.com/AoT5EJ">Ideone</a>.</p>
+
+<p>Right now it is using fixed-length strings (7 in above code, increase for your needs), but using 
+  some template magic it can be made variable length.</p>
+
+<p>Another nice thing is that, since we turn a string into a type, we can use it everywhere where 
+  a type can be used. First, let's add a macro:</p>
+
+<pre><code>  #define intern_t(s) interned&lt;ch(s,0),ch(s,1),ch(s,2),ch(s,3),ch(s,4),ch(s,5),ch(s,6)&gt;::type
+</code></pre>
+
+<p>The name is arbitrary, I just want to show the technique. Now we can use it as a template 
+  parameter:</p>
+
+<pre><code>  some_template&lt; intern_t("hellow world") &gt;
+</code></pre>
+
+<p>or for overload resolution:</p>
+
+<pre><code>  some_method( intern_t("overload one") );
+  some_method( intern_t("overload two") );
+</code></pre>
+
+<p>Check it online at <a href="https://ideone.com/IQ4SCu">Ideone</a>.</p>
 
 <script>
 document.addEventListener( "DOMContentLoaded", function() { 
