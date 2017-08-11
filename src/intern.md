@@ -51,7 +51,7 @@
   Well, now the fun part. Because we now have the characters of a string as a parameter pack, we
   can parse it and do all sort of hacks with it. We can create a list of types for example or
   anything else. Just as an example here's a primitive calculator that can only add or subtract
-  integer numbers and use it like this:
+  integer numbers:
 
       printf( "calc(100+20-10) = %d\n", calc_t("100+20-10")::value );
 
