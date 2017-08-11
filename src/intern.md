@@ -32,7 +32,10 @@
   Check it online at [Ideone](https://ideone.com/GigbNk).
 
   Right now it is using fixed-length strings (7 in above code, increase for your needs), but using 
-  some template magic it can be made variable length.
+  some template magic it can be made variable length. [Ruslan Abdikeev](https://twitter.com/aruslan) 
+  has provided an alternative implementation that is cleaner and allows variable length strings.
+  There is a [gist](https://gist.github.com/alexpolt/5481a5db94ff94647bb0d114e322f0b9) with code
+  and [Ideone](https://ideone.com/4oKRMR) to see it in action.
 
   Another nice thing is that, since we turn a string into a type, we can use it everywhere where 
   a type can be used. First, let's add a macro:
