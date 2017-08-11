@@ -39,7 +39,7 @@
   for strings which makes the implementation simple and clean. [Ruslan Abdikeev][a] provided an
   [implementation][gista1].
 
-  Another nice thing is that, since we turn a string into a type. We can use it everywhere where 
+  Another nice thing is that, because we turn a string into a type, we can use it everywhere where 
   a type can be used. First, let's add a macro:
 
       #define intern_t(s) interned<ch(s,0),ch(s,1),ch(s,2),ch(s,3),ch(s,4),ch(s,5),ch(s,6)>::type
