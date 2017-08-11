@@ -70,8 +70,10 @@
   C++:</p>
 
 <pre><code>template&lt;char... N&gt; struct interned {
+
   using type = interned;
   static char const value[];
+
 };
 
 template&lt;char... N&gt; char const interned&lt;N...&gt;::value[]{N...};
@@ -81,11 +83,12 @@ constexpr char ch(char const(&amp;s)[N], int i) {
   return i &lt; N ? s[i] : '\0';
 }
 
-#define intern(s) interned&lt;ch(s,0),ch(s,1),ch(s,2),ch(s,3),ch(s,4),ch(s,5),ch(s,6),'\0'&gt;::value
+#define intern(s) interned&lt;ch(s,0),ch(s,1),ch(s,2),ch(s,3),ch(s,4),ch(s,5),ch(s,6)&gt;::value
 </code></pre>
 
 <p>The idea is simple: turn a string into a type and use the powers of linker to collapse all
-  instances into one.</p>
+  instances into one. 
+  Complete code: <a href="https://gist.github.com/alexpolt/44540ff2cfb81e312245cc5d2d6cb859">gist</a></p>
 
 <p>An example of using it:</p>
 
@@ -123,9 +126,9 @@ constexpr char ch(char const(&amp;s)[N], int i) {
   integer numbers:</p>
 
 <pre><code>  printf( "calc(100+20-10) = %d\n", calc_t("100+20-10")::value );
-</code></pre>
 
-<p>Output: calc(100+20-10) = 110</p>
+  Output: calc(100+20-10) = 110
+</code></pre>
 
 <p>Check it online at <a href="https://ideone.com/3muhLN">Ideone</a>
   ( <a href="https://gist.github.com/alexpolt/aee1b6a8ac3d229fa36ada466f079c1e">gist</a> ).</p>

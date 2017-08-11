@@ -6,21 +6,24 @@
   C++:
 
     template<char... N> struct interned {
+      
       using type = interned;
       static char const value[];
+      
     };
-
+    
     template<char... N> char const interned<N...>::value[]{N...};
-
+    
     template<int N>
     constexpr char ch(char const(&s)[N], int i) {
       return i < N ? s[i] : '\0';
     }
-
-    #define intern(s) interned<ch(s,0),ch(s,1),ch(s,2),ch(s,3),ch(s,4),ch(s,5),ch(s,6),'\0'>::value
+    
+    #define intern(s) interned<ch(s,0),ch(s,1),ch(s,2),ch(s,3),ch(s,4),ch(s,5),ch(s,6)>::value
 
   The idea is simple: turn a string into a type and use the powers of linker to collapse all
-  instances into one.
+  instances into one. 
+  Complete code: [gist](https://gist.github.com/alexpolt/44540ff2cfb81e312245cc5d2d6cb859)
 
   An example of using it:
 
@@ -55,7 +58,7 @@
 
       printf( "calc(100+20-10) = %d\n", calc_t("100+20-10")::value );
 
-  Output: calc(100+20-10) = 110
+      Output: calc(100+20-10) = 110
 
   Check it online at [Ideone](https://ideone.com/3muhLN)
   ( [gist](https://gist.github.com/alexpolt/aee1b6a8ac3d229fa36ada466f079c1e) ).
