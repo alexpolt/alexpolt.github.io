@@ -87,24 +87,23 @@ constexpr char ch(char const(&amp;s)[N], int i) {
 </code></pre>
 
 <p>The idea is simple: turn a string into a type and use the powers of linker to collapse all
-  instances into one. 
-  Complete code: <a href="https://gist.github.com/alexpolt/44540ff2cfb81e312245cc5d2d6cb859">gist</a></p>
+  instances into one. Complete code: <a href="https://gist.github.com/alexpolt/44540ff2cfb81e312245cc5d2d6cb859" title="C++ String Interning">gist</a>.</p>
 
 <p>An example of using it:</p>
 
 <pre><code>printf( "%p: %s", &amp;intern("Hellow"), intern("Hellow") );
 </code></pre>
 
-<p>Check it online at <a href="https://ideone.com/GigbNk">Ideone</a>.</p>
+<p>Check it online at <a href="https://ideone.com/GigbNk" title="C++ String Interning Example">Ideone</a>.</p>
 
 <p>Right now it is using fixed-length strings (7 in above code, increase for your needs), but using 
-  some template magic it can be made variable length. <a href="https://twitter.com/aruslan">Ruslan Abdikeev</a> 
-  has provided an alternative implementation that is cleaner and allows variable length strings.
-  There is a <a href="https://gist.github.com/alexpolt/5481a5db94ff94647bb0d114e322f0b9">gist</a> with code
-  and <a href="https://ideone.com/4oKRMR">Ideone</a> to see it in action.</p>
+  some template magic it can be made variable length. <a href="https://twitter.com/aruslan" title="Ruslan Abdikeev">Ruslan Abdikeev</a> has provided an 
+  alternative implementation that is cleaner and allows variable length strings.
+  There is a <a href="https://gist.github.com/alexpolt/5481a5db94ff94647bb0d114e322f0b9" title="C++ String Interning">gist</a> with code and <a href="https://ideone.com/4oKRMR" title="C++ String Interning Example">Ideone</a> to see it in action.</p>
 
 <p>GCC and Clang provide an extension that allows using a user defined raw literal operator template
-  for strings which makes the implementation simple and clean.</p>
+  for strings which makes the implementation simple and clean. <a href="https://twitter.com/aruslan" title="Ruslan Abdikeev">Ruslan Abdikeev</a> provided an
+  <a href="https://gist.github.com/alexpolt/532b48b9353e98e276b79296ec9f4ab6" title="C++ String Interning">implementation</a>.</p>
 
 <p>Another nice thing is that, since we turn a string into a type. We can use it everywhere where 
   a type can be used. First, let's add a macro:</p>
@@ -124,7 +123,7 @@ constexpr char ch(char const(&amp;s)[N], int i) {
   some_method( intern_t("overload two") );
 </code></pre>
 
-<p>Check it online at <a href="https://ideone.com/q3329k">Ideone</a>.</p>
+<p>Check it online at <a href="https://ideone.com/q3329k" title="C++ String Interning Example">Ideone</a>.</p>
 
 <p>Well, now the fun part. Because we now have the characters of a string as a parameter pack, we
   can parse it and do all sort of hacks with it. We can create a list of types for example or
@@ -136,8 +135,7 @@ constexpr char ch(char const(&amp;s)[N], int i) {
   Output: calc(100+20-10) = 110
 </code></pre>
 
-<p>Check it online at <a href="https://ideone.com/7Y0SvG">Ideone</a>
-  ( <a href="https://gist.github.com/alexpolt/aee1b6a8ac3d229fa36ada466f079c1e">gist</a> ).</p>
+<p>Check it online at <a href="https://ideone.com/7Y0SvG" title="C++ String Interning Calculator Example">Ideone</a> ( <a href="https://gist.github.com/alexpolt/aee1b6a8ac3d229fa36ada466f079c1e" title="C++ String Interning Calculator">gist</a> ).</p>
 
 <script>
 document.addEventListener( "DOMContentLoaded", function() { 
