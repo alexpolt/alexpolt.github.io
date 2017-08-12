@@ -1,11 +1,11 @@
 
 ##Memory Allocation Wisdom
 
-  Memory allocators are in fact primitive garbage collectors: one has to decide when it's okay
-  to reclaim memory back to OS. Modern garbage collectors are very sophisticated machines when 
+  Memory allocators are in fact primitive garbage collectors: it has to decide when it's okay
+  and how to recycle memory. Modern garbage collectors are very sophisticated machines when 
   it comes to memory handling and I thought we should take some lessons from them.
 
-  For example, consider the following case:
+  Just as one example, consider the following case:
 
     std::ifstream file{ "somefile.txt" }
     

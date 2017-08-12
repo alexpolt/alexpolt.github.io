@@ -70,7 +70,7 @@
 
   Also such thing as a [work-life balance][w] is not an empty phrase. As I said above we are very
   rational and we never work just for the sake of work (unless you are emotionally driven, as I
-  said above, like ambitions or passion). We know that doing the our best is going to bring some
+  said above, like ambitions or passion). We know that doing our best is going to bring some
   benefits in the future. Therefore it's important to find harmony between working and enjoing
   the results of your work.
 

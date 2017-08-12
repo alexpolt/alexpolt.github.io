@@ -1,5 +1,5 @@
 
-##When should one use r-value references and noexcept
+##When should One Use r-value References and noexcept
 
   With the introduction of move semantics into C++ one has to decide when and how
   to use it for the benefit. I have already written on the [problems][move] that it introduces.
