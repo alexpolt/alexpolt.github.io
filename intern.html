@@ -3,7 +3,7 @@
 
 <HEAD>
 
-  <title>String Interning in C++ - Alexandr Poltavsky, software developer</title>
+  <title>Useful Properties of String Interning in C++ - Alexandr Poltavsky, software developer</title>
 
   <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
@@ -63,7 +63,9 @@
   </div>
 
 
-<h2>String Interning in C++</h2>
+<h2>Useful Properties of String Interning in C++</h2>
+
+<h3>Description</h3>
 
 <p>String interning is useful because it saves space and also allows for fast string comparsion
   for equality by comparing just the pointers. And it is possible to do it quite easily in pure
@@ -87,31 +89,33 @@ constexpr char ch(char const(&amp;s)[N], int i) {
 </code></pre>
 
 <p>The idea is simple: turn a string into a type and use the powers of linker to collapse all
-  instances into one. Complete code: <a href="https://gist.github.com/alexpolt/44540ff2cfb81e312245cc5d2d6cb859" title="C++ String Interning">gist</a>.</p>
+  instances into one (code: <a href="https://gist.github.com/alexpolt/44540ff2cfb81e312245cc5d2d6cb859" title="C++ String Interning">gist</a>).</p>
 
 <p>An example of using it:</p>
 
 <pre><code>printf( "%p: %s", &amp;intern("Hellow"), intern("Hellow") );
 </code></pre>
 
-<p>Check it online at <a href="https://ideone.com/GigbNk" title="C++ String Interning Example">Ideone</a>.</p>
+<p>See online <a href="https://ideone.com/GigbNk" title="C++ String Interning Example">Ideone</a>.</p>
 
-<p>Right now it is using fixed-length strings (7 in above code, increase for your needs), but using 
-  some template magic it can be made variable length. <a href="https://twitter.com/aruslan" title="Ruslan Abdikeev">Ruslan Abdikeev</a> has provided an 
-  alternative implementation that is cleaner and allows variable length strings.
-  There is a <a href="https://gist.github.com/alexpolt/5481a5db94ff94647bb0d114e322f0b9" title="C++ String Interning">gist</a> with code and <a href="https://ideone.com/4oKRMR" title="C++ String Interning Example">Ideone</a> to see it in action.</p>
+<p>Right now it is using fixed-length strings. <a href="https://twitter.com/aruslan" title="Ruslan Abdikeev">Ruslan Abdikeev</a> has provided an  alternative 
+  implementation that is cleaner and allows variable length strings. There is a <a href="https://gist.github.com/alexpolt/5481a5db94ff94647bb0d114e322f0b9" title="C++ String Interning">gist</a> 
+  with code and <a href="https://ideone.com/4oKRMR" title="C++ String Interning Example">Ideone</a> to see it in action.</p>
 
 <p>GCC and Clang provide an extension that allows using a user defined raw literal operator template
   for strings which makes the implementation simple and clean. <a href="https://twitter.com/aruslan" title="Ruslan Abdikeev">Ruslan Abdikeev</a> provided an
-  <a href="https://gist.github.com/alexpolt/532b48b9353e98e276b79296ec9f4ab6" title="C++ String Interning">implementation</a>.</p>
+  <a href="https://gist.github.com/alexpolt/532b48b9353e98e276b79296ec9f4ab6" title="C++ String Interning">implementation</a>. There is a proposal <a href="http://open-std.org/JTC1/SC22/WG21/docs/papers/2013/n3599.html" title="Literal operator templates for strings">N3599</a> to add this to the standard and, no
+  suprise, it also talks about string interning.</p>
 
-<p>Another nice thing is that, because we turn a string into a type, we can use it everywhere where 
-  a type can be used. First, let's add a macro:</p>
+<h3>Other Uses</h3>
+
+<p>There are other interesting uses of string interning in C++. Because we turn a string into a 
+  type, we can use it everywhere where a type can be used. First, let's add a macro:</p>
 
 <pre><code>  #define intern_t(s) interned&lt;ch(s,0),ch(s,1),ch(s,2),ch(s,3),ch(s,4),ch(s,5),ch(s,6)&gt;::type
 </code></pre>
 
-<p>The name is arbitrary, I just want to show the technique. Now we can use it as a template 
+<p>The name is random, I just want to show the technique. Now we can use it as a template 
   parameter:</p>
 
 <pre><code>  some_template&lt; intern_t("hellow world") &gt;
@@ -123,12 +127,34 @@ constexpr char ch(char const(&amp;s)[N], int i) {
   some_method( intern_t("overload two") );
 </code></pre>
 
-<p>Check it online at <a href="https://ideone.com/q3329k" title="C++ String Interning Example">Ideone</a>.</p>
+<p><a href="https://ideone.com/q3329k" title="C++ String Interning Example">Ideone</a>.</p>
 
-<p>Well, now the fun part. Because we now have the characters of a string as a parameter pack, we
-  can parse it and do all sort of hacks with it. We can create a list of types for example or
-  anything else. Just as an example here's a primitive calculator that can only add or subtract
-  integer numbers:</p>
+<p>We can also use it in place of enums because it has a fixed address. Maybe not really good idea 
+  if you have hundreds of enums but for a couple it has the advantage of being self-describing.</p>
+
+<p>Have you ever been in a situation when you have a small fixed set of name-value pairs and you
+  wanted to map them in your program. Some programmers would create a small hash map for this.
+  But there is simpler and more efficient method using the same style as in string interning:</p>
+
+<pre><code>template&lt;typename K, typename V&gt; struct map {
+  static V value;
+}
+
+template&lt;typename K, typename V&gt; map&lt;K,V&gt;::value{};
+
+map&lt; intern_t("singleton") &gt;::value.do_action();
+</code></pre>
+
+<p>You can try it <a href="https://tio.run/##jVJNa8JAED1nf8VgaU0glX4XkphC6aUIOYkXFdluVrsQNyG7KW3F325nzSaxLZaenmbmvX3zZlhRnK8Y2@1OhGRZlXKImNKpyGMCRPN1kVHNI/ZKy8FgAEkMSpcV0yCk5qXkKWyIUykhV6A/Cg7DthASAEdpqgUDQweWS6XhjWYVn85Dsg2PPHDQ3GhFCdbiILDkjfn7nY@dyCV7Gn8vSqvy6nZq7pnypsncN6ogPDQOUHJdlRIERJDAA6ipmEMA/dlFHw0ScpLypZDc@lhoV3mdJxRX/oXn7/HS4pXFa4s3Fm8t3lm893AckxgOYRM1IWZc59JESpx2NNMl6ZrDOCZO2@SOzQSOI5YujG0yMBx2VnvpS89rCh52OkWJxaXbe5ZCC5qJT7O1p8fu4QBO1Uz2/FbQC5HHM8XhKP9v8tZM8paLFNJ8QZkWaLz23Yh1/OCgBYVqOm6Z/E5i5EP7e9Ke5JoW@6Xao5vUtxb@T2Ni6NHInzRnthlttkeYMdQXv@J60W1taBXaLzGyza2tqainxhS/UaIf24Lm7cFBFCiyJbvdFw">online</a> at tio.run. </p>
+
+<p>Another use is program internationalization: we can run some code for every interned string 
+  (just another static member) that will populate a map with strings that can later be used
+  for translation. Or we can apply the above mapping trick for that. The only problem is added
+  linker work.</p>
+
+<p>Because we now have the characters of a string as a parameter pack, we can parse it and do all 
+  sort of hacks with it. We can create a list of types for example or anything else. Just as an 
+  example here's a primitive calculator that can only add or subtract integer numbers:</p>
 
 <pre><code>  printf( "calc(100+20-10) = %d\n", calc_t("100+20-10")::value );
 
