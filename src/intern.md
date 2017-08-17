@@ -39,7 +39,7 @@
   GCC and Clang provide an extension that allows using a user defined raw literal operator template
   for strings which makes the implementation simple and clean. [Ruslan Abdikeev][a] provided an
   [implementation][gista1]. There is a proposal [N3599][] to add this to the standard and, no
-  suprise, it also talks about string interning.
+  surprise, it also talks about string interning.
 
 
 ###Other Uses

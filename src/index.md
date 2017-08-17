@@ -1,8 +1,8 @@
 
 
-* [String Interning in C++](intern.html)
+* [Useful Properties of String Interning in C++](intern.html)
 
-  I show how to get string interning in C++.
+  I show how to get string interning in C++ and what benefits it brings.
 
 
 * [Undefined Behaviour and Optimizations: GCC vs Clang vs MSC](undefined.html)
