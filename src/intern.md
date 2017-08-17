@@ -76,7 +76,7 @@
     
     map< intern_t("singleton") >::value.do_action();
 
-  You can try it [online][tio0] at tio.run. 
+  You can try it [online][tio0] at tio.run ( [gist][gist2] ).
 
   Another use is program internationalization: we can run some code for every interned string 
   (just another static member) that will populate a map with strings that can later be used
@@ -96,6 +96,7 @@
 
   [gist0]: https://gist.github.com/alexpolt/44540ff2cfb81e312245cc5d2d6cb859 "C++ String Interning"
   [gist1]: https://gist.github.com/alexpolt/aee1b6a8ac3d229fa36ada466f079c1e "C++ String Interning Calculator"
+  [gist2]: https://gist.github.com/alexpolt/10315cf1b3bb1e5888983b6db63b62f4 "C++ Mapping String Keys to Values at Compile Time"
   [ide0]: https://ideone.com/GigbNk "C++ String Interning Example"
   [ide1]: https://ideone.com/q3329k "C++ String Interning Example"
   [ide2]: https://ideone.com/7Y0SvG "C++ String Interning Calculator Example"
