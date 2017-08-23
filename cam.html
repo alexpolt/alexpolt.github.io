@@ -39,16 +39,17 @@
     var w = canvas.width, h = canvas.height, wc = w/2, hc = h/2, len = 100;
     var ctx = canvas.getContext("2d");
 
-    var cam = camera_create( { canvas: canvas, nobind: false, personal: false, pos: vec3(0,0,-1) } );
+    var cam = camera_create( { element: canvas, nobind: false, personal: false, pos: vec3(0,0,-1) } );
+    var x = vec3(), y = vec3(), z = vec3();
 
     requestAnimationFrame(draw);
 
     function draw() {
       requestAnimationFrame(draw);
       ctx.clearRect(0,0,w,h);
-      var x = mul( cam.m[0], len );
-      var y = mul( cam.m[1], len );
-      var z = mul( cam.m[2], len );
+      mulv( x, cam.m[0], len );
+      mulv( y, cam.m[1], len );
+      mulv( z, cam.m[2], len );
       x[1]=-x[1];
       y[1]=-y[1];
       z[1]=-z[1];

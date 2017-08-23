@@ -68,19 +68,24 @@ var camera_imp = {
     var d = clamp( delta+this.delta_max, 0, this.delta_max*2 );
     if( this.personal ) {
     } else {
-      this.m = mul( this.m_rot_x[d], this.m );
+      mmul( this.mout, this.m_rot_x[d], this.m );
+      mcopy( this.m, this.mout );
+      mclear( this.mout );
     }
   },
   rotate_y: function(delta) {
     var d = clamp( delta+this.delta_max, 0, this.delta_max*2 );
-    this.m = mul( this.m_rot_y[d], this.m );
+    mmul( this.mout, this.m_rot_y[d], this.m );
+    mcopy( this.m, this.mout );
+    mclear( this.mout );
   },
   move: function(v) { 
     if( !this.paused ) 
-      this.pos = add(this.pos,v); 
+      add(this.pos,this.pos,v); 
   },
   get_m: function() {
-    return this.m.reduce( function(r,e) { return r.concat(e); } );
+    for( var i=0; i < this.m.length; i++ ) this.mbuf.set( this.m[i], i*3 ); 
+    return this.mbuf;
   },
   get_pos: function() { return this.pos;  },
   reset_m: function() {
@@ -118,12 +123,14 @@ function camera_create( opts ) {
   o.m_rot_x = [];
   o.m_rot_y = []; 
   o.delta_max = 5.0;
+  o.mout = mat3();
+  o.mbuf = vec( 9 );
 
   for(var i=.0; i<=o.delta_max*2.0; i++) {
     var a = (i-o.delta_max)/o.delta_max*Math.PI/32.0;
     var c = Math.cos(a), s = Math.sin(a);
-    o.m_rot_x.push( mat3(vec3(1,0,0), vec3(0,c,-s), vec3(0,s,c), vec3(0,0,0)) );
-    o.m_rot_y.push( mat3(vec3(c,0,s), vec3(0,1,0), vec3(-s,0,c), vec3(0,0,0)) );
+    o.m_rot_x.push( mat3(vec3(1,0,0), vec3(0,c,-s), vec3(0,s,c)) );
+    o.m_rot_y.push( mat3(vec3(c,0,s), vec3(0,1,0), vec3(-s,0,c)) );
   }
 
   if( !o.nobind ) {
