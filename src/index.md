@@ -1,5 +1,10 @@
 
 
+* [Pattern: Narrow Contract](contract.html)
+
+  I wish I learned that simple software design principle earlier.
+
+
 * [Useful Properties of String Interning in C++](intern.html)
 
   I show how to get string interning in C++ and what benefits it brings.

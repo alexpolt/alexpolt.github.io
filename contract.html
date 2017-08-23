@@ -3,7 +3,7 @@
 
 <HEAD>
 
-  <title>Alexandr Poltavsky, software developer</title>
+  <title>Pattern: Narrow Contract - Alexandr Poltavsky, software developer</title>
 
   <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
@@ -63,115 +63,40 @@
   </div>
 
 
-<div id="contents">
+<h2>Pattern: Narrow Contract</h2>
 
-<ul>
-<li><p><a href="contract.html">Pattern: Narrow Contract</a></p>
+<p>Sadly I have only learned this very useful software design principle only recently. First, 
+  an example:</p>
 
-<p>I wish I learned that simple software design principle earlier.</p></li>
-<li><p><a href="intern.html">Useful Properties of String Interning in C++</a></p>
+<pre><code>void do_something( object *ptr ) {
 
-<p>I show how to get string interning in C++ and what benefits it brings.</p></li>
-<li><p><a href="undefined.html">Undefined Behaviour and Optimizations: GCC vs Clang vs MSC</a></p>
+  if( ptr ) {
+    ...
+  }
+}
+</code></pre>
 
-<p>Was thinking the other day about undefined behaviour and optimizations it allows and came up
-with a couple interesting short samples.</p></li>
-<li><p><a href="move-noexcept.html">When should One Use r-value References and noexcept</a></p>
+<p>The problem is the null check in the body of the function. It widens the contract for the input
+  and, as you might expect, the users of the function will happily rely on that. Which in turn
+  will lead to nullptr's crawling into the code.</p>
 
-<p>Some thoughts on when to use move semantics and exception specifiers.</p></li>
-<li><p><a href="alloc.html">Memory Allocation Wisdom</a></p>
+<p>There is a lesson: make the contract of a function as narrow as possible, let it do only what
+  its purpose is, not more.</p>
 
-<p>What lessons can we learn from garbage collectors.</p></li>
-<li><p><a href="error-handling.html">Lets Talk About Error Handling...</a></p>
+<p>While writing the post I was remembering the talk by Chandler Carruth <a href="https://www.youtube.com/watch?v=yG1OZ69H_-o" title="Arguing about Undefined Behavior">Undefined Behaviour</a>
+  where he draws a connection between undefined behaviour and narrow contract.</p>
 
-<p>What's really the right way to handle program errors? I have some ideas.</p></li>
-<li><p><a href="fp-round.html">Floating Point Rounding</a></p>
+<p>Actually it would make a lot of sense to make the contract clear and mark certain inputs as
+  leading to undefined behaviour:</p>
 
-<p>How to properly round a floating point number?</p></li>
-<li><p><a href="member-init.html">C++ Templates and Static Initialization <del>Order</del> Hell</a></p>
+<pre><code>// ptr == nullptr is undefined behaviour
+void do_something( object *ptr ) {
 
-<p>Ran into a nasty problem with how the global static objects are initialized in templates.</p></li>
-<li><p><a href="color-throne.html">Color Throne - Brain Gymnastics</a></p>
+  assert( ptr );
 
-<p>Released my first Android application on Google Play. It's a color puzzle-arcade game.
-Any installs and positive reviews are much welcome.</p></li>
-<li><p><a href="atomic-data.html">atomic_data: A Multibyte General Purpose Lock-Free Data Structure</a></p>
-
-<p>My <strong>greatest</strong> work so far. I am writing about lock-free programming gotchas and also present
-a hopefully novel design: <strong>atomic_data</strong>.</p></li>
-<li><p><a href="macros-checking.html">Using Macro Kung Fu to Easier Check Function Return Values</a></p>
-
-<p>Checking multiple function calls with one macro.</p></li>
-</ul>
-
-<blockquote>
-  <p>Program execution could be viewed as data flowing across scopes.</p>
-</blockquote>
-
-<ul>
-<li><p><a href="empty-value.html">Some Problems with C++ Move Semantics</a></p>
-
-<p>The C++ brings joy, but problems too.</p></li>
-<li><p><a href="perfect-hashing.html">Free Variables Perfect Hashing Algorithm</a></p>
-
-<p>A generalization and simplification of the CHM Perfect Hashing Algorithm.</p></li>
-<li><p><a href="random-probing.html">Consistent Hashing Revisited</a></p>
-
-<p>Consistent hashing is used to balance load in case a bucket (server) goes bad.</p></li>
-<li><p><a href="cpp-property.html">C++ Properties</a></p>
-
-<p>One more nugget from C++.</p></li>
-</ul>
-
-<blockquote>
-  <p>When serializing data into a file, developers often make a dry run to calculate
-the size for the header. One possible workaround: add a size data member as the
-last field in the header struct, then just write the header at the end of the file.</p>
-</blockquote>
-
-<ul>
-<li><p><a href="values.html">Value Semantics</a></p>
-
-<p>Some thoughts on using values vs pointers/references.</p></li>
-<li><p><a href="polymorphism.html">Polymorphism</a></p>
-
-<p>A couple notes on polymorphic behaviour.</p></li>
-<li><p><a href="exceptions.html">C++ Exceptions</a></p>
-
-<p>Neverending struggle to work out the rules of using C++ exceptions, my thoughts on that. <br />
-TLDR. Use them almost always.</p></li>
-</ul>
-
-<blockquote>
-  <p>#define that (*this)  </p>
-
-<p>that.value = ...</p>
-</blockquote>
-
-<ul>
-<li><a href="vector-push.html">The Way <em>operator&lt;&lt;</em> and <em>operator&gt;&gt;</em> Should Have Been Overloaded</a></li>
-</ul>
-
-<blockquote>
-  <p><em>std::vector&lt;int&gt; v{}; int i{};</em> <br />
-<em>v &lt;&lt; 1 &lt;&lt; 2;</em> <br />
-<em>v >> i;</em></p>
-</blockquote>
-
-<ul>
-<li><p><a href="print-fp.html">Print-format a Float in Base-10</a></p>
-
-<p>A hack for quick and easy printing of a floating point number in base-10.</p></li>
-</ul>
-
-<div>
-<script>
-  document.getElementById("main-menu-0").classList.add("active");
-</script>
-</div>
-
-</div>
-
+  ...
+}
+</code></pre>
 
 <script>
 document.addEventListener( "DOMContentLoaded", function() { 
