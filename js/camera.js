@@ -51,6 +51,7 @@ var camera_imp = {
     }
   },
   keydown: function(e) {
+    if( this.paused ) return;
     var p = 0;
     //32-space,82-r,65-a,83-s,68-d,87-w,37,38,39,40-left,up,right,down,27-esc,16-shift,17-ctrl
     switch( e.keyCode ) {

@@ -477,13 +477,10 @@ void main() {
 
       console.info( "sorting lights in cells" );
 
-      for(var z=0.; z<cells; z++) {
-      for(var y=0.; y<cells; y++) {
-      for(var x=0.; x<cells; x++) {
-        var idx = z*cells*cells+y*cells+x;
-        lights[idx].sort( function(a,b) { return a.dist_to_cell - b.dist_to_cell; } );
-        if( lights[idx].length < cell_min ) cell_min = lights[idx].length;
-      }}}
+      foreach( lights, function(e) {
+        e.sort( function(a,b) { return a.dist_to_cell - b.dist_to_cell; } );
+        if( e.length < cell_min ) cell_min = lights[idx].length;
+      });
     }
 
     console.info( "max lights per cell = ", cell_max, ", min = ", cell_min );
