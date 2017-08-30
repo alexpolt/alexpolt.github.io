@@ -1,6 +1,8 @@
 
 ##Dynamic Lighting using Primitive ID: Lessons Learned
 
+  <span class="note">WebGL demo is at the end of the post.</span>
+
   One day I had an idea to implement dynamic lighting by aggregating and providing lights per face
   in the pixel shader. The shader was then going to sample it from a texture using primitive ID
   (gl\_PrimitiveID/SV\_PrimitiveID). I thought it could be quite efficient due to coherent warp 
