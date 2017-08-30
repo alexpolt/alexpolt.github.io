@@ -65,8 +65,8 @@
   Below is the resulting WebGL demo. Since it's not easy to combine per face lighting with 
   filtering, I switched to clustered lighting: lights are put into clusters based on an effective 
   radius and uploaded into a float 3D texture (really a 2D texture). The shader samples 8 nearby
-  clusters and does trilinear filtering.  There is still an option to do lighting per pixel or 
-  per vertex.
+  clusters and does trilinear filtering. There is still an option to do lighting per pixel or 
+  per vertex. The model in the demo is a statue of [Vladimir Ilyich][lenin].
 
 
 <div class="webgl" webgl_version="1" webgl_div="shader0" init="load_demo">
