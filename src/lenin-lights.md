@@ -1,37 +1,9 @@
 
 ##Dynamic Lighting using Primitive ID
 
-  Never thought of using gl\_PrimitiveID (SV\_PrimitiveID) for anything but recently realized that
-  lights can be grouped for a primitive and iterated over in the pixel shader. I decided to cook up
-  a WebGL Demo showing this (in WebGL1 I have to supply primitive id in a buffer and use float 
-  textures for light parameters). 
-  
-  The lights are clustered into a 3D array of 25x25x25 depending on the distance from a cell. 
-  Handreds of lights are randomly put into the array. During a frame a dynamic float 
-  texture is updated: for every face we load the lights from the precomputed array (based on the 
-  face's center point) and write them into the texture. In the shader we compute the uv using the 
-  primitive id and sample it for each light. The lights are not animated to minimize per frame 
-  computations. Also JavaScript performance varies between browsers, as an instance take a look
-  at a [division test][d] (try it in different browsers). I noticed that my desktop Chrome is 
-  2 times slower at divides than desktop Firefox.
-  
-  While it sounds quite simple, it actually was problematic to fight popping. It is really hard
-  to find the best combination of the number of lights per cluster and the number of lights in
-  the shader. Also difficult is to find parameters for the lighting equation so it looks good.
-  And I want to note that I'm not doing physically correct lighting here, just something that
-  works, very hacky.
-
-  Also the lighting can be done **per vertex** instead of **per face**. To see the difference 
-  I have added a button at the bottom (there are also buttons for rotation and fullscreen). 
-  The great advantage of per vertex is no popping, but at the cost of quality. And it can be 
-  surprising, but performance might be worse (I'm not sure, needs to be measured).
-
-  So here is the summary: it is certainly possible to do dynamic lighting using primitive ID but 
-  benefits are questionable: too many lights are needed to be provided per face to eliminate 
-  popping (in the pixel shader I use a maximum of 32 lights per face). If not for lighting then 
-  primitive id can also be used to do the [tri info trick][a] without using barycentrics: we can 
-  use it to reference into index/vertex buffers and do all the transformations by hand in the 
-  shader.
+  This is an initial demo that failed as I could not eliminate popping. You click and rotate the 
+  model ( a statue of [Lenin][lenin] ) to get an idea. Also try clicking "Per face/Per vertex"
+  button to switch between per vertex/per face lighting.
 
 
 <div class="webgl" webgl_version="1" webgl_div="shader0" init="load_demo">
@@ -68,7 +40,7 @@ uniform vec2 screen;
 uniform float dmax;
 
 const float pi = 3.14159265;
-const float lperface = 48.;
+const float lperface = 32.;
 
 uniform float vmode;
 uniform vec2 ltexsize;
@@ -148,7 +120,7 @@ varying vec3 color;
 varying float pid;
 
 const float pi = 3.14159265;
-const float lperface = 48.;
+const float lperface = 32.;
 
 uniform float vmode;
 uniform vec2 ltexsize;
@@ -222,9 +194,6 @@ void main() {
 <div class="clear">
 </div>
 
-  By the way, have you recognized who's that statue rotating? If not then here is some [info][l].
-
-
 <div>
 
 <script src="js/common.js"></script>
@@ -271,7 +240,7 @@ void main() {
   var vv, vb, nb, fcb, idb;
   var d_max=0.0; cells=16, lights_max=300, rotate = true;
   var lights, lradius = 1.0/cells*8;
-  var lperface=48, lsort=true, vmode=false;
+  var lperface=32, lsort=true, vmode=false;
   var per_frame=10, ltexw, ltexh, ltex, ltexupdate=false;
 
   function lenin (cb) {
@@ -532,7 +501,6 @@ void main() {
 </div>
 
 
-[a]: shader.html
-[l]: lenin.html "Vladymir Lenin"
+[lenin]: lenin.html "Vladymir Lenin"
 [d]: https://jsfiddle.net/ed8rccow/6/ "The Division Perfomance Test"
 

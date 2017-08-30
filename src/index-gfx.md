@@ -1,9 +1,11 @@
 
 
-* [Dynamic Lighting using Primitive ID](lenin-lights.html)
+* [Dynamic Lighting using Primitive ID: Lessons Learned](lenin-bright.html)
 
-  Had an idea that one can use gl\_PrimitiveID ( SV\_PrimitiveID ) to do dynamic lighting. 
-  Made it into a WebGL demo.
+  Got an idea to implement dynamic lighting per face with the help of gl\_PrimitiveID 
+  ( SV\_PrimitiveID ). I thought it could have benefits. In the end I was faced with severe 
+  popping issues. I describe my experience fighting it and lessons learned about lighting with 
+  many lights. Made it into a WebGL demo.
 
 
 * [Shader Tricks: Retrieving Triangle Location and Edges in Pixel Shader and More](shader.html)

@@ -110,15 +110,18 @@ function neg ( v ) { return -v; }
 function floor ( v ) { return Math.floor(v); }
 function ceil ( v ) { return Math.ceil(v); }
 function round ( v ) { return Math.round(v); }
+function fract ( v ) { return v - floor(v); }
 function sqrt ( v ) { return Math.sqrt(v); }
 function clamp ( v, min, max ) { return Math.max( min, Math.min( max, v ) ); }
 
-function absv ( v ) { for( var i=0; i < v.length; i++ ) v[i] = Math.abs(v[i]); return v; }
+function absv ( v ) { for( var i=0; i < v.length; i++ ) v[i] = abs(v[i]); return v; }
 function negv ( v ) { for( var i=0; i < v.length; i++ ) v[i] = -v[i]; return v; }
-function floorv ( v ) { for( var i=0; i < v.length; i++ ) v[i] = Math.floor(v[i]); return v; }
-function ceilv ( v ) { for( var i=0; i < v.length; i++ ) v[i] = Math.ceil(v[i]); return v; }
-function roundv ( v ) { for( var i=0; i < v.length; i++ ) v[i] = Math.round(v[i]); return v; }
-function sqrtv ( v ) { for( var i=0; i < v.length; i++ ) v[i] = Math.sqrt(v[i]); return v; }
+function floorv ( v ) { for( var i=0; i < v.length; i++ ) v[i] = floor(v[i]); return v; }
+function ceilv ( v ) { for( var i=0; i < v.length; i++ ) v[i] = ceil(v[i]); return v; }
+function roundv ( v ) { for( var i=0; i < v.length; i++ ) v[i] = round(v[i]); return v; }
+function fractv ( v ) { for( var i=0; i < v.length; i++ ) v[i] = fract(v[i]); return v; }
+function sqrtv ( v ) { for( var i=0; i < v.length; i++ ) v[i] = sqrt(v[i]); return v; }
+function wrapv ( v ) { for( var i=0; i < v.length; i++ ) v[i] = fract(v[i]); return v; }
 function clampv ( v, min, max ) { 
   for( var i=0; i < v.length; i++ ) v[i] = Math.max( min, Math.min(max, v[i]) ); return v; }
 

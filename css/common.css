@@ -107,7 +107,8 @@ span.bio {
 }
 span.note {
   color: silver;
-  font-size: 60%;
+  font-size: 0.9em;
+  font-style: italic;
 }
 span.email {
   font-weight: bold;
@@ -465,6 +466,15 @@ div.code {
 code {
   overflow: auto;
 }
+
+.img35 {
+  width: 35%;
+}
+
+.mobile .img32 {
+  width: 50%;
+}
+
 
 
 
