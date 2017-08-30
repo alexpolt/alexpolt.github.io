@@ -5,6 +5,8 @@
   model ( a statue of [Lenin][lenin] ) to get an idea. Also try clicking "Per face/Per vertex"
   button to switch between per vertex/per face lighting.
 
+  Here is the [post][] that describes what was wrong and how I solved it.
+
 
 <div class="webgl" webgl_version="1" webgl_div="shader0" init="load_demo">
   <img class="link" src="images/lenin.png" title="Click to show WebGL demo" alt="WebGL demo"/><br/>
@@ -503,4 +505,6 @@ void main() {
 
 [lenin]: lenin.html "Vladymir Lenin"
 [d]: https://jsfiddle.net/ed8rccow/6/ "The Division Perfomance Test"
+[post]: http://alexpolt.github.io/lenin-bright.html "Dynamic Lighting using Primitive ID: Lessons Learned"
+
 

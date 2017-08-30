@@ -19,7 +19,7 @@
   No matter how hard I tried I could not completely remove this popping effect. I noticed that
   it becomes more intense when increasing the number of lights or effective radius.
   [Arseny Kapoulkine][twitter] suggested in a discussion that I really should do it per vertex 
-  rather than per face. I tried and added a button to the [demo][] with a label "Per face/Per 
+  rather than per face. I tried and added a button to the demo with a label "Per face/Per 
   vertex". In the lighting equation (really a hack and not physically based) I use the normal 
   so the quality dropped, but popping went away. That was an indication of where to look.
 
