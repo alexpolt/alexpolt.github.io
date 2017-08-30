@@ -557,7 +557,8 @@ void main() {
       if( !animate ) console.info( "sorting lights in cells" );
 
       foreach( lights_data, function(e,i){
-        e.sort( function(a,b) { return a.dist_to_cell - b.dist_to_cell; } );
+        if( e.length )
+          e.sort( function(a,b) { return a.dist_to_cell - b.dist_to_cell; } );
       } );
     }
 
@@ -576,6 +577,8 @@ void main() {
     for(var x=0; x<cells; x++) {
       var zx = z % zsqrt, zy = floor( z / zsqrt );
       var idx = z*cells*cells+y*cells+x;
+      if( !lights_data[idx].length ) 
+        lights_data[idx].push( vec4(x/cells+pxh, y/cells+pxh, z/cells+pxh, 0) );
       foreach( lights_data[idx], function(e,i) {
         if( i >= lpercell ) return;
         var offx = zx*cells, offy = zy*cells;
