@@ -7,8 +7,8 @@
   **literal and non-const/non-reference**.
 
   The following is a very short piece of code that will turn a data structure into a std::tuple. 
-  And you can then use that tuple to serialize data, read it back, bind it to scripting languages 
-  or what else.
+  And you can then use that tuple to print it out, serialize data, read it back, bind it to a 
+  scripting language or what else.
 
     //helper to get type info
     struct type_id {
@@ -43,7 +43,8 @@
     template<typename T, int N>
     using as_tuple_t = decltype( get_type_tuple< T >( std::make_index_sequence< N >{} ) );
 
-  And here is how it can be used:
+  That's all for the type inference part. Now we'll just add a couple helper functions and we're 
+  ready to go :
 
     //wrapper around std::get to reverse index (tuple data members are stored in reverse order)
     template<int N, typename T> auto& getn(T& t) { return std::get< std::tuple_size<T>::value-1-N >(t); }
