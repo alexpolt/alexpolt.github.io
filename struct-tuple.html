@@ -102,8 +102,7 @@ constexpr auto get_type_tuple( std::index_sequence&lt;N...&gt; idx ) {
 }
 
 //and here is our hot and fresh out of kitchen tuple
-//usage: as_tuple_t&lt; data_t, 3 &gt;
-//3 - is the number of fields in data_t
+//usage: as_tuple_t&lt; data_t, 3 &gt;, 3 - is the number of fields in data_t
 template&lt;typename T, int N&gt;
 using as_tuple_t = decltype( get_type_tuple&lt; T &gt;( std::make_index_sequence&lt; N &gt;{} ) );
 </code></pre>

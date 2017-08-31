@@ -38,8 +38,7 @@
     }
    
     //and here is our hot and fresh out of kitchen tuple
-    //usage: as_tuple_t< data_t, 3 >
-    //3 - is the number of fields in data_t
+    //usage: as_tuple_t< data_t, 3 >, 3 - is the number of fields in data_t
     template<typename T, int N>
     using as_tuple_t = decltype( get_type_tuple< T >( std::make_index_sequence< N >{} ) );
 
