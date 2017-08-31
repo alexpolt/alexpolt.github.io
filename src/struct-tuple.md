@@ -37,13 +37,22 @@
       return std::tuple< std::tuple_element_t< get_type_id<T>(idx, sz-N), type_id::type_list >... >{};
     }
    
-    //and here is our hot and fresh out of kitchen tuple
-    //usage: as_tuple_t< data_t, 3 >, 3 - is the number of fields in data_t
-    template<typename T, int N>
-    using as_tuple_t = decltype( get_type_tuple< T >( std::make_index_sequence< N >{} ) );
+    //get fields number using expression SFINAE
+    template<typename T, int... N>
+    constexpr auto fields_number(...) { return sizeof...(N)-1; }
+    
+    template<typename T, int... N>
+    constexpr auto fields_number(int) -> decltype( T{(N,type_id{})...}, sizeof(0) ) { return fields_number<T,N...,0>(0); }
+    
+    //and here is our hot and fresh out of kitchen tuple, alias template
+    //usage: as_tuple_t< data_t >
+    template<typename T>
+    using as_tuple_t = decltype( get_type_tuple< T >( std::make_index_sequence< fields_number<T>(0) >{} ) );
+
 
   That's all for the type inference part. Now we'll just add a couple helper functions and we're 
   ready to go :
+
 
     //wrapper around std::get to reverse index (tuple data members are stored in reverse order)
     template<int N, typename T> auto& getn(T& t) { return std::get< std::tuple_size<T>::value-1-N >(t); }
@@ -70,7 +79,7 @@
     
       data1 d1{ "Hello", 1.0, '!' };
       
-      auto& t = ( as_tuple_t< data1, 3 >& ) d1;
+      auto& t = ( as_tuple_t< data1 >& ) d1;
       
       getn<0>(t) = "Hello World!";
       
@@ -80,9 +89,9 @@
     
     }
 
-  See it in action online at [tio.run](https://goo.gl/k8isXW) or [Ideone](https://ideone.com/5P0Bpt).
+  See it in action online at [tio.run](https://goo.gl/DggwYv) or [Ideone](https://ideone.com/AOnPJM).
 
-  The compiled code [looks clean](https://godbolt.org/g/52A8Bw). MSC has some trouble with 
+  The compiled code [looks clean](https://godbolt.org/g/x814oC). MSC has some trouble with 
   std::tuple\_elemen\_t. I use it only to get a type from a type list by an index. You can easily
   replace it with custom type list.
 
