@@ -80,7 +80,7 @@
     
     }
 
-  See it in [action online at tio.run](https://goo.gl/k8isXW) or [Ideone](https://ideone.com/5P0Bpt).
+  See it in action online at [tio.run](https://goo.gl/k8isXW) or [Ideone](https://ideone.com/5P0Bpt).
 
   The compiled code [looks clean](https://godbolt.org/g/52A8Bw). MSC has some trouble with 
   std::tuple\_elemen\_t. I use it only to get a type from a type list by an index. You can easily
@@ -89,7 +89,7 @@
   The problem with std::tuple is that it reverses the order of fields but its easy to fix with
   a wrapper (getn in the code). Also it's formally not a POD type. And its std::get method 
   is only compile-time (with the help of some code we can do it at runtime but not so efficient). 
-  Therefore it could be better to write a custom wrapper with all bells and whistles. Also read 
+  Therefore it could be better to write a custom tuple with all the bells and whistles. Also read 
   that [comment](https://goo.gl/uL9hgC) from Howard Hinnant on std::tuple.
 
 
