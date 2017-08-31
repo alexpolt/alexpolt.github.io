@@ -10,14 +10,6 @@
   And you can then use that tuple to serialize data, read it back, bind it to scripting languages 
   or what else.
 
-    //our data
-    struct data1 {
-      char const* c;
-      float b;
-      int a;
-      char d;
-    };
-    
     //helper to get type info
     struct type_id {
     
@@ -44,22 +36,61 @@
       constexpr std::size_t sz = sizeof...(N) - 1;
       return std::tuple< std::tuple_element_t< get_type_id<T>(idx, sz-N), type_id::type_list >... >{};
     }
-    
+   
     //and here is our hot and fresh out of kitchen tuple
-    //number 4 is the number of fields in our data structure
-    using data1_as_tuple = decltype( get_type_tuple< data1 >( std::make_index_sequence< 4 >{} ) );
+    //usage: as_tuple_t< data_t, 3 >
+    //3 - is the number of fields in data_t
+    template<typename T, int N>
+    using as_tuple_t = decltype( get_type_tuple< T >( std::make_index_sequence< N >{} ) );
 
-  See it in [action online at tio.run](https://goo.gl/HPS2Hr).
+  And here is how it can be used:
 
-  The compiled code [looks clean](https://godbolt.org/g/no5cnc). MSC has some trouble with 
+    //wrapper around std::get to reverse index (tuple data members are stored in reverse order)
+    template<int N, typename T> auto& getn(T& t) { return std::get< std::tuple_size<T>::value-1-N >(t); }
+    
+    template<std::size_t... N, typename T0, typename T1>
+    void tuple_do_impl( std::index_sequence<N...>, T0& t, T1 fn ) {
+      char dummy[]{ ( fn( getn<N>(t) ), '\0' )... };
+      (void) dummy;
+    }
+    
+    //helper to run code for every member of tuple
+    template<typename T0, typename T1>
+    void tuple_do( T0& t, T1 fn ) {
+      tuple_do_impl( std::make_index_sequence< std::tuple_size<T0>::value >{}, t, fn );
+    }
+    
+    struct data1 {
+      char const* a;
+      float b;
+      char c;
+    };
+    
+    int main() {
+    
+      data1 d1{ "Hello", 1.0, '!' };
+      
+      auto& t = ( as_tuple_t< data1, 3 >& ) d1;
+      
+      getn<0>(t) = "Hello World!";
+      
+      tuple_do( t, []( auto& value ) { 
+        std::cout << typeid(value).name() << ": " << value << ", "; 
+      } );
+    
+    }
+
+  See it in [action online at tio.run](https://goo.gl/k8isXW) or [Ideone](https://ideone.com/5P0Bpt).
+
+  The compiled code [looks clean](https://godbolt.org/g/52A8Bw). MSC has some trouble with 
   std::tuple\_elemen\_t. I use it only to get a type from a type list by an index. You can easily
   replace it with custom type list.
 
-  The problem with std::tuple is that it reverses the order of fields. Also it's formally not a 
-  POD type. And its std::get method is only compile-time (with the help of some code we can do 
-  it at runtime but not so efficient). Therefore it could be better to write a custom wrapper 
-  with all bells and whistles. Also read that [comment](https://goo.gl/uL9hgC) from Howard Hinnant 
-  on std::tuple.
+  The problem with std::tuple is that it reverses the order of fields but its easy to fix with
+  a wrapper (getn in the code). Also it's formally not a POD type. And its std::get method 
+  is only compile-time (with the help of some code we can do it at runtime but not so efficient). 
+  Therefore it could be better to write a custom wrapper with all bells and whistles. Also read 
+  that [comment](https://goo.gl/uL9hgC) from Howard Hinnant on std::tuple.
 
 
 
