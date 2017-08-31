@@ -1,5 +1,11 @@
 
 
+* [Turn a data structure into a tuple using pure C++ (C++14)](struct-tuple.html)
+
+  Wouldn't it be nice to turn a POD data structure into a tuple? It can be done with just C++
+  in about ten lines of code.
+
+
 * [Pattern: Narrow Contract](contract.html)
 
   I wish I learned that simple software design principle earlier.

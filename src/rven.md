@@ -29,34 +29,29 @@
 
   I'm looking for a job that is mostly about C++ and possibly computer graphics. I have been 
   interested in computers since I was young and over time acquired a good understanding of 
-  computer architecture, data structures and algorithms. For example, in the field of 3D graphics 
-  I've come up with a new [*anti-aliasing algorthim (DFAA)*][DFAA] ( the article was approved for a 
-  publication in the [JCGT][] journal after some editing ). Also, I have created a C++ library 
-  [*atomic\_data*][ad] for doing lock-free programming with data structures of any size ( all code, 
-  including Android Studio NDK project, is available on [GitHub][] ).
+  computer architecture, data structures and algorithms. My main tool is C++ but I also feel
+  comfortable with Java, JavaScript, PHP, SQL (MySQL). I have a couple of C++ open source 
+  projects and a number of publications.
 
-  [DFAA]: http://alexpolt.github.io/dfaa.html "DFAA Anti-Aliasing Algorthim"
-  [JCGT]: http://jcgt.org/ "the Journal of Computer Graphics Techniques"
-  [GitHub]: https://github.com/alexpolt/ "GitHub: Alexandr Poltavsky"
-  [ad]: http://alexpolt.github.io/atomic-data.html 
-                  "atomic_data: A Multibyte General Purpose Lock-Free Data Structure"
-
+  Computer graphics is mostly my hobby (not a lot of work in Russia in this area) but I managed
+  to get a deep understanding of computer graphics algorithms and technologies. I know OpenGL
+  and DirectX (9 and 11) APIs, HLSL and GLSL. I started writing my own graphics engine and made
+  a number of publications with WebGL demos (links are in the Projects and Publications section).
 
 
 ###Technical Skills
 
-  * Good grasp of C++11/C++14 and Standard Template Library (STL)
-  * Familiar with DirectX 9, DirectX 11 and OpenGL APIs
-  * Have experience with HLSL and GLSL
-  * Studied NVIDIA CUDA architecture and wrote a sample kernel
-  * Experience with Java and JNI
-  * Some knowledge of the Web technologies (PHP, JavaScript, HTML, a little of Perl)
-  * A lot of experience with MySQL, a little with Oracle PL/SQL
+  * C++11/C++14 and Standard Template Library (STL)
+  * DirectX 9, DirectX 11 and OpenGL APIs
+  * HLSL and GLSL, Compute Shaders
+  * Experience with Java, including Android and JNI
+  * Web technologies (PHP, JavaScript, HTML, a little of Perl)
+  * SQL (mostly MySQL, a little with Oracle PL/SQL)
   * Good understanding of classic multithreaded and lock-free programming
-  * Able to look into assembly output and optimize programs for speed using SIMD extensions
+  * Able to look into assembly output and optimize programs for speed
   * Good math skills (linear algebra, differential calculus, trigonometry)
-  * Worked with SVN and GIT
-  * Used to Bash and Linux
+  * SVN and GIT
+  * Linux (Bash, VIM, other command line tools)
 
 
 ###Work Experience
@@ -92,12 +87,8 @@
 
   Took a break from active career to try to develop personal projects. Tried to develop a 
   CMS (Content Management System) and launch a news web site, took part-time gigs, later 
-  developed a Java app for Google Play Store (Color Throne). 
-
-  Used that time to boost my C++ skills, got a deep understanding of new features in C++11.
-  Also read a lot about computer graphics algorithms and rendering techniques, wrote a couple 
-  programs, came up with a new anti-aliasing algorithm (*DFAA*). Got a good idea of lock-free
-  programming and came up with a new lock-free data structure *atomic\_data*.
+  developed a Java app for Google Play Store (Color Throne). Also during that time started
+  writing my graphics engine, created a lock-free data structure, made a number of WebGL demos.
   
 
 ###Education
@@ -107,13 +98,20 @@
 
 ###Certificates
 
-  * [Zend Certified Engineer](http://www.zend.com/en/yellow-pages/ZEND004080) (LAMP software stack)
-
   * [Mail.ru C++ Gold Certificate](https://certification.mail.ru/certificates/d7f3561b-7cda-44b7-9110-1b0fc35f0285/en/)
 
+  * [Zend Certified Engineer](http://www.zend.com/en/yellow-pages/ZEND004080) (LAMP software stack)
 
 
-###Projects and Publications
+
+###Projects
+
+###Publications
+  
+  * [Useful Properties of String Interning in C++](http://alexpolt.github.io/intern.html)
+
+    C++. I show how to get string interning in C++ and what benefits it brings.
+
 
   * [Introducing DFAA anti-aliasing algorithm](http://alexpolt.github.io/dfaa.html)
 
@@ -149,4 +147,10 @@
 
  </div>
 
+
+  [DFAA]: http://alexpolt.github.io/dfaa.html "DFAA Anti-Aliasing Algorthim"
+  [JCGT]: http://jcgt.org/ "the Journal of Computer Graphics Techniques"
+  [GitHub]: https://github.com/alexpolt/ "GitHub: Alexandr Poltavsky"
+  [ad]: http://alexpolt.github.io/atomic-data.html 
+                  "atomic_data: A Multibyte General Purpose Lock-Free Data Structure"
 
