@@ -1,5 +1,5 @@
 
-##Turn a data structure into a tuple using pure C++ (C++14)
+##Turn a Data Structure Into a Tuple Using Pure C++ (C++14)
 
   RTTI has long been a pain in C++. People used all sorts of tools ranging from macros to 
   domain specific languages to get structure info at runtime. What if all you need is just
