@@ -51,6 +51,10 @@
 
   See it in [action online at tio.run](https://goo.gl/HPS2Hr).
 
+  The compiled code [looks clean](https://godbolt.org/g/no5cnc). MSC has some trouble with 
+  std::tuple\_elemen\_t. I use it only to get a type from a type list by an index. You can easily
+  replace it with custom type list.
+
   The problem with std::tuple is that it reverses the order of fields. Also it's formally not a 
   POD type. And its std::get method is only compile-time (with the help of some code we can do 
   it at runtime but not so efficient). Therefore it could be better to write a custom wrapper 
