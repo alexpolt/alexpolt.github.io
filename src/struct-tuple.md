@@ -6,7 +6,7 @@
   structure data member types? And it turns out in C++14 it's an easy thing if your types are
   literal and non-const.
 
-  The following is a very short piece of code with that turn a data structure into a std::tuple. 
+  The following is a very short piece of code that will turn a data structure into a std::tuple. 
   And you can then use that tuple to serialize data, read it back, bind it to scripting languages 
   or what else.
 
