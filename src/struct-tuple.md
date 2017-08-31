@@ -86,7 +86,7 @@
   std::tuple\_elemen\_t. I use it only to get a type from a type list by an index. You can easily
   replace it with custom type list.
 
-  The problem with std::tuple is that it reverses the order of fields but its easy to fix with
+  The problem with std::tuple is that it reverses the order of fields but it's easy to fix with
   a wrapper (getn in the code). Also it's formally not a POD type. And its std::get method 
   is only compile-time (with the help of some code we can do it at runtime but not so efficient). 
   Therefore it could be better to write a custom tuple with all the bells and whistles. Also read 
