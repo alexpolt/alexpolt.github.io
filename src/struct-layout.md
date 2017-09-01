@@ -36,7 +36,9 @@
     offset C::data = 16 //Ahaha, Microsoft, please, stop! :)
 
   On 32 bits the layout is the same. Yes, I understand, non-POD means no moral right to ask for 
-  anything. But if you do something like this, you better have some rationale.
+  anything. But if you do something like this, you better have some rationale. My hypothesis is 
+  that Visual C++ align every class in an inheritance hierarchy independently taking the alignment 
+  from base classes. And it's a great fault if that is so.
 
 
   [p]:https://godbolt.org/g/H1pcGM
