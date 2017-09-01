@@ -125,7 +125,7 @@ vec3 getc(float x) {
   colors[3]=vec3(70, 80, 100)/255.;
   colors[4]=vec3(180, 60, 40)/255.;
 
-  float v = mod(x,5.);
+  float v = floor( mod(x,5.) );
 
   if(v==0.) return colors[0];
   if(v==1.) return colors[1];
@@ -239,7 +239,7 @@ vec3 getc(float x) {
   colors[3]=vec3(70, 80, 100)/255.;
   colors[4]=vec3(180, 60, 40)/255.;
 
-  float v = mod(x,5.);
+  float v = floor( mod(x,5.) );
 
   if(v==0.) return colors[0];
   if(v==1.) return colors[1];
@@ -372,7 +372,7 @@ void main() {
   }
 
   var vv, vb, nb, fcb, idb;
-  var d_max=0.0, cells=16, lights_max=250, rotate = true;
+  var d_max=0.0, cells=16, lights_max=200, rotate = true;
   var lights, lradius = 4./cells;
   var lpercell=12, lsort=true, vmode=false;
   var per_frame=0, ltexw, ltexh, ltex, ltexupdate=false;
@@ -429,7 +429,7 @@ void main() {
         but_nlights.disabled = true;
         setTimeout( function() {
           lights_max = n;
-          load_lights();
+          load_lights({reload: false});
           ltexupdate = true;
           but_nlights.innerHTML = "Ok";
           but_nlights.disabled = false;
@@ -516,9 +516,11 @@ void main() {
 
   }
 
-  function load_lights(animate) {
+  function load_lights(opts) {
 
     var v = vec4(), ldir = vec4(), pxh = 0.5*1.0/cells;
+
+    var opts = opts || {}, animate = opts.animate, reload = opts.reload;
 
     if( !animate ) {
       console.info( "computing lights clusters: ", Math.pow(cells,3)*lights_max, "loop iterations" );
@@ -532,7 +534,8 @@ void main() {
       var l;
 
       if( !animate )
-        lights.push( l = vec4( Math.random(), Math.random(), Math.random(), n ) );
+        l = vec4( Math.random(), Math.random(), Math.random(), n+1  );
+        //lights.push( l = vec4( Math.random(), Math.random(), Math.random(), n ) );
       else
         l = lights_animate( lights[n] );
 
@@ -542,7 +545,7 @@ void main() {
         v[0] = x/cells+pxh; 
         v[1] = y/cells+pxh; 
         v[2] = z/cells+pxh;
-        v[3] = n;
+        v[3] = n+1;
         sub(ldir, l, v);
         var d = len(ldir);
         if( d > lradius ) continue;
@@ -578,10 +581,13 @@ void main() {
     for(var z=0; z<cells; z++)
     for(var y=0; y<cells; y++)
     for(var x=0; x<cells; x++) {
+      
       var zx = z % zsqrt, zy = floor( z / zsqrt );
       var idx = z*cells*cells+y*cells+x;
-      if( !lights_data[idx].length ) 
-        lights_data[idx].push( vec4(x/cells+pxh, y/cells+pxh, z/cells+pxh, 0) );
+
+      if( !reload && !lights_data[idx].length ) 
+        lights_data[idx].push( vec4(x/cells+pxh, y/cells+pxh, z/cells+pxh, 1+5*Math.random()) );
+
       foreach( lights_data[idx], function(e,i) {
         if( i >= lpercell ) return;
         var offx = zx*cells, offy = zy*cells;
