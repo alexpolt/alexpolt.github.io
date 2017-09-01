@@ -97,7 +97,7 @@
   Currently, because of std::tuple\_element, the code won't compile in Visual C++. I have made an
   alternative [example][msc] ([tio.run][msctio]) that doesn't use it and it compiles okay. 
   **But warning: std::tuple is not POD and you should not expect the layout of tuple to match your
-  data structure. Actually, the rabbit hole is deeper and you should read [that post][l].**
+  data structure. Actually, the rabbit hole is deeper and you should read [this post][l].**
   So on Visual C++ you will almost certainly get into trouble.
 
   If you really need that to work stable you should come up with your own tuple-like class that 
