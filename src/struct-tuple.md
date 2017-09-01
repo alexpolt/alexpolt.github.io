@@ -97,9 +97,11 @@
   Currently, because of std::tuple\_element, the code won't compile in Visual C++. I have made an
   alternative [example][msc] ([tio.run][msctio]) that doesn't use it and it compiles okay. 
   **But warning: std::tuple is not POD and you should not expect the layout of tuple to match your
-  data structure.** Actually, I've noticed that on Visual C++ 64bit it won't work. So if you 
+  data structure.** Actually, I've noticed that on Visual C++ 64 bit [it won't work][l]. So if you 
   really need that to work stable you should come up with your own tuple-like class that will
   account for the aligment. There is relevant [comment](https://goo.gl/uL9hgC) by [Howard Hinnant][h].
+
+  <!-- calculate alignment: https://goo.gl/SyZCPB -->
 
   Also the problem with std::tuple is that it reverses the order of fields but it's easy to fix 
   with a wrapper (getn in the code). And its std::get method is only compile-time (with the help 
@@ -109,6 +111,7 @@
   [anton]: http://apolukhin.github.io/ "Antony Polukhin"
   [msc]: https://gist.github.com/alexpolt/87aca3eea01731892b623c7239ef60d4
   [msctio]: https://goo.gl/vFTcpZ
-  [h]:https://howardhinnant.github.io/ "Howard Hinnant"
+  [h]: https://howardhinnant.github.io/ "Howard Hinnant"
+  [l]: http://alexpolt.github.io/struct-layout.html "Visual C++ Struct Layout Reminder"
 
 

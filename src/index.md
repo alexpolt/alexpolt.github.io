@@ -1,5 +1,11 @@
 
 
+* [Visual C++ Struct Layout Reminder](struct-layout.html)
+
+  Microsoft Visual C++ (64 bit mode) has different layout between seemingly very similar 
+  data structures. Be warned.
+
+
 * [Turn a Data Structure Into a Tuple Using Pure C++](struct-tuple.html)
 
   Wouldn't it be nice to turn a POD data structure into a tuple? It can be done with just 
