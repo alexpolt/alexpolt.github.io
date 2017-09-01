@@ -43,11 +43,16 @@
   UPD. [Arseny Kapoulkine][t] has provided a great insight which rehabilitates Visual C++. 
   The thing happening is that Clang and GCC pack data into alignment padding which can be observed 
   by comparing the sizes of B and C. Take a look at [this code][a]: sizeof(B) == sizeof(C).
-  Not great. So, hold on to PODs (means aggregate) could be a great advice.
+  Not great. So, holding on to PODs (means aggregate) could be a great advice.
+
+  [Ruslan Abdikeev][r] has also shared a search keyword "tail padding overlaying" and another
+  [example (tio.run)][e] that demonstrates an effect of that.
 
 
   [p]: https://godbolt.org/g/H1pcGM
   [a]: https://godbolt.org/g/Q3VR6z
   [t]: https://twitter.com/zeuxcg "Arseny Kapoulkine Twitter"
+  [r]: https://twitter.com/aruslan "Ruslan Abdikeev"
+  [e]: https://goo.gl/ECrb4h "Tail Padding Overlaying"
 
 

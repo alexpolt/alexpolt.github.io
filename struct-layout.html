@@ -110,7 +110,10 @@ offset C::data = 16 //Ahaha, Microsoft, please, stop! :)
 <p>UPD. <a href="https://twitter.com/zeuxcg" title="Arseny Kapoulkine Twitter">Arseny Kapoulkine</a> has provided a great insight which rehabilitates Visual C++. 
   The thing happening is that Clang and GCC pack data into alignment padding which can be observed 
   by comparing the sizes of B and C. Take a look at <a href="https://godbolt.org/g/Q3VR6z">this code</a>: sizeof(B) == sizeof(C).
-  Not great. So, hold on to PODs (means aggregate) could be a great advice.</p>
+  Not great. So, holding on to PODs (means aggregate) could be a great advice.</p>
+
+<p><a href="https://twitter.com/aruslan" title="Ruslan Abdikeev">Ruslan Abdikeev</a> has also shared a search keyword "tail padding overlaying" and another
+  <a href="https://goo.gl/ECrb4h" title="Tail Padding Overlaying">example (tio.run)</a> that demonstrates an effect of that.</p>
 
 <script>
 document.addEventListener( "DOMContentLoaded", function() { 
