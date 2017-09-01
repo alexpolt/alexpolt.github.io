@@ -92,7 +92,7 @@
   See it in action online at [tio.run](https://goo.gl/DggwYv) or [Ideone](https://ideone.com/AOnPJM).
   The compiled code [looks clean](https://godbolt.org/g/x814oC). 
 
-  The above was inspired by [Antony Polukhin's][anton] talk at [CppCon 2016][cppcon].
+  The above was inspired by [Antony Polukhin's][anton] [talk at CppCon 2016][cppcon].
 
   Currently, because of std::tuple\_element, the code won't compile in Visual C++. I have made an
   alternative [example][msc] ([tio.run][msctio]) that doesn't use it and it compiles okay. 
