@@ -40,7 +40,14 @@
   that Visual C++ align every class in an inheritance hierarchy independently taking the alignment 
   from base classes. And it's a great fault if that is so.
 
+  UPD. [Arseny Kapoulkine][t] has provided a great insight which rehabilitates Visual C++. 
+  The thing happening is that Clang and GCC pack data into alignment padding which can be observed 
+  by comparing the sizes of B and C. Take a look at [this code][a]: sizeof(B) == sizeof(C).
+  Not great. So, hold on to PODs (means aggregate) could be a great advice.
 
-  [p]:https://godbolt.org/g/H1pcGM
+
+  [p]: https://godbolt.org/g/H1pcGM
+  [a]: https://godbolt.org/g/Q3VR6z
+  [t]: https://twitter.com/zeuxcg "Arseny Kapoulkine Twitter"
 
 

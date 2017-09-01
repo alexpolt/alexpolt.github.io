@@ -107,6 +107,11 @@ offset C::data = 16 //Ahaha, Microsoft, please, stop! :)
   that Visual C++ align every class in an inheritance hierarchy independently taking the alignment 
   from base classes. And it's a great fault if that is so.</p>
 
+<p>UPD. <a href="https://twitter.com/zeuxcg" title="Arseny Kapoulkine Twitter">Arseny Kapoulkine</a> has provided a great insight which rehabilitates Visual C++. 
+  The thing happening is that Clang and GCC pack data into alignment padding which can be observed 
+  by comparing the sizes of B and C. Take a look at <a href="https://godbolt.org/g/Q3VR6z">this code</a>: sizeof(B) == sizeof(C).
+  Not great. So, hold on to PODs (means aggregate) could be a great advice.</p>
+
 <script>
 document.addEventListener( "DOMContentLoaded", function() { 
   if( /iPhone|iPad|iPod|Android|Windows Phone/i.test(navigator.userAgent) ) {

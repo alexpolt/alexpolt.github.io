@@ -16,7 +16,7 @@
   Do you spot a problem on the image? Click the image for the answer. There is an initial WebGL 
   [demo][] where you can see it happening, just rotate the model. Being blissfully unaware of the 
   cause of this I set out to quickly solve it. And failed. This post aims to describe what went 
-  wrong and how I solved it.
+  wrong and how I fixed it.
   
   No matter how hard I tried I could not completely remove this popping effect. I noticed that
   it becomes more intense when increasing the number of lights or effective radius.
@@ -68,7 +68,8 @@
   filtering, I switched to clustered lighting: lights are put into clusters based on an effective 
   radius and uploaded into a float 3D texture (really a 2D texture). The shader samples 8 nearby
   clusters and does trilinear filtering. There is still an option to do lighting per pixel or 
-  per vertex. The model in the demo is a statue of [Vladimir Ilyich][lenin].
+  per vertex. What I have noticed is that **filtering has also considerably improved** the 
+  per-vertex lighting quality. The model in the demo is a statue of [Vladimir Ilyich][lenin].
 
 
 <div class="webgl" webgl_version="1" webgl_div="shader0" init="load_demo">
