@@ -90,16 +90,25 @@
     }
 
   See it in action online at [tio.run](https://goo.gl/DggwYv) or [Ideone](https://ideone.com/AOnPJM).
+  The compiled code [looks clean](https://godbolt.org/g/x814oC). 
 
-  The compiled code [looks clean](https://godbolt.org/g/x814oC). MSC has some trouble with 
-  std::tuple\_elemen\_t. I use it only to get a type from a type list by an index. You can easily
-  replace it with custom type list.
+  The above was inspired by [Antony Polukhin's][anton] talk at [CppCon 2016][cppcon].
 
-  The problem with std::tuple is that it reverses the order of fields but it's easy to fix with
-  a wrapper (getn in the code). Also it's formally not a POD type. And its std::get method 
-  is only compile-time (with the help of some code we can do it at runtime but not so efficient). 
-  Therefore it could be better to write a custom tuple with all the bells and whistles. Also read 
-  that [comment](https://goo.gl/uL9hgC) from Howard Hinnant on std::tuple.
+  Currently, because of std::tuple\_element, the code won't compile in Visual C++. I have made an
+  alternative [example][msc] ([tio.run][msctio]) that doesn't use it and it compiles okay. 
+  **But warning: std::tuple is not POD and you should not expect the layout of tuple to match your
+  data structure.** Actually, I've noticed that on Visual C++ 64bit it won't work. So if you 
+  really need that to work stable you should come up with your own tuple-like class that will
+  account for the aligment. There is relevant [comment](https://goo.gl/uL9hgC) by [Howard Hinnant][h].
 
+  Also the problem with std::tuple is that it reverses the order of fields but it's easy to fix 
+  with a wrapper (getn in the code). And its std::get method is only compile-time (with the help 
+  of some code we can do it at runtime but not so efficient). 
+
+  [cppcon]: https://www.youtube.com/watch?v=abdeAew3gmQ "C++14 Reflections Without Macros, Markup nor External Tooling"
+  [anton]: http://apolukhin.github.io/ "Antony Polukhin"
+  [msc]: https://gist.github.com/alexpolt/87aca3eea01731892b623c7239ef60d4
+  [msctio]: https://goo.gl/vFTcpZ
+  [h]:https://howardhinnant.github.io/ "Howard Hinnant"
 
 
