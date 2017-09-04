@@ -82,8 +82,8 @@
   int data;
 };
 
-template&lt;typename T, int... N&gt;
-constexpr auto get_type_id( int n ) {
+//T - user provided structure
+template&lt;typename T, int... N&gt; constexpr auto get_type_id( int n ) {
   read_type tid[sizeof...(N)]{};
   T d = T{ tid[N]... }; (void)d;
   return tid[n].data;
@@ -127,10 +127,10 @@ std::cout &lt;&lt; get&lt;2&gt;(l);
 <p>You can find both <strong>luple and struct_reader</strong> in a <a href="https://github.com/alexpolt/luple" title="Luple: a lightweight tuple and Struct Reader">Github repository</a>. The header files
   have more detailed description of the API.</p>
 
-<p>The idea was inspired by <a href="http://apolukhin.github.io/" title="Antony Polukhin">Antony Polukhin's</a> <a href="https://www.youtube.com/watch?v=abdeAew3gmQ" title="C++14 Reflections Without Macros, Markup nor External Tooling">talk at CppCon 2016</a>.</p>
-
 <p>There is also relevant <a href="https://goo.gl/uL9hgC">comment</a> by <a href="https://howardhinnant.github.io/" title="Howard Hinnant">Howard Hinnant</a> on non-recursive 
   tuples.</p>
+
+<p>The idea was inspired by <a href="http://apolukhin.github.io/" title="Antony Polukhin">Antony Polukhin's</a> <a href="https://www.youtube.com/watch?v=abdeAew3gmQ" title="C++14 Reflections Without Macros, Markup nor External Tooling">talk at CppCon 2016</a>.</p>
 
 <script>
 document.addEventListener( "DOMContentLoaded", function() { 

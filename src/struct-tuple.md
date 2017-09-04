@@ -18,8 +18,8 @@
       int data;
     };
     
-    template<typename T, int... N>
-    constexpr auto get_type_id( int n ) {
+    //T - user provided structure
+    template<typename T, int... N> constexpr auto get_type_id( int n ) {
       read_type tid[sizeof...(N)]{};
       T d = T{ tid[N]... }; (void)d;
       return tid[n].data;
@@ -61,10 +61,10 @@
   You can find both **luple and struct\_reader** in a [Github repository][git]. The header files
   have more detailed description of the API.
 
-  The idea was inspired by [Antony Polukhin's][anton] [talk at CppCon 2016][cppcon].
-
   There is also relevant [comment](https://goo.gl/uL9hgC) by [Howard Hinnant][h] on non-recursive 
   tuples.
+
+  The idea was inspired by [Antony Polukhin's][anton] [talk at CppCon 2016][cppcon].
 
 
   [cppcon]: https://www.youtube.com/watch?v=abdeAew3gmQ "C++14 Reflections Without Macros, Markup nor External Tooling"

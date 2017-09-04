@@ -1,20 +1,21 @@
 
 <!--
-* [The Great Type Loophole (C++14)](type-loophole.html)
+* [The Great Type Loophole](type-loophole.html)
 
-  This is awesome. For those who like C++.
+  This is just awesome! For those who like C++.
 -->
+
+
+* [Structure Data Members as a Type List Using Pure C++](struct-tuple.html)
+
+  There is no standard way of doind RTTI in C++ right now. But if all you need are data member
+  types then this can help.
+
 
 * [Visual C++ Struct Layout Reminder](struct-layout.html)
 
   Microsoft Visual C++ (64 bit mode) has different layout between seemingly very similar 
   data structures. Be warned.
-
-
-* [Structure Data Members as a Type List Using Pure C++ (C++14)](struct-tuple.html)
-
-  There is no standard way of doind RTTI in C++ right now. But if all you need are data member
-  types then this can help.
 
 
 * [Pattern: Narrow Contract](contract.html)
