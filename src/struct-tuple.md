@@ -56,7 +56,8 @@
 
   After getting member type information we can calculate theirs offsets. Or here I just cast it 
   into a luple (tuple-like data structure) and work with it using usual tuple methods.
-  Check an [online example][d] where I print out the guts of a FILE (stdio) data structure.
+  Check an [online example at tio.run][d] (or [at Ideone][c]) where I print out the guts of a 
+  FILE (stdio) data structure.
 
   You can find both **luple and struct\_reader** in a [Github repository][git]. The header files
   have more detailed description of the API.
@@ -72,6 +73,7 @@
   [h]: https://howardhinnant.github.io/ "Howard Hinnant"
   [l]: http://alexpolt.github.io/struct-layout.html "Visual C++ Struct Layout Reminder"
   [d]: https://goo.gl/vS46PL "Struct Reader Online Example"
+  [c]:  https://ideone.com/gcz6JY "Struct Reader Online Example"
   [git]: https://github.com/alexpolt/luple "Luple: a lightweight tuple and Struct Reader"
 
 
