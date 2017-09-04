@@ -1,4 +1,9 @@
 
+<!--
+* [The Great Type Loophole (C++14)](type-loophole.html)
+
+  This is awesome. For those who like C++.
+-->
 
 * [Visual C++ Struct Layout Reminder](struct-layout.html)
 
@@ -6,10 +11,10 @@
   data structures. Be warned.
 
 
-* [Turn a Data Structure Into a Tuple Using Pure C++](struct-tuple.html)
+* [Structure Data Members as a Type List Using Pure C++ (C++14)](struct-tuple.html)
 
-  Wouldn't it be nice to turn a POD data structure into a tuple? It can be done with just 
-  C++ (C++14) in about ten lines of code.
+  There is no standard way of doind RTTI in C++ right now. But if all you need are data member
+  types then this can help.
 
 
 * [Pattern: Narrow Contract](contract.html)

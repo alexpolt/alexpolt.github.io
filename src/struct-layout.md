@@ -48,11 +48,14 @@
   [Ruslan Abdikeev][r] has also shared a search keyword "tail padding overlaying" and another
   [example (tio.run)][e] that demonstrates an effect of that.
 
+  We can avoid some of that pain if we replace single inheritance with multiple like is seen in
+  [this code][c].
+
 
   [p]: https://godbolt.org/g/H1pcGM
   [a]: https://godbolt.org/g/Q3VR6z
   [t]: https://twitter.com/zeuxcg "Arseny Kapoulkine Twitter"
   [r]: https://twitter.com/aruslan "Ruslan Abdikeev"
   [e]: https://goo.gl/ECrb4h "Tail Padding Overlaying"
-
+  [c]: https://godbolt.org/g/hgQLbd
 

@@ -3,7 +3,7 @@
 
 <HEAD>
 
-  <title>Structure Data Members as a Type List Using Pure C++ (C++14) - Alexandr Poltavsky, software developer</title>
+  <title>The Great Type Loophole (C++14) - Alexandr Poltavsky, software developer</title>
 
   <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
@@ -63,74 +63,27 @@
   </div>
 
 
-<h2>Structure Data Members as a Type List Using Pure C++ (C++14)</h2>
+<h2>The Great Type Loophole (C++14)</h2>
 
-<p>There is no standard way of getting type description in C++ at this moment. As a result 
-  developers come up with all sorts of tools ranging from macros to domain specific languages 
-  to have RTTI. But the truth is with C++14 you can at least get data member types in the form of
-  a type list with only one (serious) limitation: the technique can only work with <strong>literal and 
-  non-const/non-reference types</strong>. That means types like bool or char, char const*, float  and 
-  others (including user provided literal types) are fine.</p>
+<p>Recently I was doing some work on retrieving struct data member types. And as I was exploring, 
+  researching and testing ideas I uncovered this pearl:</p>
 
-<p>Here is the relevant part that makes it possible:</p>
+<pre><code>auto loophole();
 
-<pre><code>struct read_type {
-  template&lt;typename U&gt; constexpr operator U() {
-    find U in a type list and assign its index to data
-    return {};
-  }
-  int data;
+template&lt;typename T&gt;
+struct loophole_t {
+  friend auto loophole() { return T{}; };
 };
 
-template&lt;typename T, int... N&gt;
-constexpr auto get_type_id( int n ) {
-  read_type tid[sizeof...(N)]{};
-  T d = T{ tid[N]... }; (void)d;
-  return tid[n].data;
-}
+sizeof( loophole_t&lt;std::string&gt; );
+
+std::is_same&lt; std::string, decltype( loophole() ) &gt;::value == true;
 </code></pre>
 
-<p>I hope it's crystal clear from the code what happens: we have a templated custom conversion
-  operator in read_type that is than used in get_type_id constexpr function to identify and
-  return a data member type by its index. All in all in takes a dozen lines of code.</p>
+<p><strong>If you're not screaming right now in excitement or screaming not loud enough then read on.</strong> 
+   But first, I made a C++ meme:</p>
 
-<p>Having a type list of a data structure at hands we can then turn that into a tuple for example.
-  The only problem is that std::tuple is usually implemented using single inheritance. It means
-  the structure layout may vary across compilers as I note in this <a href="http://alexpolt.github.io/struct-layout.html" title="Visual C++ Struct Layout Reminder">blog post</a>. Also it stores
-  data in reverse order. Because of this I decided to create my own tuple which I named 
-  <strong>luple: a lightweight tuple</strong>. It uses multiple inheritance which has identical layout on 
-  three major compilers (at least as far as I tested because it's not a POD type formally).</p>
-
-<p>So here is an example of using it:</p>
-
-<pre><code>struct data {
-  int a;
-  float b;
-  char const *c;
-};
-
-using data_tlist = struct_reader::as_type_list&lt; data &gt;; //type_list&lt; int, float, char const* &gt;
-using data_luple = luple&lt; data_tlist &gt;; //luple - lightweight tuple
-
-data d{1, 1.f, "Hello World!"};
-auto&amp; l = reinterpret_cast&lt; data_luple&amp; &gt;( d );
-
-get&lt;1&gt;(l) = 5.f;
-auto&amp; a = get&lt;int&gt;(l);
-std::cout &lt;&lt; get&lt;2&gt;(l);
-</code></pre>
-
-<p>After getting member type information we can calculate theirs offsets. Or here I just cast it 
-  into a luple (tuple-like data structure) and work with it using usual tuple methods.
-  Check an <a href="https://goo.gl/vS46PL" title="Struct Reader Online Example">online example</a> where I print out the guts of a FILE (stdio) data structure.</p>
-
-<p>You can find both <strong>luple and struct_reader</strong> in a <a href="https://github.com/alexpolt/luple" title="Luple: a lightweight tuple and Struct Reader">Github repository</a>. The header files
-  have more detailed description of the API.</p>
-
-<p>The idea was inspired by <a href="http://apolukhin.github.io/" title="Antony Polukhin">Antony Polukhin's</a> <a href="https://www.youtube.com/watch?v=abdeAew3gmQ" title="C++14 Reflections Without Macros, Markup nor External Tooling">talk at CppCon 2016</a>.</p>
-
-<p>There is also relevant <a href="https://goo.gl/uL9hgC">comment</a> by <a href="https://howardhinnant.github.io/" title="Howard Hinnant">Howard Hinnant</a> on non-recursive 
-  tuples.</p>
+<p>https://godbolt.org/g/qZU8rx</p>
 
 <script>
 document.addEventListener( "DOMContentLoaded", function() { 

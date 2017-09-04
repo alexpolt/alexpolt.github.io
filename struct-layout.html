@@ -115,6 +115,9 @@ offset C::data = 16 //Ahaha, Microsoft, please, stop! :)
 <p><a href="https://twitter.com/aruslan" title="Ruslan Abdikeev">Ruslan Abdikeev</a> has also shared a search keyword "tail padding overlaying" and another
   <a href="https://goo.gl/ECrb4h" title="Tail Padding Overlaying">example (tio.run)</a> that demonstrates an effect of that.</p>
 
+<p>We can avoid some of that pain if we replace single inheritance with multiple like is seen in
+  <a href="https://godbolt.org/g/hgQLbd">this code</a>.</p>
+
 <script>
 document.addEventListener( "DOMContentLoaded", function() { 
   if( /iPhone|iPad|iPod|Android|Windows Phone/i.test(navigator.userAgent) ) {
