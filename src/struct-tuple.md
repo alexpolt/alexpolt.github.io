@@ -26,7 +26,7 @@
     }
 
   I hope it's crystal clear from the code what happens: we have a templated custom conversion
-  operator in read\_type that is than used in get\_type\_id constexpr function to identify and
+  operator in read\_type that is then used in get\_type\_id constexpr function to identify and
   return a data member type by its index. All in all in takes a dozen lines of code.
 
   Having a type list of a data structure at hands we can then turn that into a tuple for example.
