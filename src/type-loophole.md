@@ -44,7 +44,7 @@
 
   <h3>Isn't it awesome!?</h3> 
 
-  Or we can turn a structure into luple: a lightweight luple of my design that has the advantage 
+  Or we can turn a structure into luple: a lightweight tuple of my design that has the advantage 
   of a stable layout across compilers (at least as far as I tested it):
 
     struct data {
