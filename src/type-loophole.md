@@ -66,9 +66,9 @@
     
     luple_do( l, []( auto& value ) { std::cout << value << "\n"; }
 
-  If you want to know more about how it works then check out the code: I provide full commented 
-  source code of both the type loophole and luple in the [GitHub repo][g]. It works on all three 
-  major compilers.
+  If you want to know more about how it works and its limitations then check out the code. 
+  I provide full commented source code of both the type loophole and luple in the [GitHub repo][g]. 
+  **It works on all three major compilers.**
 
   You can see it in action online at [tio.run][e0], [Coliru][e1], [Ideone][e2], [Rextester][e3].
 
