@@ -91,8 +91,8 @@
   [s]: http://alexpolt.github.io/struct-tuple.html "Structure Data Members as a Type List Using Pure C++"
   
   [e0]: https://goo.gl/DxBpmq "Demonstration of the Great Type Loophole at Work at tio.run"
-  [e1]: http://coliru.stacked-crooked.com/a/36ed9873b5386508 "Demonstration of the Great Type Loophole at Work at Coliru"
-  [e2]: https://ideone.com/Bj5fje "Demonstration of the Great Type Loophole at Work at Ideone"
-  [e3]: http://rextester.com/XTRLU84508 "Demonstration of the Great Type Loophole at Work at Rextester"
+  [e1]: http://coliru.stacked-crooked.com/a/c433a4b5f1bda686 "Demonstration of the Great Type Loophole at Work at Coliru"
+  [e2]: https://ideone.com/bw6ch7 "Demonstration of the Great Type Loophole at Work at Ideone"
+  [e3]: http://rextester.com/GEQBN34830 "Demonstration of the Great Type Loophole at Work at Rextester"
   
 
