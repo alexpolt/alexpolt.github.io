@@ -475,6 +475,12 @@ code {
   width: 50%;
 }
 
+.img50 {
+  width: 50%;
+}
 
+.mobile .img50 {
+  width: 80%;
+}
 
 

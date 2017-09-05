@@ -68,22 +68,88 @@
 <p>Recently I was doing some work on retrieving struct data member types. And as I was exploring, 
   researching and testing ideas I uncovered this pearl:</p>
 
-<pre><code>auto loophole();
+<pre><code>template&lt;int N&gt; struct tag{};
 
-template&lt;typename T&gt;
+template&lt;typename T, int N&gt;
 struct loophole_t {
-  friend auto loophole() { return T{}; };
+  friend auto loophole(tag&lt;N&gt;) { return T{}; };
 };
 
-sizeof( loophole_t&lt;std::string&gt; );
+auto loophole(tag&lt;0&gt;);
 
-std::is_same&lt; std::string, decltype( loophole() ) &gt;::value == true;
+sizeof( loophole_t&lt;std::string, 0&gt; );
+
+===&gt; std::is_same&lt; std::string, decltype( loophole(tag&lt;0&gt;{}) ) &gt;::value; &lt;===
 </code></pre>
 
-<p><strong>If you're not screaming right now in excitement or screaming not loud enough then read on.</strong> 
-   But first, I made a C++ meme:</p>
+<p><strong>What is the result you think? TRUE!</strong> Check it <a href="https://godbolt.org/g/PHjMPC" title="The Great Type Loophole">here at godbolt.org</a>.</p>
 
-<p>https://godbolt.org/g/qZU8rx</p>
+<p>My jaw dropped. I had so much pain creating <a href="http://alexpolt.github.io/struct-tuple.html" title="Structure Data Members as a Type List Using Pure C++">struct reader</a> to detect data member types of
+  a struct. And it was painfully limited: only literal types, pre-built type list, etc. With this 
+  anything becomes possible. </p>
+
+<p>After some compiler-fight I came up with an elegant ten lines of code header that can create a
+  type list from a data structure (with certain limitations) with just C++, no fixed type lists.
+  Here is a short example of what it can do:</p>
+
+<pre><code>using wndclass_tlist = loophole_ns::as_type_list&lt; WNDCLASS &gt;;
+
+Resulting type list (Visual Studio 2017):
+
+  0. unsigned int
+  1. __int64 (__cdecl*)(struct HWND__ * __ptr64,unsigned int,unsigned __int64,__int64)
+  2. int
+  3. int
+  4. struct HINSTANCE__ * __ptr64
+  5. struct HICON__ * __ptr64
+  6. struct HICON__ * __ptr64
+  7. struct HBRUSH__ * __ptr64
+  8. wchar_t const * __ptr64
+  9. wchar_t const * __ptr64
+</code></pre>
+
+<p><h3>Isn't it awesome!?</h3> </p>
+
+<p>Or we can turn a structure into luple: a lightweight luple of my design that has the advantage 
+  of a stable layout across compilers (at least as far as I tested it):</p>
+
+<pre><code>struct data {
+  float a;
+  std::string b;
+};
+
+using data_tlist = loophole_ns::as_type_list&lt; data &gt;;
+using data_luple = luple&lt; data_tlist &gt;;
+
+data d{ 1.f, "Hello World!" };
+
+auto&amp; l = reinterpret_cast&lt; wndclass_luple&amp; &gt;( d ); //I know what you feel)
+
+get&lt; std::string &gt;(l) = "Welcome, New World!"
+
+luple_do( l, []( auto&amp; value ) { std::cout &lt;&lt; value &lt;&lt; "\n"; }
+</code></pre>
+
+<p>If you want to know more about how it works then check out the code: I provide full commented 
+  source code of both the type loophole and luple in the <a href="https://github.com/alexpolt/luple" title="Repository for Type Loophole and Luple">GitHub repo</a>.</p>
+
+<p>You can see it in action online at <a href="https://goo.gl/DxBpmq" title="Demonstration of the Great Type Loophole at Work at tio.run">tio.run</a>, <a href="http://coliru.stacked-crooked.com/a/36ed9873b5386508" title="Demonstration of the Great Type Loophole at Work at Coliru">Coliru</a>, <a href="https://ideone.com/Bj5fje" title="Demonstration of the Great Type Loophole at Work at Ideone">Ideone</a>, <a href="http://rextester.com/XTRLU84508" title="Demonstration of the Great Type Loophole at Work at Rextester">Rextester</a>.</p>
+
+<p>I have not so far examined if that's in violation of the Standard. So, c++ Standard gurus are
+  really welcome.</p>
+
+<p>Follow me on <a href="https://twitter.com/poltavsky_alex" title="Alexandr Poltavsky, Software Developer">Twitter</a> for updates about my new articles (mostly programming and computer
+  graphics). </p>
+
+<p><h3>Finally, some love to our C++ heroes:</h3></p>
+
+<p><center><img class="img50" src="images/stroustrup-didnt-plan-for-this.png"/></center></p>
+
+<p><center><img class="img50" src="images/alexandrescu-we-need-this-in-d.png"/></center></p>
+
+<p><center><img class="img50" src="images/chandler-carruth-what-is-this.png"/></center></p>
+
+<p><center><img class="img50" src="images/herb-sutter-time-out.png"/></center></p>
 
 <script>
 document.addEventListener( "DOMContentLoaded", function() { 

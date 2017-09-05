@@ -1,9 +1,8 @@
 
-<!--
+
 * [The Great Type Loophole](type-loophole.html)
 
-  This is just awesome! For those who like C++.
--->
+  This is just awesome! For those who love C++.
 
 
 * [Structure Data Members as a Type List Using Pure C++](struct-tuple.html)
