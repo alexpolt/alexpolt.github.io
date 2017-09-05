@@ -21,7 +21,7 @@
 
   My jaw dropped. I had so much pain creating [struct reader][s] to detect data member types of
   a struct. And it was painfully limited: only literal types, pre-built type list, etc. With this 
-  anything becomes possible. 
+  anything becomes possible.
 
   After some compiler-fight I came up with an elegant ten lines of code header that can create a
   type list from a data structure (with certain limitations) with just C++, no fixed type lists.
@@ -44,8 +44,11 @@
 
   <h3>Isn't it awesome!?</h3> 
 
-  Or we can turn a structure into luple: a lightweight tuple of my design that has the advantage 
-  of a stable layout across compilers (at least as far as I tested it):
+  This type loophole basically allows us to store some type into a "variable" and later read 
+  it back! It's very powerful.
+
+  More examples: we can turn a structure into luple: a lightweight tuple of my design that has 
+  the advantage of a stable layout across compilers (at least as far as I tested it):
 
     struct data {
       float a;
