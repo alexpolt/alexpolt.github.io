@@ -72,6 +72,9 @@
 
   You can see it in action online at [tio.run][e0], [Coliru][e1], [Ideone][e2], [Rextester][e3].
 
+  [Sasha Sobol][sa] has come up with an example ([online at Coliru][sa0]) that makes it possible 
+  to assign unique IDs to types during compile time (it's instantiation order dependent).
+
   I have not so far examined if that's in violation of the Standard. So, C++ Standard gurus are
   really welcome. The first to respond was [Simon Brand][sim] who pointed to a defect report 
   [2118][].
@@ -109,5 +112,7 @@
   [2118]: http://www.open-std.org/jtc1/sc22/wg21/docs/cwg_active.html#2118 "Core Working Group Defect Report 2118"
   [red]: https://www.reddit.com/r/cpp/comments/6ydxya/the_great_type_loophole/dmmoveu/
 
+  [sa]: https://github.com/sasha-s "Sasha Sobol GitHub"
+  [sa0]: http://coliru.stacked-crooked.com/a/6094c5aa5e75e240 "Compile Time Type IDs using Type Loophole"
 
 

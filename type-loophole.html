@@ -139,6 +139,9 @@ luple_do( l, []( auto&amp; value ) { std::cout &lt;&lt; value &lt;&lt; "\n"; }
 
 <p>You can see it in action online at <a href="https://goo.gl/DxBpmq" title="Demonstration of the Great Type Loophole at Work at tio.run">tio.run</a>, <a href="http://coliru.stacked-crooked.com/a/c433a4b5f1bda686" title="Demonstration of the Great Type Loophole at Work at Coliru">Coliru</a>, <a href="https://ideone.com/bw6ch7" title="Demonstration of the Great Type Loophole at Work at Ideone">Ideone</a>, <a href="http://rextester.com/GEQBN34830" title="Demonstration of the Great Type Loophole at Work at Rextester">Rextester</a>.</p>
 
+<p><a href="https://github.com/sasha-s" title="Sasha Sobol GitHub">Sasha Sobol</a> has come up with an example (<a href="http://coliru.stacked-crooked.com/a/6094c5aa5e75e240" title="Compile Time Type IDs using Type Loophole">online at Coliru</a>) that makes it possible 
+  to assign unique IDs to types during compile time (it's instantiation order dependent).</p>
+
 <p>I have not so far examined if that's in violation of the Standard. So, C++ Standard gurus are
   really welcome. The first to respond was <a href="https://twitter.com/TartanLlama" title="Simon Brand">Simon Brand</a> who pointed to a defect report 
   <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/cwg_active.html#2118" title="Core Working Group Defect Report 2118">2118</a>.</p>
