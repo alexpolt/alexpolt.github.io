@@ -67,13 +67,20 @@
     luple_do( l, []( auto& value ) { std::cout << value << "\n"; }
 
   If you want to know more about how it works and its limitations then check out the code. 
-  I provide full commented source code of both the type loophole and luple in the [GitHub repo][g]. 
-  **It works on all three major compilers.**
+  I provide full **commented** source code of both the type loophole and luple in the 
+  [GitHub repo][g]. **It works on all three major compilers.**
 
   You can see it in action online at [tio.run][e0], [Coliru][e1], [Ideone][e2], [Rextester][e3].
 
   I have not so far examined if that's in violation of the Standard. So, C++ Standard gurus are
-  really welcome. 
+  really welcome. The first to respond was [Simon Brand][sim] who pointed a to defect report 
+  [2118][].
+
+  If you're not comfortable with reading the source code then some nice guy (render787) on Reddit 
+  made a [detailed comment][red] that gives a good observation of how this loophole allows the 
+  struct data member type information to be acquired. 
+
+
   Follow me on [Twitter][t] for updates about my new articles (mostly programming and computer
   graphics). 
   
@@ -98,4 +105,9 @@
   [e2]: https://ideone.com/bw6ch7 "Demonstration of the Great Type Loophole at Work at Ideone"
   [e3]: http://rextester.com/GEQBN34830 "Demonstration of the Great Type Loophole at Work at Rextester"
   
+  [sim]: https://twitter.com/TartanLlama "Simon Brand"
+  [2118]: http://www.open-std.org/jtc1/sc22/wg21/docs/cwg_active.html#2118 "Core Working Group Defect Report 2118"
+  [red]: https://www.reddit.com/r/cpp/comments/6ydxya/the_great_type_loophole/dmmoveu/
+
+
 
