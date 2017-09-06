@@ -73,7 +73,7 @@
   You can see it in action online at [tio.run][e0], [Coliru][e1], [Ideone][e2], [Rextester][e3].
 
   I have not so far examined if that's in violation of the Standard. So, C++ Standard gurus are
-  really welcome. The first to respond was [Simon Brand][sim] who pointed a to defect report 
+  really welcome. The first to respond was [Simon Brand][sim] who pointed a to a defect report 
   [2118][].
 
   If you're not comfortable with reading the source code then some nice guy (render787) on Reddit 
