@@ -91,7 +91,7 @@
   [t]: https://twitter.com/poltavsky_alex "Alexandr Poltavsky, Software Developer"
   [g]: https://github.com/alexpolt/luple "Repository for Type Loophole and Luple"
   [c]: https://godbolt.org/g/PHjMPC "The Great Type Loophole"
-  [s]: http://alexpolt.github.io/struct-tuple.html "Structure Data Members as a Type List Using Pure C++"
+  [s]: struct-tuple.html "Structure Data Members as a Type List Using Pure C++"
   
   [e0]: https://goo.gl/DxBpmq "Demonstration of the Great Type Loophole at Work at tio.run"
   [e1]: http://coliru.stacked-crooked.com/a/c433a4b5f1bda686 "Demonstration of the Great Type Loophole at Work at Coliru"

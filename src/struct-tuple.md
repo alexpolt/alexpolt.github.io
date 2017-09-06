@@ -65,8 +65,8 @@
   There is also relevant [comment](https://goo.gl/uL9hgC) by [Howard Hinnant][h] on non-recursive 
   tuples.
 
-  The idea was inspired by [Antony Polukhin's][anton] [talk at CppCon 2016][cppcon].
-
+  The idea was inspired by [Antony Polukhin's][anton] [talk at CppCon 2016][cppcon] 
+  (thanks to [Ruslan Abdikeev][r] for pointing to it).
 
   [cppcon]: https://www.youtube.com/watch?v=abdeAew3gmQ "C++14 Reflections Without Macros, Markup nor External Tooling"
   [anton]: http://apolukhin.github.io/ "Antony Polukhin"
@@ -75,5 +75,5 @@
   [d]: https://goo.gl/vS46PL "Struct Reader Online Example"
   [c]:  https://ideone.com/gcz6JY "Struct Reader Online Example"
   [git]: https://github.com/alexpolt/luple "Luple: a lightweight tuple and Struct Reader"
-
+  [r]: https://twitter.com/aruslan "Ruslan Abdikeev"
 
