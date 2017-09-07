@@ -64,7 +64,7 @@
     
     get< std::string >(l) = "Welcome, New World!"
     
-    luple_do( l, []( auto& value ) { std::cout << value << "\n"; }
+    luple_do( l, []( auto& value ) { std::cout << value << "\n"; } );
 
   If you want to know more about how it works and its limitations then check out the code. 
   I provide full **commented source code** of both the type loophole and luple in the 
