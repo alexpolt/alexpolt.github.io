@@ -93,13 +93,25 @@
 
   <h3>Finally, some love to our C++ heroes:</h3>
 
-  <center><img class="img50" src="images/stroustrup-didnt-plan-for-this.png"/></center>
+  <center><a href="https://twitter.com/stroustrup" title="Bjarne Stroustrup">
+  <img class="img50" src="images/stroustrup-didnt-plan-for-this.png"/></a></center>
   
-  <center><img class="img50" src="images/alexandrescu-we-need-this-in-d.png"/></center>
+  <center><a href="https://twitter.com/incomputable" title="Andrei Alexandrescu">
+  <img class="img50" src="images/alexandrescu-we-need-this-in-d.png"/></a></center>
 
-  <center><img class="img50" src="images/chandler-carruth-what-is-this.png"/></center>
+  <center><a href="https://twitter.com/chandlerc1024" title="Chandler Carruth">
+  <img class="img50" src="images/chandler-carruth-what-is-this.png"/></a></center>
 
-  <center><img class="img50" src="images/herb-sutter-time-out.png"/></center>
+  <center><a href="https://twitter.com/herbsutter" title="Herb Sutter">
+  <img class="img50" src="images/herb-sutter-time-out.png"/></a></center>
+
+  I should've generated a meme for every other C++ leader out there like 
+  [Scott Meyers](https://twitter.com/scott__meyers), 
+  [Stephan T. Lavavej](https://twitter.com/stephantlavavej),
+  [Alisdair Meredith](https://twitter.com/alisdairmered),
+  [Howard Hinnant](https://howardhinnant.github.io/)
+  and basically everyone one on [the committee](https://isocpp.org/std/the-committee) and others
+  who contribute to the C++.
 
 
   [t]: https://twitter.com/poltavsky_alex "Alexandr Poltavsky, Software Developer"
