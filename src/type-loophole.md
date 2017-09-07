@@ -110,7 +110,7 @@
   [Stephan T. Lavavej](https://twitter.com/stephantlavavej),
   [Alisdair Meredith](https://twitter.com/alisdairmered),
   [Howard Hinnant](https://howardhinnant.github.io/)
-  and basically everyone one on [the committee](https://isocpp.org/std/the-committee) and others
+  and basically everyone on [the committee](https://isocpp.org/std/the-committee) and others
   who contribute to the C++.
 
 
