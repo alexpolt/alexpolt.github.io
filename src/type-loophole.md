@@ -67,26 +67,30 @@
     luple_do( l, []( auto& value ) { std::cout << value << "\n"; }
 
   If you want to know more about how it works and its limitations then check out the code. 
-  I provide full **commented** source code of both the type loophole and luple in the 
-  [GitHub repo][g]. **It works on all three major compilers.**
+  I provide full **commented source code** of both the type loophole and luple in the 
+  [GitHub repo][g]. It works on all three major compilers.
 
   You can see it in action online at [tio.run][e0], [Coliru][e1], [Ideone][e2], [Rextester][e3].
 
+  You can find a more condensed example of a data member type detector using type loophole 
+  [here at godbolt.org][memd] (this example was initially [provided][redc] by a user named 
+  jguegant at Reddit).
+
   [Sasha Sobol][sa] has come up with an example ([online at Coliru][sa0]) that makes it possible 
   to assign unique IDs to types during compile time (it's instantiation order dependent).
-
-  I have not so far examined if that's in violation of the Standard. So, C++ Standard gurus are
-  really welcome. The first to respond was [Simon Brand][sim] who pointed to a defect report 
-  [2118][].
 
   If you're not comfortable with reading the source code then some nice guy (render787) on Reddit 
   made a [detailed comment][red] that gives a good observation of how this loophole allows the 
   struct data member type information to be acquired. 
 
+  I have not so far examined if that's in violation of the Standard. So, C++ Standard gurus are
+  really welcome. The first to [respond at Twitter][simt] was [Simon Brand][sim] who pointed to a 
+  defect report [2118][].
 
   Follow me on [Twitter][t] for updates about my new articles (mostly programming and computer
   graphics). 
-  
+
+
   <h3>Finally, some love to our C++ heroes:</h3>
 
   <center><img class="img50" src="images/stroustrup-didnt-plan-for-this.png"/></center>
@@ -109,10 +113,14 @@
   [e3]: http://rextester.com/GEQBN34830 "Demonstration of the Great Type Loophole at Work at Rextester"
   
   [sim]: https://twitter.com/TartanLlama "Simon Brand"
+  [simt]: https://twitter.com/TartanLlama/status/905306427929001986 "Type Loophole Twitter Post"
   [2118]: http://www.open-std.org/jtc1/sc22/wg21/docs/cwg_active.html#2118 "Core Working Group Defect Report 2118"
   [red]: https://www.reddit.com/r/cpp/comments/6ydxya/the_great_type_loophole/dmmoveu/
 
   [sa]: https://github.com/sasha-s "Sasha Sobol GitHub"
   [sa0]: http://coliru.stacked-crooked.com/a/6094c5aa5e75e240 "Compile Time Type IDs using Type Loophole"
+
+  [memd]: https://godbolt.org/g/bxcKZY "Member Type Detector using Type Loophole"
+  [redc]: https://www.reddit.com/r/cpp/comments/6ydxya/the_great_type_loophole/dmn50vn/ "Type Loophole at Reddit"
 
 
