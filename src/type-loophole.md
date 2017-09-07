@@ -73,8 +73,8 @@
   You can see it in action online at [tio.run][e0], [Coliru][e1], [Ideone][e2], [Rextester][e3].
 
   You can find a more condensed example of a data member type detector using type loophole 
-  [here at godbolt.org][memd] (this example was initially [provided][redc] by a user named 
-  jguegant at Reddit).
+  [here at godbolt.org][memd] (a slightly other version was initially [provided][redc] by a 
+  user named jguegant at Reddit).
 
   [Sasha Sobol][sa] has come up with an example ([online at Coliru][sa0]) that makes it possible 
   to assign unique IDs to types during compile time (it's instantiation order dependent).
