@@ -130,14 +130,16 @@ void main() {
 
 <script src="js/common.js"></script>
 
-<script src="js/math.js"></script>
-
 <script src="js/webgl-quad.js"></script>
 
 <script src="js/webgl.js"></script>
 
 <script>
-
+document.addEventListener( "DOMContentLoaded", function() { 
+  if( /iPhone|iPad|iPod|Android|Windows Phone/i.test(navigator.userAgent) ) {
+    document.getElementById("wrap").classList.add("mobile");
+  }
+} );
 </script>
 
 
@@ -148,6 +150,8 @@ void main() {
 </script>
 
 
+<div id="disqus_comments"><a href="javascript: run_disqus()">read and write commentaries</a></div>
+<div id="disqus_thread"></div>
 <script>
     /**
      *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
@@ -173,9 +177,10 @@ void main() {
 
         return undefined;
     };
+
+    if( location.hash.indexOf("comment") != -1 ) run_disqus();
+
 </script>
-<div id="disqus_comments"><a href="javascript: run_disqus()">read and write commentaries</a></div>
-<div id="disqus_thread"></div>
 <!--noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments
 powered by Disqus.</a></noscript-->
 

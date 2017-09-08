@@ -652,6 +652,8 @@ document.addEventListener( "DOMContentLoaded", function() {
 </script>
 
 
+<div id="disqus_comments"><a href="javascript: run_disqus()">read and write commentaries</a></div>
+<div id="disqus_thread"></div>
 <script>
     /**
      *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
@@ -677,9 +679,10 @@ document.addEventListener( "DOMContentLoaded", function() {
 
         return undefined;
     };
+
+    if( location.hash.indexOf("comment") != -1 ) run_disqus();
+
 </script>
-<div id="disqus_comments"><a href="javascript: run_disqus()">read and write commentaries</a></div>
-<div id="disqus_thread"></div>
 <!--noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments
 powered by Disqus.</a></noscript-->
 

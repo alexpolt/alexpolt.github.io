@@ -3,11 +3,13 @@
 
 <HEAD>
 
-  <title>Резюме - Александр Полтавский, разработчик программного обеспечения</title>
+  <title>Резюме - Alexandr Poltavsky, software developer</title>
 
   <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
   <meta http-equiv="Pragma" content="no-cache" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <link rel="stylesheet" type="text/css" href="css/common.css" />
   <link rel="stylesheet" href="highlight/styles/hybrid.css">
@@ -24,20 +26,28 @@
 
   <a href="/color-throne.html"><img class="ad" src="images/color-throne-logo-promo.png" title="Color Throne Game"/></a>    
 
+  <div class="avatar">
   <a href="/">
-      <img class="avatar" width="160" src="images/alexandr-poltavsky-avatar.jpeg" title="Александр Полтавский" align="left"/>
-    </a>
-    <strong>
-      Александр Полтавский <br/> 
-      Разработчик программного обеспечения <br/>
-      <em>poltavsky.alexandr&#64;gmail.com</em> 
-    </strong>
-    <ul id="menu">
-      <li><a href="/">Содержание (англ.)</a></li>
-      <li><a href="https://github.com/alexpolt/">Github</a></li>
-      <li><a href="https://www.shadertoy.com/user/alexpolt">Shadertoy</a></li>
-      <li><a href="https://twitter.com/poltavsky_alex">Twitter</a></li>
-    </ul>
+      <img class="avatar" width="160" src="images/alexandr-poltavsky-avatar.jpeg" title="Alexandr Poltavsky" align="left"/>
+  </a>
+  </div>
+  <div class="text">
+    <span class="bio">
+      Alexandr Poltavsky <br/> 
+      Software Developer <br/>
+      Location: Russia, Moscow <br/>
+      <span class="email">
+      <a href="mailto:poltavsky.alexandr@gmail.com">poltavsky.alexandr&#64;gmail.com</a><br/>
+      </span>
+    </span>
+    <div class="break"></div>
+    <span class="links">
+      <a href="/">Blog</a>
+      <a href="https://github.com/alexpolt/">Github</a>
+      <a href="https://www.shadertoy.com/user/alexpolt">Shadertoy</a>
+      <a href="https://twitter.com/poltavsky_alex">Twitter</a>
+    </span>
+  </div>
 
   </div>
 
@@ -46,11 +56,12 @@
 
   <!-- here goes the main content -->
 
-  <ul id="main-menu">
-    <li id="main-menu-0"><a href="index.html">Программирование</a></li>
-    <li id="main-menu-1"><a href="index-gfx.html">Графика</a></li>
-    <li id="main-menu-2"><a href="index-off.html">Разное</a></li>
-  </ul>
+  <div id="main-menu">
+    <a id="main-menu-0" href="index.html">Programming</a>
+    <a id="main-menu-1" href="index-gfx.html">Graphics</a>
+    <a id="main-menu-2" href="index-off.html">Off-topic</a>
+  </div>
+
 
 <p><div class="resume"></p>
 
@@ -204,6 +215,8 @@ document.addEventListener( "DOMContentLoaded", function() {
 </script>
 
 
+<div id="disqus_comments"><a href="javascript: run_disqus()">read and write commentaries</a></div>
+<div id="disqus_thread"></div>
 <script>
     /**
      *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
@@ -229,9 +242,10 @@ document.addEventListener( "DOMContentLoaded", function() {
 
         return undefined;
     };
+
+    if( location.hash.indexOf("comment") != -1 ) run_disqus();
+
 </script>
-<div id="disqus_comments"><a href="javascript: run_disqus()">read and write commentaries</a></div>
-<div id="disqus_thread"></div>
 <!--noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments
 powered by Disqus.</a></noscript-->
 
