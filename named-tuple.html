@@ -77,10 +77,10 @@
 <pre><code>using nameid_t = nuple&lt; $("name"), char const*, $("id"), int &gt;;
 </code></pre>
 
-<p>The dollar sign is <a href="http://alexpolt.github.io/intern.html" title="Useful Properties of String Interning in C++">string interning</a> which turns a string literal into a type. All we 
+<p>The dollar sign is <a href="intern.html" title="Useful Properties of String Interning in C++">string interning</a> which turns a string literal into a type. All we 
   have to do is to sort this parameter type list into a names list and a type list. The type list
   is then passed to <a href="https://github.com/alexpolt/luple/">luple</a> which is a lightweight (source code I mean) tuple I created for 
-  the <a href="http://alexpolt.github.io/type-loophole.html" title="The C++ Type Loophole (C++14)">C++ type loophole</a>. The <a href="https://github.com/alexpolt/luple/">source code</a> is short and easy to read (header is nuple.h).</p>
+  the <a href="type-loophole.html" title="The C++ Type Loophole (C++14)">C++ type loophole</a>. The <a href="https://github.com/alexpolt/luple/">source code</a> is short and easy to read (header is nuple.h).</p>
 
 <p>So, here's an example of using it:</p>
 

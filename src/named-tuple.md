@@ -47,8 +47,8 @@
   [vnt]: http://vitiy.info/named-tuple-for-cplusplus/ "Named tuple for C++"
   [victor]: http://twitter.com/VictorLaskin "Victor Laskin Twitter"
   [vb]: http://vitiy.info/ "Victor Laskin's Blog"
-  [intern]: http://alexpolt.github.io/intern.html "Useful Properties of String Interning in C++"
-  [l]: http://alexpolt.github.io/type-loophole.html "The C++ Type Loophole (C++14)"
+  [intern]: intern.html "Useful Properties of String Interning in C++"
+  [l]: type-loophole.html "The C++ Type Loophole (C++14)"
   [luple]: https://github.com/alexpolt/luple/
 
   [n-tio]: https://goo.gl/EMWgBG "nuple Online Example"
