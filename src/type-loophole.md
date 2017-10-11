@@ -1,5 +1,5 @@
 
-##The Great Type Loophole (C++14)
+##The C++ Type Loophole (C++14)
 
   Recently I was doing some work on retrieving struct data member types. And as I was exploring, 
   researching and testing ideas I uncovered this pearl:

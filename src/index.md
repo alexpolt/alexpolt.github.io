@@ -1,6 +1,11 @@
 
 
-* [The Great Type Loophole](type-loophole.html)
+* [nuple: a Named Tuple](named-tuple.html)
+
+  I provide an elegant and useful implementation of a named tuple.
+
+
+* [The C++ Type Loophole](type-loophole.html)
 
   This is just awesome! For those who love C++.
 

@@ -3,7 +3,7 @@
 
 <HEAD>
 
-  <title>Useful Properties of String Interning in C++ - Alexandr Poltavsky, software developer</title>
+  <title>nuple: a Named Tuple - Alexandr Poltavsky, software developer</title>
 
   <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
@@ -63,96 +63,52 @@
   </div>
 
 
-<h2>Useful Properties of String Interning in C++</h2>
+<h2>nuple: a Named Tuple</h2>
 
-<p>String interning is useful because it saves space and also allows for fast string comparsion
-  for equality by comparing just the pointers. And it is possible to do it quite easily in pure
-  C++:</p>
+<p>While browsing the Internets I came upon this <a href="http://vitiy.info/named-tuple-for-cplusplus/" title="Named tuple for C++">blog post</a> by <a href="http://twitter.com/VictorLaskin" title="Victor Laskin Twitter">Victor Laskin</a>.
+  In there he describes an implementation of a named tuple in C++. It just so happened that some 
+  time ago I was writing about useful properties of string interning in C++. I quickly realized 
+  that another good use of it is to implement a named tuple which I called <strong>nuple</strong> - a named 
+  tuple. By the way, you should check up Victor's <a href="http://vitiy.info/" title="Victor Laskin's Blog">blog</a> if you're a fan of functional 
+  programming and C++.</p>
 
-<pre><code>template&lt;char... N&gt; struct interned {
+<p>So, the implementation turned out to be pretty simple. The usage is like this:</p>
 
-  static char const value[];
-};
-
-template&lt;char... N&gt; char const interned&lt;N...&gt;::value[]{N...};
-
-template&lt;int N&gt;
-constexpr char ch(char const(&amp;s)[N], int i) {
-  return i &lt; N ? s[i] : '\0';
-}
-
-#define $(s) interned&lt;ch(s,0),ch(s,1),ch(s,2),ch(s,3),ch(s,4),ch(s,5),ch(s,6) ... &gt;
+<pre><code>using nameid_t = nuple&lt; $("name"), char const*, $("id"), int &gt;;
 </code></pre>
 
-<p>The idea is simple: turn a string into a type and use the powers of linker to collapse all
-  instances into one. Full <a href="https://github.com/alexpolt/luple" title="C++ String Interning">source code</a> at Github.</p>
+<p>The dollar sign is <a href="http://alexpolt.github.io/intern.html" title="Useful Properties of String Interning in C++">string interning</a> which turns a string literal into a type. All we 
+  have to do is to sort this parameter type list into a names list and a type list. The type list
+  is then passed to <a href="https://github.com/alexpolt/luple/">luple</a> which is a lightweight (source code I mean) tuple I created for 
+  the <a href="http://alexpolt.github.io/type-loophole.html" title="The C++ Type Loophole (C++14)">C++ type loophole</a>. The <a href="https://github.com/alexpolt/luple/">source code</a> is short and easy to read (header is nuple.h).</p>
 
-<p>Here's how to use it:</p>
+<p>So, here's an example of using it:</p>
 
-<pre><code>std::cout &lt;&lt; $("interned string")::value;
+<pre><code>nameid_t n[] = { {"alex", 1}, {"ivan", 2} };
+
+for( auto&amp; v : n )      
+  printf( "name: %s, id: %d\n", get&lt;$("name")&gt;(v), get&lt;$("id")&gt;(v) );
 </code></pre>
 
-<p>I didn't know at first, but there is a proposal to add this capability to the standard:
-  <a href="http://open-std.org/JTC1/SC22/WG21/docs/papers/2013/n3599.html" title="Literal operator templates for strings">N3599</a> "Literal operator templates for strings" by <a href="https://twitter.com/zygoloid" title="Richard Smith">Richard Smith</a>. GCC and Clang 
-  already provide it as an extension, I hope MSVC catches up. <a href="https://twitter.com/aruslan" title="Ruslan Abdikeev">Ruslan Abdikeev</a> provided an 
-  example of <a href="https://gist.github.com/alexpolt/532b48b9353e98e276b79296ec9f4ab6" title="C++ String Interning">using it</a>.</p>
+<p>Because <strong>nuple</strong> inherits from <strong>luple</strong> (I'm not good at terminology) we can use all other 
+  tuple-like methods:</p>
 
-<p>String interning turns a string into a type and as such allows for a number of other nice things.</p>
+<pre><code>auto get_person(int i) { return nameid_t{"john", i}; }
 
-<p>We can use it as a template parameter:</p>
+auto p = get_person(3);
 
-<pre><code>  template&lt;typename T&gt; struct tag {};
+printf( "tuple size: %d\n", size(p) );
 
-  using tag_int = tag&lt; $("int") &gt;;
+get&lt;0&gt;(p) = "irene";
+
+get&lt;int&gt;(p) = 4;
+
+printf( "name: %s, id: %d\n", get&lt;$("name")&gt;(p), get&lt;$("id")&gt;(p) );
 </code></pre>
 
-<p>or for overload resolution:</p>
+<p>See it online <a href="https://goo.gl/EMWgBG" title="nuple Online Example">at tio.run</a> (or at <a href="https://ideone.com/uvZ3uZ" title="nuple Online Example">Ideone</a>).</p>
 
-<pre><code>  void method( $("apple") ) { ... }
-  void method( $("orange") ) { ... }
-
-  method( $("apple"){} );
-</code></pre>
-
-<p>See it in action online <a href="https://goo.gl/LfDTZ3" title="C++ String Interning Online Example">here at tio.run</a> (or at <a href="https://ideone.com/Dh6az7" title="C++ String Interning Online Example">Ideone</a>).</p>
-
-<p>We can also use it in place of enums because it has a fixed address. Maybe not really good idea 
-  if you have hundreds of enums but for a couple it has the advantage of being self-describing.</p>
-
-<p>Have you ever been in a situation when you have a small fixed set of name-value pairs and you
-  wanted to map them in your program. Some programmers would create a small hash map for this.
-  But there is simpler and more efficient method using the same style as in string interning:</p>
-
-<pre><code>template&lt;typename K, typename V&gt; struct map {
-  static V value;
-}
-
-template&lt;typename K, typename V&gt; map&lt;K,V&gt;::value{};
-
-map&lt; $("singleton") &gt;::value.do_action();
-</code></pre>
-
-<p>You can try it <a href="https://goo.gl/ghbfQK" title="Linkin Using String Interning">online at tio.run</a> ( or at <a href="https://ideone.com/A9Vk6q" title="Linkin Using String Interning">Ideone</a> ).</p>
-
-<p>Another use is program internationalization: we can run some code for every interned string 
-  (just another static member) that will populate a map with strings that can later be used
-  for translation. Or we can apply the above mapping trick for that. The only problem is added
-  linker work.</p>
-
-<p>Because we now have the characters of a string as a parameter pack, we can parse it and do all 
-  sort of hacks with it. We can create a list of types for example or anything else. Just as an 
-  example here's a primitive calculator that can only add or subtract integer numbers:</p>
-
-<pre><code>  printf( "calc(100+20-10) = %d\n", calc_t("100+20-10")::value );
-
-  Output: calc(100+20-10) = 110
-</code></pre>
-
-<p>You can try it <a href="https://goo.gl/5gJ3vB" title="C++ String Interning Calculator Example">online at tio.run</a> ( or at <a href="https://ideone.com/tDWfwI" title="C++ String Interning Calculator">Ideone</a> ).</p>
-
-<p><strong>Update.</strong> It also let's us create a <a href="named-tuple.html" title="nuple: a Named Tuple">named tuple</a> with a neat interface.</p>
-
-<p>The source code for string interning is in the intern.h header at <a href="https://github.com/alexpolt/luple" title="C++ String Interning">Github</a>.</p>
+<p>There is no hacks. It's all valid C++ (C++14) and can be safely used in production code.</p>
 
 <script>
 document.addEventListener( "DOMContentLoaded", function() { 
