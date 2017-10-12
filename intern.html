@@ -92,10 +92,12 @@ constexpr char ch(char const(&amp;s)[N], int i) {
 <pre><code>std::cout &lt;&lt; $("interned string")::value;
 </code></pre>
 
-<p>I didn't know at first, but there is a proposal to add this capability to the standard:
-  <a href="http://open-std.org/JTC1/SC22/WG21/docs/papers/2013/n3599.html" title="Literal operator templates for strings">N3599</a> "Literal operator templates for strings" by <a href="https://twitter.com/zygoloid" title="Richard Smith">Richard Smith</a>. GCC and Clang 
-  already provide it as an extension, I hope MSVC catches up. <a href="https://twitter.com/aruslan" title="Ruslan Abdikeev">Ruslan Abdikeev</a> provided an 
-  example of <a href="https://gist.github.com/alexpolt/532b48b9353e98e276b79296ec9f4ab6" title="C++ String Interning">using it</a>.</p>
+<p>Right now it has a limit on string length. You can increase it by editing the $(...) macro in
+  the <strong>intern.h</strong> header. I didn't know at first, but there is a proposal to add this capability 
+  to the standard: <a href="http://open-std.org/JTC1/SC22/WG21/docs/papers/2013/n3599.html" title="Literal operator templates for strings">N3599</a> "Literal operator templates for strings" by <a href="https://twitter.com/zygoloid" title="Richard Smith">Richard Smith</a>. 
+  GCC and Clang already provide it as an extension, I hope MSVC catches up. <a href="https://twitter.com/aruslan" title="Ruslan Abdikeev">Ruslan Abdikeev</a> 
+  provided a <a href="https://gist.github.com/alexpolt/532b48b9353e98e276b79296ec9f4ab6" title="C++ String Interning">sample</a> showing it in code. To use this extension just <strong>#define N3599</strong> 
+  before including the header.</p>
 
 <p>String interning turns a string into a type and as such allows for a number of other nice things.</p>
 

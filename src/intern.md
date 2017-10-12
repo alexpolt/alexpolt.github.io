@@ -26,10 +26,12 @@
 
     std::cout << $("interned string")::value;
 
-  I didn't know at first, but there is a proposal to add this capability to the standard:
-  [N3599][] "Literal operator templates for strings" by [Richard Smith][rich]. GCC and Clang 
-  already provide it as an extension, I hope MSVC catches up. [Ruslan Abdikeev][a] provided an 
-  example of [using it][gista1].
+  Right now it has a limit on string length. You can increase it by editing the $(...) macro in
+  the **intern.h** header. I didn't know at first, but there is a proposal to add this capability 
+  to the standard: [N3599][] "Literal operator templates for strings" by [Richard Smith][rich]. 
+  GCC and Clang already provide it as an extension, I hope MSVC catches up. [Ruslan Abdikeev][a] 
+  provided a [sample][gista1] showing it in code. To use this extension just **#define N3599** 
+  before including the header.
 
   String interning turns a string into a type and as such allows for a number of other nice things.
 

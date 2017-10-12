@@ -110,7 +110,10 @@ printf( "name: %s, id: %d\n", get&lt;$("name")&gt;(p), get&lt;$("id")&gt;(p) );
 <p>See it online <a href="https://goo.gl/EMWgBG" title="nuple Online Example">at tio.run</a> (or at <a href="https://ideone.com/uvZ3uZ" title="nuple Online Example">Ideone</a>).</p>
 
 <p>There is no hacks. It's all valid C++ <a href="https://github.com/alexpolt/luple/">source code</a> (C++14) and can be safely used in 
-  production code.</p>
+  production code. There is a limit on string length of 10 characters (sort of arbitrary), you can 
+  increase it by editing the $(...) macro in the intern.h header. Or #define N3599 to use <a href="http://open-std.org/JTC1/SC22/WG21/docs/papers/2013/n3599.html" title="Literal operator templates for strings">N3599</a>
+  proposal (adds string literal template to the language) which GCC and Clang implement as an 
+  extension.</p>
 
 <p>Follow me on <a href="https://twitter.com/poltavsky_alex" title="Alexandr Poltavsky, Software Developer">Twitter</a> for updates about my new articles (mostly programming and computer
   graphics). </p>

@@ -43,7 +43,10 @@
   See it online [at tio.run][n-tio] (or at [Ideone][n-ide]).
 
   There is no hacks. It's all valid C++ [source code][luple] (C++14) and can be safely used in 
-  production code.
+  production code. There is a limit on string length of 10 characters (sort of arbitrary), you can 
+  increase it by editing the $(...) macro in the intern.h header. Or #define N3599 to use [N3599][]
+  proposal (adds string literal template to the language) which GCC and Clang implement as an 
+  extension.
 
   Follow me on [Twitter][t] for updates about my new articles (mostly programming and computer
   graphics). 
@@ -59,5 +62,7 @@
   [n-tio]: https://goo.gl/EMWgBG "nuple Online Example"
   [n-ide]: https://ideone.com/uvZ3uZ "nuple Online Example"
 
+  [N3599]: http://open-std.org/JTC1/SC22/WG21/docs/papers/2013/n3599.html "Literal operator templates for strings"
 
+  
 
