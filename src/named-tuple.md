@@ -44,9 +44,9 @@
 
   There is no hacks. It's all valid C++ [source code][luple] (C++14) and can be safely used in 
   production code. There is a limit on string length of 10 characters (sort of arbitrary), you can 
-  increase it by editing the $(...) macro in the intern.h header. Or #define N3599 to use [N3599][]
-  proposal (adds string literal template to the language) which GCC and Clang implement as an 
-  extension.
+  increase it by editing the $(...) macro in the intern.h header. Or #define N3599 to use the 
+  [N3599][] proposal (adds string literal template to the language) which GCC and Clang implement 
+  as an extension.
 
   Follow me on [Twitter][t] for updates about my new articles (mostly programming and computer
   graphics). 
