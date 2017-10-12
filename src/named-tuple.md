@@ -15,7 +15,8 @@
   The dollar sign is [string interning][intern] which turns a string literal into a type. All we 
   have to do is to sort this parameter type list into a names list and a type list. The type list
   is then passed to [luple][] which is a lightweight (source code I mean) tuple I created for 
-  the [C++ type loophole][l]. The [source code][luple] is short and easy to read (header is nuple.h).
+  the [C++ type loophole][l]. The [source code][luple] (GitHub) is short and easy to read 
+  (header is **nuple.h**).
 
   So, here's an example of using it:
 
@@ -41,7 +42,8 @@
 
   See it online [at tio.run][n-tio] (or at [Ideone][n-ide]).
 
-  There is no hacks. It's all valid C++ (C++14) and can be safely used in production code.
+  There is no hacks. It's all valid C++ [source code][luple] (C++14) and can be safely used in 
+  production code.
 
 
   [vnt]: http://vitiy.info/named-tuple-for-cplusplus/ "Named tuple for C++"

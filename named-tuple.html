@@ -80,7 +80,8 @@
 <p>The dollar sign is <a href="intern.html" title="Useful Properties of String Interning in C++">string interning</a> which turns a string literal into a type. All we 
   have to do is to sort this parameter type list into a names list and a type list. The type list
   is then passed to <a href="https://github.com/alexpolt/luple/">luple</a> which is a lightweight (source code I mean) tuple I created for 
-  the <a href="type-loophole.html" title="The C++ Type Loophole (C++14)">C++ type loophole</a>. The <a href="https://github.com/alexpolt/luple/">source code</a> is short and easy to read (header is nuple.h).</p>
+  the <a href="type-loophole.html" title="The C++ Type Loophole (C++14)">C++ type loophole</a>. The <a href="https://github.com/alexpolt/luple/">source code</a> (GitHub) is short and easy to read 
+  (header is <strong>nuple.h</strong>).</p>
 
 <p>So, here's an example of using it:</p>
 
@@ -108,7 +109,8 @@ printf( "name: %s, id: %d\n", get&lt;$("name")&gt;(p), get&lt;$("id")&gt;(p) );
 
 <p>See it online <a href="https://goo.gl/EMWgBG" title="nuple Online Example">at tio.run</a> (or at <a href="https://ideone.com/uvZ3uZ" title="nuple Online Example">Ideone</a>).</p>
 
-<p>There is no hacks. It's all valid C++ (C++14) and can be safely used in production code.</p>
+<p>There is no hacks. It's all valid C++ <a href="https://github.com/alexpolt/luple/">source code</a> (C++14) and can be safely used in 
+  production code.</p>
 
 <script>
 document.addEventListener( "DOMContentLoaded", function() { 
