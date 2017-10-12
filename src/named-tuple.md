@@ -45,6 +45,8 @@
   There is no hacks. It's all valid C++ [source code][luple] (C++14) and can be safely used in 
   production code.
 
+  Follow me on [Twitter][t] for updates about my new articles (mostly programming and computer
+  graphics). 
 
   [vnt]: http://vitiy.info/named-tuple-for-cplusplus/ "Named tuple for C++"
   [victor]: http://twitter.com/VictorLaskin "Victor Laskin Twitter"
@@ -52,6 +54,7 @@
   [intern]: intern.html "Useful Properties of String Interning in C++"
   [l]: type-loophole.html "The C++ Type Loophole (C++14)"
   [luple]: https://github.com/alexpolt/luple/
+  [t]: https://twitter.com/poltavsky_alex "Alexandr Poltavsky, Software Developer"
 
   [n-tio]: https://goo.gl/EMWgBG "nuple Online Example"
   [n-ide]: https://ideone.com/uvZ3uZ "nuple Online Example"
