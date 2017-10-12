@@ -48,8 +48,9 @@
   [N3599][] proposal (adds string literal template to the language) which GCC and Clang implement 
   as an extension.
 
-  Follow me on [Twitter][t] for updates about my new articles (mostly programming and computer
-  graphics). 
+  There is a Reddit [discussion][reddit]. Follow me on [Twitter][t] for updates about my new 
+  articles (mostly programming and computer graphics). 
+
 
   [vnt]: http://vitiy.info/named-tuple-for-cplusplus/ "Named tuple for C++"
   [victor]: http://twitter.com/VictorLaskin "Victor Laskin Twitter"
@@ -64,5 +65,5 @@
 
   [N3599]: http://open-std.org/JTC1/SC22/WG21/docs/papers/2013/n3599.html "Literal operator templates for strings"
 
-  
+  [reddit]: https://www.reddit.com/r/cpp/comments/75wc6j/nuple_a_named_tuple/ "nuple: a Named Tuple on Reddit"
 
