@@ -42,6 +42,8 @@
 
   See it in action [online at tio.run][n-tio] (also [Coliru][n-col] or [Wandbox][n-wan]).
 
+  Also a nuple-to-json [example at tio.run][j-tio] (also [Coliru][j-col] or [Wandbox][j-wan]).
+
   There is no hacks. It's all valid C++ [source code][luple] (C++14) and can be safely used in 
   production code. There is a limit on string length of 10 characters (sort of arbitrary), you can 
   increase it by editing the $(...) macro in the intern.h header. Or #define N3599 to use the 
@@ -64,6 +66,10 @@
   [n-col]: http://coliru.stacked-crooked.com/a/6c31a74287925b52 "luple Online Example at Coliru"
   [n-wan]: https://wandbox.org/permlink/FA7LV8zjuyy9UIFH "luple Online Example at Wandbox"
 
+  [j-tio]: https://goo.gl/c8ofW5 "luple Online Example at tio.run"
+  [j-col]: http://coliru.stacked-crooked.com/a/8f2f84adae0cb751 "luple Online Example at Coliru"
+  [j-wan]: https://wandbox.org/permlink/NBHrlq8UJ9kDf0KS "luple Online Example at Wandbox"
+  
   [N3599]: http://open-std.org/JTC1/SC22/WG21/docs/papers/2013/n3599.html "Literal operator templates for strings"
 
   [reddit]: https://www.reddit.com/r/cpp/comments/75wc6j/nuple_a_named_tuple/ "nuple: a Named Tuple on Reddit"
