@@ -40,7 +40,7 @@
     
     printf( "name: %s, id: %d\n", get<$("name")>(p), get<$("id")>(p) );
 
-  See it online [at tio.run][n-tio] (or at [Ideone][n-ide]).
+  See it in action [online at tio.run][n-tio] (also [Coliru][n-col] or [Wandbox][n-wan]).
 
   There is no hacks. It's all valid C++ [source code][luple] (C++14) and can be safely used in 
   production code. There is a limit on string length of 10 characters (sort of arbitrary), you can 
@@ -60,8 +60,9 @@
   [luple]: https://github.com/alexpolt/luple/
   [t]: https://twitter.com/poltavsky_alex "Alexandr Poltavsky, Software Developer"
 
-  [n-tio]: https://goo.gl/EMWgBG "nuple Online Example"
-  [n-ide]: https://ideone.com/uvZ3uZ "nuple Online Example"
+  [n-tio]: https://goo.gl/ocpLpG "luple Online Example at tio.run"
+  [n-col]: http://coliru.stacked-crooked.com/a/6c31a74287925b52 "luple Online Example at Coliru"
+  [n-wan]: https://wandbox.org/permlink/FA7LV8zjuyy9UIFH "luple Online Example at Wandbox"
 
   [N3599]: http://open-std.org/JTC1/SC22/WG21/docs/papers/2013/n3599.html "Literal operator templates for strings"
 
