@@ -116,7 +116,19 @@ constexpr char ch(char const(&amp;s)[N], int i) {
   method( $("apple"){} );
 </code></pre>
 
-<p>See it in action online <a href="https://goo.gl/LfDTZ3" title="C++ String Interning Online Example">here at tio.run</a> (or at <a href="https://ideone.com/Dh6az7" title="C++ String Interning Online Example">Ideone</a>).</p>
+<p>It can also be used as a simple type id system:</p>
+
+<pre><code>#define $typeid(s) $( #s )::value
+
+using typeid_t = void const*;
+
+struct data {
+
+  constexpr static typeid_t tid = $typeid( data ); //address is unique
+};
+</code></pre>
+
+<p>See it in action online <a href="https://goo.gl/sBtBKn" title="C++ String Interning Online Example at tio.run">here at tio.run</a> (or at <a href="http://coliru.stacked-crooked.com/a/ad43084765b89d9c" title="C++ String Interning Online Example at Coliru">Coliru</a>).</p>
 
 <p>We can also use it in place of enums because it has a fixed address. Maybe not really good idea 
   if you have hundreds of enums but for a couple it has the advantage of being self-describing.</p>

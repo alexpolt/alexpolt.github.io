@@ -48,7 +48,18 @@
       
       method( $("apple"){} );
 
-  See it in action online [here at tio.run][i-tio] (or at [Ideone][i-ide]).
+  It can also be used as a simple type id system:
+
+    #define $typeid(s) $( #s )::value
+
+    using typeid_t = void const*;
+
+    struct data {
+    
+      constexpr static typeid_t tid = $typeid( data ); //address is unique
+    };
+
+  See it in action online [here at tio.run][i-tio] (or at [Coliru][i-col]).
 
   We can also use it in place of enums because it has a fixed address. Maybe not really good idea 
   if you have hundreds of enums but for a couple it has the advantage of being self-describing.
@@ -92,8 +103,8 @@
   [a]: https://twitter.com/aruslan "Ruslan Abdikeev"
   [gista1]: https://gist.github.com/alexpolt/532b48b9353e98e276b79296ec9f4ab6 "C++ String Interning"
   [N3599]: http://open-std.org/JTC1/SC22/WG21/docs/papers/2013/n3599.html "Literal operator templates for strings"
-  [i-tio]: https://goo.gl/LfDTZ3 "C++ String Interning Online Example"
-  [i-ide]: https://ideone.com/Dh6az7 "C++ String Interning Online Example"
+  [i-tio]: https://goo.gl/sBtBKn "C++ String Interning Online Example at tio.run"
+  [i-col]: http://coliru.stacked-crooked.com/a/ad43084765b89d9c "C++ String Interning Online Example at Coliru"
   [m-tio]: https://goo.gl/ghbfQK "Linkin Using String Interning"
   [m-ide]: https://ideone.com/A9Vk6q "Linkin Using String Interning"
   [c-tio]: https://goo.gl/5gJ3vB "C++ String Interning Calculator Example"
