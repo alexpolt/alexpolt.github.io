@@ -97,7 +97,7 @@ constexpr char ch(char const(&amp;s)[N], int i) {
   to the standard: <a href="http://open-std.org/JTC1/SC22/WG21/docs/papers/2013/n3599.html" title="Literal operator templates for strings">N3599</a> "Literal operator templates for strings" by <a href="https://twitter.com/zygoloid" title="Richard Smith">Richard Smith</a>. 
   GCC and Clang already provide it as an extension, I hope MSVC catches up. <a href="https://twitter.com/aruslan" title="Ruslan Abdikeev">Ruslan Abdikeev</a> 
   provided a <a href="https://gist.github.com/alexpolt/532b48b9353e98e276b79296ec9f4ab6" title="C++ String Interning">sample</a> showing it in code. To use this extension just <strong>#define N3599</strong> 
-  before including the header.</p>
+  before including the headeri (Update: I've enabled it by deffault).</p>
 
 <p>String interning turns a string into a type and as such allows for a number of other nice things.</p>
 
@@ -113,10 +113,10 @@ constexpr char ch(char const(&amp;s)[N], int i) {
 <pre><code>  void method( $("apple") ) { ... }
   void method( $("orange") ) { ... }
 
-  method( $("apple"){} );
+  method( $("apple"){} ); //calls apple method
 </code></pre>
 
-<p>It can also be used as a simple type id system:</p>
+<p>or it can be used as a simple type id system:</p>
 
 <pre><code>#define $typeid(s) $( #s )::value
 
