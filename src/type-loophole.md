@@ -70,7 +70,7 @@
   I provide full **commented source code** of both the type loophole and luple in the 
   [GitHub repo][g]. It works on all three major compilers.
 
-  You can see it in action online at [tio.run][e0], [Coliru][e1], [Ideone][e2], [Rextester][e3].
+  You can see it in action online at [tio.run][e0], [Coliru][e1], [Wandbox][e2].
 
   You can find a more condensed example of a data member type detector using type loophole 
   [here at godbolt.org][memd] (a slightly other version was initially [provided][redc] by a 
@@ -119,10 +119,9 @@
   [c]: https://godbolt.org/g/PHjMPC "The Great Type Loophole"
   [s]: struct-tuple.html "Structure Data Members as a Type List Using Pure C++"
   
-  [e0]: https://goo.gl/DxBpmq "Demonstration of the Great Type Loophole at Work at tio.run"
-  [e1]: http://coliru.stacked-crooked.com/a/c433a4b5f1bda686 "Demonstration of the Great Type Loophole at Work at Coliru"
-  [e2]: https://ideone.com/bw6ch7 "Demonstration of the Great Type Loophole at Work at Ideone"
-  [e3]: http://rextester.com/GEQBN34830 "Demonstration of the Great Type Loophole at Work at Rextester"
+  [e0]: https://goo.gl/2T5Ww6 "Demonstration of the Great Type Loophole at Work at tio.run"
+  [e1]: http://coliru.stacked-crooked.com/a/69ee9bdf2bb4dc75 "Demonstration of the Great Type Loophole at Work at Coliru"
+  [e2]: https://wandbox.org/permlink/kKUjvDQMmSR4gnz7 "Demonstration of the Great Type Loophole at Work at Wandbox"
   
   [sim]: https://twitter.com/TartanLlama "Simon Brand"
   [simt]: https://twitter.com/TartanLlama/status/905306427929001986 "Type Loophole Twitter Post"
