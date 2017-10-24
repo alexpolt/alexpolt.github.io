@@ -107,7 +107,7 @@ get&lt;int&gt;(p) = 4;
 printf( "name: %s, id: %d\n", get&lt;$("name")&gt;(p), get&lt;$("id")&gt;(p) );
 </code></pre>
 
-<p>See it in action <a href="https://goo.gl/ocpLpG" title="luple Online Example at tio.run">online at tio.run</a> (also <a href="http://coliru.stacked-crooked.com/a/6c31a74287925b52" title="luple Online Example at Coliru">Coliru</a> or <a href="https://wandbox.org/permlink/FA7LV8zjuyy9UIFH" title="luple Online Example at Wandbox">Wandbox</a>).</p>
+<p>See it in action <a href="https://goo.gl/zvo26z" title="luple Online Example at tio.run">online at tio.run</a> (also <a href="http://coliru.stacked-crooked.com/a/52984bf7d0b4db19" title="luple Online Example at Coliru">Coliru</a> or <a href="https://wandbox.org/permlink/ghbTSf5LwztoyCta" title="luple Online Example at Wandbox">Wandbox</a>).</p>
 
 <p>Also a nuple-to-json <a href="https://goo.gl/c8ofW5" title="luple Online Example at tio.run">example at tio.run</a> (also <a href="http://coliru.stacked-crooked.com/a/8f2f84adae0cb751" title="luple Online Example at Coliru">Coliru</a> or <a href="https://wandbox.org/permlink/NBHrlq8UJ9kDf0KS" title="luple Online Example at Wandbox">Wandbox</a>).</p>
 
@@ -115,7 +115,21 @@ printf( "name: %s, id: %d\n", get&lt;$("name")&gt;(p), get&lt;$("id")&gt;(p) );
   production code. There is a limit on string length of 10 characters (sort of arbitrary), you can 
   increase it by editing the $(...) macro in the intern.h header. Or #define N3599 to use the 
   <a href="http://open-std.org/JTC1/SC22/WG21/docs/papers/2013/n3599.html" title="Literal operator templates for strings">N3599</a> proposal (adds string literal template to the language) which GCC and Clang implement 
-  as an extension.</p>
+  as an extension. (Update: defined by default for GCC and Clang)</p>
+
+<p><strong>Update</strong>. Added syntax like this:</p>
+
+<pre><code>auto get_person( int id ) {
+
+  return as_nuple( $name("name"), "Victoria", $name("id"), id );
+}
+
+auto p = get_person( 5 );
+
+std::cout &lt;&lt; get&lt;$("name")&gt;( p );
+</code></pre>
+
+<p>Here macro $name(...) returns a value of an <a href="intern.html" title="Useful Properties of String Interning in C++">interned string</a> type ( $(...) gives a type ).</p>
 
 <p>There is a Reddit <a href="https://www.reddit.com/r/cpp/comments/75wc6j/nuple_a_named_tuple/" title="nuple: a Named Tuple on Reddit">discussion</a>. Follow me on <a href="https://twitter.com/poltavsky_alex" title="Alexandr Poltavsky, Software Developer">Twitter</a> for updates about my new 
   articles (mostly programming and computer graphics). </p>

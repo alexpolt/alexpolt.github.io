@@ -48,7 +48,20 @@
   production code. There is a limit on string length of 10 characters (sort of arbitrary), you can 
   increase it by editing the $(...) macro in the intern.h header. Or #define N3599 to use the 
   [N3599][] proposal (adds string literal template to the language) which GCC and Clang implement 
-  as an extension.
+  as an extension. (Update: defined by default for GCC and Clang)
+
+  **Update**. Added syntax like this:
+
+    auto get_person( int id ) {
+
+      return as_nuple( $name("name"), "Victoria", $name("id"), id );
+    }
+
+    auto p = get_person( 5 );
+
+    std::cout << get<$("name")>( p );
+
+  Here macro $name(...) returns a value of an [interned string][intern] type ( $(...) gives a type ).
 
   There is a Reddit [discussion][reddit]. Follow me on [Twitter][t] for updates about my new 
   articles (mostly programming and computer graphics). 
@@ -62,9 +75,9 @@
   [luple]: https://github.com/alexpolt/luple/
   [t]: https://twitter.com/poltavsky_alex "Alexandr Poltavsky, Software Developer"
 
-  [n-tio]: https://goo.gl/ocpLpG "luple Online Example at tio.run"
-  [n-col]: http://coliru.stacked-crooked.com/a/6c31a74287925b52 "luple Online Example at Coliru"
-  [n-wan]: https://wandbox.org/permlink/FA7LV8zjuyy9UIFH "luple Online Example at Wandbox"
+  [n-tio]: https://goo.gl/zvo26z "luple Online Example at tio.run"
+  [n-col]: http://coliru.stacked-crooked.com/a/52984bf7d0b4db19 "luple Online Example at Coliru"
+  [n-wan]: https://wandbox.org/permlink/ghbTSf5LwztoyCta "luple Online Example at Wandbox"
 
   [j-tio]: https://goo.gl/c8ofW5 "luple Online Example at tio.run"
   [j-col]: http://coliru.stacked-crooked.com/a/8f2f84adae0cb751 "luple Online Example at Coliru"
