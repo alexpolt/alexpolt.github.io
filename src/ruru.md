@@ -1,5 +1,5 @@
 
- <div class="resume">
+ <div id="resume">
 
 <img src="images/cpp.png" class="resume-logo" />
 <img src="images/java.png" class="resume-logo" />
@@ -22,6 +22,7 @@
 ###Контакты
 
   * Почта: poltavsky.alexandr&#64;gmail.com
+  
   * Телефон: +7 (964) 791-19-61
 
 
@@ -29,32 +30,27 @@
 
   Я ищу работу, связанную в основном с программированием на C++. Меня с детства интересуют 
   компьютеры, и со временем я получил достаточно хорошее представление об архитектуре вычислительных 
-  машин, структурах данных и алгоритмах. Также имею значительный опыт работы с технологиями сети
-  Интернет. Из своих достижений хотел бы отметить C++ библиотеку [*atomic\_data*][ad], которая 
-  позволяет использовать неблокирующее программирование (lock-free programming) со структурами 
-  данных любого размера (код, включая Android Studio NDK проект, доступен на [GitHub][] ).
+  машин, структурах данных и алгоритмах. За все время работы также приходилось много заниматься
+  технологиями Веб (как серверной, так и клиентской частью). Вы можете посмотреть на **примеры
+  моего кода** пройдя по ссылкам в разделе "Проекты". Также у меня есть ряд публикаций по теме
+  программирования на языке C++ (раздел "Публикации").
 
-
-  [DFAA]: http://alexpolt.github.io/dfaa.html "DFAA Anti-Aliasing Algorthim"
-  [JCGT]: http://jcgt.org/ "the Journal of Computer Graphics Techniques"
-  [GitHub]: https://github.com/alexpolt/ "GitHub: Alexandr Poltavsky"
-  [ad]: http://alexpolt.github.io/atomic-data.html 
-                  "atomic_data: A Multibyte General Purpose Lock-Free Data Structure"
 
 ###Технические навыки
 
-  * Глубокое знание C++11/C++14 и Standard Template Library (STL)
-  * Достаточно хорошо знаю DirectX 9, DirectX 11 и OpenGL APIs
-  * Есть опыт работы с HLSL и GLSL
-  * Изучал архитектуру и программирование NVIDIA CUDA
-  * Есть опыт с Java и JNI
-  * Хорошие знание Веб-технологий (PHP, JavaScript, HTML, немного Perl)
-  * Достаточно много работал с MySQL, а также совсем немного с Oracle PL/SQL
-  * Хорошее понимание многопоточного и неблокирующего (lock-free) программирования
-  * Понимаю ассемблерный код, и умею оптимизировать программы, в том числе для SIMD
+  * Глубокое знание C++ ( C++11/C++14 )
+  * Практический опыт с Standard Template Library (STL)
+  * Создание приложений для десктопа на C++ с использованием Win32 API
+  * Программирование на стороне сервера на C++ и PHP, а также немного Perl
+  * Хорошее знание языка запросов SQL
+  * Основной базой данных в работе была MySQL, знаком с Postgres
+  * Работал с JavaScript, HTML, XML
+  * Хорошее понимание классического многопоточного и неблокирующего (lock-free) 
+    программирования
+  * Понимаю ассемблерный код, и умею оптимизировать программы
   * Владею линейной алгеброй, дифференциальным исчислением и тригонометрией
   * Работал с GIT и SVN
-  * Есть опыт Bash и работы в Linux
+  * Увернно чувствую себя с Bash и Linux
 
 
 ###Опыт работы
@@ -74,9 +70,9 @@
   Занимался разработкой веб-приложений на основе сервера Apache, PHP (немного Perl) и MySQL.
   Делал немного верстки HTML страниц c использованием JavaScript и CSS.
 
-  Одной из задач была разработки на языке C модуля статистики для Apache.
+  Одной из задач была разработки на языке C++ модуля статистики для веб-сервера Apache.
 
-  Был опыт руководства небольшой группой программистов из 3-х человек.
+  Последний год работы был страшим программистом в группе разработчиков из 3-х человек.
 
 
 * **Институт Стволовых Клеток Человека (Россия, Москва), август 2008 - май 2011**
@@ -90,63 +86,95 @@
 * **Независимый разработчик, с 2011 по текующее время**
 
   Решил на время отойти от активной карьеры для реализации собственных идей. Попробовал написать
-  CMS (система управления контентом) и запустить новостной сайт. Позже написал
-  игру на Java и выложил в магазине Google Play (Color Throne).
+  CMS (система управления контентом) и запустить новостной сайт. Позже написал игру на Java и 
+  выложил в магазине Google Play (Color Throne). Последним проектом было написание приложения
+  для визуализации в 3D данных для Института Проблем Управления РАН ( НИР-1, НИР-2 ).
 
-  Также в этот период значительно продвинулся в плане C++, хорошо изучил новые конструкции C++11.
-  Много читал про алгоритмы и подходы отображения (rendering) в 3D компьютерной графике,
-  написал пару тестовых програм, предложил новый алгоритм сглаживания (*DFAA anti-aliasing*).
-  А также хорошо изучил тему неблокирующего программирования (lock-free programming) и предложил
-  библиотеку *atomic\_data*.
+  Также много работал над улучшением своих C++ навыков. Достаточно глубоко разобрался с C++11.
+  Начал создание собственного 3D демо-движка ( Flower3D ), для которого я написал собственную
+  математическую библиотеку и свой мини-STL ( свой std::vector, std::unordered\_map, type\_traits
+  и другое ).
+
+  Во время своих исследований открыл технику рефлексии ( reflection ) в C++ во время компиляции
+  без использования макросов, которую описал в блог-посте "The C++ Type Loophole".
+
+  Разобрался с неблокирующим ( lock-free ) программированием, результатом чего стало создание
+  неблокирующей структуры данных atomic\_data и подробная статья ( ссылки в разделе "Проекты" ).
 
 
 ###Образование
 
-  Математика и информатика, Московский инженерно-физический институт (МИФИ) (незаконченное)
+  Математика и информатика, Московский инженерно-физический институт (МИФИ), незаконченное.
  
 
 ###Сертификаты
 
+  * [Mail.ru C++ Gold Certificate](https://certification.mail.ru/certificates/d7f3561b-7cda-44b7-9110-1b0fc35f0285/)
+  
   * [Zend Certified Engineer](http://www.zend.com/en/yellow-pages/ZEND004080) (LAMP software stack)
 
-  * [Mail.ru C++ Gold Certificate](https://certification.mail.ru/certificates/d7f3561b-7cda-44b7-9110-1b0fc35f0285/)
+
+###Публикации ( C++, английский язык )
+
+  * [The C++ Type Loophole](http://alexpolt.github.io/type-loophole.html)
+
+    Описание техники рефлекции ( reflection ) в C++ во время компиляции без макросов.
+
+  * [nuple: a Named Tuple](http://alexpolt.github.io/named-tuple.html)
+
+    Тегированный tuple уменьшает количество ошибок в коде.
+
+  * [Useful Properties of String Interning in C++](http://alexpolt.github.io/intern.html)
+
+    Интернированные ( interning ) строки в C++ имеют много полезных свойств.
+
+  * [Undefined Behaviour and Optimizations: GCC vs Clang vs MSC](http://alexpolt.github.io/undefined.html)
+
+    Исследую ассемблерный выход разных компиляторов в случае наличия неопределенного поведения и
+    его влияния на оптимизатор.
+
+  * Другие статьи можно прочитать в [моем блоге](http://alexpolt.github.io/).
 
 
+###Проекты ( GitHub )
 
-###Проекты и публикации
+  * [luple, nuple, Struct Reader and C++ Type Loophole](https://github.com/alexpolt/luple)
 
-  * [Introducing DFAA anti-aliasing algorithm](http://alexpolt.github.io/dfaa.html)
+    luple - это мой полноценный аналог std::tuple, в nuple есть все от luple плюс еще тегирование
+    членов именами, что может быть очень удобно. Struct Reader позволяет узнать типы агрегированных
+    структур данных, но с большими ограничениями. C++ Type Loophole таких ограничений не имеет.
+    Полностью исходный код и также онлайн примеры.
 
-    В этой статье я предлагаю новый алгоритм сглаживания - DFAA. Код на HLSL и проект
-    Render Monkey доступны на [GitHub](https://github.com/alexpolt/DFAA).
+  * [atomic\_data: A Multibyte General Purpose Lock-Free Data Structure](https://github.com/alexpolt/atomic_data)
 
-  * [atomic\_data: A Multibyte General Purpose Lock-Free Data Structure](http://alexpolt.github.io/atomic-data.html)
+    Неблокирующая структура данных atomic\_data, которая позволяет атомарно читать и обновлять
+    данные любых размеров. Несложный API и очень хорошие показатели производительности.
 
-    Описываю проблемы неблокирующего (lock-free) программирования и предлагаю новую 
-    неблокирующуюю структуру данных *atomic\_data*. Много примеров, а также доступен проект 
-    [Android Studio (NDK) project](https://github.com/alexpolt/atomic_data).
+  * [Flower3D](https://github.com/alexpolt/flower3d)
 
-  * [A quick and easy way to print a float in base-10](http://alexpolt.github.io/print-fp.html)
+    3D демо-движок со своей математикой и мини-STL. Проект находится в разработке.
 
-    Числа с плавающей точкой имеют большое значения в программировании. Эта статья показывает
-    необычный и довольно умный метод печати числа с плавающей точкой на экран.
+  * [WebObject](https://github.com/alexpolt/WebObject)
 
-  * [Color Throne - Brain Gymnastics (an android game)](http://alexpolt.github.io/color-throne.html)
+    Незаконченный проект системы управленями контентом на PHP.
 
-    Простая игра, написанная на Java в Android Studio. Смотрите на 
-    [Google Play](https://play.google.com/store/apps/details?id=poltavsky.alexandr.colorthronefree).
+  * [ColorThrone - Brain Gymnastics (an Android game)](https://github.com/alexpolt/colorthrone)
+
+    Простая match 3 игра с элементами Тетриса. Исходники на Java.
 
 
 ###Языки
 
-  * родной русский
-  * продвинутый английский
-  * начальный немецкий
+  * Русский - родной 
+  
+  * Английский - продвинутый 
 
 
 
 <div style="clear: both;"></div>
 
  </div>
+
+<div style="height: 387px"></div>
 
 

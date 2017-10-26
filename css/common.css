@@ -46,6 +46,10 @@ a:hover {
   width: 100% !important;
 }
 
+div#wrap.resume {
+  width: 85%;
+}
+
 #header {
   float: left;
   width: 100%;
@@ -74,6 +78,14 @@ a:hover {
   font-size: 0.8em;
 }
 
+.resume #header {
+  font-size: 1em;
+}
+
+.resume #header div.text {
+  padding: 0.5em 1em 0em 1em;
+}
+
 #header img.ad {
   max-width: 20%;
   float: right;
@@ -85,19 +97,23 @@ a:hover {
 
 img.resume-logo {
   float: right;
-  width: 120px;
+  width: 100px;
   clear: right;
   margin: 0px 0px 30px 50px;
 }
 
-div.resume {
+.mobile img.resume-logo {
+  display: none;
 }
 
-div.resume h1 {
+div#resume {
+}
+
+div#resume h1 {
   text-align: center;
 }
 
-div.resume h3 {
+div#resume h3 {
   margin-top: 30px;
 }
 
@@ -128,6 +144,10 @@ div.text div.break {
 
 .mobile #content {
   padding: 0em 1em 0.05em 1em !important;
+}
+
+.resume #content {
+  padding: 0em 2em 0.05em 2em;
 }
 
 div#main-menu {
