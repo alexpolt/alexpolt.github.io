@@ -3,6 +3,7 @@ MAKEFLAGS += -r
 md := perl ../markdown/markdown.pl
 git := git
 tmpl := tmpl-header.html tmpl-footer.html
+tmpl2 := tmpl-header2.html tmpl-header2ru.html tmpl-footer2.html
 targets := $(patsubst %.md,../%.html,$(wildcard *.md))
 
 all: $(targets)
@@ -19,11 +20,19 @@ all: $(targets)
 # $(git) commit
 
 
-../r%ru.html : r%ru.md $(tmpl)
+../r%en.html : r%en.md $(tmpl2)
 #	cat tmpl-header.html > $@
-	title=`grep -m1  '##.*' $< | cut -b3-` && sed "s/<title>\(.*\)<\/title>/<title>$${title} - \1<\/title>/" tmpl-header-ru.html > $@
+	title=`grep -m1  '##.*' $< | cut -b3-` && sed "s/<title>\(.*\)<\/title>/<title>$${title} - \1<\/title>/" tmpl-header2.html > $@
 	$(md) $< >> $@
-	cat tmpl-footer.html >> $@
+	cat tmpl-footer2.html >> $@
+	$(git) add $< $@
+#	$(git) commit
+
+../r%ru.html : r%ru.md $(tmpl2)
+#	cat tmpl-header.html > $@
+	title=`grep -m1  '##.*' $< | cut -b3-` && sed "s/<title>\(.*\)<\/title>/<title>$${title} - \1<\/title>/" tmpl-header2ru.html > $@
+	$(md) $< >> $@
+	cat tmpl-footer2.html >> $@
 	$(git) add $< $@
 #	$(git) commit
 
