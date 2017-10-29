@@ -31,7 +31,7 @@
   to the standard: [N3599][] "Literal operator templates for strings" by [Richard Smith][rich]. 
   GCC and Clang already provide it as an extension, I hope MSVC catches up. [Ruslan Abdikeev][a] 
   provided a [sample][gista1] showing it in code. To use this extension just **#define N3599** 
-  before including the headeri (Update: I've enabled it by deffault).
+  before including the header ( **Update:** I've enabled it by default ).
 
   String interning turns a string into a type and as such allows for a number of other nice things.
 
