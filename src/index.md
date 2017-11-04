@@ -12,8 +12,11 @@
 
 * [Structure Data Members as a Type List Using Pure C++](struct-tuple.html)
 
-  There is no standard way of doind RTTI in C++ right now. But if all you need are data member
+  There is no standard way of doind reflection in C++ right now. But if all you need are data member
   types then this can help.
+
+
+> Best way to think of algorithms is in steps (don't try to grok it as a whole)
 
 
 * [Visual C++ Struct Layout Reminder](struct-layout.html)

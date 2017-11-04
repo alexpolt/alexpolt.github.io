@@ -3,10 +3,10 @@
 
   There is no standard way of getting type description in C++ at this moment. As a result 
   developers come up with all sorts of tools ranging from macros to domain specific languages 
-  to have RTTI. But the truth is with C++14 you can at least get data member types in the form of
-  a type list with only one (serious) limitation: the technique can only work with **literal and 
-  non-const/non-reference types**. That means types like bool or char, char const\*, float  and 
-  others (including user provided literal types) are fine.
+  to have type reflection. But the truth is with C++14 you can at least get data member types 
+  in the form of a type list with only one (serious) limitation: the technique can only work 
+  with **literal and non-const/non-reference types**. That means types like bool or char, 
+  char const\*, float and others (including user provided literal types) are fine.
 
   Here is the relevant part that makes it possible:
 
