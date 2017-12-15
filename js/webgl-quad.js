@@ -13,7 +13,7 @@ function webgl_quad( opts ) {
   if( opts.extensions ) {
     foreach( opts.extensions, function(ext) {
       if( ! gl.getExtension( ext ) ) 
-        throw "extension " + ext + " not supported";
+        throw "Extension " + ext + " not supported. You may need to update the browser.";
     } );
   }
 

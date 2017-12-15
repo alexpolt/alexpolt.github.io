@@ -66,17 +66,19 @@ var camera_imp = {
   keyup: function(e) {
   },
   rotate_x: function(delta) {
-    var d = clamp( delta+this.delta_max, 0, this.delta_max*2 );
+    var d = clamp( delta+this.delta_max, 0, this.delta_max*2 ) | 0;
     if( this.personal ) {
     } else {
       mmul( this.mout, this.m_rot_x[d], this.m );
+      renorm( this.mout, this.mout );
       mcopy( this.m, this.mout );
       mclear( this.mout );
     }
   },
   rotate_y: function(delta) {
-    var d = clamp( delta+this.delta_max, 0, this.delta_max*2 );
+    var d = clamp( delta+this.delta_max, 0, this.delta_max*2 ) | 0;
     mmul( this.mout, this.m_rot_y[d], this.m );
+    renorm( this.mout, this.mout );
     mcopy( this.m, this.mout );
     mclear( this.mout );
   },

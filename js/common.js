@@ -7,6 +7,14 @@ window.addEventListener( "error", function( e ) {
     show_error = confirm( e.message + "\nat file " + e.filename + ", line " + e.lineno + ask );
 } );
 
+if( Float32Array && Float32Array.prototype.fill === undefined ) {
+  Float32Array.prototype.fill = function( a, value, from, to ) {
+    from = from || 0;
+    to = to || a.length;
+    for( var i = from; i < to; i++ ) a[i] = value;
+  };
+}
+
 function foreach ( arr, fn ) {
   var l = arr.length;
   for( var i=0; i < l; i++) fn( arr[ i ], i );

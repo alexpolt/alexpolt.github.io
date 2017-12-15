@@ -102,8 +102,29 @@ function dot ( p0, p1 ) {
   return s[0];
 }
 
-function norm ( v0 ) { return mul( v0, 1.0/Math.sqrt( dot( v0, v0 ) ) ); }
+function cross ( o, p0, p1 ) { 
+  o[0] = p0[1] * p1[2] - p0[2] * p1[1];
+  o[1] = -( p0[0] * p1[2] - p0[2] * p1[0] );
+  o[2] = p0[0] * p1[1] - p0[1] * p1[0];
+  return o;
+}
+
 function len ( v0 ) { return Math.sqrt( dot( v0, v0 ) ); }
+
+function norm ( v0 ) { 
+  var k = 1.0 / len( v0 );
+  mulv( v0, v0, k ); 
+  return v0;
+}
+
+function renorm( o, m ) {
+  cross( o[2], m[0], m[1] );
+  cross( o[1], m[2], m[0] );
+  vcopy( o[0], m[0] );
+  norm( o[0] );
+  norm( o[1] );
+  norm( o[2] );
+}
 
 function abs ( v ) { return Math.abs(v); }
 function neg ( v ) { return -v; }
@@ -144,7 +165,8 @@ function vmul( o, m, v ) {
 
 function mmul( m, m0, m1 ) {
 
-  if( m0.length != m1[0].length ) {
+  if( m0.length != 
+        m1[0].length ) {
     console.error( m0, m1 );
     throw "mmul matrix dimension mismatch";
   }
