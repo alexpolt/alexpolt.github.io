@@ -6,6 +6,10 @@
   this WebGL rotating statue of a great russian revolutionary Vladimir Lenin.
 
 
+> Just as much a person and his life are insignificant against the scale of the Universe and power
+> of Time, so is the eagerness of that person to live. Some really serious conflict here.
+
+
 * [Procrastination](procrastination.html)
 
   Some thoughts on what's causing procrastination and the way out.
