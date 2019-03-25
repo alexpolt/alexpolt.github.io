@@ -68,7 +68,8 @@
   future:
 
   * Syria will fall, but the winner is going to be someone else.
-  * America will accept a bearded man and realize that love is better than war (Ben Carson?).
+  * America will accept a bearded man and realize that love is better than war 
+  (<strike>Ben Carson?</strike>, **Al Green!**).
   * A short man will be Russia's leader the whole life (Putin will be the President until death?).
   * The World will divide by religion.
   * Europe won't get younger (the worsening demographics of Europe?).
