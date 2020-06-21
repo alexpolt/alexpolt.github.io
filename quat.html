@@ -1,0 +1,167 @@
+<html>
+<body>
+Canvas width: <input type="text" size="4" value="800" id="b_w" />, height: <input type="text" size="4" value="600" id="b_h" /><br/>
+Dots: <input type="text" size="5" value="10000" id="b_dots" /><br/>
+Normalize: <input type="checkbox" checked id="b_norm" /><br/>
+k part of numbers: <input type="text" size="5" value="0.25" id="b_k" /><br/>
+<input type="submit" value="Apply" id="b_apply"/><br/>
+<canvas id="c" style="border:1px solid black"></canvas>
+<script>
+try {
+
+var d = document;
+var c = d.getElementById("c");
+var b_w=d.getElementById("b_w"), b_h=d.getElementById("b_h"), b_dots=d.getElementById("b_dots");
+var b_norm=d.getElementById("b_norm"), b_k=d.getElementById("b_k"), b_apply=d.getElementById("b_apply");
+var mousex=0, mousey=0, mousedx=0, mousedy=0, mousedown=false;
+c.onmousedown=mmousedown;
+c.onmouseup=mmouseup;
+c.onmousemove=mmousemove;
+var frame=0;
+var w = c.width = 0+b_w.value, h = c.height = 0+b_h.value;
+var wh = w/2, hh = h/2;
+var ctx = c.getContext("2d");
+var x=[1,0,0],y=[0,1,0],z=[0,0,1];
+var qarr, qarrlen=0+b_dots.value, iter=10, genx=0.75, gend=0.5, genk = 0+b_k.value, diam=0;
+
+b_apply.onclick=function(e){
+w = c.width = 0+b_w.value;
+h = c.height = 0+b_h.value;
+qarrlen=0+b_dots.value;
+genk = 0+b_k.value;
+frame=0;
+};
+
+var draw = function(){
+if(frame==0){
+genquat();
+ctx.clearRect(0, 0, w, h);
+}
+ctx.clearRect(0, 0, 20, 15);
+ctx.fillText(frame, 0, 10);
+coords();
+if(frame < iter){
+multquat3();
+drawquat();
+}
+frame++;
+window.requestAnimationFrame(draw);
+}
+window.requestAnimationFrame(draw);
+
+function multquat() {
+for(var i=0; i<qarr.length; i++) {
+var q = qarr[i];
+var q0 = q[0]*q[0]-q[1]*q[1]-q[2]*q[2]+q[3]*q[3];
+var q1 = q[1]*q[0]+q[0]*q[1]-q[3]*q[2]-q[2]*q[3];
+var q2 = q[2]*q[0]-q[3]*q[1]+q[0]*q[2]-q[1]*q[3];
+var q3 = q[3]*q[0]+q[2]*q[1]+q[1]*q[2]+q[0]*q[3];
+q[0]=q0; q[1]=q1; q[2]=q2; q[3]=q3;
+}
+}
+function multquat2() {
+for(var i=0; i<qarr.length; i++) {
+var q = qarr[i];
+var q0 = q[0]*q[0]-q[1]*q[1]-q[2]*q[2]-q[3]*q[3];
+var q1 = q[1]*q[0]+q[0]*q[1]-q[3]*q[2]+q[2]*q[3];
+var q2 = q[2]*q[0]+q[3]*q[1]+q[0]*q[2]-q[1]*q[3];
+var q3 = q[3]*q[0]-q[2]*q[1]+q[1]*q[2]+q[0]*q[3];
+q[0]=q0; q[1]=q1; q[2]=q2; q[3]=q3;
+}
+}
+function multquat3() {
+for(var i=0; i<qarr.length; i++) {
+var q = qarr[i];
+var q0 = q[0]*q[0]-q[1]*q[1]-q[2]*q[2]-q[3]*q[3];
+var q1 = q[1]*q[0]+q[0]*q[1]-q[3]*q[2]+q[2]*q[3];
+var q2 = q[2]*q[0]+q[3]*q[1]+q[0]*q[2]-q[1]*q[3];
+var q3 = q[3]*q[0]-q[2]*q[1]+q[1]*q[2]+q[0]*q[3];
+q[0]=q0; q[1]=q1; q[2]=q2; q[3]=q3;
+}
+}
+
+
+function drawquat() {
+qarr.forEach(function(e,i){
+var vx = e[0]*x[0]+e[1]*y[0]+e[2]*z[0];
+var vy = e[0]*x[1]+e[1]*y[1]+e[2]*z[1];
+var vz = e[0]*x[2]+e[1]*y[2]+e[2]*z[2];
+//console.log(e);
+var c = Math.max(Math.min(255/2-255/2*vz, 255),0).toString(16);
+ctx.fillStyle="#"+c+c+c;
+ctx.fillRect(wh+vx*wh*0.8,hh-vy*hh*0.8,1,1);
+});
+}
+
+function genquat() {
+qarr=[];
+for(var i=0;i<qarrlen;i++){
+var ra = 2*Math.PI*Math.random();
+var q=[genx, Math.random()*gend*Math.cos(ra), Math.random()*gend*Math.sin(ra), genk];
+if(b_norm.checked){
+var d = Math.sqrt(q[0]*q[0]+q[1]*q[1]+q[2]*q[2]+q[3]*q[3]);
+d=d+d*diam;
+q[0]=q[0]/d; q[1]=q[1]/d; q[2]=q[2]/d; q[3]=q[3]/d;
+}
+qarr.push(q);
+}
+}
+
+function coords() {
+var style = ["#FF0000", "#00FF00" ,"#0000FF"];
+[x,y,z].forEach(function(e,i) {
+ctx.beginPath();
+ctx.moveTo(wh,hh);
+ctx.lineTo(wh+e[0]*wh/2, hh-e[1]*hh/2);
+ctx.closePath();
+ctx.strokeStyle = style[i];
+ctx.stroke();
+});
+}
+
+function rotateCoords(dx, dy) {
+var ax=0.05*dx, ay=0.05*dy;
+var yrotx=[Math.cos(ax),0,Math.sin(ax)], yrotz=[-Math.sin(ax),0,Math.cos(ax)];
+var xrotz=[0,Math.sin(ay),Math.cos(ay)], xroty=[0,Math.cos(ay),-Math.sin(ay)];
+[x,y,z].forEach(function(e,i) {
+e[0]=e[0]*yrotx[0]+e[2]*yrotz[0];
+norm(e);
+e[2]=e[0]*yrotx[2]+e[2]*yrotz[2];
+norm(e);
+e[1]=e[1]*xroty[1]+e[2]*xrotz[1];
+norm(e);
+e[2]=e[1]*xroty[2]+e[2]*xrotz[2];
+norm(e);
+});
+}
+
+function norm(e) {
+var d = Math.sqrt(e[0]*e[0]+e[1]*e[1]+e[2]*e[2]);
+e[0]=e[0]/d;
+e[1]=e[1]/d;
+e[2]=e[2]/d;
+}
+
+function mmousedown(e) {
+mousex=e.clientX;
+mousey=e.clientY;
+mousedown=true;
+}
+function mmouseup(e) {
+frame=0
+mousedown=false;
+}
+function mmousemove(e) {
+if(mousedown) {
+mousedx=e.clientX-mousex;
+mousedy=e.clientY-mousey;
+rotateCoords(mousedx, mousedy);
+mousex=e.clientX;
+mousey=e.clientY;
+}
+}
+
+} catch(e) { alert(e); }
+</script>
+</body>
+</html>
