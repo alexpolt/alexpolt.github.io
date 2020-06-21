@@ -1,10 +1,141 @@
-<html>
-<body>
+<!DOCTYPE html>
+<HTML>
+
+<HEAD>
+
+  <title>Vladimir Ilyich - Alexandr Poltavsky, software developer</title>
+
+  <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="stylesheet" type="text/css" href="css/common.css" />
+  <link rel="stylesheet" href="highlight/styles/hybrid.css">
+
+</HEAD>
+
+<BODY> 
+
+<div id="wrap">
+
+  <!-- header part -->
+
+  <div id="header">
+
+  <a href="/color-throne.html"><img class="ad" src="images/color-throne-logo-promo.png" title="Color Throne Game"/></a>    
+
+  <div class="avatar">
+  <a href="/">
+      <img class="avatar" width="160" src="images/alexandr-poltavsky-avatar.jpeg" title="Alexandr Poltavsky" align="left"/>
+  </a>
+  </div>
+  <div class="text">
+    <span class="bio">
+      Alexandr Poltavsky <br/> 
+      Software Developer <br/>
+      Location: Russia, Moscow <br/>
+      <span class="email">
+      <a href="mailto:poltavsky.alexandr@gmail.com">poltavsky.alexandr&#64;gmail.com</a><br/>
+      </span>
+    </span>
+    <div class="break"></div>
+    <span class="links">
+      <a href="/">Blog</a>
+      <a href="https://github.com/alexpolt/">Github</a>
+      <a href="https://www.shadertoy.com/user/alexpolt">Shadertoy</a>
+      <a href="https://twitter.com/poltavsky_alex">Twitter</a>
+    </span>
+  </div>
+
+  </div>
+
+
+  <div id="content" style="clear: left">
+
+  <!-- here goes the main content -->
+
+  <div id="main-menu">
+    <a id="main-menu-0" href="index.html">Programming</a>
+    <a id="main-menu-1" href="index-gfx.html">Graphics</a>
+    <a id="main-menu-2" href="index-off.html">Off-topic</a>
+  </div>
+
+
+<h2>Quaternion Playground</h2>
+
+<p>One say I was playing with different multiplication tables for 1,i,j,k extension to numbers. And in the process
+    made this JavaScript demo to see how different rules change behavior. I create a bunch (10000 default) initial
+  quaternions that all are positioned around x=1 with random small deltas. Then I multiply them by themselves to see
+  where they end up going. </p>
+<p>Try changing signs in the multiplication table and other parameters on the left to play with results.</p>
+
+    
+<!-- ############### start of demo ############# -->
+ 
+<style>
+.sign {background-color: transparent; border:0px solid silver; width:10pt; font-weight: bold; text-align: center;}
+</style>
+<table><tr><td style="vertical-align:top">
+
 Canvas width: <input type="text" size="4" value="800" id="b_w" />, height: <input type="text" size="4" value="600" id="b_h" /><br/>
 Dots: <input type="text" size="5" value="10000" id="b_dots" /><br/>
+Scale: <input type="text" size="5" value="0.8" id="b_s" /><br/>
 Normalize: <input type="checkbox" checked id="b_norm" /><br/>
-k part of numbers: <input type="text" size="5" value="0.25" id="b_k" /><br/>
-<input type="submit" value="Apply" id="b_apply"/><br/>
+'k' part of numbers: <input type="text" size="5" value="0.25" id="b_k" /><br/>
+Multiplies (power): <input type="text" size="5" value="5" id="b_p" /><br/>
+
+</td><td style="vertical-align:top; padding-left: 20pt">
+Quaternion multiplication table:
+<table >
+<table border="1" style="margin-top:5pt; margin-bottom: 5pt; border-collapse: collapse; text-align:center; font-weight: bold" >
+	<tbody>
+		<tr>
+			<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+			<td style="background-color: #FAA"> 1</td>
+			<td style="background-color: #AFA"> i</td>
+			<td style="background-color: #AAF"> j</td>
+			<td style="background-color: #3FF"> k</td>
+		</tr>
+		<tr>
+			<td style="background-color: #FAA"> 1</td>
+			<td style="background-color: #FAA"> <input id="sign00" class="sign" type="text" value="+">&nbsp;1&nbsp;</td>
+			<td style="background-color: #AFA"> <input id="sign01" class="sign" type="text" value="+">&nbsp;i&nbsp;</td>
+			<td style="background-color: #AAF"> <input id="sign02" class="sign" type="text" value="+">&nbsp;j&nbsp;</td>
+			<td style="background-color: #3FF"> <input id="sign03" class="sign" type="text" value="+">&nbsp;k&nbsp;</td>
+		</tr>
+		<tr>
+			<td style="background-color: #AFA"> i</td>
+			<td style="background-color: #AFA"> <input id="sign10" class="sign" type="text" value="+">&nbsp;i&nbsp;</td>
+			<td style="background-color: #FAA"> <input id="sign11" class="sign" type="text" value="-">&nbsp;1&nbsp;</td>
+			<td style="background-color: #3FF"> <input id="sign12" class="sign" type="text" value="+">&nbsp;k&nbsp;</td>
+			<td style="background-color: #AAF"> <input id="sign13" class="sign" type="text" value="-">&nbsp;j&nbsp;</td>
+		</tr>
+		<tr>
+			<td style="background-color: #AAF"> j</td>
+			<td style="background-color: #AAF"> <input id="sign20" class="sign" type="text" value="+">&nbsp;j&nbsp;</td>
+			<td style="background-color: #3FF"> <input id="sign21" class="sign" type="text" value="-">&nbsp;k&nbsp;</td>
+			<td style="background-color: #FAA"> <input id="sign22" class="sign" type="text" value="-">&nbsp;1&nbsp;</td>
+			<td style="background-color: #AFA"> <input id="sign23" class="sign" type="text" value="+">&nbsp;i&nbsp;</td>
+		</tr>
+		<tr>
+			<td style="background-color: #3FF"> k</td>
+			<td style="background-color: #3FF"> <input id="sign30" class="sign" type="text" value="+">&nbsp;k&nbsp;</td>
+			<td style="background-color: #AAF"> <input id="sign31" class="sign" type="text" value="+">&nbsp;j&nbsp;</td>
+			<td style="background-color: #AFA"> <input id="sign32" class="sign" type="text" value="-">&nbsp;i&nbsp;</td>
+			<td style="background-color: #FAA"> <input id="sign33" class="sign" type="text" value="-">&nbsp;1&nbsp;</td>
+		</tr>
+	</tbody>
+</table>
+<span style="color: gray">*signs are editable</span>
+<input type="submit" value="reset" id="b_reset" />
+</td></tr>
+<tr><td colspan="2" align="center">
+<input type="submit" value="Apply" id="b_apply" style="font-size: large"/><br/>
+</td></tr>
+</table>
+
 <canvas id="c" style="border:1px solid black"></canvas>
 <script>
 try {
@@ -13,28 +144,38 @@ var d = document;
 var c = d.getElementById("c");
 var b_w=d.getElementById("b_w"), b_h=d.getElementById("b_h"), b_dots=d.getElementById("b_dots");
 var b_norm=d.getElementById("b_norm"), b_k=d.getElementById("b_k"), b_apply=d.getElementById("b_apply");
+var b_s=d.getElementById("b_s"),b_reset=d.getElementById("b_reset"),b_p=d.getElementById("b_p");
 var mousex=0, mousey=0, mousedx=0, mousedy=0, mousedown=false;
 c.onmousedown=mmousedown;
 c.onmouseup=mmouseup;
 c.onmousemove=mmousemove;
 var frame=0;
-var w = c.width = 0+b_w.value, h = c.height = 0+b_h.value;
+var w = c.width = b_w.value, h = c.height = b_h.value;
 var wh = w/2, hh = h/2;
 var ctx = c.getContext("2d");
 var x=[1,0,0],y=[0,1,0],z=[0,0,1];
-var qarr, qarrlen=0+b_dots.value, iter=10, genx=0.75, gend=0.5, genk = 0+b_k.value, diam=0;
+var sign, sign_orig=[[1,1,1,1],[1,-1,1,-1],[1,-1,-1,1],[1,1,-1,-1]];
+var qarr, qarrlen=parseInt(b_dots.value), iter=parseInt(b_p.value), genx=0.75, gend=0.5, genk = parseFloat(b_k.value), diam=0;
+var scale = parseFloat(b_s.value);
+readsigns();
+
 
 b_apply.onclick=function(e){
-w = c.width = 0+b_w.value;
-h = c.height = 0+b_h.value;
-qarrlen=0+b_dots.value;
-genk = 0+b_k.value;
+w = c.width = parseInt(b_w.value);
+h = c.height = parseInt(b_h.value);
+qarrlen= parseInt(b_dots.value);
+genk = parseFloat(b_k.value);
+scale = parseFloat(b_s.value);
+iter=parseInt(b_p.value);
 frame=0;
+readsigns();
 };
 
 var draw = function(){
 if(frame==0){
 genquat();
+}
+if(frame==0 || mousedown){
 ctx.clearRect(0, 0, w, h);
 }
 ctx.clearRect(0, 0, 20, 15);
@@ -72,24 +213,30 @@ q[0]=q0; q[1]=q1; q[2]=q2; q[3]=q3;
 function multquat3() {
 for(var i=0; i<qarr.length; i++) {
 var q = qarr[i];
-var q0 = q[0]*q[0]-q[1]*q[1]-q[2]*q[2]-q[3]*q[3];
-var q1 = q[1]*q[0]+q[0]*q[1]-q[3]*q[2]+q[2]*q[3];
-var q2 = q[2]*q[0]+q[3]*q[1]+q[0]*q[2]-q[1]*q[3];
-var q3 = q[3]*q[0]-q[2]*q[1]+q[1]*q[2]+q[0]*q[3];
+var q0 = sign[0][0]*q[0]*q[0] + sign[1][1]*q[1]*q[1] + sign[2][2]*q[2]*q[2] + sign[3][3]*q[3]*q[3];
+var q1 = sign[1][0]*q[1]*q[0] + sign[0][1]*q[0]*q[1] + sign[3][2]*q[3]*q[2] + sign[2][3]*q[2]*q[3];
+var q2 = sign[2][0]*q[2]*q[0] + sign[3][1]*q[3]*q[1] + sign[0][2]*q[0]*q[2] + sign[1][3]*q[1]*q[3];
+var q3 = sign[3][0]*q[3]*q[0] + sign[2][1]*q[2]*q[1] + sign[1][2]*q[1]*q[2] + sign[0][3]*q[0]*q[3];
 q[0]=q0; q[1]=q1; q[2]=q2; q[3]=q3;
 }
 }
 
 
 function drawquat() {
+ctx.fillStyle="#000";
+qarr.sort(function(a,b){
+if (a[0]<b[0]) return -1;
+if (a[0]>b[0]) return 1;
+return 0;
+});
 qarr.forEach(function(e,i){
 var vx = e[0]*x[0]+e[1]*y[0]+e[2]*z[0];
 var vy = e[0]*x[1]+e[1]*y[1]+e[2]*z[1];
 var vz = e[0]*x[2]+e[1]*y[2]+e[2]*z[2];
-//console.log(e);
-var c = Math.max(Math.min(255/2-255/2*vz, 255),0).toString(16);
+var c = (Math.max(Math.min(50-100*e[0]*0.75, 255),0)|0).toString(16);
+if(c.length==1)c="0"+c;
 ctx.fillStyle="#"+c+c+c;
-ctx.fillRect(wh+vx*wh*0.8,hh-vy*hh*0.8,1,1);
+ctx.fillRect(wh+vx*wh*scale,hh-vy*hh*scale,1,1);
 });
 }
 
@@ -116,6 +263,8 @@ ctx.lineTo(wh+e[0]*wh/2, hh-e[1]*hh/2);
 ctx.closePath();
 ctx.strokeStyle = style[i];
 ctx.stroke();
+ctx.fillStyle = style[i];
+ctx.fillRect(wh+e[0]*wh/2-2, hh-e[1]*hh/2-2, 5, 5);
 });
 }
 
@@ -123,16 +272,18 @@ function rotateCoords(dx, dy) {
 var ax=0.05*dx, ay=0.05*dy;
 var yrotx=[Math.cos(ax),0,Math.sin(ax)], yrotz=[-Math.sin(ax),0,Math.cos(ax)];
 var xrotz=[0,Math.sin(ay),Math.cos(ay)], xroty=[0,Math.cos(ay),-Math.sin(ay)];
-[x,y,z].forEach(function(e,i) {
+[x,y].forEach(function(e,i) {
 e[0]=e[0]*yrotx[0]+e[2]*yrotz[0];
-norm(e);
 e[2]=e[0]*yrotx[2]+e[2]*yrotz[2];
-norm(e);
 e[1]=e[1]*xroty[1]+e[2]*xrotz[1];
-norm(e);
 e[2]=e[1]*xroty[2]+e[2]*xrotz[2];
 norm(e);
 });
+var xp=x[0]*y[0]+x[1]*y[1]+x[2]*y[2];
+for(var i=0;i<3;i++) x[i]=x[i]-y[i]*xp;
+z[0]=x[1]*y[2]-x[2]*y[1];
+z[1]=x[2]*y[0]-x[0]*y[2];
+z[2]=x[0]*y[1]-x[1]*y[0];
 }
 
 function norm(e) {
@@ -140,6 +291,31 @@ var d = Math.sqrt(e[0]*e[0]+e[1]*e[1]+e[2]*e[2]);
 e[0]=e[0]/d;
 e[1]=e[1]/d;
 e[2]=e[2]/d;
+}
+
+b_reset.onclick=function(e){
+for(var r=0; r<4; r++) {
+for(var c=0; c<4; c++) {
+var id = "sign"+r+c;
+var s = d.getElementById(id);
+if(sign_orig[r][c]>0) s.value="+";
+else s.value="-";
+console.log(s.value);
+}
+}
+}
+
+function readsigns(){
+sign=[];
+for(var r=0; r<4; r++) {
+sign[r]=[];
+for(var c=0; c<4; c++) {
+var id = "sign"+r+c;
+var s = parseInt(d.getElementById(id).value+"1");
+if(Math.abs(s)!=1) {alert("Wrong sign, assume +"); s=1;}
+sign[r][c]=s;
+}
+}
 }
 
 function mmousedown(e) {
@@ -162,6 +338,107 @@ mousey=e.clientY;
 }
 
 } catch(e) { alert(e); }
+</script>   
+    
+<!-- ############### end of demo ############# -->
+
+<script>
+document.addEventListener( "DOMContentLoaded", function() { 
+  if( /iPhone|iPad|iPod|Android|Windows Phone/i.test(navigator.userAgent) ) {
+    document.getElementById("wrap").classList.add("mobile");
+  }
+} );
 </script>
-</body>
-</html>
+
+
+<script src="highlight/highlight.pack.js"></script>
+<script>
+  //hljs.configure({languages: ["C++"]});
+  hljs.initHighlightingOnLoad();
+</script>
+
+
+<div id="disqus_comments"><a href="javascript: run_disqus()">read and write commentaries</a></div>
+<div id="disqus_thread"></div>
+<script>
+    /**
+     *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+     *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables
+     */
+    /*
+    var disqus_config = function () {
+        this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+        this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+    };
+    */
+
+    function run_disqus() {  // DON'T EDIT BELOW THIS LINE
+        var d = document, s = d.createElement('script');
+        
+        s.src = '//alexpolt-github-io.disqus.com/embed.js';
+        
+        s.setAttribute('data-timestamp', +new Date());
+
+        (d.head || d.body).appendChild(s);
+
+        d.getElementById("disqus_comments").innerHTML = ""; // alexpolt
+
+        return undefined;
+    };
+
+    if( location.hash.indexOf("comment") != -1 ) run_disqus();
+
+</script>
+<!--noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments
+powered by Disqus.</a></noscript-->
+
+
+
+  </div> <!-- end content -->
+
+</div> <!-- end wrap -->
+
+
+
+<!-- Google Analytics -->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-75341409-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+    (function (d, w, c) {
+        (w[c] = w[c] || []).push(function() {
+            try {
+                w.yaCounter43425229 = new Ya.Metrika({
+                    id:43425229,
+                    clickmap:true,
+                    trackLinks:true,
+                    accurateTrackBounce:true
+                });
+            } catch(e) { }
+        });
+
+        var n = d.getElementsByTagName("script")[0],
+            s = d.createElement("script"),
+            f = function () { n.parentNode.insertBefore(s, n); };
+        s.type = "text/javascript";
+        s.async = true;
+        s.src = "https://mc.yandex.ru/metrika/watch.js";
+
+        if (w.opera == "[object Opera]") {
+            d.addEventListener("DOMContentLoaded", f, false);
+        } else { f(); }
+    })(document, window, "yandex_metrika_callbacks");
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/43425229" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+
+</BODY>
+
