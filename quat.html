@@ -70,7 +70,8 @@
   quaternions that all are positioned around x=1 with random small deltas. Then I multiply them by themselves to see
   where they end up going. </p>
 <p>Try setting K part to 0, shapes becomes a sphere. 
-Also try changing signs in the multiplication table and other parameters on the left to play with results.</p>
+Also try changing signs in the multiplication table and other parameters on the left to play with results.
+You can rotate the dots and use scrool for scale.</p>
 
     
 <!-- ############### start of demo ############# -->
@@ -88,8 +89,8 @@ Canvas width: <input type="text" size="4" value="800" id="b_w" />, height: <inpu
 Dots: <input type="text" size="5" value="10000" id="b_dots" /><br/>
 Scale: <input type="text" size="5" value="0.8" id="b_s" /><br/>
 Normalize: <input type="checkbox" checked id="b_norm" /><br/>
-'k' part of numbers: <input type="text" size="5" value="0.05" id="b_k" /><br/>
-Multiplies (power): <input type="text" size="5" value="5" id="b_p" /><br/>
+'k' part of numbers: <input type="text" size="5" value="0.1" id="b_k" /><br/>
+Multiplies (power): <input type="text" size="5" value="10" id="b_p" /><br/>
 
 </td><td style="vertical-align:top; padding-left: 40pt">
 Quaternion multiplication table:
@@ -153,6 +154,7 @@ var mousex=0, mousey=0, mousedx=0, mousedy=0, mousedown=false;
 c.onmousedown=mmousedown;
 c.onmouseup=mmouseup;
 c.onmousemove=mmousemove;
+c.onwheel=mmousewheel;
 var frame=0;
 var w = c.width = b_w.value, h = c.height = b_h.value;
 var wh = w/2, hh = h/2;
@@ -164,7 +166,7 @@ var scale = parseFloat(b_s.value);
 readsigns();
 
 
-b_apply.onclick=function(e){
+var apply=b_apply.onclick=function(e){
 w = c.width = parseInt(b_w.value);
 h = c.height = parseInt(b_h.value);
 qarrlen= parseInt(b_dots.value);
@@ -339,6 +341,12 @@ rotateCoords(mousedx, mousedy);
 mousex=e.clientX;
 mousey=e.clientY;
 }
+}
+function mmousewheel(e) {
+event.preventDefault();
+var s = scale + event.deltaY * -0.01;
+b_s.value = Math.max(Math.min(5, s), 0.01).toFixed(2);
+apply();
 }
 
 } catch(e) { alert(e); }
