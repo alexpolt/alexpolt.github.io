@@ -185,7 +185,6 @@ h = c.height = b_h.value = (w/4*3).toFixed(0);
 var wh = w/2, hh = h/2;
 var ctx = c.getContext("2d");
 var x=[1,0,0],y=[0,1,0],z=[0,0,1];
-b_coor.onclick=function(e){x=[1,0,0],y=[0,1,0],z=[0,0,1]; apply();};
 var sign; 
 var signs=[
 [[1,1,1,1],[1,-1,1,-1],[1,-1,-1,1],[1,1,-1,-1]],
@@ -196,6 +195,7 @@ var qarr, qarrlen=parseInt(b_dots.value), iter=parseInt(b_p.value), genx=0.75, g
 var scale = parseFloat(b_s.value);
 readsigns();
 
+b_coor.onclick=function(e){x=[1,0,0],y=[0,1,0],z=[0,0,1]; b_s.value="0.8"; apply();};
 
 var apply=b_apply.onclick=function(e){
 w = c.width = parseInt(b_w.value);
