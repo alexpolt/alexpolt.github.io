@@ -171,7 +171,7 @@ c.ontouchend=function(e){c.onmouseup( e.touches[0] ); e.preventDefault();};
 c.ontouchmove=function(e){c.onmousemove( e.touches[0] ); e.preventDefault();};
 
 var frame=0,w,h;
-var contentWidth=d.getElementById("content").clientWidth,contentHeight=window.innerHeight;
+var contentWidth=d.getElementById("content").scrollWidth,contentHeight=window.innerHeight;
 if(contentWidth>contentHeight){
 var k=0.9;
 if(contentWidth/contentHeight>4/3) k=0.8;
