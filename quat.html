@@ -87,6 +87,7 @@ canvas#c {
 display:block;
 padding:0;
 margin:0 auto;
+border:1px solid black;
 }
 </style>
 <table border="0" class="qtable"><tr><td style="vertical-align:top">
@@ -94,9 +95,9 @@ margin:0 auto;
 Canvas width:<input type="text" size="4" value="800" id="b_w" />, height:<input type="text" size="4" value="600" id="b_h" /><br/>
 Dots: <input type="text" size="5" value="10000" id="b_dots" /><br/>
 Scale: <input type="text" size="5" value="0.8" id="b_s" /><br/>
-Normalize: <input type="checkbox" checked id="b_norm" /><br/>
-'k' part of numbers: <input type="text" size="5" value="0.15" id="b_k" /><br/>
 Multiplies (power): <input type="text" size="5" value="5" id="b_p" /><br/>
+Normalize: <input type="checkbox" checked id="b_norm" /><br/>
+<b>'k' part</b> of numbers: <input type="text" size="5" value="0.15" id="b_k" /><br/>
 
 </td><td style="vertical-align:top; padding-left: 20pt">
 Quaternion multiplication table:<br/>
@@ -148,7 +149,7 @@ Quaternion multiplication table:<br/>
 </td></tr>
 </table>
 
-<canvas id="c" style="border:1px solid black"></canvas>
+<canvas id="c" style=""></canvas>
 <script>
 try {
 
