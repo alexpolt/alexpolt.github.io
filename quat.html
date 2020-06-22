@@ -174,12 +174,12 @@ c.ontouchmove=function(e){c.onmousemove( e.touches[0] ); e.preventDefault();};
 var frame=0,w,h;
 var contentWidth=d.getElementById("content").scrollWidth,contentHeight=window.innerHeight;
 if(contentWidth>contentHeight){
-var k=0.9;
-if(contentWidth/contentHeight>4/3) k=0.8;
+var k=0.75;
+if(contentWidth/contentHeight>5/3) k=0.6;
 w = b_w.value = c.width = (contentWidth*k).toFixed(0);
 h = c.height = b_h.value = (w/4*3).toFixed(0);
 }else{
-w = b_w.value = c.width = (contentWidth*0.9).toFixed(0);
+w = b_w.value = c.width = (contentWidth*0.75).toFixed(0);
 h = c.height = b_h.value = (w/4*3).toFixed(0);
 }
 var wh = w/2, hh = h/2;
