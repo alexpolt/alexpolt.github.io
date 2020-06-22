@@ -97,6 +97,7 @@ Dots: <input type="text" size="5" value="20000" id="b_dots" /><br/>
 Scale: <input type="text" size="5" value="0.75" id="b_s" /><br/>
 Multiplies (power): <input type="text" size="5" value="6" id="b_p" /><br/>
 Normalize: <input type="checkbox" checked id="b_norm" /><br/>
+Axis tripod: <input type="checkbox" checked id="b_axis" /><br/>
 Black&White: <input type="checkbox" id="b_bw" /><br/>
 <b>'k' part</b> of numbers: <input type="text" size="5" value="0.11" id="b_k" /><br/>
 
@@ -162,6 +163,8 @@ var b_w=d.getElementById("b_w"), b_h=d.getElementById("b_h"), b_dots=d.getElemen
 var b_norm=d.getElementById("b_norm"), b_k=d.getElementById("b_k"), b_apply=d.getElementById("b_apply");
 var b_s=d.getElementById("b_s"),b_reset=d.getElementById("b_reset"),b_p=d.getElementById("b_p");
 var b_sel=d.getElementById("b_sel"),b_coor=d.getElementById("b_coor"),b_bw=d.getElementById("b_bw");
+var b_axis=d.getElementById("b_axis");
+
 var mousex=0, mousey=0, mousedx=0, mousedy=0, mousedown=false;
 c.onmousedown=mmousedown;
 c.onmouseup=mmouseup;
@@ -221,7 +224,9 @@ ctx.fillStyle = "white";
 ctx.fillRect(0, 0, 25, 15);
 ctx.fillStyle = "black";
 ctx.fillText(frame, 0, 10);
-coords();
+	
+if(b_axis.checked) coords();
+
 if(frame < iter){
 multquat3();
 drawquat();
