@@ -97,6 +97,7 @@ Dots: <input type="text" size="5" value="10000" id="b_dots" /><br/>
 Scale: <input type="text" size="5" value="0.8" id="b_s" /><br/>
 Multiplies (power): <input type="text" size="5" value="5" id="b_p" /><br/>
 Normalize: <input type="checkbox" checked id="b_norm" /><br/>
+Black&White: <input type="checkbox" id="b_bw" /><br/>
 <b>'k' part</b> of numbers: <input type="text" size="5" value="0.15" id="b_k" /><br/>
 
 </td><td style="vertical-align:top; padding-left: 20pt">
@@ -160,7 +161,7 @@ var c = d.getElementById("c");
 var b_w=d.getElementById("b_w"), b_h=d.getElementById("b_h"), b_dots=d.getElementById("b_dots");
 var b_norm=d.getElementById("b_norm"), b_k=d.getElementById("b_k"), b_apply=d.getElementById("b_apply");
 var b_s=d.getElementById("b_s"),b_reset=d.getElementById("b_reset"),b_p=d.getElementById("b_p");
-var b_sel=d.getElementById("b_sel"),b_coor=d.getElementById("b_coor");
+var b_sel=d.getElementById("b_sel"),b_coor=d.getElementById("b_coor"),b_bw=d.getElementById("b_bw");
 var mousex=0, mousey=0, mousedx=0, mousedy=0, mousedown=false;
 c.onmousedown=mmousedown;
 c.onmouseup=mmouseup;
@@ -257,7 +258,6 @@ q[0]=q0; q[1]=q1; q[2]=q2; q[3]=q3;
 }
 }
 
-
 function drawquat() {
 ctx.fillStyle="#000";
 qarr.sort(function(a,b){
@@ -269,11 +269,12 @@ qarr.forEach(function(e,i){
 var vx = e[0]*x[0]+e[1]*y[0]+e[2]*z[0];
 var vy = e[0]*x[1]+e[1]*y[1]+e[2]*z[1];
 var vz = e[0]*x[2]+e[1]*y[2]+e[2]*z[2];
-var c = (Math.max(Math.min(50-100*e[0]*0.75, 255),0)|0).toString(16);
-var ck = (Math.max(Math.min(50-100*e[3]*0.75, 255),0)|0).toString(16);
+var c = (Math.max(Math.min(50-100*e[0]*0.8, 255),0)|0).toString(16);
+var ck = (Math.max(Math.min(150*e[3], 255),0)|0).toString(16);
 if(c.length==1)c="0"+c;
 if(ck.length==1)ck="0"+ck;
-ctx.fillStyle="#"+ck+c+c;
+if(b_bw.checked)ck=c;
+ctx.fillStyle="#"+c+ck+c;
 ctx.fillRect(wh+vx*wh*scale,hh-vy*hh*scale,1,1);
 });
 }
