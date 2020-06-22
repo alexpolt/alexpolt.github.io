@@ -68,8 +68,8 @@
 <p>One day I was playing with different multiplication tables for 1,i,j,k extension to numbers. And in the process
     made this JavaScript demo to see how different rules change behavior. I create a bunch (10000 default) initial
   quaternions that all are positioned around x=1 with random small deltas. Then I multiply them by themselves to see
-  where they end up going. </p>
-<p>Try playing with K part, like setting it to 0 and back, for quaternian k=0 shows as a sphere. 
+  where they end up going. Reddish tone depends on value of k part.</p>
+<p>Try playing with k part, like setting it to 0 and back, for quaternian k=0 shows as a sphere. 
 Also try changing signs in the multiplication table and other parameters on the left to play with results.
 You can rotate the dots and use scroll for scale.</p>
 
@@ -255,8 +255,10 @@ var vx = e[0]*x[0]+e[1]*y[0]+e[2]*z[0];
 var vy = e[0]*x[1]+e[1]*y[1]+e[2]*z[1];
 var vz = e[0]*x[2]+e[1]*y[2]+e[2]*z[2];
 var c = (Math.max(Math.min(50-100*e[0]*0.75, 255),0)|0).toString(16);
+var ck = (Math.max(Math.min(50-100*e[3]*0.75, 255),0)|0).toString(16);
 if(c.length==1)c="0"+c;
-ctx.fillStyle="#"+c+c+c;
+if(ck.length==1)ck="0"+ck;
+ctx.fillStyle="#"+ck+c+c;
 ctx.fillRect(wh+vx*wh*scale,hh-vy*hh*scale,1,1);
 });
 }
@@ -276,15 +278,16 @@ qarr.push(q);
 }
 
 function coords() {
-var style = ["#FF0000", "#00FF00" ,"#0000FF"];
+var style = ["#FF0000", "#00FF00" ,"#0000FF", "#700000", "#007000" ,"#000070"];
 [x,y,z].forEach(function(e,i) {
 ctx.beginPath();
 ctx.moveTo(wh,hh);
 ctx.lineTo(wh+e[0]*wh/2, hh-e[1]*hh/2);
 ctx.closePath();
+if(e[2]>0)i+=3;
 ctx.strokeStyle = style[i];
-ctx.stroke();
 ctx.fillStyle = style[i];
+ctx.stroke();
 ctx.fillRect(wh+e[0]*wh/2-2, hh-e[1]*hh/2-2, 5, 5);
 });
 }
