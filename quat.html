@@ -165,6 +165,10 @@ c.onmousedown=mmousedown;
 c.onmouseup=mmouseup;
 c.onmousemove=mmousemove;
 c.onwheel=mmousewheel;
+c.ontouchstart=function(e){c.onmousedown( e.touches[0] ); e.preventDefault();};
+c.ontouchend=function(e){c.onmouseup( e.touches[0] ); e.preventDefault();};
+c.ontouchmove=function(e){c.onmousemove( e.touches[0] ); e.preventDefault();};
+
 var frame=0;
 var w = b_w.value = c.width = c.clientWidth, h = c.height = b_h.value = (w/4*3).toFixed(0);
 var wh = w/2, hh = h/2;
