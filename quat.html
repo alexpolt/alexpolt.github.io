@@ -93,12 +93,12 @@ border:1px solid black;
 <table border="0" class="qtable"><tr><td style="vertical-align:top">
 
 Canvas width:<input type="text" size="4" value="800" id="b_w" />, height:<input type="text" size="4" value="600" id="b_h" /><br/>
-Dots: <input type="text" size="5" value="20000" id="b_dots" /><br/>
+Dots: <input type="text" size="5" value="10000" id="b_dots" /><br/>
 Scale: <input type="text" size="5" value="0.8" id="b_s" /><br/>
-Multiplies (power): <input type="text" size="5" value="5" id="b_p" /><br/>
+Multiplies (power): <input type="text" size="5" value="8" id="b_p" /><br/>
 Normalize: <input type="checkbox" checked id="b_norm" /><br/>
 Black&White: <input type="checkbox" id="b_bw" /><br/>
-<b>'k' part</b> of numbers: <input type="text" size="5" value="0.15" id="b_k" /><br/>
+<b>'k' part</b> of numbers: <input type="text" size="5" value="0.05" id="b_k" /><br/>
 
 </td><td style="vertical-align:top; padding-left: 20pt">
 Quaternion multiplication table:<br/>
@@ -167,9 +167,9 @@ c.onmousedown=mmousedown;
 c.onmouseup=mmouseup;
 c.onmousemove=mmousemove;
 c.onwheel=mmousewheel;
-c.ontouchstart=function(e){c.onmousedown( e.touches[0] ); e.preventDefault();};
-c.ontouchend=function(e){c.onmouseup( e.touches[0] ); e.preventDefault();};
-c.ontouchmove=function(e){c.onmousemove( e.touches[0] ); e.preventDefault();};
+c.ontouchstart=mmousetouchstart;
+c.ontouchend=mmousetouchend;
+c.ontouchmove=mmousetouchmove;
 
 var frame=0,w,h;
 var contentWidth=d.getElementById("content").scrollWidth,contentHeight=window.innerHeight;
@@ -383,6 +383,35 @@ b_s.value = Math.max(Math.min(5, s), 0.01).toFixed(2);
 apply();
 }
 
+var touchscale=0;
+function mmousetouchstart(e){
+if (e.touches.length === 2) {
+touchscale = Math.hypot(
+e.touches[0].pageX - e.touches[1].pageX,
+e.touches[0].pageY - e.touches[1].pageY);
+} 
+else mmousedown( e.touches[0] );
+e.preventDefault();
+};
+function mmousetouchend(e){
+if (e.touches.length === 2) touchscale = 0;
+else mmouseup( e.touches[0] );
+e.preventDefault();
+};
+function mmousetouchmove(e){
+if (e.touches.length === 2) {
+var dist = Math.hypot(
+e.touches[0].pageX - e.touches[1].pageX,
+e.touches[0].pageY - e.touches[1].pageY);
+var s = scale + (dist-touchscale) * 0.001;
+b_s.value = Math.max(Math.min(5, s), 0.01).toFixed(2);
+apply();
+
+} 
+else mmousemove( e.touches[0] );
+e.preventDefault();
+};
+	
 } catch(e) { alert(e); }
 </script>
     
