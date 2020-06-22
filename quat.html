@@ -77,63 +77,65 @@ You can rotate the dots and use scrool for scale.</p>
 <!-- ############### start of demo ############# -->
  
 <style>
-.sign {background-color: transparent; border:0px solid silver; width:10pt; font-weight: bold; text-align: center;}
 .qtable {}
 .qtable td {border:0px; color: black;}
-.qstable td {border:1px solid black; color: black;}
-
+.qstable td {border:1px solid gray; color: black;}
+td.sign input {background-color: transparent; border:0px solid silver; width:15pt; font-weight: bold; font-size: large; color: black; text-align: center;}
+td.sign { font-weight: bold; text-align: center; color: black}
+td.sign { padding: 1pt}
 </style>
 <table border="0" class="qtable"><tr><td style="vertical-align:top">
 
-Canvas width: <input type="text" size="4" value="800" id="b_w" />, height: <input type="text" size="4" value="600" id="b_h" /><br/>
+Canvas width:<input type="text" size="4" value="800" id="b_w" />, height:<input type="text" size="4" value="600" id="b_h" /><br/>
 Dots: <input type="text" size="5" value="10000" id="b_dots" /><br/>
 Scale: <input type="text" size="5" value="0.8" id="b_s" /><br/>
 Normalize: <input type="checkbox" checked id="b_norm" /><br/>
-'k' part of numbers: <input type="text" size="5" value="0.1" id="b_k" /><br/>
-Multiplies (power): <input type="text" size="5" value="10" id="b_p" /><br/>
+'k' part of numbers: <input type="text" size="5" value="0.15" id="b_k" /><br/>
+Multiplies (power): <input type="text" size="5" value="5" id="b_p" /><br/>
 
-</td><td style="vertical-align:top; padding-left: 40pt">
-Quaternion multiplication table:
-<table class="qstable" border="1" style="margin-top:5pt; margin-bottom: 5pt; border-collapse: collapse; text-align:center; font-weight: bold" >
+</td><td style="vertical-align:top; padding-left: 20pt">
+Quaternion multiplication table:<br/>
+<span style="color: gray; font-size:small">*signs are editable</span>
+<table class="qstable" style="margin-top:5pt; margin-bottom: 5pt; border-collapse: collapse" >
 	<tbody>
 		<tr>
 			<td style="background-color: #CCC">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-			<td style="background-color: #C88"> 1</td>
-			<td style="background-color: #8C8"> i</td>
-			<td style="background-color: #88C"> j</td>
-			<td style="background-color: #3CC"> k</td>
+			<td style="background-color: #C88" class="sign header"> 1</td>
+			<td style="background-color: #8c8" class="sign header"> i</td>
+			<td style="background-color: #88c" class="sign header"> j</td>
+			<td style="background-color: #3cc" class="sign header"> k</td>
 		</tr>
 		<tr>
-			<td style="background-color: #C88"> 1</td>
-			<td style="background-color: #FAA"> <input id="sign00" class="sign" type="text" value="+">&nbsp;1&nbsp;</td>
-			<td style="background-color: #AFA"> <input id="sign01" class="sign" type="text" value="+">&nbsp;i&nbsp;</td>
-			<td style="background-color: #AAF"> <input id="sign02" class="sign" type="text" value="+">&nbsp;j&nbsp;</td>
-			<td style="background-color: #3FF"> <input id="sign03" class="sign" type="text" value="+">&nbsp;k&nbsp;</td>
+			<td style="background-color: #C88" class="sign header"> 1</td>
+			<td style="background-color: #FAA" class="sign"> <input id="sign00" type="text" value="+">&nbsp;1&nbsp;</td>
+			<td style="background-color: #AFA" class="sign"> <input id="sign01" type="text" value="+">&nbsp;i&nbsp;</td>
+			<td style="background-color: #AAF" class="sign"> <input id="sign02" type="text" value="+">&nbsp;j&nbsp;</td>
+			<td style="background-color: #3FF" class="sign"> <input id="sign03" type="text" value="+">&nbsp;k&nbsp;</td>
 		</tr>
 		<tr>
-			<td style="background-color: #8C8"> i</td>
-			<td style="background-color: #AFA"> <input id="sign10" class="sign" type="text" value="+">&nbsp;i&nbsp;</td>
-			<td style="background-color: #FAA"> <input id="sign11" class="sign" type="text" value="-">&nbsp;1&nbsp;</td>
-			<td style="background-color: #3FF"> <input id="sign12" class="sign" type="text" value="+">&nbsp;k&nbsp;</td>
-			<td style="background-color: #AAF"> <input id="sign13" class="sign" type="text" value="-">&nbsp;j&nbsp;</td>
+			<td style="background-color: #8C8" class="sign header"> i</td>
+			<td style="background-color: #AFA" class="sign"> <input id="sign10" type="text" value="+">&nbsp;i&nbsp;</td>
+			<td style="background-color: #FAA" class="sign"> <input id="sign11" type="text" value="-">&nbsp;1&nbsp;</td>
+			<td style="background-color: #3FF" class="sign"> <input id="sign12" type="text" value="+">&nbsp;k&nbsp;</td>
+			<td style="background-color: #AAF" class="sign"> <input id="sign13" type="text" value="-">&nbsp;j&nbsp;</td>
 		</tr>
 		<tr>
-			<td style="background-color: 88C"> j</td>
-			<td style="background-color: #AAF"> <input id="sign20" class="sign" type="text" value="+">&nbsp;j&nbsp;</td>
-			<td style="background-color: #3FF"> <input id="sign21" class="sign" type="text" value="-">&nbsp;k&nbsp;</td>
-			<td style="background-color: #FAA"> <input id="sign22" class="sign" type="text" value="-">&nbsp;1&nbsp;</td>
-			<td style="background-color: #AFA"> <input id="sign23" class="sign" type="text" value="+">&nbsp;i&nbsp;</td>
+			<td style="background-color: #88C" class="sign header"> j</td>
+			<td style="background-color: #AAF" class="sign"> <input id="sign20" type="text" value="+">&nbsp;j&nbsp;</td>
+			<td style="background-color: #3FF" class="sign"> <input id="sign21" type="text" value="-">&nbsp;k&nbsp;</td>
+			<td style="background-color: #FAA" class="sign"> <input id="sign22" type="text" value="-">&nbsp;1&nbsp;</td>
+			<td style="background-color: #AFA" class="sign"> <input id="sign23" type="text" value="+">&nbsp;i&nbsp;</td>
 		</tr>
 		<tr>
-			<td style="background-color: #3CC"> k</td>
-			<td style="background-color: #3FF"> <input id="sign30" class="sign" type="text" value="+">&nbsp;k&nbsp;</td>
-			<td style="background-color: #AAF"> <input id="sign31" class="sign" type="text" value="+">&nbsp;j&nbsp;</td>
-			<td style="background-color: #AFA"> <input id="sign32" class="sign" type="text" value="-">&nbsp;i&nbsp;</td>
-			<td style="background-color: #FAA"> <input id="sign33" class="sign" type="text" value="-">&nbsp;1&nbsp;</td>
+			<td style="background-color: #3CC" class="sign header"> k</td>
+			<td style="background-color: #3FF" class="sign"> <input id="sign30" type="text" value="+">&nbsp;k&nbsp;</td>
+			<td style="background-color: #AAF" class="sign"> <input id="sign31" type="text" value="+">&nbsp;j&nbsp;</td>
+			<td style="background-color: #AFA" class="sign"> <input id="sign32" type="text" value="-">&nbsp;i&nbsp;</td>
+			<td style="background-color: #FAA" class="sign"> <input id="sign33" type="text" value="-">&nbsp;1&nbsp;</td>
 		</tr>
 	</tbody>
 </table>
-<span style="color: gray">*signs are editable</span>
+<select id="b_sel"><option value="0" selected>quaternion<option value="1">futernian<option value="2">craternian</select>
 <input type="submit" value="reset" id="b_reset" />
 </td></tr>
 <tr><td colspan="2" align="center">
@@ -141,7 +143,7 @@ Quaternion multiplication table:
 </td></tr>
 </table>
 
-<canvas id="c" style="display: block; padding:0px; border:1px solid black; margin:10pt auto"></canvas>
+<canvas id="c" style="border:1px solid black"></canvas>
 <script>
 try {
 
@@ -150,6 +152,7 @@ var c = d.getElementById("c");
 var b_w=d.getElementById("b_w"), b_h=d.getElementById("b_h"), b_dots=d.getElementById("b_dots");
 var b_norm=d.getElementById("b_norm"), b_k=d.getElementById("b_k"), b_apply=d.getElementById("b_apply");
 var b_s=d.getElementById("b_s"),b_reset=d.getElementById("b_reset"),b_p=d.getElementById("b_p");
+var b_sel=d.getElementById("b_sel")
 var mousex=0, mousey=0, mousedx=0, mousedy=0, mousedown=false;
 c.onmousedown=mmousedown;
 c.onmouseup=mmouseup;
@@ -160,7 +163,12 @@ var w = c.width = b_w.value, h = c.height = b_h.value;
 var wh = w/2, hh = h/2;
 var ctx = c.getContext("2d");
 var x=[1,0,0],y=[0,1,0],z=[0,0,1];
-var sign, sign_orig=[[1,1,1,1],[1,-1,1,-1],[1,-1,-1,1],[1,1,-1,-1]];
+var sign; 
+var signs=[
+[[1,1,1,1],[1,-1,1,-1],[1,-1,-1,1],[1,1,-1,-1]],
+[[1,1,1,1],[1,-1,1,-1],[1,1,1,-1],[1,-1,-1,-1]],
+[[1,1,-1,1],[1,-1,1,1],[-1,1,-1,-1],[1,1,-1,1]],
+];
 var qarr, qarrlen=parseInt(b_dots.value), iter=parseInt(b_p.value), genx=0.75, gend=0.5, genk = parseFloat(b_k.value), diam=0;
 var scale = parseFloat(b_s.value);
 readsigns();
@@ -300,15 +308,16 @@ e[2]=e[2]/d;
 }
 
 b_reset.onclick=function(e){
+var sign_orig = signs[parseInt(b_sel.options[b_sel.selectedIndex].value)];
 for(var r=0; r<4; r++) {
 for(var c=0; c<4; c++) {
 var id = "sign"+r+c;
 var s = d.getElementById(id);
 if(sign_orig[r][c]>0) s.value="+";
 else s.value="-";
-console.log(s.value);
 }
 }
+apply();
 }
 
 function readsigns(){
@@ -350,7 +359,7 @@ apply();
 }
 
 } catch(e) { alert(e); }
-</script>   
+</script>
     
 <!-- ############### end of demo ############# -->
 
