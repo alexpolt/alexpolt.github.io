@@ -88,6 +88,7 @@ display:block;
 padding:0;
 margin:0 auto;
 border:1px solid black;
+width: 80%;
 }
 </style>
 <table border="0" class="qtable"><tr><td style="vertical-align:top">
@@ -142,7 +143,7 @@ Quaternion multiplication table:<br/>
 	</tbody>
 </table>
 <select id="b_sel"><option value="0" selected>quaternion<option value="1">futernian<option value="2">craternian</select>
-<input type="submit" value="reset" id="b_reset" />
+<input type="submit" value="set signs" id="b_reset" />
 </td></tr>
 <tr><td colspan="2" align="center">
 <input type="submit" value="Apply" id="b_apply" style="font-size: large"/><br/>
@@ -165,7 +166,7 @@ c.onmouseup=mmouseup;
 c.onmousemove=mmousemove;
 c.onwheel=mmousewheel;
 var frame=0;
-var w = c.width = b_w.value, h = c.height = b_h.value;
+var w = b_w.value = c.width = c.clientWidth, h = c.height = b_h.value = (w/4*3).toFixed(0);
 var wh = w/2, hh = h/2;
 var ctx = c.getContext("2d");
 var x=[1,0,0],y=[0,1,0],z=[0,0,1];
@@ -323,7 +324,6 @@ if(sign_orig[r][c]>0) s.value="+";
 else s.value="-";
 }
 }
-apply();
 }
 
 function readsigns(){
