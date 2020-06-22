@@ -379,7 +379,7 @@ mousey=e.clientY;
 function mmousewheel(e) {
 event.preventDefault();
 var s = scale + event.deltaY * -0.01;
-b_s.value = Math.max(Math.min(5, s), 0.01).toFixed(2);
+b_s.value = Math.max(Math.min(1000, s), 0.001).toFixed(2);
 apply();
 }
 
@@ -404,7 +404,7 @@ var dist = Math.hypot(
 e.touches[0].pageX - e.touches[1].pageX,
 e.touches[0].pageY - e.touches[1].pageY);
 var s = scale + (dist-touchscale) * 0.001;
-b_s.value = Math.max(Math.min(5, s), 0.01).toFixed(2);
+b_s.value = Math.max(Math.min(1000, s), 0.001).toFixed(2);
 apply();
 
 } 
