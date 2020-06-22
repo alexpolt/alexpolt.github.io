@@ -171,13 +171,14 @@ c.ontouchend=function(e){c.onmouseup( e.touches[0] ); e.preventDefault();};
 c.ontouchmove=function(e){c.onmousemove( e.touches[0] ); e.preventDefault();};
 
 var frame=0,w,h;
-if(window.innerWidth>window.innerHeight){
-var k=0.8;
-if(window.innerWidth/window.innerHeight>4/3) k =0.7;
-w = b_w.value = c.width = (window.innerWidth*k).toFixed(0);
+var contentWidth=d.getElementById("content").clientWidth,contentHeight=window.innerHeight;
+if(contentWidth>contentHeight){
+var k=0.9;
+if(contentWidth/contentHeight>4/3) k=0.8;
+w = b_w.value = c.width = (contentWidth*k).toFixed(0);
 h = c.height = b_h.value = (w/4*3).toFixed(0);
 }else{
-w = b_w.value = c.width = (window.innerWidth*0.8).toFixed(0);
+w = b_w.value = c.width = (contentWidth*0.9).toFixed(0);
 h = c.height = b_h.value = (w/4*3).toFixed(0);
 }
 var wh = w/2, hh = h/2;
