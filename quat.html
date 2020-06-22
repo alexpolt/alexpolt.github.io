@@ -88,7 +88,7 @@ display:block;
 padding:0;
 margin:0 auto;
 border:1px solid black;
-width: 80%;
+width: 60%;
 }
 </style>
 <table border="0" class="qtable"><tr><td style="vertical-align:top">
@@ -151,6 +151,8 @@ Quaternion multiplication table:<br/>
 </table>
 
 <canvas id="c" style=""></canvas>
+<div style="text-align:center"><input type="submit" value="reset coords" id="b_coor" /></div>div>
+
 <script>
 try {
 
@@ -159,7 +161,7 @@ var c = d.getElementById("c");
 var b_w=d.getElementById("b_w"), b_h=d.getElementById("b_h"), b_dots=d.getElementById("b_dots");
 var b_norm=d.getElementById("b_norm"), b_k=d.getElementById("b_k"), b_apply=d.getElementById("b_apply");
 var b_s=d.getElementById("b_s"),b_reset=d.getElementById("b_reset"),b_p=d.getElementById("b_p");
-var b_sel=d.getElementById("b_sel")
+var b_sel=d.getElementById("b_sel"),b_coor=d.getElementById("b_coor");
 var mousex=0, mousey=0, mousedx=0, mousedy=0, mousedown=false;
 c.onmousedown=mmousedown;
 c.onmouseup=mmouseup;
@@ -169,11 +171,20 @@ c.ontouchstart=function(e){c.onmousedown( e.touches[0] ); e.preventDefault();};
 c.ontouchend=function(e){c.onmouseup( e.touches[0] ); e.preventDefault();};
 c.ontouchmove=function(e){c.onmousemove( e.touches[0] ); e.preventDefault();};
 
-var frame=0;
-var w = b_w.value = c.width = c.clientWidth, h = c.height = b_h.value = (w/4*3).toFixed(0);
+var frame=0,w,h;
+if(window.innerWidth>window.innerHeight){
+var k=0.8;
+if(window.innerWidth/window.innerHeight>4/3) k =0.7;
+w = b_w.value = c.width = (window.innerWidth*k).toFixed(0);
+h = c.height = b_h.value = (w/4*3).toFixed(0);
+}else{
+w = b_w.value = c.width = (window.innerWidth*0.8).toFixed(0);
+h = c.height = b_h.value = (w/4*3).toFixed(0);
+}
 var wh = w/2, hh = h/2;
 var ctx = c.getContext("2d");
 var x=[1,0,0],y=[0,1,0],z=[0,0,1];
+b_coor.onclick=function(e){x=[1,0,0],y=[0,1,0],z=[0,0,1]; apply();};
 var sign; 
 var signs=[
 [[1,1,1,1],[1,-1,1,-1],[1,-1,-1,1],[1,1,-1,-1]],
