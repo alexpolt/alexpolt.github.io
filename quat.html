@@ -102,7 +102,7 @@ Black&White: <input type="checkbox" id="b_bw" /><br/>
 
 </td><td style="vertical-align:top; padding-left: 20pt">
 Quaternion multiplication table:<br/>
-<span style="color: gray; font-size:small">*signs are editable</span>
+<span style="color: gray; font-size:small">*click on sign to change</span>
 <table class="qstable" style="margin-top:5pt; margin-bottom: 5pt; border-collapse: collapse" >
 	<tbody>
 		<tr>
@@ -114,31 +114,31 @@ Quaternion multiplication table:<br/>
 		</tr>
 		<tr>
 			<td style="background-color: #C88" class="sign header"> 1</td>
-			<td style="background-color: #FAA" class="sign"> <input id="sign00" type="text" value="+">&nbsp;1&nbsp;</td>
-			<td style="background-color: #AFA" class="sign"> <input id="sign01" type="text" value="+">&nbsp;i&nbsp;</td>
-			<td style="background-color: #AAF" class="sign"> <input id="sign02" type="text" value="+">&nbsp;j&nbsp;</td>
-			<td style="background-color: #3FF" class="sign"> <input id="sign03" type="text" value="+">&nbsp;k&nbsp;</td>
+			<td style="background-color: #FAA" class="sign"> <input readonly id="sign00" type="text" value="+">&nbsp;1&nbsp;</td>
+			<td style="background-color: #AFA" class="sign"> <input readonly id="sign01" type="text" value="+">&nbsp;i&nbsp;</td>
+			<td style="background-color: #AAF" class="sign"> <input readonly id="sign02" type="text" value="+">&nbsp;j&nbsp;</td>
+			<td style="background-color: #3FF" class="sign"> <input readonly id="sign03" type="text" value="+">&nbsp;k&nbsp;</td>
 		</tr>
 		<tr>
 			<td style="background-color: #8C8" class="sign header"> i</td>
-			<td style="background-color: #AFA" class="sign"> <input id="sign10" type="text" value="+">&nbsp;i&nbsp;</td>
-			<td style="background-color: #FAA" class="sign"> <input id="sign11" type="text" value="-">&nbsp;1&nbsp;</td>
-			<td style="background-color: #3FF" class="sign"> <input id="sign12" type="text" value="+">&nbsp;k&nbsp;</td>
-			<td style="background-color: #AAF" class="sign"> <input id="sign13" type="text" value="-">&nbsp;j&nbsp;</td>
+			<td style="background-color: #AFA" class="sign"> <input readonly id="sign10" type="text" value="+">&nbsp;i&nbsp;</td>
+			<td style="background-color: #FAA" class="sign"> <input readonly id="sign11" type="text" value="-">&nbsp;1&nbsp;</td>
+			<td style="background-color: #3FF" class="sign"> <input readonly id="sign12" type="text" value="+">&nbsp;k&nbsp;</td>
+			<td style="background-color: #AAF" class="sign"> <input readonly id="sign13" type="text" value="-">&nbsp;j&nbsp;</td>
 		</tr>
 		<tr>
 			<td style="background-color: #88C" class="sign header"> j</td>
-			<td style="background-color: #AAF" class="sign"> <input id="sign20" type="text" value="+">&nbsp;j&nbsp;</td>
-			<td style="background-color: #3FF" class="sign"> <input id="sign21" type="text" value="-">&nbsp;k&nbsp;</td>
-			<td style="background-color: #FAA" class="sign"> <input id="sign22" type="text" value="-">&nbsp;1&nbsp;</td>
-			<td style="background-color: #AFA" class="sign"> <input id="sign23" type="text" value="+">&nbsp;i&nbsp;</td>
+			<td style="background-color: #AAF" class="sign"> <input readonly id="sign20" type="text" value="+">&nbsp;j&nbsp;</td>
+			<td style="background-color: #3FF" class="sign"> <input readonly id="sign21" type="text" value="-">&nbsp;k&nbsp;</td>
+			<td style="background-color: #FAA" class="sign"> <input readonly id="sign22" type="text" value="-">&nbsp;1&nbsp;</td>
+			<td style="background-color: #AFA" class="sign"> <input readonly id="sign23" type="text" value="+">&nbsp;i&nbsp;</td>
 		</tr>
 		<tr>
 			<td style="background-color: #3CC" class="sign header"> k</td>
-			<td style="background-color: #3FF" class="sign"> <input id="sign30" type="text" value="+">&nbsp;k&nbsp;</td>
-			<td style="background-color: #AAF" class="sign"> <input id="sign31" type="text" value="+">&nbsp;j&nbsp;</td>
-			<td style="background-color: #AFA" class="sign"> <input id="sign32" type="text" value="-">&nbsp;i&nbsp;</td>
-			<td style="background-color: #FAA" class="sign"> <input id="sign33" type="text" value="-">&nbsp;1&nbsp;</td>
+			<td style="background-color: #3FF" class="sign"> <input readonly id="sign30" type="text" value="+">&nbsp;k&nbsp;</td>
+			<td style="background-color: #AAF" class="sign"> <input readonly id="sign31" type="text" value="+">&nbsp;j&nbsp;</td>
+			<td style="background-color: #AFA" class="sign"> <input readonly id="sign32" type="text" value="-">&nbsp;i&nbsp;</td>
+			<td style="background-color: #FAA" class="sign"> <input readonly id="sign33" type="text" value="-">&nbsp;1&nbsp;</td>
 		</tr>
 	</tbody>
 </table>
@@ -351,7 +351,13 @@ for(var r=0; r<4; r++) {
 sign[r]=[];
 for(var c=0; c<4; c++) {
 var id = "sign"+r+c;
-var s = parseInt(d.getElementById(id).value+"1");
+var e = d.getElementById(id);
+e.onclick=function(e){
+if(e.target.value=="-")e.target.value="+";
+else e.target.value="-";
+e.preventDefault();
+};
+var s = parseInt(e.value+"1");
 if(Math.abs(s)!=1) {alert("Wrong sign, assume +"); s=1;}
 sign[r][c]=s;
 }
@@ -377,8 +383,8 @@ mousey=e.clientY;
 }
 }
 function mmousewheel(e) {
-event.preventDefault();
-var s = scale + event.deltaY * -0.01;
+e.preventDefault();
+var s = scale + e.deltaY * -0.005;
 b_s.value = Math.max(Math.min(1000, s), 0.001).toFixed(3);
 apply();
 }
@@ -403,10 +409,9 @@ if (e.touches.length === 2) {
 var dist = Math.hypot(
 e.touches[0].pageX - e.touches[1].pageX,
 e.touches[0].pageY - e.touches[1].pageY);
-var s = scale + (dist-touchscale) * 0.001;
+var s = scale + (dist-touchscale) * 0.005;
 b_s.value = Math.max(Math.min(1000, s), 0.001).toFixed(3);
 apply();
-
 } 
 else mmousemove( e.touches[0] );
 e.preventDefault();
