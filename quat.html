@@ -94,12 +94,12 @@ border:1px solid black;
 
 Canvas width:<input type="text" size="4" value="800" id="b_w" />, height:<input type="text" size="4" value="600" id="b_h" /><br/>
 Dots: <input type="text" size="5" value="20000" id="b_dots" /><br/>
-Scale: <input type="text" size="5" value="0.75" id="b_s" /><br/>
-Multiplies (power): <input type="text" size="5" value="6" id="b_p" /><br/>
-Normalize: <input type="checkbox" checked id="b_norm" /><br/>
+Scale: <input type="text" size="4" value="0.75" id="b_s" /><br/>
+Multiplies (power): <input type="text" size="3" value="8" id="b_p" /><br/>
+Normalize: <input type="checkbox" checked id="b_norm" />, add to norm <input type="text" size="3" value="0" id="b_diam" /><br/>
 Axis tripod: <input type="checkbox" checked id="b_axis" /><br/>
-Black&White: <input type="checkbox" id="b_bw" /><br/>
-<b>'k' part</b> of numbers: <input type="text" size="5" value="0.11" id="b_k" /><br/>
+Black & White: <input type="checkbox" id="b_bw" /><br/>
+<b>'k'<b/> part: <input type="text" size="4" value="0.05" id="b_k" /><br/>
 
 </td><td style="vertical-align:top; padding-left: 10pt">
 Quaternion multiplication table:<br/>
@@ -163,7 +163,7 @@ var b_w=d.getElementById("b_w"), b_h=d.getElementById("b_h"), b_dots=d.getElemen
 var b_norm=d.getElementById("b_norm"), b_k=d.getElementById("b_k"), b_apply=d.getElementById("b_apply");
 var b_s=d.getElementById("b_s"),b_reset=d.getElementById("b_reset"),b_p=d.getElementById("b_p");
 var b_sel=d.getElementById("b_sel"),b_coor=d.getElementById("b_coor"),b_bw=d.getElementById("b_bw");
-var b_axis=d.getElementById("b_axis");
+var b_axis=d.getElementById("b_axis"), b_diam=d.getElementById("b_diam");
 
 var mousex=0, mousey=0, mousedx=0, mousedy=0, mousedown=false;
 c.onmousedown=mmousedown;
@@ -195,7 +195,8 @@ var signs=[
 [[1,1,1,1],[1,-1,1,-1],[1,1,1,-1],[1,-1,-1,-1]],
 [[1,1,-1,1],[1,-1,1,1],[-1,1,-1,-1],[1,1,-1,1]],
 ];
-var qarr, qarrlen=parseInt(b_dots.value), iter=parseInt(b_p.value), genx=0.75, gend=0.5, genk = parseFloat(b_k.value), diam=0;
+var qarr, qarrlen=parseInt(b_dots.value), iter=parseInt(b_p.value), genk = parseFloat(b_k.value);
+var gend=0.3, ge=0.05, genx=1, diam=parseFloat(b_diam.value);
 var scale = parseFloat(b_s.value);
 readsigns();
 
@@ -207,7 +208,9 @@ h = c.height = parseInt(b_h.value);
 qarrlen= parseInt(b_dots.value);
 genk = parseFloat(b_k.value);
 scale = parseFloat(b_s.value);
+diam = parseFloat(b_diam.value);
 iter=parseInt(b_p.value);
+diam=
 frame=0;
 readsigns();
 };
@@ -226,11 +229,8 @@ ctx.fillStyle = "black";
 ctx.fillText(frame, 0, 10);
 	
 if(b_axis.checked) coords();
-
-if(frame < iter){
-multquat3();
-drawquat();
-}
+if(frame > 1 && frame <= iter)drawquat();
+if(frame < iter)multquat3();
 frame++;
 window.requestAnimationFrame(draw);
 }
