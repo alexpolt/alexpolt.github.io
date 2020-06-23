@@ -363,11 +363,13 @@ var id = "sign"+r+c;
 var e = d.getElementById(id);
 e.onclick=function(e){
 if(e.target.value=="-")e.target.value="+";
+else if(e.target.value=="+")e.target.value="0";
 else e.target.value="-";
 e.preventDefault();
 };
-var s = parseInt(e.value+"1");
-if(Math.abs(s)!=1) {alert("Wrong sign, assume +"); s=1;}
+var s;
+if(e.value=="0") s=0;
+else s = parseInt(e.value+"1");
 sign[r][c]=s;
 }
 }
