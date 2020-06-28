@@ -64,7 +64,7 @@
 
 
 <h2>Quaternion Playground</h2>
-<a href="images/quat.png"><img src="images/quat150.png" align="right" style="max-width:25%; margin:5pt; border:1px solid gray" /></a>
+<a href="images/quat.png"><img title="creternian" src="images/quat150.png" align="right" style="max-width:25%; margin:5pt; border:1px solid gray" /></a>
 <p>One day I was playing with different multiplication tables for 1,i,j,k extension to numbers. And in the process
     made this JavaScript demo to see how different rules change behavior. I create a bunch (10000 default) initial
   quaternions that all are positioned around x=1 with random small deltas. Then I multiply them by themselves to see
@@ -394,7 +394,7 @@ mousey=e.clientY;
 function mmousewheel(e) {
 e.preventDefault();
 var s = scale + e.deltaY * -0.005;
-b_s.value = Math.max(Math.min(1000, s), 0.001).toFixed(3);
+b_s.value = Math.max(Math.min(1000, s), 0.00001).toFixed(3);
 apply();
 }
 
@@ -419,7 +419,7 @@ var dist = Math.hypot(
 e.touches[0].pageX - e.touches[1].pageX,
 e.touches[0].pageY - e.touches[1].pageY);
 var s = scale + (dist-touchscale) * 0.005;
-b_s.value = Math.max(Math.min(1000, s), 0.001).toFixed(3);
+b_s.value = Math.max(Math.min(1000, s), 0.00001).toFixed(3);
 apply();
 } 
 else mmousemove( e.touches[0] );
