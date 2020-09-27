@@ -1,6 +1,6 @@
 SHELL=bash
 MAKEFLAGS += -r
-md := perl ../markdown/markdown.pl
+md := perl Markdown.pl
 git := git
 tmpl := tmpl-header.html tmpl-footer.html
 tmpl2 := tmpl-header2.html tmpl-header2ru.html tmpl-footer2.html
