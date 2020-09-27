@@ -19,7 +19,7 @@
 
   **What is the result you think? TRUE!** Check it [here at godbolt.org][c].
 
-  My jaw dropped. I had so much pain creating [struct reader][s] to detect data member types of
+  Interesting. I had so much pain creating [struct reader][s] to detect data member types of
   a struct. And it was painfully limited: only literal types, pre-built type list, etc. With this 
   anything becomes possible.
 
